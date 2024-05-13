@@ -1,6 +1,6 @@
 #pragma once
 
-class ATileMapBase;
+class AVillageMap;
 
 // 설명 : Map 테스트 레벨
 class AMapTestLevel : public AGameMode
@@ -22,7 +22,7 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private:
-	std::shared_ptr<ATileMapBase> TileMap = nullptr;
+	std::shared_ptr<AVillageMap> TileMap = nullptr;
 
 };
 

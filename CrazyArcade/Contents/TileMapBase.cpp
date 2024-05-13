@@ -14,9 +14,8 @@ ATileMapBase::ATileMapBase()
 	PlayUI_BackGround->SetOrder(0);
 
 	BackGround = CreateDefaultSubObject<USpriteRenderer>("BackGround");
-	BackGround->SetSprite(MapImgRes::village_background);
 	BackGround->SetPosition({ -80.0f, 0.0f, 0.0f });
-	BackGround->SetAutoSize(1.0f, true);
+	BackGround->SetAutoSize(1.0f, true);	
 	BackGround->SetupAttachment(Root);
 	BackGround->SetOrder(1);
 
@@ -38,6 +37,8 @@ void ATileMapBase::BeginPlay()
 void ATileMapBase::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+}
 
-
+void ATileMapBase::SetTileSize()
+{
 }

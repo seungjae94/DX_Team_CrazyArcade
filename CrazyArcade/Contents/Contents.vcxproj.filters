@@ -43,6 +43,12 @@
     <Filter Include="Protocol">
       <UniqueIdentifier>{2c7c4b11-f86c-4b2b-8b6e-d3349507d2a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Map\Base">
+      <UniqueIdentifier>{12dc57c0-8830-42d5-8b5c-027ff2e571a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map\TileMap">
+      <UniqueIdentifier>{570d4c26-edb1-4be8-8434-b4c6934858aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -56,9 +62,6 @@
     </ClInclude>
     <ClInclude Include="MainTitleGameMode.h">
       <Filter>Level\MainTitle</Filter>
-    </ClInclude>
-    <ClInclude Include="TileMapBase.h">
-      <Filter>Map</Filter>
     </ClInclude>
     <ClInclude Include="MapConstant.h">
       <Filter>Map\Constant</Filter>
@@ -87,6 +90,12 @@
     <ClInclude Include="Packets.h">
       <Filter>Protocol</Filter>
     </ClInclude>
+    <ClInclude Include="TileMapBase.h">
+      <Filter>Map\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="VillageMap.h">
+      <Filter>Map\TileMap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -100,9 +109,6 @@
     </ClCompile>
     <ClCompile Include="MainTitleGameMode.cpp">
       <Filter>Level\MainTitle</Filter>
-    </ClCompile>
-    <ClCompile Include="TileMapBase.cpp">
-      <Filter>Map</Filter>
     </ClCompile>
     <ClCompile Include="MapConstant.cpp">
       <Filter>Map\Constant</Filter>
@@ -130,6 +136,12 @@
     </ClCompile>
     <ClCompile Include="Packets.cpp">
       <Filter>Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMapBase.cpp">
+      <Filter>Map\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="VillageMap.cpp">
+      <Filter>Map\TileMap</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
