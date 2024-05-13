@@ -17,3 +17,5 @@
 #include <EngineCore/GameMode.h>
 #include <EngineCore/Actor.h>
 #include <EngineCore/DefaultSceneComponent.h>
+
+#include "CrazyArcadeEnum.h"

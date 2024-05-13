@@ -23,6 +23,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="CrazyArcadeEnum.h" />
     <ClInclude Include="InitTestGameMode.h">
       <SubType>
       </SubType>
@@ -39,6 +40,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayGameMode.h" />
     <ClInclude Include="PreCompile.h">
       <SubType>
       </SubType>
@@ -69,6 +72,9 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerState.cpp" />
+    <ClCompile Include="PlayGameMode.cpp" />
     <ClCompile Include="PreCompile.cpp">
       <SubType>
       </SubType>

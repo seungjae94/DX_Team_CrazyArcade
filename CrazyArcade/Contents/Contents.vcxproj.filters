@@ -28,6 +28,15 @@
     <Filter Include="Level\MapLevel">
       <UniqueIdentifier>{1170aae8-151e-4f80-b2e5-b84e3c7d7284}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\PlayLevel">
+      <UniqueIdentifier>{44ade195-7278-4b24-a3f2-bb726807fefe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\PlayLevel\Actor">
+      <UniqueIdentifier>{17b123cd-df90-46dd-bb13-1c5c23e00591}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Option">
+      <UniqueIdentifier>{e28f2a8c-94dc-4617-9504-5df354edf536}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -51,6 +60,15 @@
     <ClInclude Include="MapTestLevel.h">
       <Filter>Level\MapLevel</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Level\PlayLevel\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayGameMode.h">
+      <Filter>Level\PlayLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="CrazyArcadeEnum.h">
+      <Filter>Option</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -73,6 +91,15 @@
     </ClCompile>
     <ClCompile Include="MapTestLevel.cpp">
       <Filter>Level\MapLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Level\PlayLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>Level\PlayLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayGameMode.cpp">
+      <Filter>Level\PlayLevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
