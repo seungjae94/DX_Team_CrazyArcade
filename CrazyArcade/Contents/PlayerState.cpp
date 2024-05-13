@@ -4,37 +4,52 @@
 void APlayer::StateInit()
 {
 	// 스테이트 생성
-	State.CreateState("PlayerIdle");
-	State.CreateState("PlayerRun");
-	State.CreateState("PlayerDie");
+	State.CreateState("Idle");
+	State.CreateState("Run");
+	State.CreateState("Die");
 
-	// 함수들 세팅
-	State.SetUpdateFunction("PlayerIdle", std::bind(&APlayer::Idle, this, std::placeholders::_1));
-	State.SetStartFunction("PlayerIdle", [this]()
+	// 함수 세팅
+	State.SetUpdateFunction("Idle", std::bind(&APlayer::Idle, this, std::placeholders::_1));
+	State.SetStartFunction("Idle", [=]
+		{
+			switch (PlayerDir)
+			{
+			case EPlayerDir::Left:
+				Renderer->ChangeAnimation("Idle_Right");
+				break;
+			case EPlayerDir::Right:
+				Renderer->ChangeAnimation("Idle_Right");
+				break;
+			case EPlayerDir::Up:
+				Renderer->ChangeAnimation("Idle_Up");
+				break;
+			case EPlayerDir::Down:
+				Renderer->ChangeAnimation("Idle_Down");
+				break;
+			default:
+				break;
+			}
+		}
+	);
+
+	State.SetUpdateFunction("Run", std::bind(&APlayer::Run, this, std::placeholders::_1));
+	State.SetStartFunction("Run", [=]()
 		{
 		});
 
-
-	State.SetUpdateFunction("PlayerRun", std::bind(&APlayer::Run, this, std::placeholders::_1));
-	State.SetStartFunction("PlayerRun", [this]()
+	State.SetUpdateFunction("Die", std::bind(&APlayer::Die, this, std::placeholders::_1));
+	State.SetStartFunction("Die", [=]()
 		{
 		});
 
-	State.SetUpdateFunction("PlayerDie", std::bind(&APlayer::Die, this, std::placeholders::_1));
-	State.SetStartFunction("PlayerDie", [this]()
-		{
-		});
-
-
-	State.ChangeState("PlayerIdle");
+	State.ChangeState("Idle");
 }
 
-void APlayer::Idle(float _DeltaTime)
+void APlayer::Idle(float _Update)
 {
-	// 상태 변화
 	if (true == IsPress('A') || true == IsPress('D') || true == IsPress('W') || true == IsPress('S'))
 	{
-		State.ChangeState("PlayerRun");
+		State.ChangeState("Run");
 		return;
 	}
 }
@@ -43,29 +58,45 @@ void APlayer::Run(float _DeltaTime)
 {
 	if (true == IsPress('A'))
 	{
-		AddActorLocation(FVector::Left * Speed * _DeltaTime);
+		Renderer->ChangeAnimation("Run_Right");
+		Renderer->SetDir(EEngineDir::Left);
+		KeyMove(_DeltaTime, FVector::Left, CalSpeed);
+		PlayerDir = EPlayerDir::Left;
 	}
-	if (true == IsPress('D'))
+	else if (true == IsPress('D'))
 	{
-		AddActorLocation(FVector::Right * Speed * _DeltaTime);
+		Renderer->ChangeAnimation("Run_Right");
+		Renderer->SetDir(EEngineDir::Right);
+		KeyMove(_DeltaTime, FVector::Right, CalSpeed);
+		PlayerDir = EPlayerDir::Right;
 	}
-	if (true == IsPress('W'))
+	else if (true == IsPress('W'))
 	{
-		AddActorLocation(FVector::Up * Speed * _DeltaTime);
+		Renderer->ChangeAnimation("Run_Up");
+		Renderer->SetDir(EEngineDir::Right);
+		KeyMove(_DeltaTime, FVector::Up, CalSpeed);
+		PlayerDir = EPlayerDir::Up;
 	}
-	if (true == IsPress('S'))
+	else if (true == IsPress('S'))
 	{
-		AddActorLocation(FVector::Down * Speed * _DeltaTime);
+		Renderer->ChangeAnimation("Run_Down");
+		Renderer->SetDir(EEngineDir::Right);
+		KeyMove(_DeltaTime, FVector::Down, CalSpeed);
+		PlayerDir = EPlayerDir::Down;
 	}
-	
-	// 상태 변화
-	if (true == IsFree('A') && true == IsFree('D') && true == IsFree('W') && true == IsFree('S'))
+
+	if (true == IsUp('A') || true == IsUp('D') || true == IsUp('W') || true == IsUp('S'))
 	{
-		State.ChangeState("PlayerIdle");
-		return;
+		State.ChangeState("Idle");
 	}
 }
 
-void APlayer::Die(float _DeltaTime)
+void APlayer::Die(float _Update)
 {
+
+}
+
+void APlayer::KeyMove(float _DeltaTime, float4 _Dir, float _Speed)
+{
+	AddActorLocation(_Dir * _DeltaTime * _Speed);
 }
