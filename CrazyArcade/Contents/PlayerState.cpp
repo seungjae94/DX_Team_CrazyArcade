@@ -97,7 +97,7 @@ void APlayer::Run(float _DeltaTime)
 		PlayerDir = EPlayerDir::Down;
 	}
 
-	if (true == IsFree('A') || true == IsFree('D') || true == IsFree('W') || true == IsFree('S'))
+	if (true == IsFree('A') && true == IsFree('D') && true == IsFree('W') && true == IsFree('S'))
 	{
 		State.ChangeState("Idle");
 		return;

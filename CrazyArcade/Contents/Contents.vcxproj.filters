@@ -114,7 +114,6 @@
     <ClInclude Include="BlockBase.h">
       <Filter>Map\Block</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h" />
     <ClInclude Include="CrazyArcadeDebugWindow.h" />
     <ClInclude Include="ServerTestOtherPlayer.h">
       <Filter>Level\ServerLevel\ServerActor</Filter>
@@ -141,6 +140,9 @@
       <Filter>Level\PlayLevel\Actor\Items</Filter>
     </ClInclude>
     <ClInclude Include="Shoes.h">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
       <Filter>Level\PlayLevel\Actor\Items</Filter>
     </ClInclude>
   </ItemGroup>
@@ -187,7 +189,6 @@
     <ClCompile Include="BlockBase.cpp">
       <Filter>Map\Block</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp" />
     <ClCompile Include="CrazyArcadeDebugWindow.cpp" />
     <ClCompile Include="MapBase_Create.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -226,6 +227,9 @@
       <Filter>Level\PlayLevel\Actor\Items</Filter>
     </ClCompile>
     <ClCompile Include="Shoes.cpp">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
       <Filter>Level\PlayLevel\Actor\Items</Filter>
     </ClCompile>
   </ItemGroup>
