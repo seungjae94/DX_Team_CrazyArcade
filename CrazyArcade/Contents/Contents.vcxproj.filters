@@ -114,6 +114,14 @@
     <ClInclude Include="BlockBase.h">
       <Filter>Map\Block</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="CrazyArcadeDebugWindow.h" />
+    <ClInclude Include="ServerTestOtherPlayer.h">
+      <Filter>Level\ServerLevel\ServerActor</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerTestPlayer.h">
+      <Filter>Level\ServerLevel\ServerActor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -157,6 +165,20 @@
     </ClCompile>
     <ClCompile Include="BlockBase.cpp">
       <Filter>Map\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="CrazyArcadeDebugWindow.cpp" />
+    <ClCompile Include="MapBase_Create.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerState.cpp" />
+    <ClCompile Include="ServerTestPlayerState.cpp">
+      <Filter>Level\ServerLevel\ServerActor</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerTestOtherPlayer.cpp">
+      <Filter>Level\ServerLevel\ServerActor</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerTestPlayer.cpp">
+      <Filter>Level\ServerLevel\ServerActor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -96,10 +96,10 @@ void AServerGameMode::ServerPacketInit(UEngineDispatcher& Dis)
 			GetWorld()->PushFunction([=]()
 				{
 					// 여긴 주쓰레드니까.
-					AOtherPlayer* OtherPlayer = UNetObject::GetNetObject<AOtherPlayer>(_Packet->GetObjectToken());
+					ServerTestOtherPlayer* OtherPlayer = UNetObject::GetNetObject<ServerTestOtherPlayer>(_Packet->GetObjectToken());
 					if (nullptr == OtherPlayer)
 					{
-						OtherPlayer = this->GetWorld()->SpawnActor<AOtherPlayer>("OtherPlayer", 0).get();
+						OtherPlayer = this->GetWorld()->SpawnActor<ServerTestOtherPlayer>("OtherPlayer", 0).get();
 						OtherPlayer->SetObjectToken(_Packet->GetObjectToken());
 					}
 
