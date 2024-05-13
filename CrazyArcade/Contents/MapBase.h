@@ -1,11 +1,6 @@
 #pragma once
 
-class UTileInfo
-{
-public:
-	bool IsWall = false;
-
-};
+class BlockBase;
 
 // 설명 : Map 기초 클래스
 class AMapBase : public AActor
@@ -37,7 +32,7 @@ private:
 	USpriteRenderer* BackGround = nullptr;
 	USpriteRenderer* PlayUI_BackGround = nullptr;
 
-	std::vector<std::vector<UTileInfo>> TileInfo;
+	std::vector<std::vector<BlockBase*>> TileInfo;
 
 	FVector StartPos = { 20.0f, 40.0f, 0.0f };
 	float TileSize = 40.0f;

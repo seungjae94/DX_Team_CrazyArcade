@@ -6,3 +6,8 @@ enum class ERenderOrder
 	Map,
 	Player,
 };
+
+enum class EBlockType
+{
+	Wall
+};

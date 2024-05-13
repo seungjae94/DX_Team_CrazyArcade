@@ -96,6 +96,10 @@
     <ClInclude Include="VillageMap.h">
       <Filter>Map\Map</Filter>
     </ClInclude>
+    <ClInclude Include="CrazyArcadeDebugWindow.h" />
+    <ClInclude Include="BlockBase.h">
+      <Filter>Map\Block</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -142,6 +146,10 @@
     </ClCompile>
     <ClCompile Include="VillageMap.cpp">
       <Filter>Map\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="CrazyArcadeDebugWindow.cpp" />
+    <ClCompile Include="BlockBase.cpp">
+      <Filter>Map\Block</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

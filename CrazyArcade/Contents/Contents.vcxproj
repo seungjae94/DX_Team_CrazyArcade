@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BlockBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="CrazyArcadeCore.h">
       <SubType>
       </SubType>
@@ -64,6 +68,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BlockBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="CrazyArcadeCore.cpp">
       <SubType>
       </SubType>
