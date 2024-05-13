@@ -49,6 +49,15 @@
     <Filter Include="Map\Map">
       <UniqueIdentifier>{570d4c26-edb1-4be8-8434-b4c6934858aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\PlayLevel\Actor\Player">
+      <UniqueIdentifier>{2d6be738-09f5-486b-8f7f-cc89e70a8824}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\PlayLevel\Actor\Items">
+      <UniqueIdentifier>{92bfd764-32c9-46df-bceb-22f2af19bbf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\PlayLevel\Actor\Bomb">
+      <UniqueIdentifier>{0b2e129d-56fe-4eaf-9ca7-fe27b1972192}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -68,9 +77,6 @@
     </ClInclude>
     <ClInclude Include="MapTestLevel.h">
       <Filter>Level\MapLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Level\PlayLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="PlayGameMode.h">
       <Filter>Level\PlayLevel</Filter>
@@ -100,6 +106,9 @@
     <ClInclude Include="BlockBase.h">
       <Filter>Map\Block</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Level\PlayLevel\Actor\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -119,12 +128,6 @@
     </ClCompile>
     <ClCompile Include="MapTestLevel.cpp">
       <Filter>Level\MapLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Level\PlayLevel\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerState.cpp">
-      <Filter>Level\PlayLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="PlayGameMode.cpp">
       <Filter>Level\PlayLevel</Filter>
@@ -150,6 +153,12 @@
     <ClCompile Include="CrazyArcadeDebugWindow.cpp" />
     <ClCompile Include="BlockBase.cpp">
       <Filter>Map\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Level\PlayLevel\Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>Level\PlayLevel\Actor\Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
