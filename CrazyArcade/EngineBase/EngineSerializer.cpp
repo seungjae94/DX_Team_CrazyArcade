@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "EngineSerializer.h"
+#include "EngineDebug.h"
 
 UEngineSerializer::UEngineSerializer() 
 {
@@ -12,6 +13,16 @@ UEngineSerializer::~UEngineSerializer()
 void UEngineSerializer::BufferResize(int _Size)
 {
 	Data.resize(_Size);
+}
+
+void UEngineSerializer::Paste(int Offset, const void* _Data, size_t _Size)
+{
+	if (Offset + _Size > Data.size())
+	{
+		MsgBoxAssert("버퍼 범위를 넘어갔습니다.");
+	}
+
+	memcpy_s(&Data[Offset], _Size, _Data, _Size);
 }
 
 void UEngineSerializer::Write(const void* _Data, size_t _Size)
@@ -81,4 +92,16 @@ void UEngineSerializer::ResetRead()
 void UEngineSerializer::ResetWrite()
 {
 	WriteOffset = 0;
+}
+
+void UEngineSerializer::DataToReadOffsetPush()
+{
+	// 50바이트
+	// 32바이트를 처리(read)했어 
+	// 18바이트를 맨 앞으로 밀어버린다.
+
+	int ReMainSize = WriteOffset - ReadOffset;
+	memcpy_s(&Data[0], ReMainSize, &Data[ReadOffset],ReMainSize);
+	WriteOffset = ReMainSize;
+	ReadOffset = 0;
 }

@@ -4,8 +4,6 @@
 // 이 토큰을 부여해줄수 있는건 보통 서버입니다.
 std::atomic<int> UNetObject::CurObjectToken = 0;
 std::map<int, UNetObject*> UNetObject::AllNetObject;
-std::mutex UNetObject::ProtocolLock;
-std::list<std::shared_ptr<UEngineProtocol>> UNetObject::ProtocolList;
 
 UNetObject::UNetObject() 
 {
@@ -31,12 +29,16 @@ void UNetObject::Send(std::shared_ptr<UEngineProtocol> _Protocol)
 	Net->Send(_Protocol);
 }
 
-void UNetObject::UpdateProtocol()
+
+
+std::shared_ptr<UEngineProtocol> UNetObject::PopProtocol()
 {
-	for (std::shared_ptr<UEngineProtocol> Protocol : ProtocolList)
+	if (true == ProtocolQueue.empty())
 	{
-		int a = 0;
+		return nullptr;
 	}
 
-	ProtocolList.clear();
+	std::shared_ptr<UEngineProtocol> Protocol = ProtocolQueue.front();
+	ProtocolQueue.pop();
+	return Protocol;
 }

@@ -37,6 +37,12 @@
     <Filter Include="Option">
       <UniqueIdentifier>{e28f2a8c-94dc-4617-9504-5df354edf536}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\ServerLevel">
+      <UniqueIdentifier>{7c929542-4fb1-442f-a7cc-1bf3a17213fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Protocol">
+      <UniqueIdentifier>{2c7c4b11-f86c-4b2b-8b6e-d3349507d2a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -69,6 +75,18 @@
     <ClInclude Include="CrazyArcadeEnum.h">
       <Filter>Option</Filter>
     </ClInclude>
+    <ClInclude Include="OtherPlayer.h">
+      <Filter>Level\ServerLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerGameMode.h">
+      <Filter>Level\ServerLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerPlayer.h">
+      <Filter>Level\ServerLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Packets.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -100,6 +118,18 @@
     </ClCompile>
     <ClCompile Include="PlayGameMode.cpp">
       <Filter>Level\PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="OtherPlayer.cpp">
+      <Filter>Level\ServerLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerGameMode.cpp">
+      <Filter>Level\ServerLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerPlayer.cpp">
+      <Filter>Level\ServerLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Packets.cpp">
+      <Filter>Protocol</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
