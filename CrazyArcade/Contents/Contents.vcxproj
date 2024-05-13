@@ -96,6 +96,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MapBase_Create.cpp" />
     <ClCompile Include="MapConstant.cpp">
       <SubType>
       </SubType>

@@ -58,6 +58,9 @@
     <Filter Include="Level\PlayLevel\Actor\Bomb">
       <UniqueIdentifier>{0b2e129d-56fe-4eaf-9ca7-fe27b1972192}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{a04418e5-d48f-42b4-9fbf-a320400c0254}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -77,6 +80,9 @@
     </ClInclude>
     <ClInclude Include="MapTestLevel.h">
       <Filter>Level\MapLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Level\PlayLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="PlayGameMode.h">
       <Filter>Level\PlayLevel</Filter>
@@ -102,12 +108,14 @@
     <ClInclude Include="VillageMap.h">
       <Filter>Map\Map</Filter>
     </ClInclude>
-    <ClInclude Include="CrazyArcadeDebugWindow.h" />
     <ClInclude Include="BlockBase.h">
       <Filter>Map\Block</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Level\PlayLevel\Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CrazyArcadeDebugWindow.h">
+      <Filter>Debug</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>Level\PlayLevel\Actor\Items</Filter>
@@ -132,6 +140,12 @@
     <ClCompile Include="MapTestLevel.cpp">
       <Filter>Level\MapLevel</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Level\PlayLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>Level\PlayLevel\Actor</Filter>
+    </ClCompile>
     <ClCompile Include="PlayGameMode.cpp">
       <Filter>Level\PlayLevel</Filter>
     </ClCompile>
@@ -153,15 +167,14 @@
     <ClCompile Include="VillageMap.cpp">
       <Filter>Map\Map</Filter>
     </ClCompile>
-    <ClCompile Include="CrazyArcadeDebugWindow.cpp" />
     <ClCompile Include="BlockBase.cpp">
       <Filter>Map\Block</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Level\PlayLevel\Actor\Player</Filter>
+    <ClCompile Include="MapBase_Create.cpp">
+      <Filter>Map\Base</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerState.cpp">
-      <Filter>Level\PlayLevel\Actor\Player</Filter>
+    <ClCompile Include="CrazyArcadeDebugWindow.cpp">
+      <Filter>Debug</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
       <Filter>Level\PlayLevel\Actor\Items</Filter>

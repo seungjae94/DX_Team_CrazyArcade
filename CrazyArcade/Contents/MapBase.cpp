@@ -39,11 +39,16 @@ void AMapBase::Tick(float _DeltaTime)
 	Super::Tick(_DeltaTime);
 }
 
-void AMapBase::SetTileInfoSize(int _X, int _Y)
+void AMapBase::SetMapInfoSize(int _X, int _Y)
 {
-	TileInfo.resize(_Y);
-	for (size_t Y = 0; Y < TileInfo.size(); Y++)
+	MapInfo.resize(_Y);
+	for (size_t Y = 0; Y < MapInfo.size(); Y++)
 	{
-		TileInfo[Y].resize(_X);
+		MapInfo[Y].resize(_X);
 	}
+}
+
+bool AMapBase::CanMoveBlock()
+{
+	return false;
 }
