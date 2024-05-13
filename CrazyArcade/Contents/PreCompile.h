@@ -14,3 +14,5 @@
 #include <EngineCore/SpriteRenderer.h>
 #include <EngineCore/EngineDebugMsgWindow.h>
 #include <EngineCore/EngineDebug3D.h>
+#include <EngineCore/GameMode.h>
+#include <EngineCore/Actor.h>

@@ -13,6 +13,9 @@
     <Filter Include="Level\InitTestLevel">
       <UniqueIdentifier>{f7916000-2eac-4253-86cd-7c36bce5db3e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\MainTitle">
+      <UniqueIdentifier>{f5521efc-1ed7-4ba4-b76f-92ad6428fd07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -24,6 +27,9 @@
     <ClInclude Include="CrazyArcadeCore.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="MainTitleGameMode.h">
+      <Filter>Level\MainTitle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -34,6 +40,9 @@
     </ClCompile>
     <ClCompile Include="CrazyArcadeCore.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="MainTitleGameMode.cpp">
+      <Filter>Level\MainTitle</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
