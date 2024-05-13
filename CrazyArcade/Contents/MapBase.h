@@ -17,7 +17,7 @@ public:
 	AMapBase& operator=(const AMapBase& _Other) = delete;
 	AMapBase& operator=(AMapBase&& _Other) noexcept = delete;
 
-	bool CanMoveBlock();
+	bool CanMovePos(const FVector _CurPos, const FVector& _MoveDir);
 
 protected:
 	inline void SetBackGround(std::string_view _Name)

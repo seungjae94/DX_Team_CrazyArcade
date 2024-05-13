@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "MapTestLevel.h"
 
+#include "Player.h"
 #include "VillageMap.h"
 
 AMapTestLevel::AMapTestLevel()
@@ -16,6 +17,9 @@ void AMapTestLevel::BeginPlay()
 	Super::BeginPlay();
 
 	TileMap = GetWorld()->SpawnActor<AVillageMap>("TileMap");
+
+	Player = GetWorld()->SpawnActor<APlayer>("Player");
+	Player->SetActorLocation({ 350.0f, 300.0f, 0.0f });
 }
 
 void AMapTestLevel::Tick(float _DeltaTime)
