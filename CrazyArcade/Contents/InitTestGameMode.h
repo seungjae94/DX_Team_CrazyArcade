@@ -1,6 +1,8 @@
 #pragma once
 #include <EngineCore/GameMode.h>
 
+class ATileMapBase;
+
 class AInitTestGameMode : public AGameMode
 {
 	GENERATED_BODY(AGameMode)
@@ -19,6 +21,9 @@ protected:
 private:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
+
+private:
+	std::shared_ptr<ATileMapBase> TileMap = nullptr;
 
 };
 

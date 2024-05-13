@@ -22,6 +22,9 @@
     <Filter Include="Map\Tile">
       <UniqueIdentifier>{72f176bb-3c05-4479-9e5f-62c8628c17a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Map\Constant">
+      <UniqueIdentifier>{ffb710fc-a9c5-4508-af0f-aa58f41067ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -39,6 +42,9 @@
     <ClInclude Include="TileMapBase.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="MapConstant.h">
+      <Filter>Map\Constant</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -55,6 +61,9 @@
     </ClCompile>
     <ClCompile Include="TileMapBase.cpp">
       <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapConstant.cpp">
+      <Filter>Map\Constant</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
