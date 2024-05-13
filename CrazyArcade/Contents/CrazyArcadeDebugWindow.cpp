@@ -30,4 +30,8 @@ void UCrazyArcadeDebugWindow::OnGui(ULevel* Level, float _Delta)
 	{
 		GEngine->ChangeLevel("ServerGameMode");
 	}
+	if (true == ImGui::Button("MainTitleGameMode"))
+	{
+		GEngine->ChangeLevel("TitleTestLevel");
+	}
 }

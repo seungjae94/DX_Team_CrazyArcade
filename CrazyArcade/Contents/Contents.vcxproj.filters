@@ -58,6 +58,9 @@
     <Filter Include="Level\PlayLevel\Actor\Bomb">
       <UniqueIdentifier>{0b2e129d-56fe-4eaf-9ca7-fe27b1972192}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{a04418e5-d48f-42b4-9fbf-a320400c0254}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -102,12 +105,14 @@
     <ClInclude Include="VillageMap.h">
       <Filter>Map\Map</Filter>
     </ClInclude>
-    <ClInclude Include="CrazyArcadeDebugWindow.h" />
     <ClInclude Include="BlockBase.h">
       <Filter>Map\Block</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Level\PlayLevel\Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CrazyArcadeDebugWindow.h">
+      <Filter>Debug</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -150,7 +155,6 @@
     <ClCompile Include="VillageMap.cpp">
       <Filter>Map\Map</Filter>
     </ClCompile>
-    <ClCompile Include="CrazyArcadeDebugWindow.cpp" />
     <ClCompile Include="BlockBase.cpp">
       <Filter>Map\Block</Filter>
     </ClCompile>
@@ -159,6 +163,9 @@
     </ClCompile>
     <ClCompile Include="PlayerState.cpp">
       <Filter>Level\PlayLevel\Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CrazyArcadeDebugWindow.cpp">
+      <Filter>Debug</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
