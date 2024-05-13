@@ -2,6 +2,7 @@
 #include "CrazyArcadeCore.h"
 #include "InitTestGameMode.h"
 #include "MapTestLevel.h"
+#include "PlayGameMode.h"
 
 std::shared_ptr<UEngineNet> UCrazyArcadeCore::Net = nullptr;
 
@@ -19,7 +20,8 @@ void UCrazyArcadeCore::Initialize()
 
 	GEngine->CreateLevel<AInitTestGameMode>("InitTestLevel");
 	GEngine->CreateLevel<AMapTestLevel>("MapTestLevel");
-	GEngine->ChangeLevel("InitTestLevel");
+	GEngine->CreateLevel<APlayGameMode>("PlayGameMode");
+	GEngine->ChangeLevel("PlayGameMode");
 }
 
 void UCrazyArcadeCore::ResLoad()
