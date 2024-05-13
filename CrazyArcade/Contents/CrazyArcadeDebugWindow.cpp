@@ -25,4 +25,9 @@ void UCrazyArcadeDebugWindow::OnGui(ULevel* Level, float _Delta)
 	{
 		GEngine->ChangeLevel("PlayGameMode");
 	}
+
+	if (true == ImGui::Button("ServerGameMode"))
+	{
+		GEngine->ChangeLevel("ServerGameMode");
+	}
 }
