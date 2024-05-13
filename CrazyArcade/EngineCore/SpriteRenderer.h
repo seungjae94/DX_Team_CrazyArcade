@@ -126,6 +126,15 @@ public:
 		return CurAnimation->CurFrame;
 	}
 
+	inline std::string GetCurAnimationName()
+	{
+		if (nullptr == CurAnimation)
+		{
+			MsgBoxAssert("애니메이션이 지정되지 않았습니다.")
+		}
+		return CurAnimation->GetName();
+	}
+
 	void SetVertexUVPlus(float4 _UVPlus)
 	{
 		VertexUVValue.PlusUV = _UVPlus;
