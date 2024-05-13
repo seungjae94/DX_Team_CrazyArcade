@@ -35,6 +35,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="MapTestLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PreCompile.h">
       <SubType>
       </SubType>
@@ -58,6 +62,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="MapConstant.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MapTestLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>

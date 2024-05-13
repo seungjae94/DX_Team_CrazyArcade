@@ -25,6 +25,9 @@
     <Filter Include="Map\Constant">
       <UniqueIdentifier>{ffb710fc-a9c5-4508-af0f-aa58f41067ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\MapLevel">
+      <UniqueIdentifier>{1170aae8-151e-4f80-b2e5-b84e3c7d7284}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -45,6 +48,9 @@
     <ClInclude Include="MapConstant.h">
       <Filter>Map\Constant</Filter>
     </ClInclude>
+    <ClInclude Include="MapTestLevel.h">
+      <Filter>Level\MapLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -64,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="MapConstant.cpp">
       <Filter>Map\Constant</Filter>
+    </ClCompile>
+    <ClCompile Include="MapTestLevel.cpp">
+      <Filter>Level\MapLevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

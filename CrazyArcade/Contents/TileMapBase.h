@@ -21,6 +21,7 @@ protected:
 
 private:
 	USpriteRenderer* BackGround = nullptr;
+	USpriteRenderer* PlayUI_BackGround = nullptr;
 
 };
 

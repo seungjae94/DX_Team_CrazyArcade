@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "CrazyArcadeCore.h"
 #include "InitTestGameMode.h"
+#include "MapTestLevel.h"
 
 UCrazyArcadeCore::UCrazyArcadeCore()
 {
@@ -15,6 +16,7 @@ void UCrazyArcadeCore::Initialize()
 	ResLoad();
 
 	GEngine->CreateLevel<AInitTestGameMode>("InitTestLevel");
+	GEngine->CreateLevel<AMapTestLevel>("MapTestLevel");
 	GEngine->ChangeLevel("InitTestLevel");
 }
 

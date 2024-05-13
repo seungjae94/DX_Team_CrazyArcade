@@ -14,14 +14,14 @@ AInitTestGameMode::~AInitTestGameMode()
 void AInitTestGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-
-	GetWorld()->GetMainCamera()->SetActorLocation({ 0.0f, 0.0f, -100.0f });
-
-	TileMap = GetWorld()->SpawnActor<ATileMapBase>("TileMap");
-	TileMap->SetActorLocation(FVector::Zero);
 }
 
 void AInitTestGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+
+	if (true == UEngineInput::IsDown('M'))
+	{
+		GEngine->ChangeLevel("MapTestLevel");
+	}
 }
