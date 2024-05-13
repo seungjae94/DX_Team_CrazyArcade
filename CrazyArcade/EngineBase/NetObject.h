@@ -2,6 +2,7 @@
 #include <atomic>
 #include "EngineProtocol.h"
 #include "EngineNet.h"
+#include <queue>
 
 // 설명 :
 class UNetObject
@@ -53,8 +54,6 @@ public:
 		}
 	}
 
-
-
 	void InitNet(std::shared_ptr<UEngineNet> _Net)
 	{
 		Net = _Net;
@@ -68,22 +67,29 @@ public:
 
 	void Send(std::shared_ptr<UEngineProtocol> _Protocol);
 
-	static void PushProtocol(std::shared_ptr<UEngineProtocol> _Protocal)
+	void PushProtocolAsync(std::shared_ptr<UEngineProtocol> _Protocal)
 	{
 		std::lock_guard<std::mutex> Lock(ProtocolLock);
-		ProtocolList.push_back(_Protocal);
+		ProtocolQueue.push(_Protocal);
 	}
 
-	static void UpdateProtocol();
+	void PushProtocol(std::shared_ptr<UEngineProtocol> _Protocal)
+	{
+		ProtocolQueue.push(_Protocal);
+	}
+
+	std::shared_ptr<UEngineProtocol> PopProtocol();
 
 protected:
 	static std::atomic<int> CurObjectToken;
 	static std::map<int, UNetObject*> AllNetObject;
-	static std::mutex ProtocolLock;
-	static std::list<std::shared_ptr<UEngineProtocol>> ProtocolList;
 
 private:
+	std::mutex ProtocolLock;
+	std::queue<std::shared_ptr<UEngineProtocol>> ProtocolQueue;
+
 	std::shared_ptr<UEngineNet> Net = nullptr;
+
 	// -1이면 안받은애이다.
 	std::atomic<int> ObjectToken = -1;
 

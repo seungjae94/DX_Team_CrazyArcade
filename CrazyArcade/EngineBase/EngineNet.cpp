@@ -34,14 +34,23 @@ void UEngineNet::RecvThreadFunction(USession* _Session, UEngineNet* _Net)
 
 	while (_Net->IsActiveValue)
 	{
-		int Size = recv(_Session->GetSocket(), Ser.DataCharPtr(), Ser.BufferSize(), 0);
+		// 오브젝트 업데이트 패킷의 크기는?
+		// 18
+		// 30바이트
+		int Size = recv(_Session->GetSocket(), Ser.DataCharPtrToWriteOffset(), Ser.RemainSize(), 0);
 
 		if (SOCKET_ERROR == Size)
 		{
 			return;
 		}
 
-		Ser.SetWriteOffset(Size);
+		if (-1 == Size)
+		{
+			return;
+		}
+
+		// 30 + 20
+		Ser.AddWriteOffset(Size);
 
 		// 우린 16바이트를 먼저 받지 않으면 아무런 의미가 없기때문
 		// 무조건 16바이트 이상을 받을때까지 계속한다.
@@ -77,10 +86,36 @@ void UEngineNet::RecvThreadFunction(USession* _Session, UEngineNet* _Net)
 
 		Ser.ResetRead();
 
-		std::shared_ptr<UEngineProtocol> Protocal = Dis.ConvertProtocol(Protocol.GetPacketType(), Ser);
-		Dis.ProcessPacket(Protocal);
+		// 30바이트
 
+		//       32                     30
+		if (Protocol.GetPacketSize() > Ser.WriteSize())
+		{
+			continue;
+		}
 
-		Ser.Reset();
+		while(true)
+		{
+			std::shared_ptr<UEngineProtocol> Protocal = Dis.ConvertProtocol(Protocol.GetPacketType(), Ser);
+			Dis.ProcessPacket(Protocal);
+
+			int Size = *(reinterpret_cast<int*>(Ser.DataPtr()));
+			int WriteOffset = Ser.GetWriteOffset();
+			int ReadOffset = Ser.GetReadOffset();
+			int RemainOffset = WriteOffset - ReadOffset;
+			// 받은만큼 다 읽었어.
+			if (WriteOffset == ReadOffset)
+			{
+				// 깔끔하게 읽었다.
+				Ser.Reset();
+				break;
+			}
+
+			if (16 > RemainOffset)
+			{
+				Ser.DataToReadOffsetPush();
+				break;
+			}
+		} 
 	}
 }

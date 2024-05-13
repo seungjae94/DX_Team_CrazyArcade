@@ -3,6 +3,8 @@
 #include "InitTestGameMode.h"
 #include "MapTestLevel.h"
 
+std::shared_ptr<UEngineNet> UCrazyArcadeCore::Net = nullptr;
+
 UCrazyArcadeCore::UCrazyArcadeCore()
 {
 }

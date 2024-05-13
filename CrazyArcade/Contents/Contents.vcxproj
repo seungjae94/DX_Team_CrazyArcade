@@ -40,12 +40,16 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="OtherPlayer.h" />
+    <ClInclude Include="Packets.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayGameMode.h" />
     <ClInclude Include="PreCompile.h">
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ServerGameMode.h" />
+    <ClInclude Include="ServerPlayer.h" />
     <ClInclude Include="TileMapBase.h">
       <SubType>
       </SubType>
@@ -76,6 +80,8 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="OtherPlayer.cpp" />
+    <ClCompile Include="Packets.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="PlayGameMode.cpp" />
@@ -87,6 +93,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ServerGameMode.cpp" />
+    <ClCompile Include="ServerPlayer.cpp" />
     <ClCompile Include="TileMapBase.cpp">
       <SubType>
       </SubType>
