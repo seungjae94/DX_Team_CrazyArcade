@@ -122,6 +122,27 @@
     <ClInclude Include="ServerTestPlayer.h">
       <Filter>Level\ServerLevel\ServerActor</Filter>
     </ClInclude>
+    <ClInclude Include="Roller.h">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Fluid.h">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Bubble.h">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Ultra.h">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="RedDevil.h">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Glove.h">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Shoes.h">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -179,6 +200,33 @@
     </ClCompile>
     <ClCompile Include="ServerTestPlayer.cpp">
       <Filter>Level\ServerLevel\ServerActor</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>Level\PlayLevel\Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Level\PlayLevel\Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Roller.cpp">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Fluid.cpp">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Bubble.cpp">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Ultra.cpp">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="RedDevil.cpp">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Glove.cpp">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Shoes.cpp">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

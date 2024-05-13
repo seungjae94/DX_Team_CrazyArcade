@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "MapBase.h"
 #include "MapConstant.h"
+#include "BlockBase.h"
 
 AMapBase::AMapBase()
 {
@@ -48,7 +49,23 @@ void AMapBase::SetMapInfoSize(int _X, int _Y)
 	}
 }
 
-bool AMapBase::CanMoveBlock()
+bool AMapBase::CanMovePos(const FVector _CurPos, const FVector& _MoveDir)
 {
-	return false;
+	// MapInfo
+	bool Result = true;
+	FVector PlayerPos = _CurPos - StartPos;
+
+	int NextPlayerX = static_cast<int>(_MoveDir.X + (_CurPos.X / BlockSize));
+	int NextPlayerY = static_cast<int>(_MoveDir.Y + (_CurPos.Y / BlockSize));
+	if (nullptr == MapInfo[NextPlayerY][NextPlayerX])
+	{
+		return true;
+	}
+
+	if (EBlockType::Wall == MapInfo[NextPlayerY][NextPlayerX]->GetBlockType())
+	{
+		Result = false;
+	}
+
+	return Result;
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+class APlayer;
 class AVillageMap;
 
 // 설명 : Map 테스트 레벨
@@ -16,6 +17,11 @@ public:
 	AMapTestLevel(AMapTestLevel&& _Other) noexcept = delete;
 	AMapTestLevel& operator=(const AMapTestLevel& _Other) = delete;
 	AMapTestLevel& operator=(AMapTestLevel&& _Other) noexcept = delete;
+		
+	std::shared_ptr<AVillageMap> GetMap() const
+	{
+		return TileMap;
+	}
 
 protected:
 	void BeginPlay() override;
@@ -23,6 +29,7 @@ protected:
 
 private:
 	std::shared_ptr<AVillageMap> TileMap = nullptr;
+	std::shared_ptr<APlayer> Player = nullptr;
 
 };
 

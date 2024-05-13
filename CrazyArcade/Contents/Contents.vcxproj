@@ -19,6 +19,34 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bubble.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Fluid.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Glove.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="RedDevil.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Roller.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Shoes.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Ultra.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Item.h">
       <SubType>
       </SubType>
@@ -80,6 +108,34 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bubble.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Fluid.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Glove.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="RedDevil.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Roller.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Shoes.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Ultra.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Item.cpp">
       <SubType>
       </SubType>
