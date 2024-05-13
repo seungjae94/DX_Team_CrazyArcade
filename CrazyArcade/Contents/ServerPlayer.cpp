@@ -5,6 +5,7 @@
 #include <EngineCore/DefaultSceneComponent.h>
 #include "CrazyArcadeCore.h"
 #include "Packets.h"
+#include <EngineBase/EngineNet.h>
 
 AServerPlayer::AServerPlayer() 
 {
@@ -82,6 +83,7 @@ void AServerPlayer::Tick(float _DeltaTime)
 	static float CurTime = FrameTime;
 
 	CurTime -= _DeltaTime;
+
 
 	if (0.0f >= CurTime && true == IsNetInit())
 	{
