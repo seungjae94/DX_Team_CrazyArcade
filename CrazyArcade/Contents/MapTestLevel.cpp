@@ -15,13 +15,21 @@ void AMapTestLevel::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GetWorld()->GetMainCamera()->SetActorLocation({ 0.0f, 0.0f, -100.0f });
-
 	TileMap = GetWorld()->SpawnActor<ATileMapBase>("TileMap");
-	TileMap->SetActorLocation(FVector::Zero);
 }
 
 void AMapTestLevel::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+
+	FVector CameraPos = GetWorld()->GetMainCamera()->GetActorLocation();
+	FVector MousePos = GEngine->EngineWindow.GetScreenMousePos();
+	FVector WindowScale = GEngine->EngineWindow.GetWindowScale();
+	
+	FVector TargetPos = FVector(CameraPos.X, CameraPos.Y, 0.0f) + FVector(MousePos.X - WindowScale.hX(), -(MousePos.Y - WindowScale.hY()), 0.0f);
+
+	{
+		std::string Msg = std::format("MousePos : {}\n", TargetPos.ToString());
+		UEngineDebugMsgWindow::PushMsg(Msg);
+	}
 }
