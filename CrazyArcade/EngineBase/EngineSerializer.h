@@ -17,6 +17,8 @@ public:
 	UEngineSerializer();
 	~UEngineSerializer();
 
+	void Paste(int Offset, const void* _Data, size_t _Size);
+
 	void Write(const void* _Data, size_t _Size);
 
 	void WriteText(const std::string& _Text);
@@ -115,6 +117,11 @@ public:
 		return static_cast<int>(Data.size());
 	}
 
+	int RemainSize()
+	{
+		return static_cast<int>(Data.size() - WriteOffset);
+	}
+
 	void Reset();
 
 	void ResetRead();
@@ -124,7 +131,7 @@ public:
 
 	std::string ToString();
 
-	unsigned int WriteSize()
+	int WriteSize()
 	{
 		return WriteOffset;
 	}
@@ -139,9 +146,19 @@ public:
 		return &Data[0];
 	}
 
+	char* DataCharPtrToWriteOffset()
+	{
+		return &Data[WriteOffset];
+	}
+
 	int GetWriteOffset()
 	{
 		return WriteOffset;
+	}
+
+	int GetReadOffset()
+	{
+		return ReadOffset;
 	}
 
 	void SetWriteOffset(int _Offset)
@@ -149,13 +166,19 @@ public:
 		WriteOffset = _Offset;
 	}
 
+	void AddWriteOffset(int _Offset)
+	{
+		WriteOffset += _Offset;
+	}
 
+
+	void DataToReadOffsetPush();
 
 protected:
 
 private:
-	unsigned int WriteOffset = 0;
-	unsigned int ReadOffset = 0;
+	int WriteOffset = 0;
+	int ReadOffset = 0;
 
 	std::vector<char> Data;
 };
