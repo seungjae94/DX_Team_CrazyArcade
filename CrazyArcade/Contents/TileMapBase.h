@@ -27,7 +27,7 @@ public:
 		BackGround->SetSprite(_Name);
 	}
 
-	void SetTileSize();
+	void SetTileSize(int _X, int _Y);
 
 protected:
 	void BeginPlay() override;
