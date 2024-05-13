@@ -16,3 +16,4 @@
 #include <EngineCore/EngineDebug3D.h>
 #include <EngineCore/GameMode.h>
 #include <EngineCore/Actor.h>
+#include <EngineCore/DefaultSceneComponent.h>

@@ -16,6 +16,12 @@
     <Filter Include="Level\MainTitle">
       <UniqueIdentifier>{f5521efc-1ed7-4ba4-b76f-92ad6428fd07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{2725ac91-1a32-4115-a2cc-1f86e74e3738}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map\Tile">
+      <UniqueIdentifier>{72f176bb-3c05-4479-9e5f-62c8628c17a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -30,6 +36,9 @@
     <ClInclude Include="MainTitleGameMode.h">
       <Filter>Level\MainTitle</Filter>
     </ClInclude>
+    <ClInclude Include="TileMapBase.h">
+      <Filter>Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -43,6 +52,9 @@
     </ClCompile>
     <ClCompile Include="MainTitleGameMode.cpp">
       <Filter>Level\MainTitle</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMapBase.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
