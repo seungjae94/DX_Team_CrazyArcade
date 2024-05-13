@@ -15,11 +15,11 @@
 #include "ServerTestOtherPlayer.h"
 
 
-AServerGameMode::AServerGameMode() 
+AServerGameMode::AServerGameMode()
 {
 }
 
-AServerGameMode::~AServerGameMode() 
+AServerGameMode::~AServerGameMode()
 {
 	if (nullptr != UCrazyArcadeCore::Net)
 	{
@@ -28,7 +28,7 @@ AServerGameMode::~AServerGameMode()
 	}
 }
 
-void AServerGameMode::BeginPlay() 
+void AServerGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 	// TestThread.Start();
@@ -102,13 +102,21 @@ void AServerGameMode::ServerPacketInit(UEngineDispatcher& Dis)
 						OtherPlayer = this->GetWorld()->SpawnActor<ServerTestOtherPlayer>("OtherPlayer", 0).get();
 						OtherPlayer->SetObjectToken(_Packet->GetObjectToken());
 					}
-
 					OtherPlayer->PushProtocol(_Packet);
-
-					// OtherPlayer->SetActorLocation(_Packet->Pos);
 				});
 
 
+		});
+
+	Dis.AddHandler<USpawnUpdatePacket>([=](std::shared_ptr<USpawnUpdatePacket> _Packet)  //엑터 스폰 테스트용
+		{
+			GetWorld()->PushFunction([=]()
+				{
+					ServerTestOtherPlayer* OtherPlayer;
+					OtherPlayer = this->GetWorld()->SpawnActor<ServerTestOtherPlayer>("OtherPlayer", 0).get();
+					OtherPlayer->SetObjectToken(10);
+					OtherPlayer->SetActorLocation(_Packet->Pos);
+				});
 		});
 }
 
@@ -126,6 +134,17 @@ void AServerGameMode::ClientPacketInit(UEngineDispatcher& Dis)
 					}
 					OtherPlayer->SetActorLocation(_Packet->Pos);
 					OtherPlayer->GetRenderer()->ChangeAnimation(_Packet->SpriteName);
+				});
+		});
+
+	Dis.AddHandler<USpawnUpdatePacket>([=](std::shared_ptr<USpawnUpdatePacket> _Packet)  //엑터 스폰 테스트용
+		{
+			GetWorld()->PushFunction([=]()
+				{
+					ServerTestOtherPlayer* OtherPlayer;
+					OtherPlayer = this->GetWorld()->SpawnActor<ServerTestOtherPlayer>("OtherPlayer", 0).get();
+					OtherPlayer->SetObjectToken(10);
+					OtherPlayer->SetActorLocation(_Packet->Pos);
 				});
 		});
 }

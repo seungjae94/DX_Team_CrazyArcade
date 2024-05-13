@@ -43,7 +43,7 @@ void AServerPlayer::Tick(float _DeltaTime)
 	// 내가 플레이하는 플레이어 => 키 누르면 움직이고
 	
 	// 서버로 접속한 프렐이
-
+	
 	// 이플레이어가 내가 조작하는 플레이어인지
 	// 다른 유저의 플레이어인지 
 
@@ -92,6 +92,10 @@ void AServerPlayer::Tick(float _DeltaTime)
 		Packet->Pos = GetActorLocation();
 		Send(Packet);
 		CurTime += FrameTime;
+
+		if (IsPress(VK_SPACE)) {
+			int a = 0;
+		}
 	}
 
 	// 움직였어

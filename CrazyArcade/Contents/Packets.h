@@ -15,6 +15,8 @@ enum ServerObjectType
 enum EContentPacket
 {
 	ActorUpdatePacket = 99,
+	SpawnUpdatePacket,
+
 };
 
 // 우리는 최소 16바이트는 있어야 뭔가할수 있다.
@@ -54,3 +56,30 @@ public:
 	std::string SpriteName; // ?? 랜덤
 };
 
+class USpawnUpdatePacket : public UEngineProtocol {
+public:
+	static const EContentPacket Type = EContentPacket::SpawnUpdatePacket;
+public:
+	USpawnUpdatePacket()
+	{
+		SetType(EContentPacket::SpawnUpdatePacket);
+	}
+
+	void Serialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::Serialize(_Ser);
+		_Ser << Pos;
+		_Ser << SpawnSelect;
+	}
+
+	void DeSerialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::DeSerialize(_Ser);
+		_Ser >> Pos;
+		_Ser >> reinterpret_cast<int&>(SpawnSelect);
+	}
+
+public:
+	float4 Pos = float4::Zero;
+	ServerObjectType SpawnSelect = ServerObjectType::Player; // ?? 랜덤
+};

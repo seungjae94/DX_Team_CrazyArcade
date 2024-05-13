@@ -2,6 +2,7 @@
 #include "ServerTestPlayer.h"
 #include "Packets.h"
 #include "CrazyArcadeCore.h"
+#include "ServerTestOtherPlayer.h"
 
 ServerTestPlayer::ServerTestPlayer()
 {
@@ -79,5 +80,13 @@ void ServerTestPlayer::Tick(float _DeltaTime)
 		Packet->SpriteName = Renderer->GetCurAnimationName();
 		Send(Packet);
 		CurTime += FrameTime;
+		if (IsPress(VK_SPACE)) {
+			std::shared_ptr<USpawnUpdatePacket> SpawnPacket = std::make_shared<USpawnUpdatePacket>();
+			SpawnPacket->Pos = GetActorLocation();
+			SpawnPacket->SpawnSelect = ServerObjectType::Player;
+			ServerTestOtherPlayer* Test = GetWorld()->SpawnActor<ServerTestOtherPlayer>("Test").get();
+			Test->SetActorLocation(GetActorLocation());
+			Send(SpawnPacket);
+		}
 	}
 }
