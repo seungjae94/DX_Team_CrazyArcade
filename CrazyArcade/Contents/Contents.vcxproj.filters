@@ -81,6 +81,9 @@
     <ClInclude Include="MapTestLevel.h">
       <Filter>Level\MapLevel</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Level\PlayLevel\Actor</Filter>
+    </ClInclude>
     <ClInclude Include="PlayGameMode.h">
       <Filter>Level\PlayLevel</Filter>
     </ClInclude>
@@ -134,6 +137,12 @@
     <ClCompile Include="MapTestLevel.cpp">
       <Filter>Level\MapLevel</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Level\PlayLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>Level\PlayLevel\Actor</Filter>
+    </ClCompile>
     <ClCompile Include="PlayGameMode.cpp">
       <Filter>Level\PlayLevel</Filter>
     </ClCompile>
@@ -158,11 +167,8 @@
     <ClCompile Include="BlockBase.cpp">
       <Filter>Map\Block</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Level\PlayLevel\Actor\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerState.cpp">
-      <Filter>Level\PlayLevel\Actor\Player</Filter>
+    <ClCompile Include="MapBase_Create.cpp">
+      <Filter>Map\Base</Filter>
     </ClCompile>
     <ClCompile Include="CrazyArcadeDebugWindow.cpp">
       <Filter>Debug</Filter>
