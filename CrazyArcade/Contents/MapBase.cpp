@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "MapBase.h"
 #include "MapConstant.h"
+#include "BlockBase.h"
 
 AMapBase::AMapBase()
 {
@@ -39,11 +40,23 @@ void AMapBase::Tick(float _DeltaTime)
 	Super::Tick(_DeltaTime);
 }
 
-void AMapBase::SetTileInfoSize(int _X, int _Y)
+void AMapBase::SetMapInfoSize(int _X, int _Y)
 {
-	TileInfo.resize(_Y);
-	for (size_t Y = 0; Y < TileInfo.size(); Y++)
+	MapInfo.resize(_Y);
+	for (size_t Y = 0; Y < MapInfo.size(); Y++)
 	{
-		TileInfo[Y].resize(_X);
+		MapInfo[Y].resize(_X);
 	}
+}
+
+void AMapBase::CreateWall(int _X, int _Y, std::string_view _ImgName)
+{
+	MapInfo[_Y][_X] = GetWorld()->SpawnActor<ABlockBase>("Wall");
+	MapInfo[_Y][_X]->SetBlockType(EBlockType::Wall);
+	MapInfo[_Y][_X]->SetBlockImg(_ImgName);
+
+	FVector Pos = StartPos;
+	Pos.X += _X * BlockSize;
+	Pos.Y += _Y * BlockSize;
+	MapInfo[_Y][_X]->SetActorLocation(Pos);
 }

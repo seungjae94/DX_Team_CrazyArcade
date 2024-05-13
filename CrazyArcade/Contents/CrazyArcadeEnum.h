@@ -4,6 +4,7 @@ enum class ERenderOrder
 {
 	None,
 	Map,
+	Block,
 	Player,
 };
 
