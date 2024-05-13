@@ -3,6 +3,8 @@
 #include "InitTestGameMode.h"
 #include "MapTestLevel.h"
 #include "PlayGameMode.h"
+#include "CrazyArcadeDebugWindow.h"
+#include <EngineCore/EngineEditorGUI.h>
 
 std::shared_ptr<UEngineNet> UCrazyArcadeCore::Net = nullptr;
 
@@ -17,6 +19,8 @@ UCrazyArcadeCore::~UCrazyArcadeCore()
 void UCrazyArcadeCore::Initialize()
 {
 	ResLoad();
+
+	UEngineEditorGUI::CreateEditorWindow<UCrazyArcadeDebugWindow>("CrazyArcadeDebugWindow");
 
 	GEngine->CreateLevel<AInitTestGameMode>("InitTestLevel");
 	GEngine->CreateLevel<AMapTestLevel>("MapTestLevel");
