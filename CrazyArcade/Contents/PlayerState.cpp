@@ -17,7 +17,7 @@ void APlayer::StateInit()
 			switch (PlayerDir)
 			{
 			case EPlayerDir::Left:
-				Renderer->ChangeAnimation("Idle_Right");
+				Renderer->ChangeAnimation("Idle_Left");
 				break;
 			case EPlayerDir::Right:
 				Renderer->ChangeAnimation("Idle_Right");
@@ -70,29 +70,29 @@ void APlayer::Run(float _DeltaTime)
 {
 	if (true == IsPress('A'))
 	{
-		Renderer->ChangeAnimation("Run_Right");
-		Renderer->SetDir(EEngineDir::Left);
+		Renderer->ChangeAnimation("Run_Left");
+		//Renderer->SetDir(EEngineDir::Left);
 		KeyMove(_DeltaTime, FVector::Left, CalSpeed);
 		PlayerDir = EPlayerDir::Left;
 	}
 	else if (true == IsPress('D'))
 	{
 		Renderer->ChangeAnimation("Run_Right");
-		Renderer->SetDir(EEngineDir::Right);
+		//Renderer->SetDir(EEngineDir::Right);
 		KeyMove(_DeltaTime, FVector::Right, CalSpeed);
 		PlayerDir = EPlayerDir::Right;
 	}
 	else if (true == IsPress('W'))
 	{
 		Renderer->ChangeAnimation("Run_Up");
-		Renderer->SetDir(EEngineDir::Right);
+		//Renderer->SetDir(EEngineDir::Right);
 		KeyMove(_DeltaTime, FVector::Up, CalSpeed);
 		PlayerDir = EPlayerDir::Up;
 	}
 	else if (true == IsPress('S'))
 	{
 		Renderer->ChangeAnimation("Run_Down");
-		Renderer->SetDir(EEngineDir::Right);
+		//Renderer->SetDir(EEngineDir::Right);
 		KeyMove(_DeltaTime, FVector::Down, CalSpeed);
 		PlayerDir = EPlayerDir::Down;
 	}
