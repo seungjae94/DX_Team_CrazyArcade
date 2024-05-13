@@ -15,11 +15,27 @@ public:
 	ABlockBase& operator=(const ABlockBase& _Other) = delete;
 	ABlockBase& operator=(ABlockBase&& _Other) noexcept = delete;
 
+	inline EBlockType GetBlockType() const
+	{
+		return BlockType;
+	}
+
+	inline void SetBlockType(EBlockType _Type)
+	{
+		BlockType = _Type;
+	}
+
+	void SetBlockImg(std::string_view _ImgName)
+	{
+		Body->SetSprite(_ImgName);
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
 private:
-
+	USpriteRenderer* Body = nullptr;
+	EBlockType BlockType;
 };
 

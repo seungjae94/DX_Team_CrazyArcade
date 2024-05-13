@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Item.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BlockBase.h">
       <SubType>
       </SubType>
@@ -76,6 +80,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Item.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="BlockBase.cpp">
       <SubType>
       </SubType>
@@ -96,6 +104,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MapBase_Create.cpp" />
     <ClCompile Include="MapConstant.cpp">
       <SubType>
       </SubType>

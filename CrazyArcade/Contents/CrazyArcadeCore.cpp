@@ -5,6 +5,7 @@
 #include "PlayGameMode.h"
 #include "CrazyArcadeDebugWindow.h"
 #include <EngineCore/EngineEditorGUI.h>
+#include "MainTitleGameMode.h"
 #include "ServerGameMode.h"
 
 std::shared_ptr<UEngineNet> UCrazyArcadeCore::Net = nullptr;
@@ -27,11 +28,31 @@ void UCrazyArcadeCore::Initialize()
 	GEngine->CreateLevel<AMapTestLevel>("MapTestLevel");
 	GEngine->CreateLevel<APlayGameMode>("PlayGameMode");
 	GEngine->CreateLevel<AServerGameMode>("ServerGameMode");
+	GEngine->CreateLevel<AMainTitleGameMode>("TitleTestLevel");
 	GEngine->ChangeLevel("InitTestLevel");
 }
 
 void UCrazyArcadeCore::ResLoad()
 {
+
+	// UI 리소스 로드
+	{
+		UEngineDirectory Dir;
+		Dir.MoveToSearchChild("ContentsResources");
+		Dir.Move("UI");
+
+		std::vector<UEngineFile> AllFiles = Dir.GetAllFile({ ".png" }, true);
+		for (UEngineFile& File : AllFiles)
+		{
+			UEngineSprite::Load(File.GetFullPath());
+		}
+
+		std::vector<UEngineDirectory> AllDirectorys = Dir.GetAllDirectory();
+		for (size_t i = 0; i < AllDirectorys.size(); i++)
+		{
+			UEngineSprite::LoadFolder(AllDirectorys[i].GetFullPath());
+		}
+	}
 	// Map 리소스 로드
 	{
 		UEngineDirectory Dir;

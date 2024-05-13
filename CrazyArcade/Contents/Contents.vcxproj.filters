@@ -49,6 +49,18 @@
     <Filter Include="Map\Map">
       <UniqueIdentifier>{570d4c26-edb1-4be8-8434-b4c6934858aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\PlayLevel\Actor\Player">
+      <UniqueIdentifier>{2d6be738-09f5-486b-8f7f-cc89e70a8824}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\PlayLevel\Actor\Items">
+      <UniqueIdentifier>{92bfd764-32c9-46df-bceb-22f2af19bbf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\PlayLevel\Actor\Bomb">
+      <UniqueIdentifier>{0b2e129d-56fe-4eaf-9ca7-fe27b1972192}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{a04418e5-d48f-42b4-9fbf-a320400c0254}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Level\ServerLevel\ServerActor">
       <UniqueIdentifier>{f6d2528e-d17e-47b8-8bb9-8576b6c473c3}</UniqueIdentifier>
     </Filter>
@@ -99,15 +111,8 @@
     <ClInclude Include="VillageMap.h">
       <Filter>Map\Map</Filter>
     </ClInclude>
-    <ClInclude Include="CrazyArcadeDebugWindow.h" />
     <ClInclude Include="BlockBase.h">
       <Filter>Map\Block</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerTestPlayer.h">
-      <Filter>Level\ServerLevel\ServerActor</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerTestOtherPlayer.h">
-      <Filter>Level\ServerLevel\ServerActor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -128,12 +133,6 @@
     </ClCompile>
     <ClCompile Include="MapTestLevel.cpp">
       <Filter>Level\MapLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Level\PlayLevel\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerState.cpp">
-      <Filter>Level\PlayLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="PlayGameMode.cpp">
       <Filter>Level\PlayLevel</Filter>
@@ -156,18 +155,8 @@
     <ClCompile Include="VillageMap.cpp">
       <Filter>Map\Map</Filter>
     </ClCompile>
-    <ClCompile Include="CrazyArcadeDebugWindow.cpp" />
     <ClCompile Include="BlockBase.cpp">
       <Filter>Map\Block</Filter>
-    </ClCompile>
-    <ClCompile Include="ServerTestPlayer.cpp">
-      <Filter>Level\ServerLevel\ServerActor</Filter>
-    </ClCompile>
-    <ClCompile Include="ServerTestPlayerState.cpp">
-      <Filter>Level\ServerLevel\ServerActor</Filter>
-    </ClCompile>
-    <ClCompile Include="ServerTestOtherPlayer.cpp">
-      <Filter>Level\ServerLevel\ServerActor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
