@@ -1,0 +1,28 @@
+#include "PreCompile.h"
+#include "CrazyArcadeDebugWindow.h"
+
+UCrazyArcadeDebugWindow::UCrazyArcadeDebugWindow()
+{
+}
+
+UCrazyArcadeDebugWindow::~UCrazyArcadeDebugWindow()
+{
+}
+
+void UCrazyArcadeDebugWindow::OnGui(ULevel* Level, float _Delta)
+{
+	if (true == ImGui::Button("Main Title Level"))
+	{
+		//GEngine->ChangeLevel("MainTitleLevel");
+	}
+
+	if (true == ImGui::Button("Map Test Level"))
+	{
+		GEngine->ChangeLevel("MapTestLevel");
+	}
+
+	if (true == ImGui::Button("Play Level"))
+	{
+		GEngine->ChangeLevel("PlayGameMode");
+	}
+}
