@@ -76,7 +76,7 @@ void ServerTestPlayer::Tick(float _DeltaTime)
 		std::shared_ptr<UActorUpdatePacket> Packet = std::make_shared<UActorUpdatePacket>();
 
 		Packet->Pos = GetActorLocation();
-		Renderer->GetCurAnimationFrame();
+		Packet->SpriteName = Renderer->GetCurAnimationName();
 		Send(Packet);
 		CurTime += FrameTime;
 	}

@@ -37,7 +37,7 @@ public:
 	{
 		UEngineProtocol::Serialize(_Ser);
 		_Ser << Pos;
-
+		_Ser << SpriteName;
 
 		int a = 0;
 	}
@@ -46,6 +46,7 @@ public:
 	{
 		UEngineProtocol::DeSerialize(_Ser);
 		_Ser >> Pos;
+		_Ser >> SpriteName;
 	}
 
 public:

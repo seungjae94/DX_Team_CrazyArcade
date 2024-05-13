@@ -72,6 +72,7 @@ void ServerTestOtherPlayer::Tick(float _DeltaTime)
 			std::shared_ptr<UActorUpdatePacket> ActorUpdatePacket = std::dynamic_pointer_cast<UActorUpdatePacket>(Protocol);
 
 			SetActorLocation(ActorUpdatePacket->Pos);
+			Renderer->ChangeAnimation(ActorUpdatePacket->SpriteName);
 
 			int a = 0;
 			break;
