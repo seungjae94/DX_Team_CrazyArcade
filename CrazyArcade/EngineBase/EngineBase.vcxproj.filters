@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="EngineDebug.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineString.h">
+      <Filter>String</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineMath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineTime.h">
+      <Filter>Time</Filter>
+    </ClInclude>
+    <ClInclude Include="EnginePath.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineFile.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDirectory.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="NameObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="PathObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSerializer.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineRandom.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="PreCompile.h">
+      <Filter>PreCompile</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineThread.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadPool.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineClient.h">
+      <Filter>Net\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineNet.h">
+      <Filter>Net\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineNetHeader.h">
+      <Filter>Net\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineServer.h">
+      <Filter>Net\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="NetStartUpHelper.h">
+      <Filter>Net\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Session.h">
+      <Filter>Net\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="TCPSession.h">
+      <Filter>Net\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineProtocol.h">
+      <Filter>Net\Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="NetObject.h">
+      <Filter>Net\Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDispatcher.h">
+      <Filter>Net\Protocol</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="EngineDebug.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineString.cpp">
+      <Filter>String</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineMath.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineTime.cpp">
+      <Filter>Time</Filter>
+    </ClCompile>
+    <ClCompile Include="EnginePath.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineFile.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineDirectory.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="NameObject.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="PathObject.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSerializer.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineRandom.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="PreCompile.cpp">
+      <Filter>PreCompile</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformObject.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineThread.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadPool.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineClient.cpp">
+      <Filter>Net\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineNet.cpp">
+      <Filter>Net\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineServer.cpp">
+      <Filter>Net\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="NetStartUpHelper.cpp">
+      <Filter>Net\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Session.cpp">
+      <Filter>Net\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="TCPSession.cpp">
+      <Filter>Net\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineProtocol.cpp">
+      <Filter>Net\Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="NetObject.cpp">
+      <Filter>Net\Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineDispatcher.cpp">
+      <Filter>Net\Protocol</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{1c97b366-8de6-4ed7-9b20-544536aab4f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="String">
+      <UniqueIdentifier>{affc2336-4936-4e93-86cd-32ff000866b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{6510af30-ea9a-408b-b251-a60cdf8ffe5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Time">
+      <UniqueIdentifier>{d7f83226-046b-4713-9ec4-b2f570449b2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO">
+      <UniqueIdentifier>{088f05d2-1bc2-45ca-b095-f9c8eb2c1f24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{40dd519c-dfec-4e66-90e0-bf938d9a56ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PreCompile">
+      <UniqueIdentifier>{6d3a46cf-88d8-408e-a836-c389d6303fd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Thread">
+      <UniqueIdentifier>{43e5ae4d-4af7-454c-9aa9-0bbd97fae8de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net">
+      <UniqueIdentifier>{bbb72805-7900-4b7c-9ab6-b87c69dbf9bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\Base">
+      <UniqueIdentifier>{944e1742-2298-4327-9b4c-305f778b1772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\Protocol">
+      <UniqueIdentifier>{a660bde7-c146-426d-a498-a1e9acc2ee8b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

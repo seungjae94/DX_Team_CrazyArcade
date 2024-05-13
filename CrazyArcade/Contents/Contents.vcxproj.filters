@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="PreCompile">
+      <UniqueIdentifier>{a2c3a0c9-1fbe-4ae0-a7ba-b3f70d0a5b3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{410fff6e-2ea4-4dc2-986f-c11c90f3c521}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{24e2245e-495c-41b4-a001-48e18f1120f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\InitTestLevel">
+      <UniqueIdentifier>{f7916000-2eac-4253-86cd-7c36bce5db3e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PreCompile.h">
+      <Filter>PreCompile</Filter>
+    </ClInclude>
+    <ClInclude Include="InitTestGameMode.h">
+      <Filter>Level\InitTestLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="CrazyArcadeCore.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PreCompile.cpp">
+      <Filter>PreCompile</Filter>
+    </ClCompile>
+    <ClCompile Include="InitTestGameMode.cpp">
+      <Filter>Level\InitTestLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CrazyArcadeCore.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
