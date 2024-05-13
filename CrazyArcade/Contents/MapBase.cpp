@@ -1,8 +1,8 @@
 #include "PreCompile.h"
-#include "TileMapBase.h"
+#include "MapBase.h"
 #include "MapConstant.h"
 
-ATileMapBase::ATileMapBase()
+AMapBase::AMapBase()
 {
 	UDefaultSceneComponent* Root = CreateDefaultSubObject<UDefaultSceneComponent>("Root");
 
@@ -22,11 +22,11 @@ ATileMapBase::ATileMapBase()
 	SetRoot(Root);
 }
 
-ATileMapBase::~ATileMapBase()
+AMapBase::~AMapBase()
 {
 }
 
-void ATileMapBase::BeginPlay()
+void AMapBase::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -34,16 +34,16 @@ void ATileMapBase::BeginPlay()
 	SetActorLocation({ 400.0f, 300.0f, 0.0f });
 }
 
-void ATileMapBase::Tick(float _DeltaTime)
+void AMapBase::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 }
 
-void ATileMapBase::SetTileSize(int _X, int _Y)
+void AMapBase::SetTileInfoSize(int _X, int _Y)
 {
-	//TileInfo.resize(_Y);
-	//for (size_t i = 0; i < TileInfo.resize(_X); i++)
-	//{
-	//
-	//}
+	TileInfo.resize(_Y);
+	for (size_t Y = 0; Y < TileInfo.size(); Y++)
+	{
+		TileInfo[Y].resize(_X);
+	}
 }

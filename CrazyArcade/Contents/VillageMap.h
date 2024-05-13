@@ -1,10 +1,10 @@
 #pragma once
-#include "TileMapBase.h"
+#include "MapBase.h"
 
 // Ό³Έν : VilageMap 
-class AVillageMap : public ATileMapBase
+class AVillageMap : public AMapBase
 {
-	GENERATED_BODY(ATileMapBase)
+	GENERATED_BODY(AMapBase)
 public:
 	// constrcuter destructer
 	AVillageMap();

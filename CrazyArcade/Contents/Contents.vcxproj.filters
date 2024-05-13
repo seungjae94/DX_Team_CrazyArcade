@@ -19,9 +19,6 @@
     <Filter Include="Map">
       <UniqueIdentifier>{2725ac91-1a32-4115-a2cc-1f86e74e3738}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Map\Tile">
-      <UniqueIdentifier>{72f176bb-3c05-4479-9e5f-62c8628c17a8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Map\Constant">
       <UniqueIdentifier>{ffb710fc-a9c5-4508-af0f-aa58f41067ed}</UniqueIdentifier>
     </Filter>
@@ -46,7 +43,10 @@
     <Filter Include="Map\Base">
       <UniqueIdentifier>{12dc57c0-8830-42d5-8b5c-027ff2e571a8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Map\TileMap">
+    <Filter Include="Map\Block">
+      <UniqueIdentifier>{72f176bb-3c05-4479-9e5f-62c8628c17a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map\Map">
       <UniqueIdentifier>{570d4c26-edb1-4be8-8434-b4c6934858aa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -90,11 +90,11 @@
     <ClInclude Include="Packets.h">
       <Filter>Protocol</Filter>
     </ClInclude>
-    <ClInclude Include="TileMapBase.h">
+    <ClInclude Include="MapBase.h">
       <Filter>Map\Base</Filter>
     </ClInclude>
     <ClInclude Include="VillageMap.h">
-      <Filter>Map\TileMap</Filter>
+      <Filter>Map\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -137,11 +137,11 @@
     <ClCompile Include="Packets.cpp">
       <Filter>Protocol</Filter>
     </ClCompile>
-    <ClCompile Include="TileMapBase.cpp">
+    <ClCompile Include="MapBase.cpp">
       <Filter>Map\Base</Filter>
     </ClCompile>
     <ClCompile Include="VillageMap.cpp">
-      <Filter>Map\TileMap</Filter>
+      <Filter>Map\Map</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -15,6 +15,7 @@ void AVillageMap::BeginPlay()
 	Super::BeginPlay();
 
 	SetBackGround(MapImgRes::village_background);
+	SetTileInfoSize(15, 13);
 }
 
 void AVillageMap::Tick(float _DeltaTime)

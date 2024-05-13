@@ -50,7 +50,7 @@
     </ClInclude>
     <ClInclude Include="ServerGameMode.h" />
     <ClInclude Include="ServerPlayer.h" />
-    <ClInclude Include="TileMapBase.h">
+    <ClInclude Include="MapBase.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -95,7 +95,7 @@
     </ClCompile>
     <ClCompile Include="ServerGameMode.cpp" />
     <ClCompile Include="ServerPlayer.cpp" />
-    <ClCompile Include="TileMapBase.cpp">
+    <ClCompile Include="MapBase.cpp">
       <SubType>
       </SubType>
     </ClCompile>

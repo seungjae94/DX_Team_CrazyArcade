@@ -7,27 +7,27 @@ public:
 
 };
 
-// 설명 : TileMap 기초 클래스
-class ATileMapBase : public AActor
+// 설명 : Map 기초 클래스
+class AMapBase : public AActor
 {
 	GENERATED_BODY(AActor)
 public:
 	// constrcuter destructer
-	ATileMapBase();
-	~ATileMapBase();
+	AMapBase();
+	~AMapBase();
 
 	// delete Function
-	ATileMapBase(const ATileMapBase& _Other) = delete;
-	ATileMapBase(ATileMapBase&& _Other) noexcept = delete;
-	ATileMapBase& operator=(const ATileMapBase& _Other) = delete;
-	ATileMapBase& operator=(ATileMapBase&& _Other) noexcept = delete;
+	AMapBase(const AMapBase& _Other) = delete;
+	AMapBase(AMapBase&& _Other) noexcept = delete;
+	AMapBase& operator=(const AMapBase& _Other) = delete;
+	AMapBase& operator=(AMapBase&& _Other) noexcept = delete;
 
 	inline void SetBackGround(std::string_view _Name)
 	{
 		BackGround->SetSprite(_Name);
 	}
 
-	void SetTileSize(int _X, int _Y);
+	void SetTileInfoSize(int _X, int _Y);
 
 protected:
 	void BeginPlay() override;
@@ -40,6 +40,7 @@ private:
 	std::vector<std::vector<UTileInfo>> TileInfo;
 
 	FVector StartPos = { 20.0f, 40.0f, 0.0f };
+	float TileSize = 40.0f;
 
 };
 

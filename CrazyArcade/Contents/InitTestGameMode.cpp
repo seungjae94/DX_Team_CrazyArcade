@@ -1,8 +1,6 @@
 #include "PreCompile.h"
 #include "InitTestGameMode.h"
 
-#include "TileMapBase.h"
-
 AInitTestGameMode::AInitTestGameMode()
 {
 }
