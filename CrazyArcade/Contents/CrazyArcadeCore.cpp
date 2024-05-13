@@ -21,7 +21,7 @@ void UCrazyArcadeCore::Initialize()
 	GEngine->CreateLevel<AInitTestGameMode>("InitTestLevel");
 	GEngine->CreateLevel<AMapTestLevel>("MapTestLevel");
 	GEngine->CreateLevel<APlayGameMode>("PlayGameMode");
-	GEngine->ChangeLevel("PlayGameMode");
+	GEngine->ChangeLevel("InitTestLevel");
 }
 
 void UCrazyArcadeCore::ResLoad()

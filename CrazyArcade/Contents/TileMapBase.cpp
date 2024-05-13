@@ -41,9 +41,9 @@ void ATileMapBase::Tick(float _DeltaTime)
 
 void ATileMapBase::SetTileSize(int _X, int _Y)
 {
-	TileInfo.resize(_Y);
-	for (size_t i = 0; i < TileInfo.resize(_X); i++)
-	{
-
-	}
+	//TileInfo.resize(_Y);
+	//for (size_t i = 0; i < TileInfo.resize(_X); i++)
+	//{
+	//
+	//}
 }

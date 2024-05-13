@@ -24,4 +24,9 @@ void AInitTestGameMode::Tick(float _DeltaTime)
 	{
 		GEngine->ChangeLevel("MapTestLevel");
 	}
+
+	if (true == UEngineInput::IsDown('P'))
+	{
+		GEngine->ChangeLevel("PlayGameMode");
+	}
 }
