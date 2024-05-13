@@ -40,9 +40,14 @@ private:
 	FVector PlayerPos;
 	std::string Name = "Player";
 	EPlayerDir PlayerDir = EPlayerDir::Down;
+	int BombCount = 1;
+	int BombPower = 1;
 	float BaseSpeed = 200.0f;
 	float Speed = 1.0f;
 	float CalSpeed = BaseSpeed * Speed;
+
+	bool Push = false;
+	bool Throw = false;
 
 	//State
 	void StateInit();

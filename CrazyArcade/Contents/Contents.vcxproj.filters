@@ -109,6 +109,9 @@
     <ClInclude Include="Player.h">
       <Filter>Level\PlayLevel\Actor\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -159,6 +162,9 @@
     </ClCompile>
     <ClCompile Include="PlayerState.cpp">
       <Filter>Level\PlayLevel\Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
