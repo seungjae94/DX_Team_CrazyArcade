@@ -38,4 +38,23 @@ void UCrazyArcadeCore::ResLoad()
 			UEngineSprite::LoadFolder(AllDirectorys[i].GetFullPath());
 		}
 	}
+
+	// Player 리소스 로드
+	{
+		UEngineDirectory Dir;
+		Dir.MoveToSearchChild("ContentsResources");
+		Dir.Move("Bazzi");
+
+		std::vector<UEngineFile> AllFiles = Dir.GetAllFile({ ".png" }, true);
+		for (UEngineFile& File : AllFiles)
+		{
+			UEngineSprite::Load(File.GetFullPath());
+		}
+
+		std::vector<UEngineDirectory> AllDirectorys = Dir.GetAllDirectory();
+		for (size_t i = 0; i < AllDirectorys.size(); i++)
+		{
+			UEngineSprite::LoadFolder(AllDirectorys[i].GetFullPath());
+		}
+	}
 }
