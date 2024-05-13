@@ -17,6 +17,9 @@ public:
 	AMapBase& operator=(const AMapBase& _Other) = delete;
 	AMapBase& operator=(AMapBase&& _Other) noexcept = delete;
 
+	bool CanMoveBlock();
+
+protected:
 	inline void SetBackGround(std::string_view _Name)
 	{
 		BackGround->SetSprite(_Name);

@@ -17,7 +17,23 @@ void AVillageMap::BeginPlay()
 	SetBackGround(MapImgRes::village_background);
 	SetMapInfoSize(15, 13);
 	
-	// Wall »ý¼º
+	CreateHouse();
+	CreateTree();
+	
+
+
+
+
+
+}
+
+void AVillageMap::Tick(float _DeltaTime)
+{
+	Super::Tick(_DeltaTime);
+}
+
+void AVillageMap::CreateHouse()
+{
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
@@ -49,14 +65,24 @@ void AVillageMap::BeginPlay()
 			CreateWall(11 + 2 * i, 1 + 2 * j, MapImgRes::block_house_0);
 		}
 	}
-
-
-
-
-
 }
 
-void AVillageMap::Tick(float _DeltaTime)
+void AVillageMap::CreateTree()
 {
-	Super::Tick(_DeltaTime);
+	CreateWall(0, 6, MapImgRes::block_tree_0);
+	CreateWall(2, 6, MapImgRes::block_tree_0);
+	CreateWall(4, 6, MapImgRes::block_tree_0);
+	CreateWall(5, 1, MapImgRes::block_tree_0);
+	CreateWall(5, 3, MapImgRes::block_tree_0);
+	CreateWall(5, 7, MapImgRes::block_tree_0);
+	CreateWall(5, 9, MapImgRes::block_tree_0);
+	CreateWall(5, 11, MapImgRes::block_tree_0);
+	CreateWall(9, 1, MapImgRes::block_tree_0);
+	CreateWall(9, 3, MapImgRes::block_tree_0);
+	CreateWall(9, 5, MapImgRes::block_tree_0);
+	CreateWall(9, 9, MapImgRes::block_tree_0);
+	CreateWall(9, 11, MapImgRes::block_tree_0);
+	CreateWall(10, 6, MapImgRes::block_tree_0);
+	CreateWall(12, 6, MapImgRes::block_tree_0);
+	CreateWall(14, 6, MapImgRes::block_tree_0);
 }

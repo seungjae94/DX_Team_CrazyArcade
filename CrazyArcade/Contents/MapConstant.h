@@ -8,5 +8,6 @@ namespace MapImgRes
 	const std::string_view block_house_0		= "spr_house_0.png";
 	const std::string_view block_house_1		= "spr_house_1.png";
 	const std::string_view block_house_2		= "spr_house_2.png";
+	const std::string_view block_tree_0			= "spr_tree_0.png";
 }
 
