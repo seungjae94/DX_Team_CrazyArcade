@@ -16,7 +16,7 @@ protected:
 	void Initialize() override;
 
 private:
-
+	void ResLoad();
 
 };
 
