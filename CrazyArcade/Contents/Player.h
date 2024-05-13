@@ -54,6 +54,8 @@ private:
 
 	void Idle(float _DeltaTime);
 	void Run(float _DeltaTime);
+	void Lock(float _DeltaTime);
+	void Escape(float _DeltaTime);
 	void Die(float _DeltaTime);
 
 	void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);

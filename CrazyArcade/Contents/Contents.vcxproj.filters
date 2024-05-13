@@ -140,12 +140,6 @@
     <ClCompile Include="MapTestLevel.cpp">
       <Filter>Level\MapLevel</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Level\PlayLevel\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerState.cpp">
-      <Filter>Level\PlayLevel\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="PlayGameMode.cpp">
       <Filter>Level\PlayLevel</Filter>
     </ClCompile>
@@ -178,6 +172,12 @@
     </ClCompile>
     <ClCompile Include="Item.cpp">
       <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Level\PlayLevel\Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>Level\PlayLevel\Actor\Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
