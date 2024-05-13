@@ -23,5 +23,6 @@ private:
 	UImage* ForntBackGround = nullptr;
 	UImage* LoginUI = nullptr;
 
+
 };
 

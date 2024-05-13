@@ -4,6 +4,9 @@
 #include "Player.h"
 #include "VillageMap.h"
 
+//UI
+#include "TimerUI.h"
+
 AMapTestLevel::AMapTestLevel()
 {
 }
@@ -20,6 +23,11 @@ void AMapTestLevel::BeginPlay()
 
 	Player = GetWorld()->SpawnActor<APlayer>("Player");
 	Player->SetActorLocation({ 350.0f, 300.0f, 0.0f });
+
+	//UI
+	Timer = GetWorld()->SpawnActor<ATimerUI>("TimeUI");
+	Timer->SetTimer(300.0f);
+
 }
 
 void AMapTestLevel::Tick(float _DeltaTime)

@@ -23,6 +23,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="LobbyTitleGameMode.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Fluid.h">
       <SubType>
       </SubType>
@@ -40,6 +44,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Shoes.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TimerUI.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -112,6 +120,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="LobbyTitleGameMode.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Fluid.cpp">
       <SubType>
       </SubType>
@@ -129,6 +141,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Shoes.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TimerUI.cpp">
       <SubType>
       </SubType>
     </ClCompile>

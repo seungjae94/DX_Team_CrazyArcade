@@ -28,4 +28,10 @@ void AMainTitleGameMode::BeginPlay()
 void AMainTitleGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+	if(UEngineInput::IsDown('P'))
+	{
+		// 바꿔 줄 것입니다 
+		//여기 레벨 전환으로 사용 
+	}
+
 }

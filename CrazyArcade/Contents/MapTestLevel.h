@@ -3,6 +3,9 @@
 class APlayer;
 class AVillageMap;
 
+//UI
+class ATimerUI;
+
 // 설명 : Map 테스트 레벨
 class AMapTestLevel : public AGameMode
 {
@@ -30,6 +33,6 @@ protected:
 private:
 	std::shared_ptr<AVillageMap> TileMap = nullptr;
 	std::shared_ptr<APlayer> Player = nullptr;
-
+	std::shared_ptr<ATimerUI> Timer = nullptr;
 };
 

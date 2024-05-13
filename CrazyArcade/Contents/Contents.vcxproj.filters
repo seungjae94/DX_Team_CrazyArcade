@@ -64,6 +64,9 @@
     <Filter Include="Level\ServerLevel\ServerActor">
       <UniqueIdentifier>{f6d2528e-d17e-47b8-8bb9-8576b6c473c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{e3519d18-b196-4cae-85f5-09714166564e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -144,6 +147,12 @@
     </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyTitleGameMode.h">
+      <Filter>Level\MainTitle</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerUI.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -231,6 +240,12 @@
     </ClCompile>
     <ClCompile Include="Item.cpp">
       <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyTitleGameMode.cpp">
+      <Filter>Level\MainTitle</Filter>
+    </ClCompile>
+    <ClCompile Include="TimerUI.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
