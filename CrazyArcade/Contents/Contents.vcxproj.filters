@@ -61,6 +61,9 @@
     <Filter Include="Debug">
       <UniqueIdentifier>{a04418e5-d48f-42b4-9fbf-a320400c0254}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\ServerLevel\ServerActor">
+      <UniqueIdentifier>{f6d2528e-d17e-47b8-8bb9-8576b6c473c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -111,14 +114,13 @@
     <ClInclude Include="BlockBase.h">
       <Filter>Map\Block</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Level\PlayLevel\Actor\Player</Filter>
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="CrazyArcadeDebugWindow.h" />
+    <ClInclude Include="ServerTestOtherPlayer.h">
+      <Filter>Level\ServerLevel\ServerActor</Filter>
     </ClInclude>
-    <ClInclude Include="CrazyArcadeDebugWindow.h">
-      <Filter>Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    <ClInclude Include="ServerTestPlayer.h">
+      <Filter>Level\ServerLevel\ServerActor</Filter>
     </ClInclude>
     <ClInclude Include="Roller.h">
       <Filter>Level\PlayLevel\Actor\Items</Filter>
@@ -185,14 +187,19 @@
     <ClCompile Include="BlockBase.cpp">
       <Filter>Map\Block</Filter>
     </ClCompile>
-    <ClCompile Include="MapBase_Create.cpp">
-      <Filter>Map\Base</Filter>
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="CrazyArcadeDebugWindow.cpp" />
+    <ClCompile Include="MapBase_Create.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerState.cpp" />
+    <ClCompile Include="ServerTestPlayerState.cpp">
+      <Filter>Level\ServerLevel\ServerActor</Filter>
     </ClCompile>
-    <ClCompile Include="CrazyArcadeDebugWindow.cpp">
-      <Filter>Debug</Filter>
+    <ClCompile Include="ServerTestOtherPlayer.cpp">
+      <Filter>Level\ServerLevel\ServerActor</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    <ClCompile Include="ServerTestPlayer.cpp">
+      <Filter>Level\ServerLevel\ServerActor</Filter>
     </ClCompile>
     <ClCompile Include="PlayerState.cpp">
       <Filter>Level\PlayLevel\Actor\Player</Filter>

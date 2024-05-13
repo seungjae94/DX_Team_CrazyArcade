@@ -58,7 +58,7 @@ void UCrazyArcadeCore::ResLoad()
 		UEngineDirectory Dir;
 		Dir.MoveToSearchChild("ContentsResources");
 		Dir.Move("Map");
-
+		
 		std::vector<UEngineFile> AllFiles = Dir.GetAllFile({ ".png" }, true);
 		for (UEngineFile& File : AllFiles)
 		{

@@ -6,6 +6,8 @@ void APlayer::StateInit()
 	// 스테이트 생성
 	State.CreateState("Idle");
 	State.CreateState("Run");
+	State.CreateState("Lock");
+	State.CreateState("Escape");
 	State.CreateState("Die");
 
 	// 함수 세팅
@@ -34,6 +36,16 @@ void APlayer::StateInit()
 
 	State.SetUpdateFunction("Run", std::bind(&APlayer::Run, this, std::placeholders::_1));
 	State.SetStartFunction("Run", [=]()
+		{
+		});
+
+	State.SetUpdateFunction("Lock", std::bind(&APlayer::Lock, this, std::placeholders::_1));
+	State.SetStartFunction("Lock", [=]()
+		{
+		});
+
+	State.SetUpdateFunction("Escape", std::bind(&APlayer::Escape, this, std::placeholders::_1));
+	State.SetStartFunction("Escape", [=]()
 		{
 		});
 
@@ -85,10 +97,19 @@ void APlayer::Run(float _DeltaTime)
 		PlayerDir = EPlayerDir::Down;
 	}
 
-	if (true == IsUp('A') || true == IsUp('D') || true == IsUp('W') || true == IsUp('S'))
+	if (true == IsFree('A') || true == IsFree('D') || true == IsFree('W') || true == IsFree('S'))
 	{
 		State.ChangeState("Idle");
+		return;
 	}
+}
+
+void APlayer::Lock(float _DeltaTime)
+{
+}
+
+void APlayer::Escape(float _DeltaTime)
+{
 }
 
 void APlayer::Die(float _Update)
