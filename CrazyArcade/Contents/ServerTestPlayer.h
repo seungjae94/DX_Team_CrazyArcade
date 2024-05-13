@@ -27,6 +27,9 @@ public:
 	ServerTestPlayer& operator=(const ServerTestPlayer& _Other) = delete;
 	ServerTestPlayer& operator=(ServerTestPlayer&& _Other) noexcept = delete;
 
+	USpriteRenderer* GetRenderer() {
+		return Renderer;
+	}
 
 protected:
 	void BeginPlay() override;

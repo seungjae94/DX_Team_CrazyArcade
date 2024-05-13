@@ -125,6 +125,7 @@ void AServerGameMode::ClientPacketInit(UEngineDispatcher& Dis)
 						OtherPlayer->SetObjectToken(_Packet->GetObjectToken());
 					}
 					OtherPlayer->SetActorLocation(_Packet->Pos);
+					OtherPlayer->GetRenderer()->ChangeAnimation(_Packet->SpriteName);
 				});
 		});
 }
