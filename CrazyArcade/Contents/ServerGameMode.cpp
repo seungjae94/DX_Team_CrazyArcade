@@ -11,6 +11,9 @@
 #include "CrazyArcadeCore.h"
 #include "Packets.h"
 #include "OtherPlayer.h"
+#include "ServerTestPlayer.h"
+#include "ServerTestOtherPlayer.h"
+
 
 AServerGameMode::AServerGameMode() 
 {
@@ -32,7 +35,8 @@ void AServerGameMode::BeginPlay()
 	std::shared_ptr<UCamera> Camera = GetWorld()->GetMainCamera();
 	Camera->SetActorLocation(FVector(0.0f, 0.0f, -100.0f));
 
-	MainPlayer = GetWorld()->SpawnActor<AServerPlayer>("Player");
+	MainPlayer = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
+
 }
 
 void AServerGameMode::Tick(float _DeltaTime)
@@ -114,10 +118,10 @@ void AServerGameMode::ClientPacketInit(UEngineDispatcher& Dis)
 		{
 			GetWorld()->PushFunction([=]()
 				{
-					AOtherPlayer* OtherPlayer = UNetObject::GetNetObject<AOtherPlayer>(_Packet->GetObjectToken());
+					ServerTestOtherPlayer* OtherPlayer = UNetObject::GetNetObject<ServerTestOtherPlayer>(_Packet->GetObjectToken());
 					if (nullptr == OtherPlayer)
 					{
-						OtherPlayer = this->GetWorld()->SpawnActor<AOtherPlayer>("OtherPlayer", 0).get();
+						OtherPlayer = this->GetWorld()->SpawnActor<ServerTestOtherPlayer>("OtherPlayer", 0).get();
 						OtherPlayer->SetObjectToken(_Packet->GetObjectToken());
 					}
 					OtherPlayer->SetActorLocation(_Packet->Pos);

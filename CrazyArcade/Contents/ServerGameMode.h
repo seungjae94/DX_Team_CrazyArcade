@@ -7,7 +7,7 @@
 
 // Ό³Έν :
 class UEngineNetWindow;
-class AServerPlayer;
+class ServerTestPlayer;
 class AServerGameMode : public AGameMode
 {
 	GENERATED_BODY(AGameMode)
@@ -36,6 +36,6 @@ protected:
 	void LevelEnd(ULevel* _DeltaTime) override;
 
 	std::shared_ptr<UEngineNetWindow> NetWindow;
-	std::shared_ptr<AServerPlayer> MainPlayer = nullptr;
+	std::shared_ptr<ServerTestPlayer> MainPlayer = nullptr;
 };
 

@@ -62,6 +62,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ServerTestOtherPlayer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ServerTestPlayer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="VillageMap.h">
       <SubType>
       </SubType>
@@ -115,6 +123,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ServerTestOtherPlayer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ServerTestPlayer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ServerTestPlayerState.cpp" />
     <ClCompile Include="VillageMap.cpp">
       <SubType>
       </SubType>

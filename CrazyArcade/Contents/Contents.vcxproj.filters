@@ -49,6 +49,9 @@
     <Filter Include="Map\Map">
       <UniqueIdentifier>{570d4c26-edb1-4be8-8434-b4c6934858aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\ServerLevel\ServerActor">
+      <UniqueIdentifier>{f6d2528e-d17e-47b8-8bb9-8576b6c473c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -100,6 +103,12 @@
     <ClInclude Include="BlockBase.h">
       <Filter>Map\Block</Filter>
     </ClInclude>
+    <ClInclude Include="ServerTestPlayer.h">
+      <Filter>Level\ServerLevel\ServerActor</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerTestOtherPlayer.h">
+      <Filter>Level\ServerLevel\ServerActor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -150,6 +159,15 @@
     <ClCompile Include="CrazyArcadeDebugWindow.cpp" />
     <ClCompile Include="BlockBase.cpp">
       <Filter>Map\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerTestPlayer.cpp">
+      <Filter>Level\ServerLevel\ServerActor</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerTestPlayerState.cpp">
+      <Filter>Level\ServerLevel\ServerActor</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerTestOtherPlayer.cpp">
+      <Filter>Level\ServerLevel\ServerActor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
