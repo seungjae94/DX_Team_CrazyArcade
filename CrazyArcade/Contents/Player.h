@@ -1,13 +1,20 @@
 #pragma once
 #include <EngineCore/Actor.h>
-#include <EngineCore/SpriteRenderer.h>
 #include <EngineCore/StateManager.h>
-#include <EngineCore/DefaultSceneComponent.h>
+#include <EngineCore/SpriteRenderer.h>
 
-// Ό³Έν :
+enum class EPlayerDir
+{
+	Left,
+	Right,
+	Up,
+	Down,
+};
+
 class APlayer : public AActor
 {
 	GENERATED_BODY(AActor)
+
 public:
 	// constrcuter destructer
 	APlayer();
@@ -19,6 +26,7 @@ public:
 	APlayer& operator=(const APlayer& _Other) = delete;
 	APlayer& operator=(APlayer&& _Other) noexcept = delete;
 
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -26,17 +34,22 @@ protected:
 private:
 	UStateManager State;
 
-	UDefaultSceneComponent* DefaultComponent = nullptr;
-	USpriteRenderer* BodyRenderer = nullptr;
+	USpriteRenderer* Renderer;
+	USpriteRenderer* ShadowRenderer;
+	
+	FVector PlayerPos;
+	std::string Name = "Player";
+	EPlayerDir PlayerDir = EPlayerDir::Down;
+	float BaseSpeed = 200.0f;
+	float Speed = 1.0f;
+	float CalSpeed = BaseSpeed * Speed;
 
-	void DebugMessageFunction();
-
-	// State
+	//State
 	void StateInit();
+
 	void Idle(float _DeltaTime);
 	void Run(float _DeltaTime);
 	void Die(float _DeltaTime);
 
-	float Speed = 500.0f;
+	void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
 };
-
