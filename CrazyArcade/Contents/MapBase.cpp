@@ -71,13 +71,13 @@ bool AMapBase::CanMovePos(const FVector& _NextPos)
 	}
 	
 	// 빈 공간일때
-	if (nullptr == MapInfo[NextPlayerY][NextPlayerX])
+	if (nullptr == MapInfo[NextPlayerY][NextPlayerX].Block)
 	{
 		return true;
 	}
 
 	// 오브젝트 존재할때
-	EBlockType BlockType = MapInfo[NextPlayerY][NextPlayerX]->GetBlockType();
+	EBlockType BlockType = MapInfo[NextPlayerY][NextPlayerX].Block->GetBlockType();
 	if (EBlockType::Wall == BlockType || EBlockType::Box == BlockType)
 	{
 		return false;
