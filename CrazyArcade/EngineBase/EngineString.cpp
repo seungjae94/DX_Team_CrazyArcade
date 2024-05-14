@@ -43,7 +43,7 @@ std::wstring UEngineString::AnsiToUniCode(std::string_view _View)
 
 	if (0 == Size)
 	{
-		MsgBoxAssert("문자열 변환에 실패했거나 크기가 0인 문자열을 넣어줬습니다");
+		//MsgBoxAssert("문자열 변환에 실패했거나 크기가 0인 문자열을 넣어줬습니다");
 		return L"";
 	}
 
@@ -67,6 +67,30 @@ std::wstring UEngineString::AnsiToUniCode(std::string_view _View)
 	}
 
 	// 자연스럽게 RValue 레퍼런스가 되니까 추가 생성은 이루어지지 않겠죠.
+	return Result;
+}
+
+std::string UEngineString::UniCodeToAnsi(std::wstring_view _View)
+{
+	int Size = WideCharToMultiByte(CP_ACP, 0, _View.data(), static_cast<int>(_View.size()), nullptr, 0, 0, 0);
+
+	if (0 == Size)
+	{
+		//MsgBoxAssert("문자열 변환에 실패했거나 크기가 0인 문자열을 넣어줬습니다");
+		return "";
+	}
+
+	std::string Result;
+	Result.resize(Size);
+
+	Size = WideCharToMultiByte(CP_ACP, 0, _View.data(), static_cast<int>(_View.size()), &Result[0], Size, 0, 0);
+
+	if (0 == Size)
+	{
+		MsgBoxAssert("문자열 변환에 실패했거나 크기가 0인 문자열을 넣어줬습니다");
+		return "";
+	}
+
 	return Result;
 }
 
