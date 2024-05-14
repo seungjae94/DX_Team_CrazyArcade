@@ -83,6 +83,19 @@ void APlayer::Tick(float _DeltaTime)
 		std::string Msg = std::format("PlayerOrder : {}\n", PlayerOrder);
 		UEngineDebugMsgWindow::PushMsg(Msg);
 	}
+	{
+		std::string Msg = std::format("Bubble : {}\n", MPlayerItem[EPlayerItem::Bubble]);
+		UEngineDebugMsgWindow::PushMsg(Msg);
+	}
+	// Item 임의 적용 테스트
+	if (true == IsDown('R'))
+	{
+		PickUpItem(EPlayerItem::Roller);
+	}
+	if (true == IsDown('B'))
+	{
+		PickUpItem(EPlayerItem::Bubble);
+	}
 
 	PlayerPos = GetActorLocation();
 }
@@ -105,14 +118,14 @@ void APlayer::PickUpItem(EPlayerItem _ItemType)
 		break;
 	case EPlayerItem::Roller:
 		Speed += 10.0f;
-		CalSpeed = BaseSpeed + Speed;
-		if (MaxSpeed < CalSpeed)
+		CurSpeed = BaseSpeed + Speed;
+		if (MaxSpeed < CurSpeed)
 		{
-			CalSpeed = MaxSpeed;
+			CurSpeed = MaxSpeed;
 		}
 		break;
 	case EPlayerItem::RedDevil:
-		CalSpeed = MaxSpeed;
+		CurSpeed = MaxSpeed;
 		break;
 	case EPlayerItem::Glove:
 		Throw = true;

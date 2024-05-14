@@ -174,6 +174,9 @@
     <ClInclude Include="Bomb.h">
       <Filter>Level\PlayLevel\Actor\Bomb</Filter>
     </ClInclude>
+    <ClInclude Include="Devil.h">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -282,6 +285,9 @@
     </ClCompile>
     <ClCompile Include="Bomb.cpp">
       <Filter>Level\PlayLevel\Actor\Bomb</Filter>
+    </ClCompile>
+    <ClCompile Include="Devil.cpp">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
