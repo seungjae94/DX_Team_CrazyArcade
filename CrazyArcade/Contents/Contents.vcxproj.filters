@@ -289,5 +289,9 @@
     <ClCompile Include="Bomb.cpp">
       <Filter>Level\PlayLevel\Actor\Bomb</Filter>
     </ClCompile>
+    <ClCompile Include="InGameUI.cpp" />
+    <ClCompile Include="Devil.cpp">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
