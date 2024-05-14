@@ -17,6 +17,11 @@ APlayer::APlayer()
 	DebugRenderer = CreateDefaultSubObject<USpriteRenderer>("DebugRenderer");
 	DebugRenderer->SetupAttachment(DefaultComponent);
 
+	for (MPlayerItemIter = MPlayerItem.begin(); MPlayerItemIter != MPlayerItem.end(); ++MPlayerItemIter)
+	{
+		//*MPlayerItemIter;
+	}
+
 	InputOn();
 }
 

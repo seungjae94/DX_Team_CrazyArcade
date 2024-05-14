@@ -55,6 +55,14 @@ void AMapBase::SetMapInfoSize(int _X, int _Y)
 	}
 }
 
+int AMapBase::GetRenderOrder(const FVector& _CurPos)
+{
+	FVector CurPos = _CurPos;
+	CurPos.Y -= StartPos.Y;
+	int CurY = static_cast<int>(CurPos.Y / BlockSize);
+	return -CurY;
+}
+
 bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 {
 	// MapInfo
