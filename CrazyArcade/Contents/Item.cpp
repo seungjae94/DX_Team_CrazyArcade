@@ -10,6 +10,7 @@ AItem::AItem()
 	Renderer->SetupAttachment(DefaultComponent);
 	Renderer->SetPivot(EPivot::BOT);
 	Renderer->AddPosition({ 0.0f, -8.0f });
+	Renderer->AddPosition({ 0.0f, BlockSize /  });
 
 	ShadowRenderer = CreateDefaultSubObject<USpriteRenderer>("ShadowRenderer");
 	ShadowRenderer->SetupAttachment(DefaultComponent);

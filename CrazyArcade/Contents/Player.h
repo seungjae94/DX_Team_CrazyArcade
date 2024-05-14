@@ -66,5 +66,5 @@ protected:
 	void Escape(float _DeltaTime);
 	void Die(float _DeltaTime);
 
-	void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
+	virtual void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
 };
