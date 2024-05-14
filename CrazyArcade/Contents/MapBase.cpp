@@ -59,7 +59,24 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 {
 	// MapInfo
 	FVector NextPos = _NextPos - StartPos;
-	
+
+	if (0.0f < _Dir.X)
+	{
+		NextPos.X += 20.0f;
+	}
+	else if (0.0f > _Dir.X)
+	{
+		NextPos.X -= 20.0f;
+	}
+	else if (0.0f < _Dir.Y)
+	{
+		NextPos.Y += 17.0f;
+	}
+	else if (0.0f > _Dir.Y)
+	{
+		NextPos.Y -= 23.0f;
+	}
+
 	float NextPlayerFX = NextPos.X / BlockSize;
 	float NextPlayerFY = NextPos.Y / BlockSize;
 
