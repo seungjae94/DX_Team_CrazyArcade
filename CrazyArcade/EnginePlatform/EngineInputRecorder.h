@@ -2,13 +2,12 @@
 
 class UEngineWindow;
 class UEngineCore;
-class EngineInputRecorderInitializer;
+class UEngineInputRecorderReleaser;
 
 class UEngineInputRecorder
 {
 	friend UEngineWindow;
 	friend UEngineCore;
-	friend EngineInputRecorderInitializer;
 public:
 	UEngineInputRecorder();
 	~UEngineInputRecorder();
@@ -52,5 +51,17 @@ private:
 	static void Tick();
 	static void ImeTick(LPARAM _lParam);
 	static void Release();
+
+private:
+	class UEngineInputRecorderReleaser
+	{
+	public:
+		~UEngineInputRecorderReleaser()
+		{
+			UEngineInputRecorder::Release();
+		}
+	};
+
+	static UEngineInputRecorderReleaser Releaser;
 };
 
