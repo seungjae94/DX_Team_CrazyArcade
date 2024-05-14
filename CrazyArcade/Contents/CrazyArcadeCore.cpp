@@ -6,6 +6,7 @@
 #include "CrazyArcadeDebugWindow.h"
 #include <EngineCore/EngineEditorGUI.h>
 #include "MainTitleGameMode.h"
+#include "LobbyTitleGameMode.h"
 #include "ServerGameMode.h"
 
 std::shared_ptr<UEngineNet> UCrazyArcadeCore::Net = nullptr;
@@ -29,6 +30,7 @@ void UCrazyArcadeCore::Initialize()
 	GEngine->CreateLevel<APlayGameMode>("PlayGameMode");
 	GEngine->CreateLevel<AServerGameMode>("ServerGameMode");
 	GEngine->CreateLevel<AMainTitleGameMode>("TitleTestLevel");
+	GEngine->CreateLevel<ALobbyTitleGameMode>("LobbyTitleTestLevel");
 	GEngine->ChangeLevel("InitTestLevel");
 }
 

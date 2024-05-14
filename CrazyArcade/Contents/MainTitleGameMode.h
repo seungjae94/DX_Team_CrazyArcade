@@ -20,9 +20,9 @@ protected:
 
 private:
 	UImage* TitleBackGround = nullptr;
-	UImage* ForntBackGround = nullptr;
+	
 	UImage* LoginUI = nullptr;
 
-
+	UImage* StartButton = nullptr;
 };
 

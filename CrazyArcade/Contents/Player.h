@@ -40,6 +40,7 @@ protected:
 
 	USpriteRenderer* Renderer;
 	USpriteRenderer* ShadowRenderer;
+	USpriteRenderer* DebugRenderer;
 	
 	FVector PlayerPos;
 	std::string Name = "Player";

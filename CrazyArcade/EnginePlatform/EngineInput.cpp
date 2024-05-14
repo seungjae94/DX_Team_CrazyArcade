@@ -233,6 +233,25 @@ void UEngineInput::KeyCheckTick(float _DeltaTime)
 	}
 }
 
+void UEngineInput::AllKeyReset()
+{
+	bool KeyCheck = false;
+
+	AnykeyDown = false;
+	AnykeyPress = false;
+	AnykeyUp = false;
+	AnykeyFree = true;
+
+	for (std::pair<const int, EngineKey>& Key : AllKeys)
+	{
+		EngineKey& CurKey = Key.second;
+		CurKey.Down = false;
+		CurKey.Press = false;
+		CurKey.Up = false;
+		CurKey.Free = true;
+	}
+}
+
 class UInputInitCreator
 {
 public:
