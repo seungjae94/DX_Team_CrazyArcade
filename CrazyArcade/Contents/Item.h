@@ -20,6 +20,7 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	UDefaultSceneComponent* DefaultComponent;
 	USpriteRenderer* Renderer;
 	USpriteRenderer* ShadowRenderer;
 

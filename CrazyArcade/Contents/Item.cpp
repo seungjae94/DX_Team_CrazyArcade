@@ -3,6 +3,10 @@
 
 AItem::AItem()
 {
+	DefaultComponent = CreateDefaultSubObject<UDefaultSceneComponent>("DefaultComponent");
+	SetRoot(DefaultComponent);
+
+	Renderer
 }
 
 AItem::~AItem()
