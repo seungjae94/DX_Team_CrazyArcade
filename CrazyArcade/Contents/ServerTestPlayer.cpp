@@ -55,6 +55,7 @@ void ServerTestPlayer::Tick(float _DeltaTime)
 			SpawnPacket->Pos = GetActorLocation();
 			SpawnPacket->SpawnSelect = ServerObjectType::Player;
 			ServerTestOtherPlayer* Test = GetWorld()->SpawnActor<ServerTestOtherPlayer>("Test").get();
+			Test->SetObjectToken(GetToken);
 			Test->SetActorLocation(GetActorLocation());
 			Send(SpawnPacket);
 			IsSpawn = false;
