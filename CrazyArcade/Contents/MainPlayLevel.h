@@ -3,7 +3,7 @@
 class AVillageMap;
 
 class AMapBase;
-class APlayer;
+class ServerTestPlayer;
 
 //UI
 class ATimerUI;
@@ -32,9 +32,8 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-private:
 	std::shared_ptr<AMapBase> TileMap = nullptr;
-	std::shared_ptr<APlayer> Player = nullptr;
+	std::shared_ptr<ServerTestPlayer> Player = nullptr;
 	std::shared_ptr<ATimerUI> Timer = nullptr;
 };
 

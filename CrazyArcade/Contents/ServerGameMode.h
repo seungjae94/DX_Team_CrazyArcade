@@ -4,13 +4,14 @@
 #include <EngineBase/EngineNetHeader.h>
 #include <EngineCore/EngineNetWindow.h>
 #include <EngineBase/EngineDispatcher.h>
+#include "MainPlayLevel.h"
 
 // Ό³Έν :
 class UEngineNetWindow;
 class ServerTestPlayer;
-class AServerGameMode : public AGameMode
+class AServerGameMode : public AMainPlayLevel
 {
-	GENERATED_BODY(AGameMode)
+	GENERATED_BODY(AMainPlayLevel)
 
 	
 
@@ -36,7 +37,6 @@ protected:
 	void LevelEnd(ULevel* _DeltaTime) override;
 
 	std::shared_ptr<UEngineNetWindow> NetWindow;
-	std::shared_ptr<ServerTestPlayer> MainPlayer = nullptr;
 
 	float BombDestoryTime = 1.0f;
 	float CurBombDestoryTime = 0.0f;

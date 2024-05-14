@@ -16,6 +16,7 @@
 
 
 AServerGameMode::AServerGameMode()
+	:AMainPlayLevel()
 {
 }
 
@@ -31,11 +32,6 @@ AServerGameMode::~AServerGameMode()
 void AServerGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	// TestThread.Start();
-	std::shared_ptr<UCamera> Camera = GetWorld()->GetMainCamera();
-	Camera->SetActorLocation(FVector(0.0f, 0.0f, -100.0f));
-
-	MainPlayer = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
 
 }
 
@@ -58,7 +54,7 @@ void AServerGameMode::LevelStart(ULevel* _DeltaTime)
 
 				// 여기에서 메인 플레이어한테 번호를 하나 줄겁니다.
 
-				MainPlayer->SetObjectToken(UNetObject::GetNewObjectToken());
+				Player->SetObjectToken(UNetObject::GetNewObjectToken());
 
 				ServerPacketInit(UCrazyArcadeCore::Net->Dispatcher);
 			});
@@ -70,7 +66,7 @@ void AServerGameMode::LevelStart(ULevel* _DeltaTime)
 
 				UCrazyArcadeCore::Net->SetTokenPacketFunction([=](USessionTokenPacket* _Token)
 					{
-						MainPlayer->SetObjectToken(_Token->GetObjectToken());
+						Player->SetObjectToken(_Token->GetObjectToken());
 
 					});
 
