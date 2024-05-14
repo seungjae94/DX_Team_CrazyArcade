@@ -171,6 +171,9 @@
     <ClInclude Include="MoveBox.h">
       <Filter>Map\Block</Filter>
     </ClInclude>
+    <ClInclude Include="Bomb.h">
+      <Filter>Level\PlayLevel\Actor\Bomb</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -276,6 +279,9 @@
     </ClCompile>
     <ClCompile Include="MoveBox.cpp">
       <Filter>Map\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Bomb.cpp">
+      <Filter>Level\PlayLevel\Actor\Bomb</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

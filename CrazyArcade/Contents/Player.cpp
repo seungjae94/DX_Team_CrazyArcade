@@ -3,7 +3,7 @@
 
 APlayer::APlayer()
 {
-	UDefaultSceneComponent* DefaultComponent = CreateDefaultSubObject<UDefaultSceneComponent>("DefaultComponent");
+	DefaultComponent = CreateDefaultSubObject<UDefaultSceneComponent>("DefaultComponent");
 	SetRoot(DefaultComponent);
 
 	Renderer = CreateDefaultSubObject<USpriteRenderer>("Renderer");
@@ -16,6 +16,11 @@ APlayer::APlayer()
 
 	DebugRenderer = CreateDefaultSubObject<USpriteRenderer>("DebugRenderer");
 	DebugRenderer->SetupAttachment(DefaultComponent);
+
+	for (MPlayerItemIter = MPlayerItem.begin(); MPlayerItemIter != MPlayerItem.end(); ++MPlayerItemIter)
+	{
+		//*MPlayerItemIter;
+	}
 
 	InputOn();
 }

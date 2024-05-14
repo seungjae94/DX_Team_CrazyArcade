@@ -53,7 +53,18 @@ void AMapBase::SetMapInfoSize(int _X, int _Y)
 	{
 		MapInfo[Y].resize(_X);
 	}
+
+	BackGround->SetOrder(Const::MaxOrder - SizeY);
+	PlayUI_BackGround->SetOrder(Const::MaxOrder - SizeY);
 }
+
+int AMapBase::GetRenderOrder(const FVector& _CurPos)
+{
+	FVector CurPos = _CurPos;
+	CurPos.Y -= StartPos.Y;
+	int CurY = static_cast<int>(CurPos.Y / BlockSize);
+	return Const::MaxOrder - CurY;
+} 
 
 bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 {

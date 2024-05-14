@@ -80,7 +80,7 @@ void UEngineEditorGUI::GUIRender(ULevel* Level, float _DeltaTime)
 	// 여기서 한번다 지워 imgui에 속하는 GUI들을 다 지운다.
 	// 스타트
 	ImGui_ImplDX11_NewFrame();
-	ImGui_ImplWin32_NewFrame();
+	ImGui_ImplWin32_NewFrame(); 
 	ImGui::NewFrame();
 
 	{

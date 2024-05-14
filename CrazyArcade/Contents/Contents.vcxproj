@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bomb.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Box.h">
       <SubType>
       </SubType>
@@ -132,6 +136,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bomb.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Box.cpp">
       <SubType>
       </SubType>

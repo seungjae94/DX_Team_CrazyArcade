@@ -138,6 +138,11 @@ public:
 		return AnykeyFree;
 	}
 
+	static char GetAnyDownKey();
+	static char GetAnyUpKey();
+	static char GetAnyPressKey();
+	static char GetAnyFreeKey();
+
 	static void KeyCheckTick(float _DeltaTime);
 
 	static void AllKeyReset();
