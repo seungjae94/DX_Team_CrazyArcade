@@ -177,6 +177,9 @@
     <ClInclude Include="InGameUI.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Devil.h">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -286,8 +289,9 @@
     <ClCompile Include="Bomb.cpp">
       <Filter>Level\PlayLevel\Actor\Bomb</Filter>
     </ClCompile>
-    <ClCompile Include="InGameUI.cpp">
-      <Filter>UI</Filter>
+    <ClCompile Include="InGameUI.cpp" />
+    <ClCompile Include="Devil.cpp">
+      <Filter>Level\PlayLevel\Actor\Items</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
