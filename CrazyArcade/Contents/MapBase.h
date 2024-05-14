@@ -18,7 +18,7 @@ public:
 	AMapBase& operator=(const AMapBase& _Other) = delete;
 	AMapBase& operator=(AMapBase&& _Other) noexcept = delete;
 
-	bool CanMovePos(const FVector _CurPos, const FVector& _MoveDir);
+	bool CanMovePos(const FVector& _NextPos);
 	static float GetBlockSize()
 	{
 		return BlockSize;
@@ -47,6 +47,8 @@ private:
 
 	FVector StartPos = { 20.0f, 40.0f, 0.0f };
 	static float BlockSize;
+	int SizeX = 0;
+	int SizeY = 0;
 
 };
 

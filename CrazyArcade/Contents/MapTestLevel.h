@@ -1,7 +1,8 @@
 #pragma once
 
-class APlayer;
 class AVillageMap;
+class ATestPlayer;
+class AMapBase;
 
 //UI
 class ATimerUI;
@@ -21,7 +22,7 @@ public:
 	AMapTestLevel& operator=(const AMapTestLevel& _Other) = delete;
 	AMapTestLevel& operator=(AMapTestLevel&& _Other) noexcept = delete;
 		
-	std::shared_ptr<AVillageMap> GetMap() const
+	std::shared_ptr<AMapBase> GetMap() const
 	{
 		return TileMap;
 	}
@@ -31,8 +32,8 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private:
-	std::shared_ptr<AVillageMap> TileMap = nullptr;
-	std::shared_ptr<APlayer> Player = nullptr;
+	std::shared_ptr<AMapBase> TileMap = nullptr;
+	std::shared_ptr<ATestPlayer> Player = nullptr;
 	std::shared_ptr<ATimerUI> Timer = nullptr;
 };
 
