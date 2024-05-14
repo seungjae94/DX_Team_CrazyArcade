@@ -28,6 +28,7 @@ public:
 	//virtual void Send(void* _Ptr, int _Size);
 	//virtual void Recv(void* _Ptr, int _Size);
 
+
 	virtual void ServerOpen(int _Port, int _BackLog) {	}
 
 	// std::string _Ip 어떤 컴퓨터에 접속할거냐.

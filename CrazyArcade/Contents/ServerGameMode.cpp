@@ -13,7 +13,7 @@
 #include "OtherPlayer.h"
 #include "ServerTestPlayer.h"
 #include "ServerTestOtherPlayer.h"
-
+#include <EngineBase/NetObject.h>
 
 AServerGameMode::AServerGameMode()
 	:AMainPlayLevel()
@@ -38,7 +38,8 @@ void AServerGameMode::BeginPlay()
 void AServerGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
-
+	UNetObject::AllNetObject;
+	int a = 0;
 }
 
 void AServerGameMode::LevelStart(ULevel* _DeltaTime)
@@ -66,8 +67,7 @@ void AServerGameMode::LevelStart(ULevel* _DeltaTime)
 
 				UCrazyArcadeCore::Net->SetTokenPacketFunction([=](USessionTokenPacket* _Token)
 					{
-						Player->SetObjectToken(_Token->GetObjectToken());
-
+						Player->SetObjectToken(GetToken);
 					});
 
 				// 어떤 패키싱 왔을때 어떻게 처리할건지를 정하는 걸 해야한다.
@@ -111,7 +111,7 @@ void AServerGameMode::ServerPacketInit(UEngineDispatcher& Dis)
 				{
 					ServerTestOtherPlayer* OtherPlayer;
 					OtherPlayer = this->GetWorld()->SpawnActor<ServerTestOtherPlayer>("OtherPlayer", 0).get();
-					OtherPlayer->SetObjectToken(10);
+					OtherPlayer->SetObjectToken(GetToken);
 					OtherPlayer->PushProtocol(_Packet);
 				});
 		});
@@ -127,7 +127,7 @@ void AServerGameMode::ClientPacketInit(UEngineDispatcher& Dis)
 					if (nullptr == OtherPlayer)
 					{
 						OtherPlayer = this->GetWorld()->SpawnActor<ServerTestOtherPlayer>("OtherPlayer", 0).get();
-						OtherPlayer->SetObjectToken(_Packet->GetObjectToken());
+						OtherPlayer->SetObjectToken(GetToken);
 					}
 					OtherPlayer->PushProtocol(_Packet);
 				});
@@ -139,7 +139,7 @@ void AServerGameMode::ClientPacketInit(UEngineDispatcher& Dis)
 				{
 					ServerTestOtherPlayer* OtherPlayer;
 					OtherPlayer = this->GetWorld()->SpawnActor<ServerTestOtherPlayer>("OtherPlayer", 0).get();
-					OtherPlayer->SetObjectToken(10);
+					OtherPlayer->SetObjectToken(GetToken);
 					OtherPlayer->PushProtocol(_Packet);
 				});
 		});
