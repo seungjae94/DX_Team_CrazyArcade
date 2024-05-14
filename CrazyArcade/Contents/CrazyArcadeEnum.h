@@ -17,3 +17,14 @@ enum class EBlockType
 	Wall,
 	Box	
 };
+
+enum class EPlayerItem
+{
+	Bubble,
+	Fluid,
+	Ultra,
+	Roller,
+	RedDevil,
+	Glove,
+	Shoes,
+};
