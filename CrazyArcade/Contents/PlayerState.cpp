@@ -4,6 +4,8 @@
 #include "MainPlayLevel.h"
 #include "MapBase.h"
 
+#include "Bomb.h"
+
 void APlayer::StateInit()
 {
 	// 스테이트 생성
@@ -62,6 +64,14 @@ void APlayer::StateInit()
 
 void APlayer::Idle(float _Update)
 {
+	// Bomb 설치
+	if (true == IsDown(VK_SPACE))
+	{
+		std::shared_ptr<ABomb> Bomb = GetWorld()->SpawnActor<ABomb>("Bomb");
+		Bomb->SetActorLocation(GetActorLocation());
+		Bomb->AddActorLocation({ 0.0f, BlockSize / 2.0f });
+	}
+
 	if (true == IsPress('A') || true == IsPress('D') || true == IsPress('W') || true == IsPress('S'))
 	{
 		State.ChangeState("Run");
@@ -71,6 +81,13 @@ void APlayer::Idle(float _Update)
 
 void APlayer::Run(float _DeltaTime)
 {
+	// Bomb 설치
+	if (true == IsDown(VK_SPACE))
+	{
+		std::shared_ptr<ABomb> Bomb = GetWorld()->SpawnActor<ABomb>("Bomb");
+		Bomb->SetActorLocation(GetActorLocation());
+	}
+
 	if (true == IsPress('A'))
 	{
 		Renderer->ChangeAnimation("Run_Left");
