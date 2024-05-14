@@ -131,7 +131,7 @@ void AServerGameMode::ClientPacketInit(UEngineDispatcher& Dis)
 					if (nullptr == OtherPlayer)
 					{
 						OtherPlayer = this->GetWorld()->SpawnActor<ServerTestOtherPlayer>("OtherPlayer", 0).get();
-						OtherPlayer->SetObjectToken(_Packet->GetObjectToken());
+						OtherPlayer->SetObjectToken(UEngineProtocol::GetMyObjectToken());
 					}
 					OtherPlayer->PushProtocol(_Packet);
 
