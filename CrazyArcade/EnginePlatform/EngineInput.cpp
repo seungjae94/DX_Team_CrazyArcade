@@ -176,6 +176,70 @@ void UEngineInput::InputInit()
 
 }
 
+char UEngineInput::GetAnyDownKey()
+{
+	for (std::pair<const int, EngineKey>& Pair : AllKeys)
+	{
+		const int KeyChar = Pair.first;
+		EngineKey& Key = Pair.second;
+
+		if (true == Key.Down)
+		{
+			return KeyChar;
+		}
+	}
+
+	return 0;
+}
+
+char UEngineInput::GetAnyUpKey()
+{
+	for (std::pair<const int, EngineKey>& Pair : AllKeys)
+	{
+		const int KeyChar = Pair.first;
+		EngineKey& Key = Pair.second;
+
+		if (true == Key.Up)
+		{
+			return KeyChar;
+		}
+	}
+
+	return 0;
+}
+
+char UEngineInput::GetAnyPressKey()
+{
+	for (std::pair<const int, EngineKey>& Pair : AllKeys)
+	{
+		const int KeyChar = Pair.first;
+		EngineKey& Key = Pair.second;
+
+		if (true == Key.Press)
+		{
+			return KeyChar;
+		}
+	}
+
+	return 0;
+}
+
+char UEngineInput::GetAnyFreeKey()
+{
+	for (std::pair<const int, EngineKey>& Pair : AllKeys)
+	{
+		const int KeyChar = Pair.first;
+		EngineKey& Key = Pair.second;
+
+		if (true == Key.Free)
+		{
+			return KeyChar;
+		}
+	}
+
+	return 0;
+}
+
 void UEngineInput::KeyCheckTick(float _DeltaTime)
 {
 	bool KeyCheck = false;

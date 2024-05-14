@@ -32,7 +32,7 @@ void UCrazyArcadeCore::Initialize()
 	GEngine->CreateLevel<AServerGameMode>("ServerGameMode");
 	GEngine->CreateLevel<AMainTitleGameMode>("TitleTestLevel");
 	GEngine->CreateLevel<ALobbyTitleGameMode>("LobbyTitleTestLevel");
-	GEngine->ChangeLevel("LobbyTitleTestLevel");
+	GEngine->ChangeLevel("InitTestLevel");
 }
 
 void UCrazyArcadeCore::ResLoad()
