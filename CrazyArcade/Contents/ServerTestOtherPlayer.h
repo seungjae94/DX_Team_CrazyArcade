@@ -5,9 +5,9 @@
 #include "ServerTestPlayer.h"
 
 
-class ServerTestOtherPlayer : public ServerTestPlayer
+class ServerTestOtherPlayer : public APlayer , public UNetObject
 {
-	GENERATED_BODY(AActor)
+	GENERATED_BODY(APlayer)
 
 public:
 	// constrcuter destructer
@@ -20,6 +20,9 @@ public:
 	ServerTestOtherPlayer& operator=(const ServerTestOtherPlayer& _Other) = delete;
 	ServerTestOtherPlayer& operator=(ServerTestOtherPlayer&& _Other) noexcept = delete;
 
+	USpriteRenderer* GetRenderer() {
+		return Renderer;
+	}
 
 protected:
 	void BeginPlay() override;
