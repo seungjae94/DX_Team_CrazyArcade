@@ -12,6 +12,9 @@ ABubble::~ABubble()
 void ABubble::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Renderer->SetSprite("Bubble.png");
+	Renderer->SetAutoSize(1.0f, true);
 }
 
 void ABubble::Tick(float _DeltaTime)

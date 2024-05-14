@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineCore/Actor.h>
+#include "MapBase.h"
 
 class AItem : public AActor
 {
@@ -20,12 +21,13 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	UDefaultSceneComponent* DefaultComponent;
-	USpriteRenderer* Renderer;
-	USpriteRenderer* ShadowRenderer;
+	UDefaultSceneComponent* DefaultComponent = nullptr;
+	USpriteRenderer* Renderer = nullptr;
+	USpriteRenderer* ShadowRenderer = nullptr;
 
 	FVector Pos = FVector::Zero;
 
+	float BlockSize = AMapBase::GetBlockSize();
 private:
 
 };
