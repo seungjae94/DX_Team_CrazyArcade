@@ -21,8 +21,8 @@ void ATestPlayer::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	//AMapTestLevel* PlayLevel = dynamic_cast<AMapTestLevel*>(GetWorld()->GetGameMode().get());
-	//GetRenderer()->SetOrder(PlayLevel->GetMap()->GetRenderOrder(GetActorLocation()));
+	AMapTestLevel* PlayLevel = dynamic_cast<AMapTestLevel*>(GetWorld()->GetGameMode().get());
+	GetRenderer()->SetOrder(PlayLevel->GetMap()->GetRenderOrder(GetActorLocation()));
 
 	{
 		std::string Msg = std::format("PlayerPos : {}\n", GetActorLocation().ToString());
