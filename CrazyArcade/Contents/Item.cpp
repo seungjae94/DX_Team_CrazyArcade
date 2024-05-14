@@ -22,11 +22,8 @@ void AItem::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Renderer->SetOrder(ERenderOrder::Item);
-
 	ShadowRenderer->CreateAnimation("ItemShadow", "Shadow", 0.5f, true);
 	ShadowRenderer->SetAutoSize(1.0f, true);
-	ShadowRenderer->SetOrder(ERenderOrder::Shadow);
 	ShadowRenderer->ChangeAnimation("ItemShadow");
 }
 

@@ -16,8 +16,6 @@ public:
 	AShoes& operator=(const AShoes& _Other) = delete;
 	AShoes& operator=(AShoes&& _Other) noexcept = delete;
 
-	void PlayerGetItem(APlayer* _Player) override;
-
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

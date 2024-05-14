@@ -16,8 +16,6 @@ public:
 	AFluid& operator=(const AFluid& _Other) = delete;
 	AFluid& operator=(AFluid&& _Other) noexcept = delete;
 
-	void PlayerGetItem(APlayer* _Player) override;
-
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

@@ -21,8 +21,3 @@ void AFluid::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 }
-
-void AFluid::PlayerGetItem(APlayer* _Player)
-{
-
-}

@@ -21,8 +21,3 @@ void AShoes::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 }
-
-void AShoes::PlayerGetItem(APlayer* _Player)
-{
-
-}

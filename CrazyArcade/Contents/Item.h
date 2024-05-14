@@ -18,8 +18,6 @@ public:
 	AItem& operator=(const AItem& _Other) = delete;
 	AItem& operator=(AItem&& _Other) noexcept = delete;
 
-	virtual void PlayerGetItem(APlayer* _Player) = 0;
-
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

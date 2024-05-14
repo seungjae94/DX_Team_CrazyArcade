@@ -63,6 +63,8 @@ protected:
 	float BlockSize = 0.0f;
 	AMainPlayLevel* PlayLevel = nullptr;
 
+	void PickUpItem(EPlayerItem _PickUpItem);
+
 	//State
 	void StateInit();
 

@@ -21,8 +21,3 @@ void AUltra::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 }
-
-void AUltra::PlayerGetItem(APlayer* _Player)
-{
-
-}
