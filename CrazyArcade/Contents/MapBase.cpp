@@ -111,37 +111,10 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 		return false;
 	}
 
+	// MoveBox üũ
 	if (EBlockType::MoveBox == BlockType)
 	{
 		std::shared_ptr<AMoveBox> MoveBox = std::dynamic_pointer_cast<AMoveBox>(MapInfo[NextPlayerY][NextPlayerX].Block);
-		MoveBox->MoveOneBlockCheck(_Dir);
-
-		int TwoStepX = NextPlayerX;
-		int TwoStepY = NextPlayerY;
-
-		if (0.0f < _Dir.X)
-		{
-			TwoStepX += 1;
-		}
-		else if (0.0f > _Dir.X)
-		{
-			TwoStepX -= 1;
-		}
-		else if (0.0f < _Dir.Y)
-		{
-			TwoStepY += 1;
-		}
-		else if (0.0f > _Dir.Y)
-		{
-			TwoStepY -= 1;
-		}
-		
-		if (nullptr == MapInfo[TwoStepY][TwoStepX].Block)
-		{
-			//MoveBox->MoveOneBlock(_Dir);
-			MapInfo[NextPlayerY][NextPlayerX].Block = nullptr;
-			MapInfo[TwoStepY][TwoStepX].Block = MoveBox;
-		}
 
 		return false;
 	}

@@ -26,8 +26,13 @@ void AMoveBox::Tick(float _DeltaTime)
 	MoveUpdate(_DeltaTime);
 }
 
-bool AMoveBox::MoveOneBlockCheck(const FVector& _Dir)
+void AMoveBox::MoveOneBlockCheck(const FVector& _Dir)
 {
+	if (true == IsMoveValue)
+	{
+		return;
+	}
+
 	StartPos = GetActorLocation();
 	TargetPos = GetActorLocation();
 
@@ -52,19 +57,18 @@ bool AMoveBox::MoveOneBlockCheck(const FVector& _Dir)
 	//PlayLevel->GetMap()->CanMovePos()
 
 	IsMoveValue = true;
-	return true;
 }
 
 void AMoveBox::MoveUpdate(float _DeltaTime)
 {
 	if (true == IsMoveValue)
 	{
-		MoveTime += 3.0f * _DeltaTime;
+		MoveTime += 3.5f * _DeltaTime;
 		FVector NextPos = FVector::LerpClamp(StartPos, TargetPos, MoveTime);
 		SetActorLocation(NextPos);
 
 		AMainPlayLevel* PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
-		PlayLevel->GetMap()->GetRenderOrder(GetActorLocation());
+		GetBody()->SetOrder(PlayLevel->GetMap()->GetRenderOrder(GetActorLocation()));
 
 		if (1.0f < MoveTime)
 		{
