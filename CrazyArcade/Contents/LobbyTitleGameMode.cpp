@@ -18,6 +18,7 @@ void ALobbyTitleGameMode::BeginPlay()
 		UEngineSprite::CreateCutting("Button_MapSelect_Hover.png", 1, 2);
 	}
 	{
+		// BackGround
 		{
 			LobbyBackGround = CreateWidget<UImage>(GetWorld(), "LobbyBackGround");
 			LobbyBackGround->SetSprite("Lobby.png");
@@ -25,6 +26,8 @@ void ALobbyTitleGameMode::BeginPlay()
 			LobbyBackGround->SetAutoSize(1.0f, true);
 			LobbyBackGround->SetWidgetLocation({ 0.0f, 0.0f });
 		}
+
+		// GameStart
 		{
 			Btn_GameStart = CreateWidget<UImage>(GetWorld(), "Button_GameStart");
 			Btn_GameStart->AddToViewPort(1);
@@ -39,19 +42,28 @@ void ALobbyTitleGameMode::BeginPlay()
 			Btn_GameStart->SetUnHover([=] {
 				Btn_GameStart->ChangeAnimation("UnHover");
 				});
+
 			Btn_GameStart->SetHover([=] {
-				Btn_GameStart->ChangeAnimation("Hover");
+				if (Btn_GameStart->IsCurAnimationEnd() == true)
+				{
+					Btn_GameStart->ChangeAnimation("Hover");
+				}
 				});
+
 			Btn_GameStart->SetDown([=] {
 				Btn_GameStart->ChangeAnimation("Down");
 				});
+
 			Btn_GameStart->SetPress([=] {
 
 				});
+
 			Btn_GameStart->SetUp([=] {
 				GEngine->ChangeLevel("MainPlayLevel");
 				});
 		}
+
+		// MapSelect
 		{
 			Btn_MapSelect = CreateWidget<UImage>(GetWorld(), "Button_MapSelect");
 			Btn_MapSelect->AddToViewPort(1);
@@ -66,33 +78,25 @@ void ALobbyTitleGameMode::BeginPlay()
 			Btn_MapSelect->SetUnHover([=] {
 				Btn_MapSelect->ChangeAnimation("UnHover");
 				});
+
 			Btn_MapSelect->SetHover([=] {
 				Btn_MapSelect->ChangeAnimation("Hover");
 				});
+
 			Btn_MapSelect->SetDown([=] {
 				Btn_MapSelect->ChangeAnimation("Down");
 				});
+
 			Btn_MapSelect->SetPress([=] {
 
 				});
+
 			Btn_MapSelect->SetUp([=] {
 				Btn_MapSelect->ChangeAnimation("Hover");
 				});
 		}
-		{
-			Outline_CharacterSelect = CreateWidget<UImage>(GetWorld(), "Outline_CharacterSelect");
-			Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Random.png");
-			Outline_CharacterSelect->AddToViewPort(1);
-			Outline_CharacterSelect->SetAutoSize(1.0f, true);
-			Outline_CharacterSelect->SetWidgetLocation({ 229.0f, 245.0f });
-		}
-		{
-			Checker_CharacterSelect = CreateWidget<UImage>(GetWorld(), "Checker_CharacterSelect");
-			Checker_CharacterSelect->SetSprite("Checker_CharacterSelect.png");
-			Checker_CharacterSelect->AddToViewPort(2);
-			Checker_CharacterSelect->SetAutoSize(1.0f, true);
-			Checker_CharacterSelect->SetWidgetLocation({ 150.0f, 202.0f });
-		}
+
+		// Space
 		{
 			for (int i = 0; i < 7; i++)
 			{
@@ -133,6 +137,7 @@ void ALobbyTitleGameMode::BeginPlay()
 						Btns_Space[i]->ChangeAnimation("UnSpace_UnHover");
 					}
 					});
+
 				Btns_Space[i]->SetHover([=] {
 					if (Space_Available[i] == true)
 					{
@@ -143,6 +148,7 @@ void ALobbyTitleGameMode::BeginPlay()
 						Btns_Space[i]->ChangeAnimation("UnSpace_Hover");
 					}
 					});
+
 				Btns_Space[i]->SetDown([=] {
 					if (Space_Available[i] == true)
 					{
@@ -155,9 +161,11 @@ void ALobbyTitleGameMode::BeginPlay()
 						Space_Available[i] = true;
 					}
 					});
+
 				Btns_Space[i]->SetPress([=] {
 
 					});
+
 				Btns_Space[i]->SetUp([=] {
 					if (Space_Available[i] == true)
 					{
@@ -170,7 +178,26 @@ void ALobbyTitleGameMode::BeginPlay()
 					});
 			}
 		}
+		
+		// CharacterSelect
 		{
+			{
+				UpperPanel_CharacterSelect = CreateWidget<UImage>(GetWorld(), "UpperPanel_CharacterSelect");
+				UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Random.png");
+				UpperPanel_CharacterSelect->AddToViewPort(2);
+				UpperPanel_CharacterSelect->SetAutoSize(1.0f, true);
+				UpperPanel_CharacterSelect->SetWidgetLocation({ -21.0f, 230.0f });
+				UpperPanel_CharacterSelect->SetActive(false);
+			}
+			{
+				Panel_CharacterSelect = CreateWidget<UImage>(GetWorld(), "Panel_CharacterSelect");
+				Panel_CharacterSelect->SetSprite("Panel_CharatorSelect.png");
+				Panel_CharacterSelect->AddToViewPort(2);
+				Panel_CharacterSelect->SetAutoSize(1.0f, true);
+				Panel_CharacterSelect->SetWidgetLocation({ -21.0f, 185.0f });
+				Panel_CharacterSelect->SetActive(false);
+			}
+
 			for (int i = 0; i < 12; i++)
 			{
 				UImage* Btn_CharacterSelect = CreateWidget<UImage>(GetWorld(), "Btn_CharacterSelect");
@@ -282,7 +309,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_CharacterSelect->CreateAnimation("Down", "Button_CharatorSelect_Hoou_Down.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Hoou_UnHover.png", 0.1f, false, 0, 0);
 					//Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Hoou_Pick.png", 0.1f, false, 0, 0);
-					CharacterType = ECharacterType::Hoou;
+					CharacterType = ECharacterType::HooU;
 					break;
 				}
 				case 11:
@@ -315,7 +342,9 @@ void ALobbyTitleGameMode::BeginPlay()
 					{
 						Btns_CharacterSelect[i]->ChangeAnimation("Pick");
 					}
+					PanelOff();
 					});
+
 				Btns_CharacterSelect[i]->SetHover([=] {
 					if (CharacterSelect_Pick[i] == false)
 					{
@@ -325,16 +354,35 @@ void ALobbyTitleGameMode::BeginPlay()
 					{
 						Btns_CharacterSelect[i]->ChangeAnimation("Pick");
 					}
+					SettingPanel(ECharacterType(i));
+					PanelOn();
 					});
+
 				Btns_CharacterSelect[i]->SetDown([=] {
 					Btns_CharacterSelect[i]->ChangeAnimation("Down");
 					});
+
 				Btns_CharacterSelect[i]->SetPress([=] {
 
 					});
+
 				Btns_CharacterSelect[i]->SetUp([=] {
 					ChangeCharacter(ECharacterType(i));
 					});
+			}
+			{
+				Outline_CharacterSelect = CreateWidget<UImage>(GetWorld(), "Outline_CharacterSelect");
+				Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Random.png");
+				Outline_CharacterSelect->AddToViewPort(1);
+				Outline_CharacterSelect->SetAutoSize(1.0f, true);
+				Outline_CharacterSelect->SetWidgetLocation({ 229.0f, 245.0f });
+			}
+			{
+				Checker_CharacterSelect = CreateWidget<UImage>(GetWorld(), "Checker_CharacterSelect");
+				Checker_CharacterSelect->SetSprite("Checker_CharacterSelect.png");
+				Checker_CharacterSelect->AddToViewPort(2);
+				Checker_CharacterSelect->SetAutoSize(1.0f, true);
+				Checker_CharacterSelect->SetWidgetLocation({ 150.0f, 202.0f });
 			}
 
 			ChangeCharacter(ECharacterType::Random);
@@ -347,6 +395,75 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 	Super::Tick(_DeltaTime);
 }
 
+void ALobbyTitleGameMode::SettingPanel(ECharacterType _CharacterType)
+{
+	switch (_CharacterType)
+	{
+	case ECharacterType::Random:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Random.png");
+		break;
+	}
+	case ECharacterType::Dao:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Dao.png");
+		break;
+	}
+	case ECharacterType::Dizni:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Dizni.png");
+		break;
+	}
+	case ECharacterType::Mos:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Mos.png");
+		break;
+	}
+	case ECharacterType::Ethi:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Ethi.png");
+		break;
+	}
+	case ECharacterType::Marid:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Marid.png");
+		break;
+	}
+	case ECharacterType::Bazzi:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Bazzi.png");
+		break;
+	}
+	case ECharacterType::Uni:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Uni.png");
+		break;
+	}
+	case ECharacterType::Kephi:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Kephi.png");
+		break;
+	}
+	case ECharacterType::Su:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Su.png");
+		break;
+	}
+	case ECharacterType::HooU:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_HooU.png");
+		break;
+	}
+	case ECharacterType::Ray:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Ray.png");
+		break;
+	}
+	default:
+		break;
+	}
+}
+
 void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 {
 	if (
@@ -355,7 +472,7 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 		_CharacterType == ECharacterType::Ethi ||
 		_CharacterType == ECharacterType::Uni ||
 		_CharacterType == ECharacterType::Su ||
-		_CharacterType == ECharacterType::Hoou ||
+		_CharacterType == ECharacterType::HooU ||
 		_CharacterType == ECharacterType::Ray
 		)
 	{
@@ -363,7 +480,6 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 	}
 
 	CharacterType = _CharacterType;
-
 	int Index = int(_CharacterType);
 
 	CharacterSelect_Pick[Index] = true;
@@ -377,8 +493,6 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 			Btns_CharacterSelect[i]->ChangeAnimation("UnHover");
 		}
 	}
-
-	Checker_CharacterSelect->SetWidgetLocation({ 150.0f + (72.0f * (Index % 4)), 202.0f - (55.0f * (Index / 4)) });
 
 	switch (_CharacterType)
 	{
@@ -410,4 +524,6 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 	default:
 		break;
 	}
+
+	Checker_CharacterSelect->SetWidgetLocation({ 150.0f + (72.0f * (Index % 4)), 202.0f - (55.0f * (Index / 4)) });
 }

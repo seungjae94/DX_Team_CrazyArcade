@@ -17,19 +17,35 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	void PanelOn()
+	{
+		UpperPanel_CharacterSelect->SetActive(true);
+		Panel_CharacterSelect->SetActive(true);
+	}
+
+	void PanelOff()
+	{
+		UpperPanel_CharacterSelect->SetActive(false);
+		Panel_CharacterSelect->SetActive(false);
+	}
+
 private:
 	ECharacterType CharacterType = ECharacterType::Random;
 
 	UImage* LobbyBackGround = nullptr;
 	UImage* Btn_GameStart = nullptr;
 	UImage* Btn_MapSelect = nullptr;
-	UImage* Outline_CharacterSelect = nullptr;
-	UImage* Checker_CharacterSelect = nullptr;
 
 	std::vector<UImage*> Btns_Space;
-	std::vector<UImage*> Btns_CharacterSelect;
 	std::vector<bool> Space_Available;
-	std::vector<bool> CharacterSelect_Pick;
 
+	std::vector<UImage*> Btns_CharacterSelect;
+	std::vector<bool> CharacterSelect_Pick;
+	UImage* Outline_CharacterSelect = nullptr;
+	UImage* Checker_CharacterSelect = nullptr;
+	UImage* UpperPanel_CharacterSelect = nullptr;
+	UImage* Panel_CharacterSelect = nullptr;
+
+	void SettingPanel(ECharacterType _CharacterType);
 	void ChangeCharacter(ECharacterType _CharacterType);
 };

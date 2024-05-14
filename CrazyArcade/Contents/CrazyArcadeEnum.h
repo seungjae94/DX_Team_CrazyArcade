@@ -12,7 +12,7 @@ enum class ECharacterType
 	Uni,
 	Kephi,
 	Su,
-	Hoou,
+	HooU,
 	Ray
 };
 
