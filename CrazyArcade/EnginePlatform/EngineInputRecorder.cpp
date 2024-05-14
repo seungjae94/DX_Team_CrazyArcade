@@ -25,6 +25,7 @@ void UEngineInputRecorder::RecordStart()
 {
 	Activeness = true;
 	WText = L"";
+	ImmNotifyIME(hIMC, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
 }
 
 void UEngineInputRecorder::RecordEnd()
@@ -34,12 +35,14 @@ void UEngineInputRecorder::RecordEnd()
 
 std::string UEngineInputRecorder::GetText()
 {
-	if (0 == WText.size())
+	
+	std::string ReturnText = "";
+	
+	if (WText.size() > 0)
 	{
-		return "";
+		ReturnText = UEngineString::UniCodeToAnsi(WText);
 	}
 
-	std::string ReturnText = UEngineString::UniCodeToAnsi(WText);
 	if (CombLetter.size() > 0)
 	{
 		ReturnText += CombLetter;
@@ -76,7 +79,7 @@ void UEngineInputRecorder::ImeTick(LPARAM _lParam)
 			CompLetter.resize(Len);
 			ImmGetCompositionString(hIMC, GCS_RESULTSTR, &CompLetter[0], Len);
 			CompLetter.resize(Len);
-			WText += UEngineString::AnsiToUniCode(CompLetter); // 2¾Æ2
+			WText += UEngineString::AnsiToUniCode(CompLetter);
 			CombLetter.clear();
 			CompLetter.clear();
 		}
@@ -127,8 +130,8 @@ void UEngineInputRecorder::Tick()
 
 			WText += UEngineString::AnsiToUniCode(CombLetter);
 			CombLetter.clear();
-			std::string Empty;
-			ImmSetCompositionString(hIMC, SCS_SETSTR, NULL, 0, NULL, 0);
+			//ImmSetCompositionString(hIMC, SCS_SETSTR, NULL, 0, NULL, 0);
+			ImmNotifyIME(hIMC, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
 		}
 
 		if (0 == WText.size())
@@ -156,8 +159,8 @@ void UEngineInputRecorder::Tick()
 
 				WText += UEngineString::AnsiToUniCode(CombLetter);
 				CombLetter.clear();
-				std::string Empty;
-				ImmSetCompositionString(hIMC, SCS_SETSTR, NULL, 0, NULL, 0);
+				//ImmSetCompositionString(hIMC, SCS_SETSTR, NULL, 0, NULL, 0);
+				ImmNotifyIME(hIMC, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
 			}
 
 			WText += UEngineString::AnsiToUniCode(std::string(1, c));
@@ -187,8 +190,9 @@ void UEngineInputRecorder::Tick()
 
 				WText += UEngineString::AnsiToUniCode(CombLetter);
 				CombLetter.clear();
-				std::string Empty;
-				ImmSetCompositionString(hIMC, SCS_SETSTR, NULL, 0, NULL, 0);
+				ImmNotifyIME(hIMC, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
+				//ImmSetCompositionString(hIMC, SCS_SETSTR, NULL, 0, NULL, 0);
+				//ImmSetCompositionString(hIMC, SCS_)
 			}
 
 			WText += UEngineString::AnsiToUniCode(std::string(1, c));
