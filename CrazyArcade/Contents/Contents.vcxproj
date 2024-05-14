@@ -212,7 +212,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="ServerTestPlayerState.cpp" />
     <ClCompile Include="VillageMap.cpp">
       <SubType>
       </SubType>
