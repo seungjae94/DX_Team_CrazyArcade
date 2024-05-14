@@ -12,9 +12,17 @@ AGlove::~AGlove()
 void AGlove::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Renderer->SetSprite("Glove.png");
+	Renderer->SetAutoSize(1.0f, true);
 }
 
 void AGlove::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+}
+
+void AGlove::PlayerGetItem(APlayer* _Player)
+{
+
 }

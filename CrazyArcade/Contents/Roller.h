@@ -16,6 +16,8 @@ public:
 	ARoller& operator=(const ARoller& _Other) = delete;
 	ARoller& operator=(ARoller&& _Other) noexcept = delete;
 
+	void PlayerGetItem(APlayer* _Player) override;
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

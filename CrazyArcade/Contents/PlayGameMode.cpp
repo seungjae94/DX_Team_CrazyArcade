@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "PlayGameMode.h"
 #include "Bubble.h"
+#include "Fluid.h"
+#include "Glove.h"
 
 APlayGameMode::APlayGameMode()
 {

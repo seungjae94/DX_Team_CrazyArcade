@@ -16,6 +16,8 @@ public:
 	ARedDevil& operator=(const ARedDevil& _Other) = delete;
 	ARedDevil& operator=(ARedDevil&& _Other) noexcept = delete;
 
+	void PlayerGetItem(APlayer* _Player) override;
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
