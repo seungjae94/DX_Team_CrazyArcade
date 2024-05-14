@@ -12,6 +12,9 @@ AUltra::~AUltra()
 void AUltra::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Renderer->SetSprite("Ultra.png");
+	Renderer->SetAutoSize(1.0f, true);
 }
 
 void AUltra::Tick(float _DeltaTime)

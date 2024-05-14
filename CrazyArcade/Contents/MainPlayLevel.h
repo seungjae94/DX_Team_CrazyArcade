@@ -1,26 +1,27 @@
 #pragma once
 
 class AVillageMap;
-class ATestPlayer;
+
 class AMapBase;
+class ServerTestPlayer;
 
 //UI
 class ATimerUI;
 
 // 설명 : Map 테스트 레벨
-class AMapTestLevel : public AGameMode
+class AMainPlayLevel : public AGameMode
 {
 	GENERATED_BODY(AGameMode)
 public:
 	// constrcuter destructer
-	AMapTestLevel();
-	~AMapTestLevel();
+	AMainPlayLevel();
+	~AMainPlayLevel();
 
 	// delete Function
-	AMapTestLevel(const AMapTestLevel& _Other) = delete;
-	AMapTestLevel(AMapTestLevel&& _Other) noexcept = delete;
-	AMapTestLevel& operator=(const AMapTestLevel& _Other) = delete;
-	AMapTestLevel& operator=(AMapTestLevel&& _Other) noexcept = delete;
+	AMainPlayLevel(const AMainPlayLevel& _Other) = delete;
+	AMainPlayLevel(AMainPlayLevel&& _Other) noexcept = delete;
+	AMainPlayLevel& operator=(const AMainPlayLevel& _Other) = delete;
+	AMainPlayLevel& operator=(AMainPlayLevel&& _Other) noexcept = delete;
 		
 	std::shared_ptr<AMapBase> GetMap() const
 	{
@@ -31,9 +32,8 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-private:
 	std::shared_ptr<AMapBase> TileMap = nullptr;
-	std::shared_ptr<ATestPlayer> Player = nullptr;
+	std::shared_ptr<ServerTestPlayer> Player = nullptr;
 	std::shared_ptr<ATimerUI> Timer = nullptr;
 };
 

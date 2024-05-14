@@ -7,6 +7,7 @@
 // Ό³Έν :
 class UNetObject
 {
+	friend class AServerGameMode;
 public:
 	UNetObject();
 	virtual ~UNetObject();

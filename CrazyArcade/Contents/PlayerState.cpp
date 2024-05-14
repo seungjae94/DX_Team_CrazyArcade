@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "Player.h"
 
+#include "MainPlayLevel.h"
+#include "MapBase.h"
+
 void APlayer::StateInit()
 {
 	// 스테이트 생성
@@ -119,5 +122,10 @@ void APlayer::Die(float _Update)
 
 void APlayer::KeyMove(float _DeltaTime, float4 _Dir, float _Speed)
 {
-	AddActorLocation(_Dir * _DeltaTime * _Speed);
+	FVector NextPos = GetActorLocation() + FVector(_DeltaTime * _Speed * _Dir.X, _DeltaTime * _Speed * _Dir.Y, 0.0f);
+	bool CanMove = PlayLevel->GetMap()->CanMovePos(NextPos, _Dir);
+	if (true == CanMove)
+	{
+		AddActorLocation(_Dir * _DeltaTime * _Speed);
+	}
 }

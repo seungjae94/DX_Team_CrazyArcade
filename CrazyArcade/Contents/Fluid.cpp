@@ -12,6 +12,9 @@ AFluid::~AFluid()
 void AFluid::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Renderer->SetSprite("Fluid.png");
+	Renderer->SetAutoSize(1.0f, true);
 }
 
 void AFluid::Tick(float _DeltaTime)

@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "Player.h"
 
+#include "MainPlayLevel.h"
+#include "MapBase.h"
+
 APlayer::APlayer()
 {
 	DefaultComponent = CreateDefaultSubObject<UDefaultSceneComponent>("DefaultComponent");
@@ -17,10 +20,13 @@ APlayer::APlayer()
 	DebugRenderer = CreateDefaultSubObject<USpriteRenderer>("DebugRenderer");
 	DebugRenderer->SetupAttachment(DefaultComponent);
 
-	for (MPlayerItemIter = MPlayerItem.begin(); MPlayerItemIter != MPlayerItem.end(); ++MPlayerItemIter)
-	{
-		//*MPlayerItemIter;
-	}
+	MPlayerItem.insert(std::pair(EPlayerItem::Bubble, 0));
+	MPlayerItem.insert(std::pair(EPlayerItem::Fluid, 0));
+	MPlayerItem.insert(std::pair(EPlayerItem::Ultra, 0));
+	MPlayerItem.insert(std::pair(EPlayerItem::Roller, 0));
+	MPlayerItem.insert(std::pair(EPlayerItem::RedDevil, 0));
+	MPlayerItem.insert(std::pair(EPlayerItem::Glove, 0));
+	MPlayerItem.insert(std::pair(EPlayerItem::Shoes, 0));
 
 	InputOn();
 }
@@ -50,14 +56,14 @@ void APlayer::BeginPlay()
 
 	Renderer->ChangeAnimation("Idle_Down");
 	Renderer->SetAutoSize(1.0f, true);
-	Renderer->SetOrder(ERenderOrder::Player);
 
 	ShadowRenderer->SetSprite("Shadow.png");
 	ShadowRenderer->SetAutoSize(1.0f, true);
-	ShadowRenderer->SetOrder(ERenderOrder::Shadow);
 
 	DebugRenderer->SetScale({ 5,5,5 });
-	DebugRenderer->SetOrder(ERenderOrder::Debug);
+
+	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
+	BlockSize = AMapBase::GetBlockSize();
 
 	StateInit();
 }
@@ -68,5 +74,61 @@ void APlayer::Tick(float _DeltaTime)
 
 	State.Update(_DeltaTime);
 
+	int PlayerOrder = PlayLevel->GetMap()->GetRenderOrder(GetActorLocation());
+	Renderer->SetOrder(PlayerOrder);
+	ShadowRenderer->SetOrder(PlayerOrder - 1);
+
+	{
+		std::string Msg = std::format("PlayerOrder : {}\n", PlayerOrder);
+		UEngineDebugMsgWindow::PushMsg(Msg);
+	}
+
 	PlayerPos = GetActorLocation();
+}
+
+void APlayer::PickUpItem(EPlayerItem _ItemType)
+{
+	switch (_ItemType)
+	{
+	case EPlayerItem::Bubble:
+		++BombCount;
+		break;
+	case EPlayerItem::Fluid:
+		if (BombPower < MaxBombPower)
+		{
+			++BombPower;
+		}
+		break;
+	case EPlayerItem::Ultra:
+		BombPower = MaxBombPower;
+		break;
+	case EPlayerItem::Roller:
+		Speed += 10.0f;
+		CalSpeed = BaseSpeed + Speed;
+		if (MaxSpeed < CalSpeed)
+		{
+			CalSpeed = MaxSpeed;
+		}
+		break;
+	case EPlayerItem::RedDevil:
+		CalSpeed = MaxSpeed;
+		break;
+	case EPlayerItem::Glove:
+		Throw = true;
+		break;
+	case EPlayerItem::Shoes:
+		Push = true;
+		break;
+	default:
+		break;
+	}
+
+	AddItemCount(_ItemType);
+}
+
+void APlayer::AddItemCount(EPlayerItem _ItemType)
+{
+	int Count = MPlayerItem[_ItemType];
+	++Count;
+	MPlayerItem[_ItemType] = Count;
 }

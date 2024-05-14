@@ -100,7 +100,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="MapTestLevel.h">
+    <ClInclude Include="MainPlayLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -217,7 +217,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="MapTestLevel.cpp">
+    <ClCompile Include="MainPlayLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>

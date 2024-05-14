@@ -22,9 +22,6 @@
     <Filter Include="Map\Constant">
       <UniqueIdentifier>{ffb710fc-a9c5-4508-af0f-aa58f41067ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level\MapLevel">
-      <UniqueIdentifier>{1170aae8-151e-4f80-b2e5-b84e3c7d7284}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Level\PlayLevel">
       <UniqueIdentifier>{44ade195-7278-4b24-a3f2-bb726807fefe}</UniqueIdentifier>
     </Filter>
@@ -70,6 +67,9 @@
     <Filter Include="Map\Test">
       <UniqueIdentifier>{a69a4582-2292-4f76-9289-34319875866f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\MainPlayLevel">
+      <UniqueIdentifier>{1170aae8-151e-4f80-b2e5-b84e3c7d7284}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -87,8 +87,8 @@
     <ClInclude Include="MapConstant.h">
       <Filter>Map\Constant</Filter>
     </ClInclude>
-    <ClInclude Include="MapTestLevel.h">
-      <Filter>Level\MapLevel</Filter>
+    <ClInclude Include="MainPlayLevel.h">
+      <Filter>Level\MainPlayLevel</Filter>
     </ClInclude>
     <ClInclude Include="PlayGameMode.h">
       <Filter>Level\PlayLevel</Filter>
@@ -191,8 +191,8 @@
     <ClCompile Include="MapConstant.cpp">
       <Filter>Map\Constant</Filter>
     </ClCompile>
-    <ClCompile Include="MapTestLevel.cpp">
-      <Filter>Level\MapLevel</Filter>
+    <ClCompile Include="MainPlayLevel.cpp">
+      <Filter>Level\MainPlayLevel</Filter>
     </ClCompile>
     <ClCompile Include="PlayGameMode.cpp">
       <Filter>Level\PlayLevel</Filter>

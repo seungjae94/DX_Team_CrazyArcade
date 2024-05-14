@@ -34,6 +34,14 @@ void AMainTitleGameMode::BeginPlay()
 	PlayerNameBox->SetScale({ 200.0f, 22.0f });
 	PlayerNameBox->SetWidgetLocation({ -15.0f,-156.0f });
 
+	TextWidget = CreateWidget<UTextWidget>(GetWorld(), "TextWidget");
+	TextWidget->SetFont("±¼¸²");
+	TextWidget->SetScale(20.0f);
+	TextWidget->SetColor(Color8Bit::Black);
+	TextWidget->SetPosition({ -115.0f ,-143.0f });
+	TextWidget->SetFlag(FW1_LEFT); //ÁÂ·Î Á¤·Ä
+	TextWidget->AddToViewPort(4);
+	TextWidget->SetText(PlayerName);
 
 	StartButton->SetUnHover([=] {
 
@@ -60,20 +68,22 @@ void AMainTitleGameMode::Tick(float _DeltaTime)
 	static float Offset = 0.0f;
 
 	Super::Tick(_DeltaTime);
+
 	if (UEngineInput::IsAnykeyDown())
 	{
-		UTextWidget* TextWidget = CreateWidget<UTextWidget>(GetWorld(), "TextWidget");
-		TextWidget->SetFont("±¼¸²");
-		TextWidget->SetScale(20.0f);
-		TextWidget->SetColor(Color8Bit::Black);
-		TextWidget->SetPosition({ -15.0f + Offset,-156.0f });
-		TextWidget->SetFlag(FW1_LEFT); //ÁÂ·Î Á¤·Ä
-		TextWidget->SetText("A");
-		TextWidget->AddToViewPort(4);
+		if (PlayerName.size() > 8)
+		{
+			return;
+		}
 
-		Offset += 30.0f;
+		char ch = UEngineInput::GetAnyDownKey();
 
-		TextWidgets.push_back(TextWidget);
+		if (ch != NULL)
+		{
+			PlayerName.push_back(ch);
+		}
+
+		TextWidget->SetText(PlayerName);
 	}
 
 }

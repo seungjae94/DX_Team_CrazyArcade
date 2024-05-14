@@ -15,14 +15,12 @@ AMapBase::AMapBase()
 	BackGround->SetPosition({ -80.0f, 0.0f, 0.0f });
 	BackGround->SetAutoSize(1.0f, true);
 	BackGround->SetupAttachment(Root);
-	BackGround->SetOrder(ERenderOrder::Map);
 
 	PlayUI_BackGround = CreateDefaultSubObject<USpriteRenderer>("PlayUI_BackGround");
 	PlayUI_BackGround->SetSprite(MapImgRes::play_ui_background);
 	PlayUI_BackGround->SetSamplering(ETextureSampling::LINEAR);
 	PlayUI_BackGround->SetAutoSize(1.0f, true);
 	PlayUI_BackGround->SetupAttachment(Root);
-	PlayUI_BackGround->SetOrder(ERenderOrder::Map);
 
 	SetRoot(Root);
 }
@@ -81,11 +79,11 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 	}
 	else if (0.0f < _Dir.Y)
 	{
-		NextPos.Y += 17.0f;
+		NextPos.Y += 30.0f;
 	}
 	else if (0.0f > _Dir.Y)
 	{
-		NextPos.Y -= 23.0f;
+		NextPos.Y -= 10.0f;
 	}
 
 	float NextPlayerFX = NextPos.X / BlockSize;
@@ -106,7 +104,6 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 		return true;
 	}
 
-
 	// 오브젝트 존재할때
 	EBlockType BlockType = MapInfo[NextPlayerY][NextPlayerX].Block->GetBlockType();
 	if (EBlockType::Wall == BlockType || EBlockType::Box == BlockType)
@@ -116,10 +113,37 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 
 	if (EBlockType::MoveBox == BlockType)
 	{
-		AMoveBox* MoveBox = dynamic_cast<AMoveBox*>(MapInfo[NextPlayerY][NextPlayerX].Block.get());
+		std::shared_ptr<AMoveBox> MoveBox = std::dynamic_pointer_cast<AMoveBox>(MapInfo[NextPlayerY][NextPlayerX].Block);
+		MoveBox->MoveOneBlockCheck(_Dir);
 
+		int TwoStepX = NextPlayerX;
+		int TwoStepY = NextPlayerY;
 
+		if (0.0f < _Dir.X)
+		{
+			TwoStepX += 1;
+		}
+		else if (0.0f > _Dir.X)
+		{
+			TwoStepX -= 1;
+		}
+		else if (0.0f < _Dir.Y)
+		{
+			TwoStepY += 1;
+		}
+		else if (0.0f > _Dir.Y)
+		{
+			TwoStepY -= 1;
+		}
+		
+		if (nullptr == MapInfo[TwoStepY][TwoStepX].Block)
+		{
+			//MoveBox->MoveOneBlock(_Dir);
+			MapInfo[NextPlayerY][NextPlayerX].Block = nullptr;
+			MapInfo[TwoStepY][TwoStepX].Block = MoveBox;
+		}
 
+		return false;
 	}
 
 	return true;

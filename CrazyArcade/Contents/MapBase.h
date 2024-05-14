@@ -26,7 +26,9 @@ public:
 	AMapBase& operator=(AMapBase&& _Other) noexcept = delete;
 
 	int GetRenderOrder(const FVector& _CurPos);
+	
 	bool CanMovePos(const FVector& _NextPos, const FVector& _Dir);
+	
 	static float GetBlockSize()
 	{
 		return BlockSize;
@@ -42,7 +44,6 @@ protected:
 	void CreateWall(int _X, int _Y, std::string_view _ImgName);
 	void CreateBox(int _X, int _Y, std::string_view _ImgName);
 	void CreateMoveBox(int _X, int _Y, std::string_view _ImgName);
-
 
 protected:
 	void BeginPlay() override;
