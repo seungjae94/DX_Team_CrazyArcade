@@ -54,7 +54,7 @@ void AServerGameMode::LevelStart(ULevel* _DeltaTime)
 
 				// 여기에서 메인 플레이어한테 번호를 하나 줄겁니다.
 
-				MainPlayer->SetObjectToken(UNetObject::GetNewObjectToken());
+				Player->SetObjectToken(UNetObject::GetNewObjectToken());
 
 				ServerPacketInit(UCrazyArcadeCore::Net->Dispatcher);
 			});
@@ -66,7 +66,7 @@ void AServerGameMode::LevelStart(ULevel* _DeltaTime)
 
 				UCrazyArcadeCore::Net->SetTokenPacketFunction([=](USessionTokenPacket* _Token)
 					{
-						MainPlayer->SetObjectToken(_Token->GetObjectToken());
+						Player->SetObjectToken(_Token->GetObjectToken());
 
 					});
 
