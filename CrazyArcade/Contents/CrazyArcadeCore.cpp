@@ -21,6 +21,7 @@ UCrazyArcadeCore::~UCrazyArcadeCore()
 
 void UCrazyArcadeCore::Initialize()
 {
+	UEngineFont::Load("±¼¸²");
 	ResLoad();
 
 	UEngineEditorGUI::CreateEditorWindow<UCrazyArcadeDebugWindow>("CrazyArcadeDebugWindow");
