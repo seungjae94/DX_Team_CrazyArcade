@@ -114,6 +114,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Wall.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bubble.cpp">
@@ -212,8 +216,11 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="ServerTestPlayerState.cpp" />
     <ClCompile Include="VillageMap.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
       <SubType>
       </SubType>
     </ClCompile>

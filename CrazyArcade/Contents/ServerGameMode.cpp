@@ -103,6 +103,7 @@ void AServerGameMode::ServerPacketInit(UEngineDispatcher& Dis)
 						OtherPlayer->SetObjectToken(_Packet->GetObjectToken());
 					}
 					OtherPlayer->PushProtocol(_Packet);
+					//OtherPlayer
 				});
 
 
@@ -132,8 +133,9 @@ void AServerGameMode::ClientPacketInit(UEngineDispatcher& Dis)
 						OtherPlayer = this->GetWorld()->SpawnActor<ServerTestOtherPlayer>("OtherPlayer", 0).get();
 						OtherPlayer->SetObjectToken(_Packet->GetObjectToken());
 					}
-					OtherPlayer->SetActorLocation(_Packet->Pos);
-					OtherPlayer->GetRenderer()->ChangeAnimation(_Packet->SpriteName);
+					OtherPlayer->PushProtocol(_Packet);
+
+					//OtherPlayer->GetRenderer()->ChangeAnimation(_Packet->SpriteName);
 				});
 		});
 
