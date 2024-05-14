@@ -23,6 +23,8 @@ protected:
 private:
 	void CreateHouse();
 	void CreateTree();
+	void CreateVillageBox();
+	void CreateVillageMoveBox();
 
 };
 

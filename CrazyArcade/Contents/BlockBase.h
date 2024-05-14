@@ -30,6 +30,11 @@ public:
 		Body->SetSprite(_ImgName);
 	}
 
+	inline USpriteRenderer* GetBody() const
+	{
+		return Body;
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

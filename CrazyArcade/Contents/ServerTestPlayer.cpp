@@ -37,6 +37,10 @@ void ServerTestPlayer::Tick(float _DeltaTime)
 
 	CurTime -= _DeltaTime;
 
+	if (true == IsDown(VK_SPACE) && false == IsSpawn)
+	{
+		IsSpawn = true;
+	}
 
 	if (0.0f >= CurTime && true == IsNetInit())
 	{
@@ -46,13 +50,14 @@ void ServerTestPlayer::Tick(float _DeltaTime)
 		Packet->SpriteName = Renderer->GetCurAnimationName();
 		Send(Packet);
 		CurTime += FrameTime;
-		if (IsPress(VK_SPACE)) {
+		if (true == IsSpawn) {
 			std::shared_ptr<USpawnUpdatePacket> SpawnPacket = std::make_shared<USpawnUpdatePacket>();
 			SpawnPacket->Pos = GetActorLocation();
 			SpawnPacket->SpawnSelect = ServerObjectType::Player;
 			ServerTestOtherPlayer* Test = GetWorld()->SpawnActor<ServerTestOtherPlayer>("Test").get();
 			Test->SetActorLocation(GetActorLocation());
 			Send(SpawnPacket);
+			IsSpawn = false;
 		}
 	}
 }

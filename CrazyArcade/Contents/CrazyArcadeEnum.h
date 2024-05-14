@@ -5,10 +5,27 @@ enum class ERenderOrder
 	None,
 	Map,
 	Block,
+	Shadow,
+	Bomb,
+	Item,
 	Player,
+	Debug,
 };
 
 enum class EBlockType
 {
-	Wall
+	Wall,
+	Box	,
+	MoveBox
+};
+
+enum class EPlayerItem
+{
+	Bubble,
+	Fluid,
+	Ultra,
+	Roller,
+	RedDevil,
+	Glove,
+	Shoes,
 };

@@ -3,6 +3,8 @@
 #include "MapConstant.h"
 #include "BlockBase.h"
 
+float AMapBase::BlockSize = 40.0f;
+
 AMapBase::AMapBase()
 {
 	UDefaultSceneComponent* Root = CreateDefaultSubObject<UDefaultSceneComponent>("Root");
@@ -42,6 +44,8 @@ void AMapBase::Tick(float _DeltaTime)
 
 void AMapBase::SetMapInfoSize(int _X, int _Y)
 {
+	SizeY = _Y;
+	SizeX = _X;
 	MapInfo.resize(_Y);
 	for (size_t Y = 0; Y < MapInfo.size(); Y++)
 	{
@@ -49,23 +53,35 @@ void AMapBase::SetMapInfoSize(int _X, int _Y)
 	}
 }
 
-bool AMapBase::CanMovePos(const FVector _CurPos, const FVector& _MoveDir)
+bool AMapBase::CanMovePos(const FVector& _NextPos)
 {
 	// MapInfo
-	bool Result = true;
-	FVector PlayerPos = _CurPos - StartPos;
+	FVector NextPos = _NextPos - StartPos;
+	
+	float NextPlayerFX = NextPos.X / BlockSize;
+	float NextPlayerFY = NextPos.Y / BlockSize;
 
-	int NextPlayerX = static_cast<int>(_MoveDir.X + (_CurPos.X / BlockSize));
-	int NextPlayerY = static_cast<int>(_MoveDir.Y + (_CurPos.Y / BlockSize));
-	if (nullptr == MapInfo[NextPlayerY][NextPlayerX])
+	int NextPlayerX = static_cast<int>(NextPos.X / BlockSize);
+	int NextPlayerY = static_cast<int>(NextPos.Y / BlockSize);
+	
+	// 맵 범위 밖일때
+	if (SizeX <= NextPlayerX || 0 > NextPlayerFX || SizeY <= NextPlayerY || 0 > NextPlayerFY)
+	{
+		return false;
+	}
+	
+	// 빈 공간일때
+	if (nullptr == MapInfo[NextPlayerY][NextPlayerX].Block)
 	{
 		return true;
 	}
 
-	if (EBlockType::Wall == MapInfo[NextPlayerY][NextPlayerX]->GetBlockType())
+	// 오브젝트 존재할때
+	EBlockType BlockType = MapInfo[NextPlayerY][NextPlayerX].Block->GetBlockType();
+	if (EBlockType::Wall == BlockType || EBlockType::Box == BlockType)
 	{
-		Result = false;
+		return false;
 	}
 
-	return Result;
+	return true;
 }

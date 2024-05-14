@@ -2,6 +2,7 @@
 #include <EngineCore/Actor.h>
 #include <EngineCore/StateManager.h>
 #include <EngineCore/SpriteRenderer.h>
+#include "MapBase.h"
 
 enum class EPlayerDir
 {
@@ -40,6 +41,7 @@ protected:
 
 	USpriteRenderer* Renderer;
 	USpriteRenderer* ShadowRenderer;
+	USpriteRenderer* DebugRenderer;
 	
 	FVector PlayerPos;
 	std::string Name = "Player";
@@ -53,6 +55,8 @@ protected:
 	bool Push = false;
 	bool Throw = false;
 
+	float BlockSize = AMapBase::GetBlockSize();
+
 	//State
 	void StateInit();
 
@@ -62,5 +66,5 @@ protected:
 	void Escape(float _DeltaTime);
 	void Die(float _DeltaTime);
 
-	void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
+	virtual void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
 };

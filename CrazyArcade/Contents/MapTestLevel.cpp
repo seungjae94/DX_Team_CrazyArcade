@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "MapTestLevel.h"
 
-#include "Player.h"
+#include "TestPlayer.h"
 #include "VillageMap.h"
 
 //UI
@@ -21,12 +21,12 @@ void AMapTestLevel::BeginPlay()
 
 	TileMap = GetWorld()->SpawnActor<AVillageMap>("TileMap");
 
-	Player = GetWorld()->SpawnActor<APlayer>("Player");
+	Player = GetWorld()->SpawnActor<ATestPlayer>("Player");
 	Player->SetActorLocation({ 350.0f, 300.0f, 0.0f });
 
 	//UI
 	Timer = GetWorld()->SpawnActor<ATimerUI>("TimeUI");
-	Timer->SetTimer(300.0f);
+	Timer->SetTimer(180.0f);
 
 }
 
