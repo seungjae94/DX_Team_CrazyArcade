@@ -48,7 +48,7 @@ void ALobbyTitleGameMode::BeginPlay()
 
 				});
 			Btn_GameStart->SetUp([=] {
-				Btn_GameStart->ChangeAnimation("Hover");
+				GEngine->ChangeLevel("MainPlayLevel");
 				});
 		}
 		{
@@ -337,24 +337,75 @@ void ALobbyTitleGameMode::BeginPlay()
 
 					});
 				Btns_CharacterSelect[i]->SetUp([=] {
-					CharacterType = ECharacterType(i);
-					CharacterSelect_Pick[i] = true;
-					for (int j = 0; j < 12; j++)
-					{
-						if (j != i)
-						{
-							CharacterSelect_Pick[j] = false;
-							Btns_CharacterSelect[j]->ChangeAnimation("UnHover");
-						}
-					}
+					ChangeCharacter(ECharacterType(i));
 					});
 			}
 		}
 	}
 }
 
-
 void ALobbyTitleGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+}
+
+void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
+{
+	if (
+		_CharacterType == ECharacterType::Dizni ||
+		_CharacterType == ECharacterType::Mos ||
+		_CharacterType == ECharacterType::Ethi ||
+		_CharacterType == ECharacterType::Uni ||
+		_CharacterType == ECharacterType::Su ||
+		_CharacterType == ECharacterType::Hoou ||
+		_CharacterType == ECharacterType::Ray
+		)
+	{
+		return;
+	}
+
+	CharacterType = _CharacterType;
+
+	int Index = int(_CharacterType);
+	CharacterSelect_Pick[Index] = true;
+
+	for (int i = 0; i < 12; i++)
+	{
+		if (i != Index)
+		{
+			CharacterSelect_Pick[i] = false;
+			Btns_CharacterSelect[i]->ChangeAnimation("UnHover");
+		}
+	}
+
+	switch (_CharacterType)
+	{
+	case ECharacterType::Random:
+	{
+		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Random.png");
+		break;
+	}
+	case ECharacterType::Dao:
+	{
+		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Dao.png");
+		break;
+	}
+	case ECharacterType::Marid:
+	{
+		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Marid.png");
+		break;
+	}
+	case ECharacterType::Bazzi:
+	{
+		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Bazzi.png");
+		break;
+	}
+	case ECharacterType::Kephi:
+	{
+		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Kephi.png");
+		break;
+	}
+	default:
+		break;
+	}
 }

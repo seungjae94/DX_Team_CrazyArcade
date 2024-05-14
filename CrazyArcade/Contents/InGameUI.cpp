@@ -23,7 +23,7 @@ void AInGameUI::BeginPlay()
 
 	CancelBtn->SetAutoSize(1.0f, true);
 	CancelBtn->ChangeAnimation("CancelButtonUnHoverAni");
-	CancelBtn->SetWidgetLocation({ 315,-275 });
+	CancelBtn->SetWidgetLocation({ 316.0f, -276.0f });
 	CancelBtn->AddToViewPort(3);
 
 

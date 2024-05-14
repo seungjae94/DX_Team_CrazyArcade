@@ -29,4 +29,6 @@ private:
 	std::vector<UImage*> Btns_CharacterSelect;
 	std::vector<bool> Space_Available;
 	std::vector<bool> CharacterSelect_Pick;
+
+	void ChangeCharacter(ECharacterType _CharacterType);
 };
