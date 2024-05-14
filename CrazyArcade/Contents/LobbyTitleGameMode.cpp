@@ -161,7 +161,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					});
 			}
 		}
-		{
+		/*{
 			for (int i = 0; i < 12; i++)
 			{
 				UImage* Btn_CharacterSelect = CreateWidget<UImage>(GetWorld(), "Btn_CharacterSelect");
@@ -192,7 +192,7 @@ void ALobbyTitleGameMode::BeginPlay()
 				Btn_CharacterSelect->ChangeAnimation("UnHover");
 				Btns_CharacterSelect.push_back(Btn_CharacterSelect);
 			}
-		}
+		}*/
 	}
 }
 
