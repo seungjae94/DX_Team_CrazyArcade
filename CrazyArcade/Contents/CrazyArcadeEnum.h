@@ -2,8 +2,6 @@
 
 enum class ECharacterType
 {
-	BackGround,
-	Shadow
 	Random,
 	Dao,
 	Dizni,
@@ -16,6 +14,12 @@ enum class ECharacterType
 	Su,
 	Hoou,
 	Ray
+};
+
+enum class ERenderOrder
+{
+	BackGround,
+	Shadow
 };
 
 enum class EBlockType
