@@ -100,23 +100,24 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 	float NextPlayerFX = NextPos.X / BlockSize;
 	float NextPlayerFY = NextPos.Y / BlockSize;
 
-	int NextPlayerX = static_cast<int>(NextPos.X / BlockSize);
-	int NextPlayerY = static_cast<int>(NextPos.Y / BlockSize);
+	FPoint NextPoint = FPoint();
+	NextPoint.X = static_cast<int>(NextPos.X / BlockSize);
+	NextPoint.Y = static_cast<int>(NextPos.Y / BlockSize);
 	
 	// 맵 범위 밖일때
-	if (SizeX <= NextPlayerX || 0 > NextPlayerFX || SizeY <= NextPlayerY || 0 > NextPlayerFY)
+	if (SizeX <= NextPoint.X || 0 > NextPlayerFX || SizeY <= NextPoint.Y || 0 > NextPlayerFY)
 	{
 		return false;
 	}
 	
 	// 빈 공간일때
-	if (nullptr == MapInfo[NextPlayerY][NextPlayerX].Block)
+	if (nullptr == MapInfo[NextPoint.Y][NextPoint.X].Block)
 	{
 		return true;
 	}
 
 	// 오브젝트 존재할때
-	EBlockType BlockType = MapInfo[NextPlayerY][NextPlayerX].Block->GetBlockType();
+	EBlockType BlockType = MapInfo[NextPoint.Y][NextPoint.X].Block->GetBlockType();
 	if (EBlockType::Wall == BlockType || EBlockType::Box == BlockType)
 	{
 		return false;
@@ -125,8 +126,33 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 	// MoveBox 체크
 	if (EBlockType::MoveBox == BlockType)
 	{
-		std::shared_ptr<AMoveBox> MoveBox = std::dynamic_pointer_cast<AMoveBox>(MapInfo[NextPlayerY][NextPlayerX].Block);
+		std::shared_ptr<AMoveBox> MoveBox = std::dynamic_pointer_cast<AMoveBox>(MapInfo[NextPoint.Y][NextPoint.X].Block);
 		MoveBox->SetMoveDir(_Dir);
+		FPoint TwoStepPoint = NextPoint;
+
+		if (0.0f < _Dir.X)
+		{
+			TwoStepPoint.X += 1;
+		}
+		else if (0.0f > _Dir.X)
+		{
+			TwoStepPoint.X -= 1;
+		}
+		else if (0.0f < _Dir.Y)
+		{
+			TwoStepPoint.Y += 1;
+		}
+		else if (0.0f > _Dir.Y)
+		{
+			TwoStepPoint.Y -= 1;
+		}
+
+		if (0 > TwoStepPoint.X || SizeX <= TwoStepPoint.X 
+		||  0 > TwoStepPoint.Y || SizeY <= TwoStepPoint.Y
+		|| nullptr != MapInfo[TwoStepPoint.Y][TwoStepPoint.X].Block)
+		{
+			return false;
+		}
 		
 		if ("Idle" == MoveBox->GetCurState())
 		{

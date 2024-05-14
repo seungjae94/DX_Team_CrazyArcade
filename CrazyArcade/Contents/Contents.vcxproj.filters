@@ -43,9 +43,6 @@
     <Filter Include="Map\Block">
       <UniqueIdentifier>{72f176bb-3c05-4479-9e5f-62c8628c17a8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Map\Map">
-      <UniqueIdentifier>{570d4c26-edb1-4be8-8434-b4c6934858aa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Level\PlayLevel\Actor\Player">
       <UniqueIdentifier>{2d6be738-09f5-486b-8f7f-cc89e70a8824}</UniqueIdentifier>
     </Filter>
@@ -69,6 +66,9 @@
     </Filter>
     <Filter Include="Level\MainPlayLevel">
       <UniqueIdentifier>{1170aae8-151e-4f80-b2e5-b84e3c7d7284}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map\Stage">
+      <UniqueIdentifier>{570d4c26-edb1-4be8-8434-b4c6934858aa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -112,7 +112,7 @@
       <Filter>Map\Base</Filter>
     </ClInclude>
     <ClInclude Include="VillageMap.h">
-      <Filter>Map\Map</Filter>
+      <Filter>Map\Stage</Filter>
     </ClInclude>
     <ClInclude Include="ServerTestOtherPlayer.h">
       <Filter>Level\ServerLevel\ServerActor</Filter>
@@ -216,7 +216,7 @@
       <Filter>Map\Base</Filter>
     </ClCompile>
     <ClCompile Include="VillageMap.cpp">
-      <Filter>Map\Map</Filter>
+      <Filter>Map\Stage</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerState.cpp" />
