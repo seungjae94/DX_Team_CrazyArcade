@@ -16,18 +16,38 @@ void AMoveBox::BeginPlay()
 {
 	Super::BeginPlay();
 
+	StateInit();
 	SetBlockType(EBlockType::MoveBox);
+	State.ChangeState("Idle");
 }
 
 void AMoveBox::StateInit()
 {
+	// State Create
+	State.CreateState("Idle");
+	State.CreateState("Move");
+
+	// State Start
+	State.SetStartFunction("Idle", [=] {});
+	State.SetStartFunction("Move", [=] 
+		{
+		}
+	);
+
+	// State Update
+	State.SetUpdateFunction("Idle", [=](float _DeltaTime) {});
+	State.SetUpdateFunction("Move", [=](float _DeltaTime)
+		{
+			MoveUpdate(_DeltaTime);
+		}
+	);
 }
 
 void AMoveBox::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
-	
-	MoveUpdate(_DeltaTime);
+
+	State.Update(_DeltaTime);
 }
 
 void AMoveBox::MoveOneBlockCheck(const FVector& _Dir)
@@ -78,6 +98,8 @@ void AMoveBox::MoveUpdate(float _DeltaTime)
 		{
 			MoveTime = 0.0f;
 			IsMoveValue = false;
+			State.ChangeState("Idle");
+			return;
 		}
 	}
 }
