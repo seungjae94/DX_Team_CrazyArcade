@@ -57,12 +57,15 @@ bool AMapBase::CanMovePos(const FVector& _NextPos)
 {
 	// MapInfo
 	FVector NextPos = _NextPos - StartPos;
+	
+	float NextPlayerFX = NextPos.X / BlockSize;
+	float NextPlayerFY = NextPos.Y / BlockSize;
 
 	int NextPlayerX = static_cast<int>(NextPos.X / BlockSize);
 	int NextPlayerY = static_cast<int>(NextPos.Y / BlockSize);
 	
 	// 맵 범위 밖일때
-	if (SizeX <= NextPlayerX || 0 > NextPlayerX || SizeY <= NextPlayerY || 0 > NextPlayerY)
+	if (SizeX <= NextPlayerX || 0 > NextPlayerFX || SizeY <= NextPlayerY || 0 > NextPlayerFY)
 	{
 		return false;
 	}
