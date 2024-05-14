@@ -35,4 +35,26 @@ void AItem::BeginPlay()
 void AItem::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+
+	MoveUpDown(_DeltaTime);
+}
+
+void AItem::MoveUpDown(float _DeltaTime)
+{
+	if (0.0f <= MoveTime && MoveTime < 0.5f)
+	{
+		//UpSpeed -= _DeltaTime * 2.0f;
+		Renderer->AddPosition(FVector::Down * MoveSpeed * _DeltaTime);
+	}
+	else if (0.5f <= MoveTime && MoveTime < 1.0f)
+	{
+		//DownSpeed -= _DeltaTime * 2.0f;
+		Renderer->AddPosition(FVector::Up * MoveSpeed * _DeltaTime);
+	}
+	else
+	{
+		MoveTime = 0.0f;
+	}
+
+	MoveTime += _DeltaTime;
 }
