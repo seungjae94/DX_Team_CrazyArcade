@@ -16,7 +16,7 @@ public:
 	AMoveBox& operator=(const AMoveBox& _Other) = delete;
 	AMoveBox& operator=(AMoveBox&& _Other) noexcept = delete;
 
-	bool MoveOneBlockCheck(const FVector& _Dir);
+	void MoveOneBlockCheck(const FVector& _Dir);
 
 protected:
 	void BeginPlay() override;

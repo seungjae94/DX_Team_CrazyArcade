@@ -7,6 +7,10 @@
 //UI
 #include "TimerUI.h"
 
+#include "Bubble.h"
+#include "Roller.h"
+
+
 AMainPlayLevel::AMainPlayLevel()
 {
 }
@@ -28,6 +32,11 @@ void AMainPlayLevel::BeginPlay()
 	Timer = GetWorld()->SpawnActor<ATimerUI>("TimeUI");
 	Timer->SetTimer(180.0f);
 
+	std::shared_ptr<ABubble> Bubble = GetWorld()->SpawnActor<ABubble>("Bubble");
+	Bubble->SetActorLocation({ 400.0f, 300.0f, 0.0f });
+
+	std::shared_ptr<ARoller> Roller = GetWorld()->SpawnActor<ARoller>("Roller");
+	Roller->SetActorLocation({ 400.0f, 340.0f, 0.0f });
 }
 
 void AMainPlayLevel::Tick(float _DeltaTime)
