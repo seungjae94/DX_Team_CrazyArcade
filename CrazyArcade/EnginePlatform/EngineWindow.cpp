@@ -2,6 +2,7 @@
 #include "EngineWindow.h"
 #include <EngineBase\EngineDebug.h>
 #include "WindowImage.h"
+#include "EngineInputRecorder.h"
 
 bool UEngineWindow::WindowLive = true;
 HINSTANCE UEngineWindow::hInstance;
@@ -25,6 +26,11 @@ LRESULT CALLBACK UEngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 
 	switch (message)
 	{
+	case WM_IME_COMPOSITION:
+	{
+		UEngineInputRecorder::ImeTick(lParam);
+		break;
+	}
 	case WM_PAINT:
 	{
 		PAINTSTRUCT ps;
