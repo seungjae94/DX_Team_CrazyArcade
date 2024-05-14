@@ -59,6 +59,7 @@ void APlayer::BeginPlay()
 
 	ShadowRenderer->SetSprite("Shadow.png");
 	ShadowRenderer->SetAutoSize(1.0f, true);
+	ShadowRenderer->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.7f });
 
 	DebugRenderer->SetScale({ 5,5,5 });
 

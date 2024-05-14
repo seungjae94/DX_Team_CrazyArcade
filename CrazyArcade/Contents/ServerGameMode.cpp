@@ -127,7 +127,7 @@ void AServerGameMode::ClientPacketInit(UEngineDispatcher& Dis)
 					if (nullptr == OtherPlayer)
 					{
 						OtherPlayer = this->GetWorld()->SpawnActor<ServerTestOtherPlayer>("OtherPlayer", 0).get();
-						OtherPlayer->SetObjectToken(UCrazyArcadeCore::Net->GetSessionToken() * 1000 + UNetObject::GetNewObjectToken());
+						OtherPlayer->SetObjectToken(_Packet->GetObjectToken());
 					}
 					OtherPlayer->PushProtocol(_Packet);
 				});
