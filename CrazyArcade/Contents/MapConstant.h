@@ -20,3 +20,8 @@ namespace MapAnim
 	const std::string_view block_idle			= "Block_Idle";
 	const std::string_view block_destroy		= "Block_Destroy";
 }
+
+namespace Const
+{
+	const int MaxOrder = 1000;
+}

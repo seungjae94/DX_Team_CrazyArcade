@@ -11,7 +11,7 @@ void AMapBase::CreateWall(int _X, int _Y, std::string_view _ImgName)
 {
 	MapInfo[_Y][_X].Block = GetWorld()->SpawnActor<AWall>("Wall");
 	MapInfo[_Y][_X].Block->SetBlockImg(_ImgName);
-	//MapInfo[_Y][_X].Block->GetBody()->SetOrder(-_Y);
+	MapInfo[_Y][_X].Block->GetBody()->SetOrder(Const::MaxOrder - _Y);
 
 	FVector Pos = StartPos;
 	Pos.X += _X * BlockSize;
@@ -26,7 +26,7 @@ void AMapBase::CreateBox(int _X, int _Y, std::string_view _ImgName)
 	MapInfo[_Y][_X].Block->GetBody()->CreateAnimation(MapAnim::block_idle, _ImgName, 0.1f, false, 0, 0);
 	MapInfo[_Y][_X].Block->GetBody()->CreateAnimation(MapAnim::block_destroy, _ImgName, 0.1f, false);
 	MapInfo[_Y][_X].Block->GetBody()->ChangeAnimation(MapAnim::block_idle);
-	//MapInfo[_Y][_X].Block->GetBody()->SetOrder(-_Y);
+	MapInfo[_Y][_X].Block->GetBody()->SetOrder(Const::MaxOrder - _Y);
 
 	FVector Pos = StartPos;
 	Pos.X += _X * BlockSize;
@@ -41,7 +41,7 @@ void AMapBase::CreateMoveBox(int _X, int _Y, std::string_view _ImgName)
 	MapInfo[_Y][_X].Block->GetBody()->CreateAnimation(MapAnim::block_idle, _ImgName, 0.1f, false, 0, 0);
 	MapInfo[_Y][_X].Block->GetBody()->CreateAnimation(MapAnim::block_destroy, _ImgName, 0.1f, false);
 	MapInfo[_Y][_X].Block->GetBody()->ChangeAnimation(MapAnim::block_idle);
-	//MapInfo[_Y][_X].Block->GetBody()->SetOrder(-_Y);
+	MapInfo[_Y][_X].Block->GetBody()->SetOrder(Const::MaxOrder - _Y);
 
 	FVector Pos = StartPos;
 	Pos.X += _X * BlockSize;
