@@ -16,6 +16,8 @@ void AMoveBox::BeginPlay()
 {
 	Super::BeginPlay();
 
+	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
+
 	StateInit();
 	SetBlockType(EBlockType::MoveBox);
 	State.ChangeState("Idle");
@@ -31,6 +33,7 @@ void AMoveBox::StateInit()
 	State.SetStartFunction("Idle", [=] {});
 	State.SetStartFunction("Move", [=] 
 		{
+			MoveOneBlockCheck();
 		}
 	);
 
@@ -39,6 +42,34 @@ void AMoveBox::StateInit()
 	State.SetUpdateFunction("Move", [=](float _DeltaTime)
 		{
 			MoveUpdate(_DeltaTime);
+		}
+	);
+
+	// State End
+	State.SetEndFunction("Move", [=]
+		{
+			FPoint CurPoint = PlayLevel->GetMap()->CovertLocationToPoint(GetActorLocation());
+			FPoint PrevPoint = CurPoint;
+
+			if (0.0f < MoveDir.X)
+			{
+				PrevPoint.X -= 1;
+			}
+			else if (0.0f > MoveDir.X)
+			{
+				PrevPoint.X += 1;
+			}
+			else if (0.0f < MoveDir.Y)
+			{
+				PrevPoint.Y -= 1;
+			}
+			else if (0.0f > MoveDir.Y)
+			{
+				PrevPoint.Y += 1;
+			}
+
+			PlayLevel->GetMap()->SetMapBlock(CurPoint.X, CurPoint.Y, PlayLevel->GetMap()->GetMapBlock(PrevPoint.X, PrevPoint.Y));
+			PlayLevel->GetMap()->SetMapBlock(PrevPoint.X, PrevPoint.Y, nullptr);
 		}
 	);
 }
@@ -50,35 +81,27 @@ void AMoveBox::Tick(float _DeltaTime)
 	State.Update(_DeltaTime);
 }
 
-void AMoveBox::MoveOneBlockCheck(const FVector& _Dir)
+void AMoveBox::MoveOneBlockCheck()
 {
-	if (true == IsMoveValue)
-	{
-		return;
-	}
-
 	StartPos = GetActorLocation();
 	TargetPos = GetActorLocation();
 
-	if (0.0f < _Dir.X)
+	if (0.0f < MoveDir.X)
 	{
 		TargetPos.X += AMapBase::GetBlockSize();
 	}
-	else if (0.0f > _Dir.X)
+	else if (0.0f > MoveDir.X)
 	{
 		TargetPos.X -= AMapBase::GetBlockSize();
 	}
-	else if (0.0f < _Dir.Y)
+	else if (0.0f < MoveDir.Y)
 	{
 		TargetPos.Y += AMapBase::GetBlockSize();
 	}
-	else if (0.0f > _Dir.Y)
+	else if (0.0f > MoveDir.Y)
 	{
 		TargetPos.Y -= AMapBase::GetBlockSize();
 	}
-
-	//AMainPlayLevel* PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
-	//PlayLevel->GetMap()->CanMovePos()
 
 	IsMoveValue = true;
 }
@@ -91,7 +114,6 @@ void AMoveBox::MoveUpdate(float _DeltaTime)
 		FVector NextPos = FVector::LerpClamp(StartPos, TargetPos, MoveTime);
 		SetActorLocation(NextPos);
 
-		AMainPlayLevel* PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
 		GetBody()->SetOrder(PlayLevel->GetMap()->GetRenderOrder(GetActorLocation()));
 
 		if (1.0f < MoveTime)

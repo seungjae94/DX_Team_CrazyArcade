@@ -51,9 +51,20 @@ void AMapBase::SetMapInfoSize(int _X, int _Y)
 	{
 		MapInfo[Y].resize(_X);
 	}
-	//Const::MaxOrder - SizeY - 1
-	BackGround->SetOrder(0);
-	PlayUI_BackGround->SetOrder(0);
+
+	BackGround->SetOrder(ERenderOrder::BackGround);
+	PlayUI_BackGround->SetOrder(ERenderOrder::BackGround);
+}
+
+FPoint AMapBase::CovertLocationToPoint(const FVector& _Pos)
+{
+	FPoint Result = FPoint();
+	FVector Pos = _Pos - StartPos;
+
+	Result.X = static_cast<int>(Pos.X / BlockSize);
+	Result.Y = static_cast<int>(Pos.Y / BlockSize);
+
+	return Result;
 }
 
 int AMapBase::GetRenderOrder(const FVector& _CurPos)
@@ -115,11 +126,18 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 	if (EBlockType::MoveBox == BlockType)
 	{
 		std::shared_ptr<AMoveBox> MoveBox = std::dynamic_pointer_cast<AMoveBox>(MapInfo[NextPlayerY][NextPlayerX].Block);
-
-
+		MoveBox->SetMoveDir(_Dir);
+		
+		if ("Idle" == MoveBox->GetCurState())
+		{
+			MoveBox->StateChange("Move");
+			return false;
+		}
 		
 		return false;
 	}
 
 	return true;
 }
+
+
