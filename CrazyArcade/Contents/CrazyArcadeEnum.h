@@ -1,5 +1,13 @@
 #pragma once
 
+enum class ECharacterType
+{
+	Random,
+	Dao,
+	Dizni,
+	Mos
+};
+
 enum class ERenderOrder
 {
 	None,
