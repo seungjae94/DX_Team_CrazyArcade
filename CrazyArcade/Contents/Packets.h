@@ -70,7 +70,6 @@ public:
 		UEngineProtocol::Serialize(_Ser);
 		_Ser << Pos;
 		_Ser << SpawnSelect;
-		_Ser << SpawnTime;
 	}
 
 	void DeSerialize(UEngineSerializer& _Ser) override
