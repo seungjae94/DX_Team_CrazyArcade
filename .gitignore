@@ -398,4 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 # ImGui
-/CrazyArcade/App/imgui.ini
+*.ini

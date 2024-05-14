@@ -93,16 +93,13 @@ void ALobbyTitleGameMode::BeginPlay()
 					}
 					});
 				Buttons_Space[i]->SetHover([=] {
-					if (Buttons_Space[i]->IsCurAnimationEnd() == true)
+					if (Buttons_Space_State[i] == true)
 					{
-						if (Buttons_Space_State[i] == true)
-						{
-							Buttons_Space[i]->ChangeAnimation("Space_Hover");
-						}
-						else
-						{
-							Buttons_Space[i]->ChangeAnimation("UnSpace_Hover");
-						}
+						Buttons_Space[i]->ChangeAnimation("Space_Hover");
+					}
+					else
+					{
+						Buttons_Space[i]->ChangeAnimation("UnSpace_Hover");
 					}
 					});
 				Buttons_Space[i]->SetDown([=] {

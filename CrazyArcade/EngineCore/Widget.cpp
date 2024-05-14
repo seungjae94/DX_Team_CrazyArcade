@@ -71,25 +71,28 @@ void UWidget::Tick(float _DeltaTime)
 
 	if (true == Transform.Collision(ECollisionType::Rect, ECollisionType::Point, Trans))
 	{
-		IsHover = true;
-		if (nullptr != Hover)
-		{
-			Hover();
-		}
-
 		if (true == UEngineInput::IsDown(VK_LBUTTON) && nullptr != Down)
 		{
 			Down();
-		}
-
-		if (true == UEngineInput::IsPress(VK_LBUTTON) && nullptr != Press)
-		{
-			Press();
+			return;
 		}
 
 		if (true == UEngineInput::IsUp(VK_LBUTTON) && nullptr != Up)
 		{
 			Up();
+			return;
+		}
+
+		if (true == UEngineInput::IsPress(VK_LBUTTON) && nullptr != Press)
+		{
+			Press();
+			return;
+		}
+
+		IsHover = true;
+		if (nullptr != Hover)
+		{
+			Hover();
 		}
 	}
 	else 
