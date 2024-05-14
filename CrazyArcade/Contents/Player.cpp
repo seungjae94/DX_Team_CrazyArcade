@@ -60,6 +60,7 @@ void APlayer::BeginPlay()
 	ShadowRenderer->SetSprite("Shadow.png");
 	ShadowRenderer->SetAutoSize(1.0f, true);
 	ShadowRenderer->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.7f });
+	ShadowRenderer->SetOrder(ERenderOrder::Shadow);
 
 	DebugRenderer->SetScale({ 5,5,5 });
 
@@ -77,7 +78,6 @@ void APlayer::Tick(float _DeltaTime)
 
 	int PlayerOrder = PlayLevel->GetMap()->GetRenderOrder(GetActorLocation());
 	Renderer->SetOrder(PlayerOrder);
-	ShadowRenderer->SetOrder(PlayerOrder - 1);
 
 	{
 		std::string Msg = std::format("PlayerOrder : {}\n", PlayerOrder);
