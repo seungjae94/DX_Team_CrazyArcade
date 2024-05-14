@@ -7,6 +7,7 @@ class ServerTestPlayer;
 
 //UI
 class ATimerUI;
+class AInGameUI;
 
 // 설명 : Map 테스트 레벨
 class AMainPlayLevel : public AGameMode
@@ -35,5 +36,6 @@ protected:
 	std::shared_ptr<AMapBase> TileMap = nullptr;
 	std::shared_ptr<ServerTestPlayer> Player = nullptr;
 	std::shared_ptr<ATimerUI> Timer = nullptr;
+	std::shared_ptr<AInGameUI> CancelBtn = nullptr;
 };
 

@@ -31,6 +31,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="InGameUI.h" />
     <ClInclude Include="LobbyTitleGameMode.h">
       <SubType>
       </SubType>
@@ -148,6 +149,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="InGameUI.cpp" />
     <ClCompile Include="LobbyTitleGameMode.cpp">
       <SubType>
       </SubType>

@@ -6,6 +6,7 @@
 #include "ServerTestPlayer.h"
 //UI
 #include "TimerUI.h"
+#include "InGameUI.h"
 
 #include "Bubble.h"
 #include "Roller.h"
@@ -31,6 +32,12 @@ void AMainPlayLevel::BeginPlay()
 	//UI
 	Timer = GetWorld()->SpawnActor<ATimerUI>("TimeUI");
 	Timer->SetTimer(180.0f);
+
+	CancelBtn = GetWorld()->SpawnActor<AInGameUI>("CancelButton");
+	
+
+
+	//
 
 	std::shared_ptr<ABubble> Bubble = GetWorld()->SpawnActor<ABubble>("Bubble");
 	Bubble->SetActorLocation({ 400.0f, 300.0f, 0.0f });
