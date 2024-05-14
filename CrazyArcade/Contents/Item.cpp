@@ -26,6 +26,7 @@ void AItem::BeginPlay()
 	ShadowRenderer->CreateAnimation("ItemShadow", "Shadow", 0.5f, true);
 	ShadowRenderer->SetAutoSize(1.0f, true);
 	ShadowRenderer->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.7f });
+	ShadowRenderer->SetOrder(ERenderOrder::Shadow);
 	ShadowRenderer->ChangeAnimation("ItemShadow");
 
 	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
@@ -37,7 +38,6 @@ void AItem::Tick(float _DeltaTime)
 
 	Order = PlayLevel->GetMap()->GetRenderOrder(GetActorLocation());
 	Renderer->SetOrder(Order);
-	ShadowRenderer->SetOrder(Order - 1);
 
 	MoveUpDown(_DeltaTime);
 }

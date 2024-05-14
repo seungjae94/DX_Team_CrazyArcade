@@ -111,7 +111,7 @@ void AServerGameMode::ServerPacketInit(UEngineDispatcher& Dis)
 				{
 					ServerTestOtherPlayer* OtherPlayer;
 					OtherPlayer = this->GetWorld()->SpawnActor<ServerTestOtherPlayer>("OtherPlayer", 0).get();
-					OtherPlayer->SetObjectToken(UCrazyArcadeCore::Net->GetSessionToken() * 1000 + UNetObject::GetNewObjectToken());
+					OtherPlayer->SetObjectToken(_Packet->GetObjectToken());
 					OtherPlayer->PushProtocol(_Packet);
 				});
 		});
@@ -139,7 +139,7 @@ void AServerGameMode::ClientPacketInit(UEngineDispatcher& Dis)
 				{
 					ServerTestOtherPlayer* OtherPlayer;
 					OtherPlayer = this->GetWorld()->SpawnActor<ServerTestOtherPlayer>("OtherPlayer", 0).get();
-					OtherPlayer->SetObjectToken(UCrazyArcadeCore::Net->GetSessionToken() * 1000 + UNetObject::GetNewObjectToken());
+					OtherPlayer->SetObjectToken(_Packet->GetObjectToken());
 					OtherPlayer->PushProtocol(_Packet);
 				});
 		});
