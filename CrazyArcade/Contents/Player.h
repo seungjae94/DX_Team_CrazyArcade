@@ -51,8 +51,9 @@ protected:
 	int MaxBombPower = 5;
 	int BombPower = 0;
 	float BaseSpeed = 200.0f;
-	float Speed = 1.0f;
-	float CalSpeed = BaseSpeed * Speed;
+	float Speed = 0.0f;
+	float MaxSpeed = 400.0f;
+	float CalSpeed = BaseSpeed + Speed;
 
 	bool Push = false;
 	bool Throw = false;
@@ -63,7 +64,8 @@ protected:
 	float BlockSize = 0.0f;
 	AMainPlayLevel* PlayLevel = nullptr;
 
-	void PickUpItem(EPlayerItem _PickUpItem);
+	void PickUpItem(EPlayerItem _ItemType);
+	void AddItemCount(EPlayerItem _ItemType);
 
 	//State
 	void StateInit();

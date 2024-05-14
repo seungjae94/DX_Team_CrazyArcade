@@ -26,6 +26,8 @@ protected:
 	USpriteRenderer* Renderer = nullptr;
 	USpriteRenderer* ShadowRenderer = nullptr;
 
+	AMainPlayLevel* PlayLevel = nullptr;
+	int Order;
 	FVector Pos = FVector::Zero;
 
 	float BlockSize = AMapBase::GetBlockSize();
