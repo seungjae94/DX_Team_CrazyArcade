@@ -29,6 +29,16 @@ void ALobbyTitleGameMode::BeginPlay()
 			LobbyBackGround->SetWidgetLocation({ 0.0f, 0.0f });
 		}
 
+		// Fade
+		{
+			Fade = CreateWidget<UImage>(GetWorld(), "Fade");
+			Fade->SetSprite("FadeBlack.png");
+			Fade->AddToViewPort(10);
+			Fade->SetAutoSize(1.0f, true);
+			Fade->SetWidgetLocation({ 0.0f, 0.0f });
+			Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, 0.0f));
+		}
+
 		// GameStart
 		{
 			Btn_GameStart = CreateWidget<UImage>(GetWorld(), "Button_GameStart");
@@ -61,7 +71,7 @@ void ALobbyTitleGameMode::BeginPlay()
 				});
 
 			Btn_GameStart->SetUp([=] {
-				GEngine->ChangeLevel("MainPlayLevel");
+				IsFadeOut = true;
 				});
 		}
 
@@ -412,15 +422,44 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 	
-	FVector CameraPos = GetWorld()->GetMainCamera()->GetActorLocation();
-	FVector MousePos = GEngine->EngineWindow.GetScreenMousePos();
-	FVector WindowScale = GEngine->EngineWindow.GetWindowScale();
-
-	FVector TargetPos = FVector(CameraPos.X, CameraPos.Y, 0.0f) + FVector(MousePos.X - WindowScale.hX(), -(MousePos.Y - WindowScale.hY()), 0.0f);
-
+	// Debug
 	{
-		std::string Msg = std::format("MousePos : {}\n", TargetPos.ToString());
-		UEngineDebugMsgWindow::PushMsg(Msg);
+		FVector CameraPos = GetWorld()->GetMainCamera()->GetActorLocation();
+		FVector MousePos = GEngine->EngineWindow.GetScreenMousePos();
+		FVector WindowScale = GEngine->EngineWindow.GetWindowScale();
+		FVector TargetPos = FVector(CameraPos.X, CameraPos.Y, 0.0f) + FVector(MousePos.X - WindowScale.hX(), -(MousePos.Y - WindowScale.hY()), 0.0f);
+
+		{
+			std::string Msg = std::format("MousePos : {}\n", TargetPos.ToString());
+			UEngineDebugMsgWindow::PushMsg(Msg);
+		}
+	}
+
+	// Fade & ChangeLevel
+	{
+		if (IsFadeIn == true)
+		{
+			if (FadeAlpha <= 0.0f)
+			{
+				IsFadeIn = false;
+				return;
+			}
+
+			FadeIn(_DeltaTime);
+		}
+
+		if (IsFadeOut == true)
+		{
+			if (FadeAlpha >= 1.0f)
+			{
+				IsFadeIn = true;
+				IsFadeOut = false;
+				GEngine->ChangeLevel("MainPlayLevel");
+				return;
+			}
+
+			FadeOut(_DeltaTime);
+		}
 	}
 }
 
@@ -686,4 +725,16 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 	}
 
 	Checker_CharacterSelect->SetWidgetLocation({ 150.0f + (72.0f * (Index % 4)), 202.0f - (55.0f * (Index / 4)) });
+}
+
+void ALobbyTitleGameMode::FadeIn(float _DeltaTime)
+{
+	FadeAlpha -= _DeltaTime * 3.0f;
+	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
+}
+
+void ALobbyTitleGameMode::FadeOut(float _DeltaTime)
+{
+	FadeAlpha += _DeltaTime * 3.0f;
+	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
 }
