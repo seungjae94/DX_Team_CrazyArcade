@@ -1,17 +1,22 @@
 #include "PreCompile.h"
 #include "Item.h"
+#include "MainPlayLevel.h"
 
 AItem::AItem()
 {
 	DefaultComponent = CreateDefaultSubObject<UDefaultSceneComponent>("DefaultComponent");
 	SetRoot(DefaultComponent);
 
+	Order = PlayLevel->GetMap()->GetRenderOrder(GetActorLocation());
+
 	Renderer = CreateDefaultSubObject<USpriteRenderer>("Renderer");
 	Renderer->SetupAttachment(DefaultComponent);
-	Renderer->AddPosition({ 0.0f, (BlockSize / 2.0f) });
+	Renderer->AddPosition({ 0.0f, (BlockSize / 2.0f) });	
+	Renderer->SetOrder(Order);
 
 	ShadowRenderer = CreateDefaultSubObject<USpriteRenderer>("ShadowRenderer");
 	ShadowRenderer->SetupAttachment(DefaultComponent);
+	ShadowRenderer->SetOrder(Order - 1);
 }
 
 AItem::~AItem()
@@ -25,11 +30,15 @@ void AItem::BeginPlay()
 	ShadowRenderer->CreateAnimation("ItemShadow", "Shadow", 0.5f, true);
 	ShadowRenderer->SetAutoSize(1.0f, true);
 	ShadowRenderer->ChangeAnimation("ItemShadow");
+
+	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
 }
 
 void AItem::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+
+	
 
 	MoveUpDown(_DeltaTime);
 }

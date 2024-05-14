@@ -20,11 +20,13 @@ APlayer::APlayer()
 	DebugRenderer = CreateDefaultSubObject<USpriteRenderer>("DebugRenderer");
 	DebugRenderer->SetupAttachment(DefaultComponent);
 
-	for (MPlayerItemIter = MPlayerItem.begin(); MPlayerItemIter != MPlayerItem.end(); ++MPlayerItemIter)
-	{
-		int Clear = 0;
-		//*MPlayerItemIter = Clear;
-	}
+	MPlayerItem.insert(std::pair(EPlayerItem::Bubble, 0));
+	MPlayerItem.insert(std::pair(EPlayerItem::Fluid, 0));
+	MPlayerItem.insert(std::pair(EPlayerItem::Ultra, 0));
+	MPlayerItem.insert(std::pair(EPlayerItem::Roller, 0));
+	MPlayerItem.insert(std::pair(EPlayerItem::RedDevil, 0));
+	MPlayerItem.insert(std::pair(EPlayerItem::Glove, 0));
+	MPlayerItem.insert(std::pair(EPlayerItem::Shoes, 0));
 
 	InputOn();
 }
@@ -81,31 +83,52 @@ void APlayer::Tick(float _DeltaTime)
 		UEngineDebugMsgWindow::PushMsg(Msg);
 	}
 
-
-
 	PlayerPos = GetActorLocation();
 }
 
-void APlayer::PickUpItem(EPlayerItem _PickUpItem)
+void APlayer::PickUpItem(EPlayerItem _ItemType)
 {
-	switch (_PickUpItem)
+	switch (_ItemType)
 	{
 	case EPlayerItem::Bubble:
 		++BombCount;
 		break;
 	case EPlayerItem::Fluid:
+		if (BombPower < MaxBombPower)
+		{
+			++BombPower;
+		}
 		break;
 	case EPlayerItem::Ultra:
+		BombPower = MaxBombPower;
 		break;
 	case EPlayerItem::Roller:
+		Speed += 10.0f;
+		CalSpeed = BaseSpeed + Speed;
+		if (MaxSpeed < CalSpeed)
+		{
+			CalSpeed = MaxSpeed;
+		}
 		break;
 	case EPlayerItem::RedDevil:
+		CalSpeed = MaxSpeed;
 		break;
 	case EPlayerItem::Glove:
+		Throw = true;
 		break;
 	case EPlayerItem::Shoes:
+		Push = true;
 		break;
 	default:
 		break;
 	}
+
+	AddItemCount(_ItemType);
+}
+
+void APlayer::AddItemCount(EPlayerItem _ItemType)
+{
+	int Count = MPlayerItem[_ItemType];
+	++Count;
+	MPlayerItem[_ItemType] = Count;
 }
