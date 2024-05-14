@@ -8,13 +8,11 @@ APlayer::APlayer()
 
 	Renderer = CreateDefaultSubObject<USpriteRenderer>("Renderer");
 	Renderer->SetupAttachment(DefaultComponent);
-	Renderer->SetPivot(EPivot::BOT);
-	Renderer->AddPosition({0.0f, -6.0f});
+	Renderer->AddPosition({ 0.0f, -BlockSize / 2.0f });
 
 	ShadowRenderer = CreateDefaultSubObject<USpriteRenderer>("ShadowRenderer");
 	ShadowRenderer->SetupAttachment(DefaultComponent);
-	ShadowRenderer->SetPivot(EPivot::BOT);
-	ShadowRenderer->AddPosition({ 0.0f, -6.0f });
+	ShadowRenderer->AddPosition({ 0.0f, -BlockSize / 2.0f });
 
 	DebugRenderer = CreateDefaultSubObject<USpriteRenderer>("DebugRenderer");
 	DebugRenderer->SetupAttachment(DefaultComponent);

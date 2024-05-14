@@ -2,11 +2,11 @@
 #include "EngineClient.h"
 #include "EngineDebug.h"
 
-UEngineClient::UEngineClient() 
+UEngineClient::UEngineClient()
 {
 }
 
-UEngineClient::~UEngineClient() 
+UEngineClient::~UEngineClient()
 {
 }
 

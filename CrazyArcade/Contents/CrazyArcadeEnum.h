@@ -15,5 +15,17 @@ enum class ERenderOrder
 enum class EBlockType
 {
 	Wall,
-	Box	
+	Box	,
+	MoveBox
+};
+
+enum class EPlayerItem
+{
+	Bubble,
+	Fluid,
+	Ultra,
+	Roller,
+	RedDevil,
+	Glove,
+	Shoes,
 };

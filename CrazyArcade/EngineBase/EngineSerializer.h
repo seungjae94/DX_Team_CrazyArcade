@@ -32,6 +32,11 @@ public:
 		Write(&_Data, sizeof(int));
 	}
 
+	void operator<<(const float& _Data)
+	{
+		Write(&_Data, sizeof(float));
+	}
+
 	void operator<<(const bool& _Data)
 	{
 		Write(&_Data, sizeof(bool));
@@ -68,6 +73,11 @@ public:
 	void operator>>(int& _Data)
 	{
 		Read(&_Data, sizeof(int));
+	}
+
+	void operator>>(float& _Data)
+	{
+		Read(&_Data, sizeof(float));
 	}
 
 	void operator>>(float4& _Data)

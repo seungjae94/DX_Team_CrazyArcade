@@ -44,7 +44,7 @@ void ServerTestOtherPlayer::Tick(float _DeltaTime)
 
 		switch (PacketType)
 		{
-		case ActorUpdatePacket:
+		case EContentPacket::ActorUpdatePacket:
 		{
 			std::shared_ptr<UActorUpdatePacket> ActorUpdatePacket = std::dynamic_pointer_cast<UActorUpdatePacket>(Protocol);
 
@@ -52,6 +52,12 @@ void ServerTestOtherPlayer::Tick(float _DeltaTime)
 			Renderer->ChangeAnimation(ActorUpdatePacket->SpriteName);
 
 			int a = 0;
+			break;
+		}
+		case EContentPacket::SpawnUpdatePacket:
+		{
+			std::shared_ptr<USpawnUpdatePacket> SpawnUpdatePacket = std::dynamic_pointer_cast<USpawnUpdatePacket>(Protocol);
+			SetActorLocation(SpawnUpdatePacket->Pos);
 			break;
 		}
 		default:

@@ -20,7 +20,7 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
+	void KeyMove(float _DeltaTime, FVector _Dir, float _Speed) override;
 
 private:
 

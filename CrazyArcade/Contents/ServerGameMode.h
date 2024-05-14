@@ -37,5 +37,8 @@ protected:
 
 	std::shared_ptr<UEngineNetWindow> NetWindow;
 	std::shared_ptr<ServerTestPlayer> MainPlayer = nullptr;
+
+	float BombDestoryTime = 1.0f;
+	float CurBombDestoryTime = 0.0f;
 };
 
