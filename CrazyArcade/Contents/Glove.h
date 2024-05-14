@@ -16,6 +16,8 @@ public:
 	AGlove& operator=(const AGlove& _Other) = delete;
 	AGlove& operator=(AGlove&& _Other) noexcept = delete;
 
+	void PlayerGetItem(APlayer* _Player) override;
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

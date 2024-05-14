@@ -1,6 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include "MapBase.h"
+#include "Player.h"
 
 class AItem : public AActor
 {
@@ -17,11 +18,7 @@ public:
 	AItem& operator=(const AItem& _Other) = delete;
 	AItem& operator=(AItem&& _Other) noexcept = delete;
 
-	// 플레이어가 Item 객체를 받는다
-	// Item->ChangeStat(this);
-	// ChangeStat이 플레이어 스탯을 알아서 바꾼다 
-
-	//virtual void ChangeStat(APlayer* _Player) = 0;
+	virtual void PlayerGetItem(APlayer* _Player) = 0;
 
 protected:
 	void BeginPlay() override;

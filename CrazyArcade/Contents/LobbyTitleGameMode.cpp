@@ -113,16 +113,13 @@ void ALobbyTitleGameMode::BeginPlay()
 					}
 					});
 				Buttons_Space[i]->SetHover([=] {
-					if (Buttons_Space[i]->IsCurAnimationEnd() == true)
+					if (Space_Active[i] == true)
 					{
-						if (Space_Active[i] == true)
-						{
-							Buttons_Space[i]->ChangeAnimation("Space_Hover");
-						}
-						else
-						{
-							Buttons_Space[i]->ChangeAnimation("UnSpace_Hover");
-						}
+						Buttons_Space[i]->ChangeAnimation("Space_Hover");
+					}
+					else
+					{
+						Buttons_Space[i]->ChangeAnimation("UnSpace_Hover");
 					}
 					});
 				Buttons_Space[i]->SetDown([=] {
@@ -135,6 +132,19 @@ void ALobbyTitleGameMode::BeginPlay()
 					{
 						Buttons_Space[i]->ChangeAnimation("UnSpace_Down");
 						Space_Active[i] = true;
+					}
+					});
+				Buttons_Space[i]->SetPress([=] {
+
+					});
+				Buttons_Space[i]->SetUp([=] {
+					if (Space_Active[i] == true)
+					{
+						Buttons_Space[i]->ChangeAnimation("Space_Hover");
+					}
+					else
+					{
+						Buttons_Space[i]->ChangeAnimation("UnSpace_Hover");
 					}
 					});
 			}

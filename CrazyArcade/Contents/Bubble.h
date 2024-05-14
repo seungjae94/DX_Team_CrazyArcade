@@ -16,6 +16,8 @@ public:
 	ABubble& operator=(const ABubble& _Other) = delete;
 	ABubble& operator=(ABubble&& _Other) noexcept = delete;
 
+	void PlayerGetItem(APlayer* _Player) override;
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
