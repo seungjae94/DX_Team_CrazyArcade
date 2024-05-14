@@ -116,6 +116,8 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 	{
 		std::shared_ptr<AMoveBox> MoveBox = std::dynamic_pointer_cast<AMoveBox>(MapInfo[NextPlayerY][NextPlayerX].Block);
 
+
+		
 		return false;
 	}
 

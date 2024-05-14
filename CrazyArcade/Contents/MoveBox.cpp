@@ -19,6 +19,10 @@ void AMoveBox::BeginPlay()
 	SetBlockType(EBlockType::MoveBox);
 }
 
+void AMoveBox::StateInit()
+{
+}
+
 void AMoveBox::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
@@ -77,3 +81,4 @@ void AMoveBox::MoveUpdate(float _DeltaTime)
 		}
 	}
 }
+

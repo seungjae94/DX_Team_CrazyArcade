@@ -1,5 +1,6 @@
 #pragma once
 #include "BlockBase.h"
+#include <EngineCore/StateManager.h>
 
 // Ό³Έν : MoveBox Block
 class AMoveBox : public ABlockBase
@@ -30,6 +31,11 @@ private:
 	float MoveTime = 0.0f;
 	FVector StartPos = FVector::Zero;
 	FVector TargetPos = FVector::Zero;
+
+// FSM
+private:
+	UStateManager State;
+	void StateInit();
 
 };
 
