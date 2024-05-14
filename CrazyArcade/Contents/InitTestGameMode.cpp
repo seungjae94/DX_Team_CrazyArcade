@@ -20,7 +20,7 @@ void AInitTestGameMode::Tick(float _DeltaTime)
 
 	if (true == UEngineInput::IsDown('M'))
 	{
-		GEngine->ChangeLevel("MapTestLevel");
+		GEngine->ChangeLevel("MainPlayLevel");
 	}
 
 	if (true == UEngineInput::IsDown('P'))

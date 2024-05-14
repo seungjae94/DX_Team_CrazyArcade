@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "Player.h"
 
+#include "MainPlayLevel.h"
+#include "MapBase.h"
+
 APlayer::APlayer()
 {
 	DefaultComponent = CreateDefaultSubObject<UDefaultSceneComponent>("DefaultComponent");
@@ -57,6 +60,9 @@ void APlayer::BeginPlay()
 
 	DebugRenderer->SetScale({ 5,5,5 });
 
+	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
+	BlockSize = AMapBase::GetBlockSize();
+
 	StateInit();
 }
 
@@ -65,6 +71,17 @@ void APlayer::Tick(float _DeltaTime)
 	Super::Tick(_DeltaTime);
 
 	State.Update(_DeltaTime);
+
+	int PlayerOrder = PlayLevel->GetMap()->GetRenderOrder(GetActorLocation());
+	Renderer->SetOrder(PlayerOrder);
+	ShadowRenderer->SetOrder(PlayerOrder - 1);
+
+	{
+		std::string Msg = std::format("PlayerOrder : {}\n", PlayerOrder);
+		UEngineDebugMsgWindow::PushMsg(Msg);
+	}
+
+
 
 	PlayerPos = GetActorLocation();
 }
