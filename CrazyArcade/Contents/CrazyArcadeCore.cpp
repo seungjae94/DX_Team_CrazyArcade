@@ -34,7 +34,6 @@ void UCrazyArcadeCore::Initialize()
 	GEngine->CreateLevel<ALobbyTitleGameMode>("LobbyTitleTestLevel");
 	GEngine->CreateLevel<AInputRecorderTestGameMode>("InputRecorderTestLevel");
 	GEngine->ChangeLevel("InitTestLevel");
-	GEngine->ChangeLevel("LobbyTitleTestLevel");
 }
 
 void UCrazyArcadeCore::ResLoad()

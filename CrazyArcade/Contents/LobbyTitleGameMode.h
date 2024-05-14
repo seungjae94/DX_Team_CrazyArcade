@@ -17,20 +17,17 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	void PanelOn()
-	{
-		UpperPanel_CharacterSelect->SetActive(true);
-		Panel_CharacterSelect->SetActive(true);
-	}
-
-	void PanelOff()
-	{
-		UpperPanel_CharacterSelect->SetActive(false);
-		Panel_CharacterSelect->SetActive(false);
-	}
+	void PanelOn();
+	void PanelOff();
 
 private:
 	ECharacterType CharacterType = ECharacterType::Random;
+	int BombMin = 0;
+	int BombMax = 0;
+	int BombWaterMin = 0;
+	int BombWaterMax = 0;
+	int SpeedMin = 0;
+	int SpeedMax = 0;
 
 	UImage* LobbyBackGround = nullptr;
 	UImage* Btn_GameStart = nullptr;
@@ -45,6 +42,7 @@ private:
 	UImage* Checker_CharacterSelect = nullptr;
 	UImage* UpperPanel_CharacterSelect = nullptr;
 	UImage* Panel_CharacterSelect = nullptr;
+	std::map<int, std::vector<UImage*>> Traits_CharacterSelect;
 
 	void SettingPanel(ECharacterType _CharacterType);
 	void ChangeCharacter(ECharacterType _CharacterType);

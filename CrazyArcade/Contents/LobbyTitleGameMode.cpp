@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "LobbyTitleGameMode.h"
 
+#include <format>
+
 ALobbyTitleGameMode::ALobbyTitleGameMode()
 {
 }
@@ -198,6 +200,20 @@ void ALobbyTitleGameMode::BeginPlay()
 				Panel_CharacterSelect->SetActive(false);
 			}
 
+			for (int i = 0; i < 3; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					UImage* TraitBar_CharacterSelect = CreateWidget<UImage>(GetWorld(), "TraitBar_CharacterSelect");
+					TraitBar_CharacterSelect->SetSprite("TraitBar_CharatorSelect_Min.png");
+					TraitBar_CharacterSelect->AddToViewPort(3);
+					TraitBar_CharacterSelect->SetAutoSize(1.0f, true);
+					TraitBar_CharacterSelect->SetWidgetLocation({ -24.0f + (10.0f * j), 204.0f - (19.0f * i) });
+
+					Traits_CharacterSelect[i].push_back(TraitBar_CharacterSelect);
+				}
+			}
+
 			for (int i = 0; i < 12; i++)
 			{
 				UImage* Btn_CharacterSelect = CreateWidget<UImage>(GetWorld(), "Btn_CharacterSelect");
@@ -370,6 +386,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					ChangeCharacter(ECharacterType(i));
 					});
 			}
+
 			{
 				Outline_CharacterSelect = CreateWidget<UImage>(GetWorld(), "Outline_CharacterSelect");
 				Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Random.png");
@@ -385,6 +402,7 @@ void ALobbyTitleGameMode::BeginPlay()
 				Checker_CharacterSelect->SetWidgetLocation({ 150.0f, 202.0f });
 			}
 
+			PanelOff();
 			ChangeCharacter(ECharacterType::Random);
 		}
 	}
@@ -393,6 +411,49 @@ void ALobbyTitleGameMode::BeginPlay()
 void ALobbyTitleGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+	
+	FVector CameraPos = GetWorld()->GetMainCamera()->GetActorLocation();
+	FVector MousePos = GEngine->EngineWindow.GetScreenMousePos();
+	FVector WindowScale = GEngine->EngineWindow.GetWindowScale();
+
+	FVector TargetPos = FVector(CameraPos.X, CameraPos.Y, 0.0f) + FVector(MousePos.X - WindowScale.hX(), -(MousePos.Y - WindowScale.hY()), 0.0f);
+
+	{
+		std::string Msg = std::format("MousePos : {}\n", TargetPos.ToString());
+		UEngineDebugMsgWindow::PushMsg(Msg);
+	}
+}
+
+void ALobbyTitleGameMode::PanelOn()
+{
+	UpperPanel_CharacterSelect->SetActive(true);
+	Panel_CharacterSelect->SetActive(true);
+
+	for (int i = 0; i < BombMax; i++)
+	{
+		Traits_CharacterSelect[0][i]->SetActive(true);
+	}
+	for (int i = 0; i < BombWaterMax; i++)
+	{
+		Traits_CharacterSelect[1][i]->SetActive(true);
+	}
+	for (int i = 0; i < SpeedMax; i++)
+	{
+		Traits_CharacterSelect[2][i]->SetActive(true);
+	}
+}
+
+void ALobbyTitleGameMode::PanelOff()
+{
+	UpperPanel_CharacterSelect->SetActive(false);
+	Panel_CharacterSelect->SetActive(false);
+
+	for (int i = 0; i < 10; i++)
+	{
+		Traits_CharacterSelect[0][i]->SetActive(false);
+		Traits_CharacterSelect[1][i]->SetActive(false);
+		Traits_CharacterSelect[2][i]->SetActive(false);
+	}
 }
 
 void ALobbyTitleGameMode::SettingPanel(ECharacterType _CharacterType)
@@ -402,65 +463,164 @@ void ALobbyTitleGameMode::SettingPanel(ECharacterType _CharacterType)
 	case ECharacterType::Random:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Random.png");
+		BombMin = 0;
+		BombMax = 0;
+		BombWaterMin = 0;
+		BombWaterMax = 0;
+		SpeedMin = 0;
+		SpeedMax = 0;
 		break;
 	}
 	case ECharacterType::Dao:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Dao.png");
+		BombMin = 1;
+		BombMax = 10;
+		BombWaterMin = 1;
+		BombWaterMax = 7;
+		SpeedMin = 5;
+		SpeedMax = 7;
 		break;
 	}
 	case ECharacterType::Dizni:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Dizni.png");
+		BombMin = 2;
+		BombMax = 7;
+		BombWaterMin = 1;
+		BombWaterMax = 9;
+		SpeedMin = 4;
+		SpeedMax = 8;
 		break;
 	}
 	case ECharacterType::Mos:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Mos.png");
+		BombMin = 1;
+		BombMax = 8;
+		BombWaterMin = 1;
+		BombWaterMax = 5;
+		SpeedMin = 5;
+		SpeedMax = 8;
 		break;
 	}
 	case ECharacterType::Ethi:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Ethi.png");
+		BombMin = 1;
+		BombMax = 10;
+		BombWaterMin = 1;
+		BombWaterMax = 8;
+		SpeedMin = 4;
+		SpeedMax = 8;
 		break;
 	}
 	case ECharacterType::Marid:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Marid.png");
+		BombMin = 2;
+		BombMax = 9;
+		BombWaterMin = 1;
+		BombWaterMax = 6;
+		SpeedMin = 4;
+		SpeedMax = 8;
 		break;
 	}
 	case ECharacterType::Bazzi:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Bazzi.png");
+		BombMin = 1;
+		BombMax = 6;
+		BombWaterMin = 1;
+		BombWaterMax = 7;
+		SpeedMin = 5;
+		SpeedMax = 9;
 		break;
 	}
 	case ECharacterType::Uni:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Uni.png");
+		BombMin = 1;
+		BombMax = 6;
+		BombWaterMin = 2;
+		BombWaterMax = 7;
+		SpeedMin = 5;
+		SpeedMax = 8;
 		break;
 	}
 	case ECharacterType::Kephi:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Kephi.png");
+		BombMin = 1;
+		BombMax = 9;
+		BombWaterMin = 2;
+		BombWaterMax = 8;
+		SpeedMin = 4;
+		SpeedMax = 8;
 		break;
 	}
 	case ECharacterType::Su:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Su.png");
+		BombMin = 2;
+		BombMax = 9;
+		BombWaterMin = 1;
+		BombWaterMax = 7;
+		SpeedMin = 6;
+		SpeedMax = 10;
 		break;
 	}
 	case ECharacterType::HooU:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_HooU.png");
+		BombMin = 3;
+		BombMax = 9;
+		BombWaterMin = 1;
+		BombWaterMax = 7;
+		SpeedMin = 5;
+		SpeedMax = 10;
 		break;
 	}
 	case ECharacterType::Ray:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Ray.png");
+		BombMin = 2;
+		BombMax = 9;
+		BombWaterMin = 1;
+		BombWaterMax = 7;
+		SpeedMin = 6;
+		SpeedMax = 10;
 		break;
 	}
 	default:
 		break;
+	}
+
+	for (int i = 0; i < BombMin; i++)
+	{
+		Traits_CharacterSelect[0][i]->SetSprite("TraitBar_CharatorSelect_Min.png");
+	}
+	for (int i = BombMin; i < BombMax; i++)
+	{
+		Traits_CharacterSelect[0][i]->SetSprite("TraitBar_CharatorSelect_Max.png");
+	}
+
+	for (int i = 0; i < BombWaterMin; i++)
+	{
+		Traits_CharacterSelect[1][i]->SetSprite("TraitBar_CharatorSelect_Min.png");
+	}
+	for (int i = BombWaterMin; i < BombWaterMax; i++)
+	{
+		Traits_CharacterSelect[1][i]->SetSprite("TraitBar_CharatorSelect_Max.png");
+	}
+
+	for (int i = 0; i < SpeedMin; i++)
+	{
+		Traits_CharacterSelect[2][i]->SetSprite("TraitBar_CharatorSelect_Min.png");
+	}
+	for (int i = SpeedMin; i < SpeedMax; i++)
+	{
+		Traits_CharacterSelect[2][i]->SetSprite("TraitBar_CharatorSelect_Max.png");
 	}
 }
 
