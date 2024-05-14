@@ -29,16 +29,16 @@ void ALobbyTitleGameMode::BeginPlay()
 			Button_GameStart->SetAutoSize(1.0f, true);
 			Button_GameStart->SetWidgetLocation({ 231.0f, -222.0f });
 
-			Button_GameStart->CreateAnimation("UnHover", "Button_GameStart_UnHover.png", 0.5f, false, 0, 0);
+			Button_GameStart->CreateAnimation("UnHover", "Button_GameStart_UnHover.png", 0.1f, false, 0, 0);
 			Button_GameStart->CreateAnimation("Hover", "Button_GameStart_Hover.png", 0.1f, true, 0, 2);
-			Button_GameStart->CreateAnimation("Down", "Button_GameStart_Down.png", 0.5f, false, 0, 0);
+			Button_GameStart->CreateAnimation("Down", "Button_GameStart_Down.png", 0.1f, false, 0, 0);
 			Button_GameStart->ChangeAnimation("UnHover");
 
 			Button_GameStart->SetUnHover([=] {
 				Button_GameStart->ChangeAnimation("UnHover");
 				});
 			Button_GameStart->SetHover([=] {
-				if (true == Button_GameStart->IsCurAnimationEnd())
+				if (Button_GameStart->IsCurAnimationEnd() == true)
 				{
 					Button_GameStart->ChangeAnimation("Hover");
 				}
@@ -59,12 +59,12 @@ void ALobbyTitleGameMode::BeginPlay()
 				Button_Space->CreateAnimation("Down", "Button_Space_Down.png", 0.5f, false, 0, 0);
 				Button_Space->ChangeAnimation("UnHover");*/
 
-				Button_Space->CreateAnimation("Space_UnHover", "Button_Space_UnHover.png", 0.5f, false, 0, 0);
-				Button_Space->CreateAnimation("Space_Hover", "Button_Space_Hover.png", 0.5f, false, 0, 0);
-				Button_Space->CreateAnimation("Space_Down", "Button_Space_Down.png", 0.5f, false, 0, 0);
-				Button_Space->CreateAnimation("UnSpace_UnHover", "Button_UnSpace_UnHover.png", 0.5f, false, 0, 0);
-				Button_Space->CreateAnimation("UnSpace_Hover", "Button_UnSpace_Hover.png", 0.5f, false, 0, 0);
-				Button_Space->CreateAnimation("UnSpace_Down", "Button_UnSpace_Down.png", 0.5f, false, 0, 0);
+				Button_Space->CreateAnimation("Space_UnHover", "Button_Space_UnHover.png", 0.1f, false, 0, 0);
+				Button_Space->CreateAnimation("Space_Hover", "Button_Space_Hover.png", 0.1f, false, 0, 0);
+				Button_Space->CreateAnimation("Space_Down", "Button_Space_Down.png", 0.1f, false, 0, 0);
+				Button_Space->CreateAnimation("UnSpace_UnHover", "Button_UnSpace_UnHover.png", 0.1f, false, 0, 0);
+				Button_Space->CreateAnimation("UnSpace_Hover", "Button_UnSpace_Hover.png", 0.1f, false, 0, 0);
+				Button_Space->CreateAnimation("UnSpace_Down", "Button_UnSpace_Down.png", 0.1f, false, 0, 0);
 				Button_Space->ChangeAnimation("Space_UnHover");
 
 				if (i < 3)
@@ -77,7 +77,7 @@ void ALobbyTitleGameMode::BeginPlay()
 				}
 
 				Buttons_Space.push_back(Button_Space);
-				Buttons_Space_State.push_back(true );
+				Buttons_Space_State.push_back(true);
 			}
 
 			for (int i = 0; i < 7; i++)
@@ -93,24 +93,45 @@ void ALobbyTitleGameMode::BeginPlay()
 					}
 					});
 				Buttons_Space[i]->SetHover([=] {
-					if (Buttons_Space_State[i] == true)
+					if (Buttons_Space[i]->IsCurAnimationEnd() == true)
 					{
-						Buttons_Space[i]->ChangeAnimation("Space_Hover");
-					}
-					else
-					{
-						Buttons_Space[i]->ChangeAnimation("UnSpace_Hover");
+						if (Buttons_Space_State[i] == true)
+						{
+							Buttons_Space[i]->ChangeAnimation("Space_Hover");
+						}
+						else
+						{
+							Buttons_Space[i]->ChangeAnimation("UnSpace_Hover");
+						}
 					}
 					});
 				Buttons_Space[i]->SetDown([=] {
 					if (Buttons_Space_State[i] == true)
 					{
 						Buttons_Space[i]->ChangeAnimation("Space_Down");
-						Buttons_Space_State[i] = false;
 					}
 					else
 					{
 						Buttons_Space[i]->ChangeAnimation("UnSpace_Down");
+					}
+					});
+				Buttons_Space[i]->SetPress([=] {
+					if (Buttons_Space_State[i] == true)
+					{
+
+					}
+					else
+					{
+
+					}
+					});
+				Buttons_Space[i]->SetUp([=] {
+					if (Buttons_Space_State[i] == true)
+					{
+						Buttons_Space_State[i] = false;
+					}
+					else
+					{
 						Buttons_Space_State[i] = true;
 					}
 					});
