@@ -3,7 +3,7 @@
 
 APlayer::APlayer()
 {
-	UDefaultSceneComponent* DefaultComponent = CreateDefaultSubObject<UDefaultSceneComponent>("DefaultComponent");
+	DefaultComponent = CreateDefaultSubObject<UDefaultSceneComponent>("DefaultComponent");
 	SetRoot(DefaultComponent);
 
 	Renderer = CreateDefaultSubObject<USpriteRenderer>("Renderer");

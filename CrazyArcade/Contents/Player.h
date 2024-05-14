@@ -38,6 +38,7 @@ protected:
 
 	UStateManager State;
 
+	UDefaultSceneComponent* DefaultComponent;
 	USpriteRenderer* Renderer;
 	USpriteRenderer* ShadowRenderer;
 	USpriteRenderer* DebugRenderer;
@@ -46,7 +47,8 @@ protected:
 	std::string Name = "Player";
 	EPlayerDir PlayerDir = EPlayerDir::Down;
 	int BombCount = 1;
-	int BombPower = 1;
+	int MaxBombPower = 5;
+	int BombPower = 0;
 	float BaseSpeed = 200.0f;
 	float Speed = 1.0f;
 	float CalSpeed = BaseSpeed * Speed;
