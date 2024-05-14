@@ -105,12 +105,48 @@ void AVillageMap::CreateVillageBox()
 	CreateBox(4, 10, MapImgRes::block_vil_box2);
 	CreateBox(10, 0, MapImgRes::block_vil_box2);
 	CreateBox(10, 4, MapImgRes::block_vil_box2);
-
-
+	CreateBox(10, 9, MapImgRes::block_vil_box2);
+	CreateBox(11, 2, MapImgRes::block_vil_box2);
+	CreateBox(11, 7, MapImgRes::block_vil_box2);
+	CreateBox(11, 11, MapImgRes::block_vil_box2);
+	CreateBox(12, 0, MapImgRes::block_vil_box2);
+	CreateBox(12, 4, MapImgRes::block_vil_box2);
+	CreateBox(12, 9, MapImgRes::block_vil_box2);
+	CreateBox(13, 2, MapImgRes::block_vil_box2);
+	CreateBox(13, 7, MapImgRes::block_vil_box2);
+	CreateBox(14, 4, MapImgRes::block_vil_box2);
+	CreateBox(14, 9, MapImgRes::block_vil_box2);
 
 	CreateBox(0, 5, MapImgRes::block_vil_box1);
 	CreateBox(0, 8, MapImgRes::block_vil_box1);
 	CreateBox(1, 3, MapImgRes::block_vil_box1);
+	CreateBox(2, 1, MapImgRes::block_vil_box1);
+	CreateBox(2, 3, MapImgRes::block_vil_box1);
+	CreateBox(2, 5, MapImgRes::block_vil_box1);
+	CreateBox(2, 8, MapImgRes::block_vil_box1);
+	CreateBox(2, 12, MapImgRes::block_vil_box1);
+	CreateBox(3, 0, MapImgRes::block_vil_box1);
+	CreateBox(3, 3, MapImgRes::block_vil_box1);
+	CreateBox(3, 10, MapImgRes::block_vil_box1);
+	CreateBox(4, 1, MapImgRes::block_vil_box1);
+	CreateBox(4, 5, MapImgRes::block_vil_box1);
+	CreateBox(4, 8, MapImgRes::block_vil_box1);
+	CreateBox(4, 12, MapImgRes::block_vil_box1);
+	CreateBox(10, 2, MapImgRes::block_vil_box1);
+	CreateBox(10, 5, MapImgRes::block_vil_box1);
+	CreateBox(10, 7, MapImgRes::block_vil_box1);
+	CreateBox(10, 11, MapImgRes::block_vil_box1);
+	CreateBox(11, 0, MapImgRes::block_vil_box1);
+	CreateBox(11, 4, MapImgRes::block_vil_box1);
+	CreateBox(11, 9, MapImgRes::block_vil_box1);
+	CreateBox(11, 12, MapImgRes::block_vil_box1);
+	CreateBox(12, 2, MapImgRes::block_vil_box1);
+	CreateBox(12, 5, MapImgRes::block_vil_box1);
+	CreateBox(12, 7, MapImgRes::block_vil_box1);
+	CreateBox(13, 4, MapImgRes::block_vil_box1);
+	CreateBox(13, 9, MapImgRes::block_vil_box1);
+	CreateBox(14, 5, MapImgRes::block_vil_box1);
+	CreateBox(14, 7, MapImgRes::block_vil_box1);
 
 
 
