@@ -15,5 +15,6 @@ enum class ERenderOrder
 enum class EBlockType
 {
 	Wall,
-	Box	
+	Box	,
+	MoveBox
 };

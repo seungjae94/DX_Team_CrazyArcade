@@ -22,7 +22,7 @@ void AVillageMap::BeginPlay()
 	CreateHouse();
 	CreateTree();
 	CreateVillageBox();
-
+	CreateVillageMoveBox();
 
 }
 
@@ -147,10 +147,42 @@ void AVillageMap::CreateVillageBox()
 	CreateBox(13, 9, MapImgRes::block_vil_box1);
 	CreateBox(14, 5, MapImgRes::block_vil_box1);
 	CreateBox(14, 7, MapImgRes::block_vil_box1);
+}
 
-
-
-
-	
-
+void AVillageMap::CreateVillageMoveBox()
+{
+	CreateMoveBox(0, 9, MapImgRes::block_vil_box0);
+	CreateMoveBox(1, 4, MapImgRes::block_vil_box0);
+	CreateMoveBox(2, 9, MapImgRes::block_vil_box0);
+	CreateMoveBox(2, 11, MapImgRes::block_vil_box0);
+	CreateMoveBox(3, 2, MapImgRes::block_vil_box0);
+	CreateMoveBox(3, 4, MapImgRes::block_vil_box0);
+	CreateMoveBox(4, 9, MapImgRes::block_vil_box0);
+	CreateMoveBox(4, 11, MapImgRes::block_vil_box0);
+	CreateMoveBox(6, 1, MapImgRes::block_vil_box0);
+	CreateMoveBox(6, 3, MapImgRes::block_vil_box0);
+	CreateMoveBox(6, 5, MapImgRes::block_vil_box0);
+	CreateMoveBox(6, 7, MapImgRes::block_vil_box0);
+	CreateMoveBox(6, 9, MapImgRes::block_vil_box0);
+	CreateMoveBox(6, 11, MapImgRes::block_vil_box0);
+	CreateMoveBox(7, 1, MapImgRes::block_vil_box0);
+	CreateMoveBox(7, 4, MapImgRes::block_vil_box0);
+	CreateMoveBox(7, 7, MapImgRes::block_vil_box0);
+	CreateMoveBox(7, 10, MapImgRes::block_vil_box0);
+	CreateMoveBox(8, 0, MapImgRes::block_vil_box0);
+	CreateMoveBox(8, 2, MapImgRes::block_vil_box0);
+	CreateMoveBox(8, 4, MapImgRes::block_vil_box0);
+	CreateMoveBox(8, 6, MapImgRes::block_vil_box0);
+	CreateMoveBox(8, 8, MapImgRes::block_vil_box0);
+	CreateMoveBox(8, 10, MapImgRes::block_vil_box0);
+	CreateMoveBox(8, 12, MapImgRes::block_vil_box0);
+	CreateMoveBox(10, 1, MapImgRes::block_vil_box0);
+	CreateMoveBox(10, 3, MapImgRes::block_vil_box0);
+	CreateMoveBox(11, 8, MapImgRes::block_vil_box0);
+	CreateMoveBox(11, 10, MapImgRes::block_vil_box0);
+	CreateMoveBox(12, 1, MapImgRes::block_vil_box0);
+	CreateMoveBox(12, 3, MapImgRes::block_vil_box0);
+	CreateMoveBox(13, 8, MapImgRes::block_vil_box0);
+	CreateMoveBox(13, 10, MapImgRes::block_vil_box0);
+	CreateMoveBox(14, 3, MapImgRes::block_vil_box0);
 }
