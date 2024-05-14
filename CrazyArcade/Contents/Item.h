@@ -17,6 +17,12 @@ public:
 	AItem& operator=(const AItem& _Other) = delete;
 	AItem& operator=(AItem&& _Other) noexcept = delete;
 
+	// 플레이어가 Item 객체를 받는다
+	// Item->ChangeStat(this);
+	// ChangeStat이 플레이어 스탯을 알아서 바꾼다 
+
+	//virtual void ChangeStat(APlayer* _Player) = 0;
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -30,7 +36,6 @@ protected:
 	float BlockSize = AMapBase::GetBlockSize();
 
 	float MoveTime = 0.25f;
-	//float4 MoveDir = FVector::Down * 10.0f;
 	float MoveSpeed = 10.0f;
 
 	void MoveUpDown(float _DeltaTime);

@@ -18,3 +18,14 @@ enum class EBlockType
 	Box	,
 	MoveBox
 };
+
+enum class EPlayerItem
+{
+	Bubble,
+	Fluid,
+	Ultra,
+	Roller,
+	RedDevil,
+	Glove,
+	Shoes,
+};

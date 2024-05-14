@@ -116,7 +116,7 @@ void AServerGameMode::ServerPacketInit(UEngineDispatcher& Dis)
 					ServerTestOtherPlayer* OtherPlayer;
 					OtherPlayer = this->GetWorld()->SpawnActor<ServerTestOtherPlayer>("OtherPlayer", 0).get();
 					OtherPlayer->SetObjectToken(10);
-					OtherPlayer->SetActorLocation(_Packet->Pos);
+					OtherPlayer->PushProtocol(_Packet);
 				});
 		});
 }
@@ -131,11 +131,9 @@ void AServerGameMode::ClientPacketInit(UEngineDispatcher& Dis)
 					if (nullptr == OtherPlayer)
 					{
 						OtherPlayer = this->GetWorld()->SpawnActor<ServerTestOtherPlayer>("OtherPlayer", 0).get();
-						OtherPlayer->SetObjectToken(_Packet->GetObjectToken());
+						OtherPlayer->SetObjectToken(UEngineProtocol::GetMyObjectToken());
 					}
 					OtherPlayer->PushProtocol(_Packet);
-
-					//OtherPlayer->GetRenderer()->ChangeAnimation(_Packet->SpriteName);
 				});
 		});
 
@@ -146,7 +144,7 @@ void AServerGameMode::ClientPacketInit(UEngineDispatcher& Dis)
 					ServerTestOtherPlayer* OtherPlayer;
 					OtherPlayer = this->GetWorld()->SpawnActor<ServerTestOtherPlayer>("OtherPlayer", 0).get();
 					OtherPlayer->SetObjectToken(10);
-					OtherPlayer->SetActorLocation(_Packet->Pos);
+					OtherPlayer->PushProtocol(_Packet);
 				});
 		});
 }

@@ -66,6 +66,7 @@ void UEngineNet::RecvThreadFunction(USession* _Session, UEngineNet* _Net)
 		{
 			_Session->TokenInitOn();
 			_Session->SetSessionToken(Protocol.GetSessionToken());
+			UEngineProtocol::ObjectTokenInit(Protocol.GetObjectToken());
 			if (nullptr != _Net->TokenPacketFunction)
 			{
 				_Net->TokenPacketFunction(reinterpret_cast<USessionTokenPacket*>(&Protocol));
