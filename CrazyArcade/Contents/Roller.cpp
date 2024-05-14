@@ -12,6 +12,9 @@ ARoller::~ARoller()
 void ARoller::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Renderer->SetSprite("Rollor.png");
+	Renderer->SetAutoSize(1.0f, true);
 }
 
 void ARoller::Tick(float _DeltaTime)

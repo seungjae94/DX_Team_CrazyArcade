@@ -16,6 +16,7 @@
 
 
 AServerGameMode::AServerGameMode()
+	:AMainPlayLevel()
 {
 }
 
@@ -31,11 +32,6 @@ AServerGameMode::~AServerGameMode()
 void AServerGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	// TestThread.Start();
-	std::shared_ptr<UCamera> Camera = GetWorld()->GetMainCamera();
-	Camera->SetActorLocation(FVector(0.0f, 0.0f, -100.0f));
-
-	MainPlayer = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
 
 }
 

@@ -4,13 +4,14 @@
 #include <EngineBase/EngineNetHeader.h>
 #include <EngineCore/EngineNetWindow.h>
 #include <EngineBase/EngineDispatcher.h>
+#include "MainPlayLevel.h"
 
 // Ό³Έν :
 class UEngineNetWindow;
 class ServerTestPlayer;
-class AServerGameMode : public AGameMode
+class AServerGameMode : public AMainPlayLevel
 {
-	GENERATED_BODY(AGameMode)
+	GENERATED_BODY(AMainPlayLevel)
 
 	
 

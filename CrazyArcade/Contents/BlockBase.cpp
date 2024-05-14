@@ -6,7 +6,6 @@ ABlockBase::ABlockBase()
 	UDefaultSceneComponent* Root = CreateDefaultSubObject<UDefaultSceneComponent>("Root");
 
 	Body = CreateDefaultSubObject<USpriteRenderer>("Block");
-	Body->SetOrder(ERenderOrder::Block);
 	Body->SetPivot(EPivot::LEFTBOTTOM);
 	Body->SetAutoSize(1.0f, true);
 	Body->SetupAttachment(Root);
