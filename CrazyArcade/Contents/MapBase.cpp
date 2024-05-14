@@ -51,9 +51,9 @@ void AMapBase::SetMapInfoSize(int _X, int _Y)
 	{
 		MapInfo[Y].resize(_X);
 	}
-
-	BackGround->SetOrder(Const::MaxOrder - SizeY);
-	PlayUI_BackGround->SetOrder(Const::MaxOrder - SizeY);
+	//Const::MaxOrder - SizeY - 1
+	BackGround->SetOrder(0);
+	PlayUI_BackGround->SetOrder(0);
 }
 
 int AMapBase::GetRenderOrder(const FVector& _CurPos)
