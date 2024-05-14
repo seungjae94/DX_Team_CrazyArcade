@@ -35,6 +35,10 @@ public:
 		ClientConnectFunction = _Function;
 	}
 
+	ENetType GetNetType() {
+		return NetType;
+	}
+
 protected:
 	void OnGui(ULevel* Level, float _Delta) override;
 
