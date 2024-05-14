@@ -26,7 +26,7 @@ void AMapTestLevel::BeginPlay()
 
 	//UI
 	Timer = GetWorld()->SpawnActor<ATimerUI>("TimeUI");
-	Timer->SetTimer(300.0f);
+	Timer->SetTimer(180.0f);
 
 }
 

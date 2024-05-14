@@ -3,7 +3,7 @@
 
 ATimerUI::ATimerUI()
 {
-	UEngineSprite::CreateCutting("TimeNumber.png", 10, 1);
+	
 }
 
 ATimerUI::~ATimerUI()
@@ -14,6 +14,7 @@ ATimerUI::~ATimerUI()
 void ATimerUI::BeginPlay()
 {
 	Super::BeginPlay();
+	UEngineSprite::CreateCutting("TimeNumber.png", 10, 1); //
 	
 	MinUI = CreateWidget<UImage>(GetWorld(), "Min");
 	MinUI->SetAutoSize(1.0f, true);
