@@ -2,6 +2,8 @@
 
 enum class ECharacterType
 {
+	BackGround,
+	Shadow
 	Random,
 	Dao,
 	Dizni,

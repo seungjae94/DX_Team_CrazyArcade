@@ -53,7 +53,7 @@ protected:
 	float BaseSpeed = 200.0f;
 	float Speed = 0.0f;
 	float MaxSpeed = 400.0f;
-	float CalSpeed = BaseSpeed + Speed;
+	float CurSpeed = BaseSpeed + Speed;
 
 	bool Push = false;
 	bool Throw = false;

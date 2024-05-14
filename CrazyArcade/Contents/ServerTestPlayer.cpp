@@ -48,15 +48,16 @@ void ServerTestPlayer::Tick(float _DeltaTime)
 
 		Packet->Pos = GetActorLocation();
 		Packet->SpriteName = Renderer->GetCurAnimationName();
-		Send(Packet);
+		//Send(Packet);
 		CurTime += FrameTime;
 		if (true == IsSpawn) {
 			std::shared_ptr<USpawnUpdatePacket> SpawnPacket = std::make_shared<USpawnUpdatePacket>();
 			SpawnPacket->Pos = GetActorLocation();
 			SpawnPacket->SpawnSelect = ServerObjectType::Player;
 			ServerTestOtherPlayer* Test = GetWorld()->SpawnActor<ServerTestOtherPlayer>("Test").get();
+			Test->SetObjectToken(GetToken);
 			Test->SetActorLocation(GetActorLocation());
-			Send(SpawnPacket);
+ 			Send(SpawnPacket);
 			IsSpawn = false;
 		}
 	}

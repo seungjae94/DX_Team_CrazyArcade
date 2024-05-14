@@ -19,7 +19,7 @@ void ATimerUI::BeginPlay()
 	MinUI = CreateWidget<UImage>(GetWorld(), "Min");
 	MinUI->SetAutoSize(1.0f, true);
 	MinUI->AddToViewPort(10);
-	MinUI->SetPosition(FVector{ 315,252 });
+	MinUI->SetPosition(FVector{ 315,219 });
 	MinUI->SetSprite("TimeNumber.png");
 
 
@@ -27,18 +27,18 @@ void ATimerUI::BeginPlay()
 	MinUI2 = CreateWidget<UImage>(GetWorld(), "Min2");
 	MinUI2->SetAutoSize(1.0f, true);
 	MinUI2->AddToViewPort(10);
-	MinUI2->SetPosition(FVector{ 327,252 });
+	MinUI2->SetPosition(FVector{ 327,219 });
 	//MinUI2->SetSprite("0.png");
 	
 	SecUI = CreateWidget<UImage>(GetWorld(), "Sec");
 	SecUI->SetAutoSize(1.0f, true);
 	SecUI->AddToViewPort(10);
-	SecUI->SetPosition(FVector{ 348,252 });
+	SecUI->SetPosition(FVector{ 348,219 });
 
 	SecUI2 = CreateWidget<UImage>(GetWorld(), "Sec2");
 	SecUI2->SetAutoSize(1.0f, true);
 	SecUI2->AddToViewPort(10);
-	SecUI2->SetPosition(FVector{ 360,252 });
+	SecUI2->SetPosition(FVector{ 360,219 });
 
 	
 

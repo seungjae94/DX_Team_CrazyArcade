@@ -59,6 +59,8 @@ void APlayer::BeginPlay()
 
 	ShadowRenderer->SetSprite("Shadow.png");
 	ShadowRenderer->SetAutoSize(1.0f, true);
+	ShadowRenderer->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.7f });
+	ShadowRenderer->SetOrder(ERenderOrder::Shadow);
 
 	DebugRenderer->SetScale({ 5,5,5 });
 
@@ -76,11 +78,23 @@ void APlayer::Tick(float _DeltaTime)
 
 	int PlayerOrder = PlayLevel->GetMap()->GetRenderOrder(GetActorLocation());
 	Renderer->SetOrder(PlayerOrder);
-	ShadowRenderer->SetOrder(PlayerOrder - 1);
 
 	{
 		std::string Msg = std::format("PlayerOrder : {}\n", PlayerOrder);
 		UEngineDebugMsgWindow::PushMsg(Msg);
+	}
+	{
+		std::string Msg = std::format("Bubble : {}\n", MPlayerItem[EPlayerItem::Bubble]);
+		UEngineDebugMsgWindow::PushMsg(Msg);
+	}
+	// Item 임의 적용 테스트
+	if (true == IsDown('R'))
+	{
+		PickUpItem(EPlayerItem::Roller);
+	}
+	if (true == IsDown('B'))
+	{
+		PickUpItem(EPlayerItem::Bubble);
 	}
 
 	PlayerPos = GetActorLocation();
@@ -104,14 +118,14 @@ void APlayer::PickUpItem(EPlayerItem _ItemType)
 		break;
 	case EPlayerItem::Roller:
 		Speed += 10.0f;
-		CalSpeed = BaseSpeed + Speed;
-		if (MaxSpeed < CalSpeed)
+		CurSpeed = BaseSpeed + Speed;
+		if (MaxSpeed < CurSpeed)
 		{
-			CalSpeed = MaxSpeed;
+			CurSpeed = MaxSpeed;
 		}
 		break;
 	case EPlayerItem::RedDevil:
-		CalSpeed = MaxSpeed;
+		CurSpeed = MaxSpeed;
 		break;
 	case EPlayerItem::Glove:
 		Throw = true;

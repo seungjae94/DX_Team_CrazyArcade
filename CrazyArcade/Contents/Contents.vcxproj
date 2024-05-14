@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Devil.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Bomb.h">
       <SubType>
       </SubType>
@@ -31,6 +35,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="InGameUI.h" />
     <ClInclude Include="LobbyTitleGameMode.h">
       <SubType>
       </SubType>
@@ -136,6 +141,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Devil.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Bomb.cpp">
       <SubType>
       </SubType>
@@ -148,6 +157,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="InGameUI.cpp" />
     <ClCompile Include="LobbyTitleGameMode.cpp">
       <SubType>
       </SubType>

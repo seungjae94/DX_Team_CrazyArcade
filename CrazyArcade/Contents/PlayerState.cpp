@@ -4,6 +4,8 @@
 #include "MainPlayLevel.h"
 #include "MapBase.h"
 
+#include "Bomb.h"
+
 void APlayer::StateInit()
 {
 	// 스테이트 생성
@@ -62,7 +64,19 @@ void APlayer::StateInit()
 
 void APlayer::Idle(float _Update)
 {
-	if (true == IsPress('A') || true == IsPress('D') || true == IsPress('W') || true == IsPress('S'))
+	// Bomb 설치
+	if (true == IsDown(VK_SPACE))
+	{
+		if (0 < BombCount)
+		{
+			std::shared_ptr<ABomb> Bomb = GetWorld()->SpawnActor<ABomb>("Bomb");
+			Bomb->SetActorLocation(GetActorLocation());
+			Bomb->AddActorLocation({ 0.0f, BlockSize / 2.0f });
+			--BombCount;
+		}
+	}
+
+	if (true == IsPress(VK_LEFT) || true == IsPress(VK_RIGHT) || true == IsPress(VK_UP) || true == IsPress(VK_DOWN))
 	{
 		State.ChangeState("Run");
 		return;
@@ -71,36 +85,48 @@ void APlayer::Idle(float _Update)
 
 void APlayer::Run(float _DeltaTime)
 {
-	if (true == IsPress('A'))
+	// Bomb 설치
+	if (true == IsDown(VK_SPACE))
+	{
+		if (0 < BombCount)
+		{
+			std::shared_ptr<ABomb> Bomb = GetWorld()->SpawnActor<ABomb>("Bomb");
+			Bomb->SetActorLocation(GetActorLocation());
+			Bomb->AddActorLocation({ 0.0f, BlockSize / 2.0f });
+			--BombCount;
+		}
+	}
+
+	if (true == IsPress(VK_LEFT))
 	{
 		Renderer->ChangeAnimation("Run_Left");
 		//Renderer->SetDir(EEngineDir::Left);
-		KeyMove(_DeltaTime, FVector::Left, CalSpeed);
+		KeyMove(_DeltaTime, FVector::Left, CurSpeed);
 		PlayerDir = EPlayerDir::Left;
 	}
-	else if (true == IsPress('D'))
+	else if (true == IsPress(VK_RIGHT))
 	{
 		Renderer->ChangeAnimation("Run_Right");
 		//Renderer->SetDir(EEngineDir::Right);
-		KeyMove(_DeltaTime, FVector::Right, CalSpeed);
+		KeyMove(_DeltaTime, FVector::Right, CurSpeed);
 		PlayerDir = EPlayerDir::Right;
 	}
-	else if (true == IsPress('W'))
+	else if (true == IsPress(VK_UP))
 	{
 		Renderer->ChangeAnimation("Run_Up");
 		//Renderer->SetDir(EEngineDir::Right);
-		KeyMove(_DeltaTime, FVector::Up, CalSpeed);
+		KeyMove(_DeltaTime, FVector::Up, CurSpeed);
 		PlayerDir = EPlayerDir::Up;
 	}
-	else if (true == IsPress('S'))
+	else if (true == IsPress(VK_DOWN))
 	{
 		Renderer->ChangeAnimation("Run_Down");
 		//Renderer->SetDir(EEngineDir::Right);
-		KeyMove(_DeltaTime, FVector::Down, CalSpeed);
+		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
 		PlayerDir = EPlayerDir::Down;
 	}
 
-	if (true == IsFree('A') && true == IsFree('D') && true == IsFree('W') && true == IsFree('S'))
+	if (true == IsFree(VK_LEFT) && true == IsFree(VK_RIGHT) && true == IsFree(VK_UP) && true == IsFree(VK_DOWN))
 	{
 		State.ChangeState("Idle");
 		return;

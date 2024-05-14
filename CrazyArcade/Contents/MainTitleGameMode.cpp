@@ -57,7 +57,7 @@ void AMainTitleGameMode::BeginPlay()
 
 	StartButton->SetDown([=] {
 	
-		GEngine->ChangeLevel("MapTestLevel");
+		GEngine->ChangeLevel("LobbyTitleTestLevel");
 		});
 
 }

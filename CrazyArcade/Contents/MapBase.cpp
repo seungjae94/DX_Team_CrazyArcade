@@ -52,8 +52,19 @@ void AMapBase::SetMapInfoSize(int _X, int _Y)
 		MapInfo[Y].resize(_X);
 	}
 
-	BackGround->SetOrder(Const::MaxOrder - SizeY);
-	PlayUI_BackGround->SetOrder(Const::MaxOrder - SizeY);
+	BackGround->SetOrder(ERenderOrder::BackGround);
+	PlayUI_BackGround->SetOrder(ERenderOrder::BackGround);
+}
+
+FPoint AMapBase::CovertLocationToPoint(const FVector& _Pos)
+{
+	FPoint Result = FPoint();
+	FVector Pos = _Pos - StartPos;
+
+	Result.X = static_cast<int>(Pos.X / BlockSize);
+	Result.Y = static_cast<int>(Pos.Y / BlockSize);
+
+	return Result;
 }
 
 int AMapBase::GetRenderOrder(const FVector& _CurPos)
@@ -89,62 +100,70 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 	float NextPlayerFX = NextPos.X / BlockSize;
 	float NextPlayerFY = NextPos.Y / BlockSize;
 
-	int NextPlayerX = static_cast<int>(NextPos.X / BlockSize);
-	int NextPlayerY = static_cast<int>(NextPos.Y / BlockSize);
+	FPoint NextPoint = FPoint();
+	NextPoint.X = static_cast<int>(NextPos.X / BlockSize);
+	NextPoint.Y = static_cast<int>(NextPos.Y / BlockSize);
 	
 	// 맵 범위 밖일때
-	if (SizeX <= NextPlayerX || 0 > NextPlayerFX || SizeY <= NextPlayerY || 0 > NextPlayerFY)
+	if (SizeX <= NextPoint.X || 0 > NextPlayerFX || SizeY <= NextPoint.Y || 0 > NextPlayerFY)
 	{
 		return false;
 	}
 	
 	// 빈 공간일때
-	if (nullptr == MapInfo[NextPlayerY][NextPlayerX].Block)
+	if (nullptr == MapInfo[NextPoint.Y][NextPoint.X].Block)
 	{
 		return true;
 	}
 
 	// 오브젝트 존재할때
-	EBlockType BlockType = MapInfo[NextPlayerY][NextPlayerX].Block->GetBlockType();
+	EBlockType BlockType = MapInfo[NextPoint.Y][NextPoint.X].Block->GetBlockType();
 	if (EBlockType::Wall == BlockType || EBlockType::Box == BlockType)
 	{
 		return false;
 	}
 
+	// MoveBox 체크
 	if (EBlockType::MoveBox == BlockType)
 	{
-		std::shared_ptr<AMoveBox> MoveBox = std::dynamic_pointer_cast<AMoveBox>(MapInfo[NextPlayerY][NextPlayerX].Block);
-		MoveBox->MoveOneBlockCheck(_Dir);
-
-		int TwoStepX = NextPlayerX;
-		int TwoStepY = NextPlayerY;
+		std::shared_ptr<AMoveBox> MoveBox = std::dynamic_pointer_cast<AMoveBox>(MapInfo[NextPoint.Y][NextPoint.X].Block);
+		MoveBox->SetMoveDir(_Dir);
+		FPoint TwoStepPoint = NextPoint;
 
 		if (0.0f < _Dir.X)
 		{
-			TwoStepX += 1;
+			TwoStepPoint.X += 1;
 		}
 		else if (0.0f > _Dir.X)
 		{
-			TwoStepX -= 1;
+			TwoStepPoint.X -= 1;
 		}
 		else if (0.0f < _Dir.Y)
 		{
-			TwoStepY += 1;
+			TwoStepPoint.Y += 1;
 		}
 		else if (0.0f > _Dir.Y)
 		{
-			TwoStepY -= 1;
-		}
-		
-		if (nullptr == MapInfo[TwoStepY][TwoStepX].Block)
-		{
-			//MoveBox->MoveOneBlock(_Dir);
-			MapInfo[NextPlayerY][NextPlayerX].Block = nullptr;
-			MapInfo[TwoStepY][TwoStepX].Block = MoveBox;
+			TwoStepPoint.Y -= 1;
 		}
 
+		if (0 > TwoStepPoint.X || SizeX <= TwoStepPoint.X 
+		||  0 > TwoStepPoint.Y || SizeY <= TwoStepPoint.Y
+		|| nullptr != MapInfo[TwoStepPoint.Y][TwoStepPoint.X].Block)
+		{
+			return false;
+		}
+		
+		if ("Idle" == MoveBox->GetCurState())
+		{
+			MoveBox->StateChange("Move");
+			return false;
+		}
+		
 		return false;
 	}
 
 	return true;
 }
+
+
