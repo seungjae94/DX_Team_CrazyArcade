@@ -31,11 +31,13 @@ private:
 	UImage* PlayerNameBox = nullptr;
 
 	UTextWidget* TextWidget = nullptr;
-	std::string NameText = "";
+	std::vector<char> NameText;
+	std::string PlayerName = " ";
 	std::vector<UTextWidget*> TextWidgets = {};
-	inline void SetText(std::string _Text)
+	inline void SetText(const char _Text)
 	{
-		NameText = _Text;
+		
+		NameText.push_back( _Text);
 	}
 };
 
