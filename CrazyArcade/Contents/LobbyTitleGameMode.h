@@ -24,6 +24,7 @@ private:
 	UImage* Btn_GameStart = nullptr;
 	UImage* Btn_MapSelect = nullptr;
 	UImage* Outline_CharacterSelect = nullptr;
+	UImage* Checker_CharacterSelect = nullptr;
 
 	std::vector<UImage*> Btns_Space;
 	std::vector<UImage*> Btns_CharacterSelect;

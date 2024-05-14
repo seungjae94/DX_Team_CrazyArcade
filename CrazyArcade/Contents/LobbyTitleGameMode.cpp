@@ -12,6 +12,7 @@ ALobbyTitleGameMode::~ALobbyTitleGameMode()
 void ALobbyTitleGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+
 	{
 		UEngineSprite::CreateCutting("Button_GameStart_Hover.png", 1, 3);
 		UEngineSprite::CreateCutting("Button_MapSelect_Hover.png", 1, 2);
@@ -84,6 +85,13 @@ void ALobbyTitleGameMode::BeginPlay()
 			Outline_CharacterSelect->AddToViewPort(1);
 			Outline_CharacterSelect->SetAutoSize(1.0f, true);
 			Outline_CharacterSelect->SetWidgetLocation({ 229.0f, 245.0f });
+		}
+		{
+			Checker_CharacterSelect = CreateWidget<UImage>(GetWorld(), "Checker_CharacterSelect");
+			Checker_CharacterSelect->SetSprite("Checker_CharacterSelect.png");
+			Checker_CharacterSelect->AddToViewPort(2);
+			Checker_CharacterSelect->SetAutoSize(1.0f, true);
+			Checker_CharacterSelect->SetWidgetLocation({ 150.0f, 202.0f });
 		}
 		{
 			for (int i = 0; i < 7; i++)
@@ -168,6 +176,7 @@ void ALobbyTitleGameMode::BeginPlay()
 				UImage* Btn_CharacterSelect = CreateWidget<UImage>(GetWorld(), "Btn_CharacterSelect");
 				Btn_CharacterSelect->AddToViewPort(1);
 				Btn_CharacterSelect->SetAutoSize(1.0f, true);
+				Btn_CharacterSelect->SetWidgetLocation({ 121.0f + (72.0f * (i % 4)), 185.0f - (55.0f * (i / 4)) });
 
 				switch (i)
 				{
@@ -291,19 +300,6 @@ void ALobbyTitleGameMode::BeginPlay()
 				}
 				Btn_CharacterSelect->ChangeAnimation("UnHover");
 
-				if (i < 4)
-				{
-					Btn_CharacterSelect->SetWidgetLocation({ 121.0f + 72.0f * i, 185.0f });
-				}
-				else if (i < 8)
-				{
-					Btn_CharacterSelect->SetWidgetLocation({ 121.0f + 72.0f * (i - 4), 130.0f });
-				}
-				else
-				{
-					Btn_CharacterSelect->SetWidgetLocation({ 121.0f + 72.0f * (i - 8), 75.0f });
-				}
-
 				Btns_CharacterSelect.push_back(Btn_CharacterSelect);
 				CharacterSelect_Pick.push_back(false);
 			}
@@ -340,6 +336,8 @@ void ALobbyTitleGameMode::BeginPlay()
 					ChangeCharacter(ECharacterType(i));
 					});
 			}
+
+			ChangeCharacter(ECharacterType::Random);
 		}
 	}
 }
@@ -367,7 +365,9 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 	CharacterType = _CharacterType;
 
 	int Index = int(_CharacterType);
+
 	CharacterSelect_Pick[Index] = true;
+	Btns_CharacterSelect[Index]->ChangeAnimation("Pick");
 
 	for (int i = 0; i < 12; i++)
 	{
@@ -377,6 +377,8 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 			Btns_CharacterSelect[i]->ChangeAnimation("UnHover");
 		}
 	}
+
+	Checker_CharacterSelect->SetWidgetLocation({ 150.0f + (72.0f * (Index % 4)), 202.0f - (55.0f * (Index / 4)) });
 
 	switch (_CharacterType)
 	{
