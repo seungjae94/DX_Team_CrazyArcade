@@ -1,7 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
 
-// Ό³Έν :
+class AMainPlayLevel;
 class ABomb : public AActor
 {
 	GENERATED_BODY(AActor)
@@ -22,8 +22,15 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private:
+	AMainPlayLevel* PlayLevel = nullptr;
+
 	UDefaultSceneComponent* DefaultComponent;
-	USpriteRenderer* Renderer;
-	USpriteRenderer* ShadowRenderer;
+	USpriteRenderer* BombRenderer;
+
+	//USpriteRenderer* EffectRenderer_C;
+	//USpriteRenderer* EffectRenderer_L;
+	//USpriteRenderer* EffectRenderer_R;
+	//USpriteRenderer* EffectRenderer_U;
+	//USpriteRenderer* EffectRenderer_D;
 };
 
