@@ -20,7 +20,7 @@ protected:
 private:
 	UImage* LobbyBackGround = nullptr;
 	UImage* Button_GameStart = nullptr;
+	UImage* Button_MapSelect = nullptr;
 	std::vector<UImage*> Buttons_Space;
-	std::vector<bool> Buttons_Space_State;
-	//std::vector<UImage*> Buttons_UnSpace;
+	std::vector<bool> Space_Active;
 };

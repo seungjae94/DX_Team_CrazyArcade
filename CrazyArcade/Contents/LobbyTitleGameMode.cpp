@@ -14,6 +14,7 @@ void ALobbyTitleGameMode::BeginPlay()
 	Super::BeginPlay();
 	{
 		UEngineSprite::CreateCutting("Button_GameStart_Hover.png", 1, 3);
+		UEngineSprite::CreateCutting("Button_MapSelect_Hover.png", 1, 2);
 	}
 	{
 		{
@@ -48,16 +49,35 @@ void ALobbyTitleGameMode::BeginPlay()
 				});
 		}
 		{
+			Button_MapSelect = CreateWidget<UImage>(GetWorld(), "Button_MapSelect");
+			Button_MapSelect->AddToViewPort(1);
+			Button_MapSelect->SetAutoSize(1.0f, true);
+			Button_MapSelect->SetWidgetLocation({ 307.0f, -151.0f });
+
+			Button_MapSelect->CreateAnimation("UnHover", "Button_MapSelect_UnHover.png", 0.1f, false, 0, 0);
+			Button_MapSelect->CreateAnimation("Hover", "Button_MapSelect_Hover.png", 0.1f, true, 0, 1);
+			Button_MapSelect->CreateAnimation("Down", "Button_MapSelect_Down.png", 0.1f, false, 0, 0);
+			Button_MapSelect->ChangeAnimation("UnHover");
+
+			Button_MapSelect->SetUnHover([=] {
+				Button_MapSelect->ChangeAnimation("UnHover");
+				});
+			Button_MapSelect->SetHover([=] {
+				if (Button_MapSelect->IsCurAnimationEnd() == true)
+				{
+					Button_MapSelect->ChangeAnimation("Hover");
+				}
+				});
+			Button_MapSelect->SetDown([=] {
+				Button_MapSelect->ChangeAnimation("Down");
+				});
+		}
+		{
 			for (int i = 0; i < 7; i++)
 			{
 				UImage* Button_Space = CreateWidget<UImage>(GetWorld(), "Button_Space");
 				Button_Space->AddToViewPort(1);
 				Button_Space->SetAutoSize(1.0f, true);
-
-				/*Button_Space->CreateAnimation("UnHover", "Button_Space_UnHover.png", 0.5f, false, 0, 0);
-				Button_Space->CreateAnimation("Hover", "Button_Space_Hover.png", 0.5f, false, 0, 0);
-				Button_Space->CreateAnimation("Down", "Button_Space_Down.png", 0.5f, false, 0, 0);
-				Button_Space->ChangeAnimation("UnHover");*/
 
 				Button_Space->CreateAnimation("Space_UnHover", "Button_Space_UnHover.png", 0.1f, false, 0, 0);
 				Button_Space->CreateAnimation("Space_Hover", "Button_Space_Hover.png", 0.1f, false, 0, 0);
@@ -77,13 +97,13 @@ void ALobbyTitleGameMode::BeginPlay()
 				}
 
 				Buttons_Space.push_back(Button_Space);
-				Buttons_Space_State.push_back(true);
+				Space_Active.push_back(true);
 			}
 
 			for (int i = 0; i < 7; i++)
 			{
 				Buttons_Space[i]->SetUnHover([=] {
-					if (Buttons_Space_State[i] == true)
+					if (Space_Active[i] == true)
 					{
 						Buttons_Space[i]->ChangeAnimation("Space_UnHover");
 					}
@@ -93,91 +113,32 @@ void ALobbyTitleGameMode::BeginPlay()
 					}
 					});
 				Buttons_Space[i]->SetHover([=] {
-					if (Buttons_Space_State[i] == true)
+					if (Buttons_Space[i]->IsCurAnimationEnd() == true)
 					{
-						Buttons_Space[i]->ChangeAnimation("Space_Hover");
-					}
-					else
-					{
-						Buttons_Space[i]->ChangeAnimation("UnSpace_Hover");
+						if (Space_Active[i] == true)
+						{
+							Buttons_Space[i]->ChangeAnimation("Space_Hover");
+						}
+						else
+						{
+							Buttons_Space[i]->ChangeAnimation("UnSpace_Hover");
+						}
 					}
 					});
 				Buttons_Space[i]->SetDown([=] {
-					if (Buttons_Space_State[i] == true)
+					if (Space_Active[i] == true)
 					{
 						Buttons_Space[i]->ChangeAnimation("Space_Down");
+						Space_Active[i] = false;
 					}
 					else
 					{
 						Buttons_Space[i]->ChangeAnimation("UnSpace_Down");
-					}
-					});
-				Buttons_Space[i]->SetPress([=] {
-					if (Buttons_Space_State[i] == true)
-					{
-
-					}
-					else
-					{
-
-					}
-					});
-				Buttons_Space[i]->SetUp([=] {
-					if (Buttons_Space_State[i] == true)
-					{
-						Buttons_Space_State[i] = false;
-					}
-					else
-					{
-						Buttons_Space_State[i] = true;
+						Space_Active[i] = true;
 					}
 					});
 			}
 		}
-		/*{
-			for (int i = 0; i < 7; i++)
-			{
-				UImage* Button_UnSpace = CreateWidget<UImage>(GetWorld(), "Button_UnSpace");
-				Button_UnSpace->AddToViewPort(1);
-				Button_UnSpace->SetAutoSize(1.0f, true);
-				Button_UnSpace->SetActive(false);
-
-				Button_UnSpace->CreateAnimation("UnHover", "Button_UnSpace_UnHover.png", 0.5f, false, 0, 0);
-				Button_UnSpace->CreateAnimation("Hover", "Button_UnSpace_Hover.png", 0.5f, false, 0, 0);
-				Button_UnSpace->CreateAnimation("Down", "Button_UnSpace_Down.png", 0.5f, false, 0, 0);
-				Button_UnSpace->ChangeAnimation("UnHover");
-
-				if (i < 3)
-				{
-					Button_UnSpace->SetWidgetLocation({ -324.0f + 106.0f * (i + 1), 157.0f });
-				}
-				else
-				{
-					Button_UnSpace->SetWidgetLocation({ -324.0f + 106.0f * (i - 3), 12.0f });
-				}
-
-				Buttons_UnSpace.push_back(Button_UnSpace);
-			}
-
-			for (int i = 0; i < 7; i++)
-			{
-				Buttons_UnSpace[i]->SetUnHover([=] {
-					Buttons_UnSpace[i]->ChangeAnimation("UnHover");
-					});
-				Buttons_UnSpace[i]->SetHover([=] {
-					Buttons_UnSpace[i]->ChangeAnimation("Hover");
-					});
-				Buttons_UnSpace[i]->SetDown([=] {
-					Buttons_UnSpace[i]->ChangeAnimation("Down");
-					if (true == Buttons_UnSpace[i]->IsCurAnimationEnd())
-					{
-						Buttons_UnSpace[i]->SetActive(false);
-						Buttons_Space[i]->SetActive(true);
-						Buttons_Space[i]->ChangeAnimation("UnHover");
-					}
-					});
-			}
-		}*/
 	}
 }
 
