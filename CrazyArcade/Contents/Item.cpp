@@ -26,9 +26,10 @@ void AItem::BeginPlay()
 
 	Renderer->SetOrder(ERenderOrder::Item);
 
-	ShadowRenderer->SetSprite("Shadow_Item.png");
+	ShadowRenderer->CreateAnimation("ItemShadow", "Shadow", 0.5f, true);
 	ShadowRenderer->SetAutoSize(1.0f, true);
 	ShadowRenderer->SetOrder(ERenderOrder::Shadow);
+	ShadowRenderer->ChangeAnimation("ItemShadow");
 }
 
 void AItem::Tick(float _DeltaTime)
