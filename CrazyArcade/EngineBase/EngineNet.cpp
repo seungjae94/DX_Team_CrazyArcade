@@ -6,13 +6,13 @@
 #include "EngineDebug.h"
 #include "EngineProtocol.h"
 
-UEngineNet::UEngineNet() 
+UEngineNet::UEngineNet()
 {
 	UNetStartUpHelper::NetStartUp();
 	IsActiveValue = true;
 }
 
-UEngineNet::~UEngineNet() 
+UEngineNet::~UEngineNet()
 {
 	IsActiveValue = false;
 }
@@ -94,7 +94,7 @@ void UEngineNet::RecvThreadFunction(USession* _Session, UEngineNet* _Net)
 			continue;
 		}
 
-		while(true)
+		while (true)
 		{
 			std::shared_ptr<UEngineProtocol> Protocal = Dis.ConvertProtocol(Protocol.GetPacketType(), Ser);
 			Dis.ProcessPacket(Protocal);
@@ -116,6 +116,6 @@ void UEngineNet::RecvThreadFunction(USession* _Session, UEngineNet* _Net)
 				Ser.DataToReadOffsetPush();
 				break;
 			}
-		} 
+		}
 	}
 }

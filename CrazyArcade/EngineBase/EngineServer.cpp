@@ -4,11 +4,11 @@
 #include "EngineProtocol.h"
 #include "NetObject.h"
 
-UEngineServer::UEngineServer() 
+UEngineServer::UEngineServer()
 {
 }
 
-UEngineServer::~UEngineServer() 
+UEngineServer::~UEngineServer()
 {
 }
 

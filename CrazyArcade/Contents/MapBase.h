@@ -25,7 +25,8 @@ public:
 	AMapBase& operator=(const AMapBase& _Other) = delete;
 	AMapBase& operator=(AMapBase&& _Other) noexcept = delete;
 
-	bool CanMovePos(const FVector& _NextPos);
+	int GetRenderOrder(const FVector& _CurPos);
+	bool CanMovePos(const FVector& _NextPos, const FVector& _Dir);
 	static float GetBlockSize()
 	{
 		return BlockSize;

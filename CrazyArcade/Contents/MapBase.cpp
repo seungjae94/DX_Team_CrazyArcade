@@ -1,7 +1,9 @@
 #include "PreCompile.h"
 #include "MapBase.h"
+
 #include "MapConstant.h"
 #include "BlockBase.h"
+#include "MoveBox.h"
 
 float AMapBase::BlockSize = 40.0f;
 
@@ -53,11 +55,36 @@ void AMapBase::SetMapInfoSize(int _X, int _Y)
 	}
 }
 
-bool AMapBase::CanMovePos(const FVector& _NextPos)
+int AMapBase::GetRenderOrder(const FVector& _CurPos)
+{
+	FVector CurPos = _CurPos;
+	CurPos.Y -= StartPos.Y;
+	int CurY = static_cast<int>(CurPos.Y / BlockSize);
+	return -CurY;
+}
+
+bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 {
 	// MapInfo
 	FVector NextPos = _NextPos - StartPos;
-	
+
+	if (0.0f < _Dir.X)
+	{
+		NextPos.X += 20.0f;
+	}
+	else if (0.0f > _Dir.X)
+	{
+		NextPos.X -= 20.0f;
+	}
+	else if (0.0f < _Dir.Y)
+	{
+		NextPos.Y += 17.0f;
+	}
+	else if (0.0f > _Dir.Y)
+	{
+		NextPos.Y -= 23.0f;
+	}
+
 	float NextPlayerFX = NextPos.X / BlockSize;
 	float NextPlayerFY = NextPos.Y / BlockSize;
 
@@ -76,11 +103,20 @@ bool AMapBase::CanMovePos(const FVector& _NextPos)
 		return true;
 	}
 
+
 	// 오브젝트 존재할때
 	EBlockType BlockType = MapInfo[NextPlayerY][NextPlayerX].Block->GetBlockType();
 	if (EBlockType::Wall == BlockType || EBlockType::Box == BlockType)
 	{
 		return false;
+	}
+
+	if (EBlockType::MoveBox == BlockType)
+	{
+		AMoveBox* MoveBox = dynamic_cast<AMoveBox*>(MapInfo[NextPlayerY][NextPlayerX].Block.get());
+
+
+
 	}
 
 	return true;

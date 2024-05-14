@@ -21,7 +21,7 @@ public:
 	// Item->ChangeStat(this);
 	// ChangeStat이 플레이어 스탯을 알아서 바꾼다 
 
-	//virtual void ChangeStat(Player* _Player) = 0;
+	//virtual void ChangeStat(APlayer* _Player) = 0;
 
 protected:
 	void BeginPlay() override;
