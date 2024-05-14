@@ -156,6 +156,9 @@
     <ClInclude Include="BlockBase.h">
       <Filter>Map\Base</Filter>
     </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Map\Block</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -252,6 +255,9 @@
     </ClCompile>
     <ClCompile Include="BlockBase.cpp">
       <Filter>Map\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Map\Block</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

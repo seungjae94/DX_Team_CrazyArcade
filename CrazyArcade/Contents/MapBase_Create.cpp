@@ -1,11 +1,12 @@
 #include "PreCompile.h"
 #include "MapBase.h"
+
 #include "BlockBase.h"
+#include "Wall.h"
 
 void AMapBase::CreateWall(int _X, int _Y, std::string_view _ImgName)
 {
-	MapInfo[_Y][_X] = GetWorld()->SpawnActor<ABlockBase>("Wall");
-	MapInfo[_Y][_X]->SetBlockType(EBlockType::Wall);
+	MapInfo[_Y][_X] = GetWorld()->SpawnActor<AWall>("Wall");
 	MapInfo[_Y][_X]->SetBlockImg(_ImgName);
 
 	FVector Pos = StartPos;
