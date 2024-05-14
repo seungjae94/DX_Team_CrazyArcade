@@ -22,9 +22,6 @@ void AVillageMap::BeginPlay()
 	
 
 
-
-
-
 }
 
 void AVillageMap::Tick(float _DeltaTime)
