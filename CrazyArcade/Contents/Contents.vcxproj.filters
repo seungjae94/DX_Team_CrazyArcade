@@ -111,9 +111,6 @@
     <ClInclude Include="VillageMap.h">
       <Filter>Map\Map</Filter>
     </ClInclude>
-    <ClInclude Include="BlockBase.h">
-      <Filter>Map\Block</Filter>
-    </ClInclude>
     <ClInclude Include="ServerTestOtherPlayer.h">
       <Filter>Level\ServerLevel\ServerActor</Filter>
     </ClInclude>
@@ -156,6 +153,12 @@
     <ClInclude Include="Player.h">
       <Filter>Level\PlayLevel\Actor\Player</Filter>
     </ClInclude>
+    <ClInclude Include="BlockBase.h">
+      <Filter>Map\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Map\Block</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -197,14 +200,8 @@
     <ClCompile Include="VillageMap.cpp">
       <Filter>Map\Map</Filter>
     </ClCompile>
-    <ClCompile Include="BlockBase.cpp">
-      <Filter>Map\Block</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerState.cpp" />
-    <ClCompile Include="ServerTestPlayerState.cpp">
-      <Filter>Level\ServerLevel\ServerActor</Filter>
-    </ClCompile>
     <ClCompile Include="ServerTestOtherPlayer.cpp">
       <Filter>Level\ServerLevel\ServerActor</Filter>
     </ClCompile>
@@ -252,6 +249,12 @@
     </ClCompile>
     <ClCompile Include="TimerUI.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockBase.cpp">
+      <Filter>Map\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Map\Block</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

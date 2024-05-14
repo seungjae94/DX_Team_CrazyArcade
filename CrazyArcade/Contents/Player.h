@@ -26,12 +26,16 @@ public:
 	APlayer& operator=(const APlayer& _Other) = delete;
 	APlayer& operator=(APlayer&& _Other) noexcept = delete;
 
+	USpriteRenderer* GetRenderer()
+	{
+		return Renderer;
+	}
 
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-private:
+
 	UStateManager State;
 
 	USpriteRenderer* Renderer;
