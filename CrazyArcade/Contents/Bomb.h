@@ -24,5 +24,6 @@ protected:
 private:
 	UDefaultSceneComponent* DefaultComponent;
 	USpriteRenderer* Renderer;
+	USpriteRenderer* ShadowRenderer;
 };
 
