@@ -3,7 +3,7 @@
 
 #include "Player.h"
 #include "VillageMap.h"
-
+#include "ServerTestPlayer.h"
 //UI
 #include "TimerUI.h"
 
@@ -21,7 +21,7 @@ void AMainPlayLevel::BeginPlay()
 
 	TileMap = GetWorld()->SpawnActor<AVillageMap>("TileMap");
 
-	Player = GetWorld()->SpawnActor<APlayer>("Player");
+	Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
 	Player->SetActorLocation({ 350.0f, 300.0f, 0.0f });
 
 	//UI
