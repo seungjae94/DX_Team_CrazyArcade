@@ -57,6 +57,16 @@ public:
 		Down = _Down;
 	}
 
+	void SetUp(std::function<void()> _Up)
+	{
+		Up = _Up;
+	}
+
+	void SetPress(std::function<void()> _Press)
+	{
+		Press = _Press;
+	}
+
 	void SetUnHover(std::function<void()> _UnHover)
 	{
 		UnHover = _UnHover;
@@ -107,5 +117,7 @@ private:
 	std::function<void()> UnHover;
 	std::function<void()> Hover;
 	std::function<void()> Down;
+	std::function<void()> Press;
+	std::function<void()> Up;
 };
 
