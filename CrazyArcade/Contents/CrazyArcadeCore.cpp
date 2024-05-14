@@ -21,6 +21,7 @@ UCrazyArcadeCore::~UCrazyArcadeCore()
 
 void UCrazyArcadeCore::Initialize()
 {
+	UEngineFont::Load("±¼¸²");
 	ResLoad();
 
 	UEngineEditorGUI::CreateEditorWindow<UCrazyArcadeDebugWindow>("CrazyArcadeDebugWindow");
@@ -31,7 +32,7 @@ void UCrazyArcadeCore::Initialize()
 	GEngine->CreateLevel<AServerGameMode>("ServerGameMode");
 	GEngine->CreateLevel<AMainTitleGameMode>("TitleTestLevel");
 	GEngine->CreateLevel<ALobbyTitleGameMode>("LobbyTitleTestLevel");
-	GEngine->ChangeLevel("InitTestLevel");
+	GEngine->ChangeLevel("LobbyTitleTestLevel");
 }
 
 void UCrazyArcadeCore::ResLoad()
