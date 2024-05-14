@@ -28,6 +28,12 @@ protected:
 	FVector Pos = FVector::Zero;
 
 	float BlockSize = AMapBase::GetBlockSize();
+
+	float MoveTime = 0.25f;
+	//float4 MoveDir = FVector::Down * 10.0f;
+	float MoveSpeed = 10.0f;
+
+	void MoveUpDown(float _DeltaTime);
 private:
 
 };
