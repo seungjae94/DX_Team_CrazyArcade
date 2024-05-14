@@ -67,6 +67,9 @@
     <Filter Include="UI">
       <UniqueIdentifier>{e3519d18-b196-4cae-85f5-09714166564e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Map\Test">
+      <UniqueIdentifier>{a69a4582-2292-4f76-9289-34319875866f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -157,6 +160,9 @@
       <Filter>Map\Base</Filter>
     </ClInclude>
     <ClInclude Include="Wall.h">
+      <Filter>Map\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Box.h">
       <Filter>Map\Block</Filter>
     </ClInclude>
   </ItemGroup>
@@ -254,6 +260,9 @@
       <Filter>Map\Base</Filter>
     </ClCompile>
     <ClCompile Include="Wall.cpp">
+      <Filter>Map\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Box.cpp">
       <Filter>Map\Block</Filter>
     </ClCompile>
   </ItemGroup>

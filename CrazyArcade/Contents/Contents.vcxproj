@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Box.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Bubble.h">
       <SubType>
       </SubType>
@@ -120,6 +124,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Box.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Bubble.cpp">
       <SubType>
       </SubType>

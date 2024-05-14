@@ -3,6 +3,8 @@
 #include "MapConstant.h"
 #include "BlockBase.h"
 
+float AMapBase::BlockSize = 40.0f;
+
 AMapBase::AMapBase()
 {
 	UDefaultSceneComponent* Root = CreateDefaultSubObject<UDefaultSceneComponent>("Root");
