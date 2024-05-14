@@ -2,6 +2,7 @@
 #include <EngineCore/Actor.h>
 #include <EngineCore/StateManager.h>
 #include <EngineCore/SpriteRenderer.h>
+#include "MapBase.h"
 
 enum class EPlayerDir
 {
@@ -53,6 +54,8 @@ protected:
 
 	bool Push = false;
 	bool Throw = false;
+
+	float BlockSize = AMapBase::GetBlockSize();
 
 	//State
 	void StateInit();

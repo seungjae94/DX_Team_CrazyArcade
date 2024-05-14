@@ -165,6 +165,9 @@
     <ClInclude Include="Box.h">
       <Filter>Map\Block</Filter>
     </ClInclude>
+    <ClInclude Include="TestPlayer.h">
+      <Filter>Map\Test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -264,6 +267,9 @@
     </ClCompile>
     <ClCompile Include="Box.cpp">
       <Filter>Map\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="TestPlayer.cpp">
+      <Filter>Map\Test</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
