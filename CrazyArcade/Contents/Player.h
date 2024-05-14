@@ -36,7 +36,6 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-
 	UStateManager State;
 
 	USpriteRenderer* Renderer;
@@ -54,6 +53,9 @@ protected:
 
 	bool Push = false;
 	bool Throw = false;
+
+	std::map<EPlayerItem, int> MPlayerItem;
+	std::map<EPlayerItem, int>::iterator MPlayerItemIter;
 
 	float BlockSize = AMapBase::GetBlockSize();
 

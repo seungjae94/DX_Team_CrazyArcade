@@ -8,16 +8,19 @@ APlayer::APlayer()
 
 	Renderer = CreateDefaultSubObject<USpriteRenderer>("Renderer");
 	Renderer->SetupAttachment(DefaultComponent);
-	Renderer->SetPivot(EPivot::BOT);
 	Renderer->AddPosition({ 0.0f, -BlockSize / 2.0f });
 
 	ShadowRenderer = CreateDefaultSubObject<USpriteRenderer>("ShadowRenderer");
 	ShadowRenderer->SetupAttachment(DefaultComponent);
-	ShadowRenderer->SetPivot(EPivot::BOT);
 	ShadowRenderer->AddPosition({ 0.0f, -BlockSize / 2.0f });
 
 	DebugRenderer = CreateDefaultSubObject<USpriteRenderer>("DebugRenderer");
 	DebugRenderer->SetupAttachment(DefaultComponent);
+
+	for (MPlayerItemIter = MPlayerItem.begin(); MPlayerItemIter != MPlayerItem.end(); ++MPlayerItemIter)
+	{
+		//*MPlayerItemIter;
+	}
 
 	InputOn();
 }
