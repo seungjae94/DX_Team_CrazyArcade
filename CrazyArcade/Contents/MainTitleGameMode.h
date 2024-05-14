@@ -1,5 +1,7 @@
 #pragma once
 #include <EngineCore/Widget.h>
+#include <EngineCore/TextWidget.h>
+#include<vector>
 class AMainTitleGameMode : public AGameMode
 {
 	GENERATED_BODY(AGameMode)
@@ -14,6 +16,7 @@ public:
 	AMainTitleGameMode& operator=(const AMainTitleGameMode& _Other) = delete;
 	AMainTitleGameMode& operator=(AMainTitleGameMode&& _Other) = delete;
 
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -24,5 +27,15 @@ private:
 	UImage* LoginUI = nullptr;
 
 	UImage* StartButton = nullptr;
+
+	UImage* PlayerNameBox = nullptr;
+
+	UTextWidget* TextWidget = nullptr;
+	std::string NameText = "";
+	std::vector<UTextWidget*> TextWidgets = {};
+	inline void SetText(std::string _Text)
+	{
+		NameText = _Text;
+	}
 };
 

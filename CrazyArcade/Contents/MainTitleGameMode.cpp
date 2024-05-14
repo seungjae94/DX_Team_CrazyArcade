@@ -1,6 +1,6 @@
 #include "PreCompile.h"
 #include "MainTitleGameMode.h"
-
+#include <vector>
 
 AMainTitleGameMode::AMainTitleGameMode()
 {
@@ -17,8 +17,8 @@ void AMainTitleGameMode::BeginPlay()
 	TitleBackGround = CreateWidget<UImage>(GetWorld(), "TitleBackGround");
 	TitleBackGround->SetSprite("Login.png");
 	TitleBackGround->AddToViewPort(1); //UITest;
-	TitleBackGround->SetScale(FVector{ 800,600 });
-	TitleBackGround->SetPosition(FVector{ 0.0f,0.0f });
+	TitleBackGround->SetScale({ 800,600 });
+	TitleBackGround->SetPosition({ 0.0f,0.0f });
 
 	StartButton = CreateWidget<UImage>(GetWorld(), "TitleBackGround");
 	StartButton->AddToViewPort(2); //UITest;
@@ -26,7 +26,14 @@ void AMainTitleGameMode::BeginPlay()
 	StartButton->CreateAnimation("NoneStartButtonAni", "StartButton", 0.1f, false, 0, 0);
 	StartButton->CreateAnimation("HoverStartButtonAni", "StartButton", 0.5f, false, 1, 1);
 	StartButton->ChangeAnimation("NoneStartButtonAni");
-	StartButton->SetPosition(FVector{ 0.0f,-218.0f });
+	StartButton->SetPosition({ 0.0f,-218.0f });
+
+	PlayerNameBox = CreateWidget<UImage>(GetWorld(), "PlayerBoxUI");
+	PlayerNameBox->AddToViewPort(3);
+	PlayerNameBox->SetSprite("NameBox.png");
+	PlayerNameBox->SetScale({ 200.0f, 22.0f });
+	PlayerNameBox->SetWidgetLocation({ -15.0f,-156.0f });
+
 
 	StartButton->SetUnHover([=] {
 
@@ -50,11 +57,23 @@ void AMainTitleGameMode::BeginPlay()
 
 void AMainTitleGameMode::Tick(float _DeltaTime)
 {
+	static float Offset = 0.0f;
+
 	Super::Tick(_DeltaTime);
-	if(UEngineInput::IsDown('P'))
+	if (UEngineInput::IsAnykeyDown())
 	{
-		// 바꿔 줄 것입니다 
-		//여기 레벨 전환으로 사용 
+		UTextWidget* TextWidget = CreateWidget<UTextWidget>(GetWorld(), "TextWidget");
+		TextWidget->SetFont("굴림");
+		TextWidget->SetScale(20.0f);
+		TextWidget->SetColor(Color8Bit::Black);
+		TextWidget->SetPosition({ -15.0f + Offset,-156.0f });
+		TextWidget->SetFlag(FW1_LEFT); //좌로 정렬
+		TextWidget->SetText("A");
+		TextWidget->AddToViewPort(4);
+
+		Offset += 30.0f;
+
+		TextWidgets.push_back(TextWidget);
 	}
 
 }

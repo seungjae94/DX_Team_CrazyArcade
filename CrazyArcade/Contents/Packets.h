@@ -70,6 +70,7 @@ public:
 		UEngineProtocol::Serialize(_Ser);
 		_Ser << Pos;
 		_Ser << SpawnSelect;
+		_Ser << SpawnTime;
 	}
 
 	void DeSerialize(UEngineSerializer& _Ser) override
@@ -82,4 +83,5 @@ public:
 public:
 	float4 Pos = float4::Zero;
 	ServerObjectType SpawnSelect = ServerObjectType::Player; // ?? ·£´ý
+	float SpawnTime = 0.0f;
 };

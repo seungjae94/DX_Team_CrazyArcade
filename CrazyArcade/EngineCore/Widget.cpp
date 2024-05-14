@@ -81,6 +81,16 @@ void UWidget::Tick(float _DeltaTime)
 		{
 			Down();
 		}
+
+		if (true == UEngineInput::IsPress(VK_LBUTTON) && nullptr != Press)
+		{
+			Press();
+		}
+
+		if (true == UEngineInput::IsUp(VK_LBUTTON) && nullptr != Up)
+		{
+			Up();
+		}
 	}
 	else 
 	{
