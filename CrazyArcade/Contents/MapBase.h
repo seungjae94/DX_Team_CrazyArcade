@@ -4,6 +4,12 @@ class ABlockBase;
 class UMapInfo;
 class ABox;
 
+struct FPoint
+{
+	int X;
+	int Y;
+};
+
 class UMapInfo
 {
 public:
@@ -25,6 +31,8 @@ public:
 	AMapBase& operator=(const AMapBase& _Other) = delete;
 	AMapBase& operator=(AMapBase&& _Other) noexcept = delete;
 
+	FPoint CovertLocationToPoint(const FVector& _Pos);
+	
 	int GetRenderOrder(const FVector& _CurPos);
 	
 	bool CanMovePos(const FVector& _NextPos, const FVector& _Dir);
@@ -32,6 +40,16 @@ public:
 	static float GetBlockSize()
 	{
 		return BlockSize;
+	}
+
+	std::shared_ptr<ABlockBase> GetMapBlock(int _X, int _Y) const
+	{
+		return MapInfo[_Y][_X].Block;
+	}
+
+	void SetMapBlock(int _X, int _Y, std::shared_ptr<ABlockBase> _Block)
+	{
+		MapInfo[_Y][_X].Block = _Block;
 	}
 
 protected:
