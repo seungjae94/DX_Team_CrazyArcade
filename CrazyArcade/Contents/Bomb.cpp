@@ -53,10 +53,7 @@ void ABomb::BeginPlay()
 	UEngineSprite::CreateCutting("down1.png", 11, 1);
 	UEngineSprite::CreateCutting("down2.png", 11, 1);
 
-	//BombRenderer->SetSprite("Bomb.png");
 	BombRenderer->SetAutoSize(1.0f, true);
-	BombRenderer->SetOrder(10000);
-
 	BombRenderer->CreateAnimation("Bomb", "Bomb.png", 0.1f, true, 0, 2);
 	
 	//EffectRenderer_C->CreateAnimation("CenterEffect", "center.png", 0.1f, true, 0, 2);
@@ -64,7 +61,6 @@ void ABomb::BeginPlay()
 	//EffectRenderer_R->CreateAnimation("RigthEffect", "right1.png", 0.1f, true, 0, 10);
 	//EffectRenderer_U->CreateAnimation("UpEffect", "up1.png", 0.1f, true, 0, 10);
 	//EffectRenderer_D->CreateAnimation("DownEffect", "down1.png", 0.1f, true, 0, 10);
-	
 
 	BombRenderer->ChangeAnimation("Bomb");
 }
