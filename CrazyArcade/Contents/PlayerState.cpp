@@ -71,6 +71,7 @@ void APlayer::Idle(float _Update)
 		{
 			std::shared_ptr<ABomb> Bomb = GetWorld()->SpawnActor<ABomb>("Bomb");
 			Bomb->SetActorLocation(GetActorLocation());
+			Bomb->AddActorLocation({ 0.0f, BlockSize / 2.0f });
 			--BombCount;
 		}
 	}
@@ -91,6 +92,7 @@ void APlayer::Run(float _DeltaTime)
 		{
 			std::shared_ptr<ABomb> Bomb = GetWorld()->SpawnActor<ABomb>("Bomb");
 			Bomb->SetActorLocation(GetActorLocation());
+			Bomb->AddActorLocation({ 0.0f, BlockSize / 2.0f });
 			--BombCount;
 		}
 	}
