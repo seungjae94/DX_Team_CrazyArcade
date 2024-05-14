@@ -32,7 +32,7 @@ void ATestPlayer::KeyMove(float _DeltaTime, FVector _Dir, float _Speed)
 	AMapTestLevel* PlayLevel = dynamic_cast<AMapTestLevel*>(GetWorld()->GetGameMode().get());
 	AMapBase* Map = PlayLevel->GetMap().get();
 	FVector NextPos = GetActorLocation() + FVector(_DeltaTime * _Speed * _Dir.X, _DeltaTime * _Speed * _Dir.Y, 0.0f);
-	bool CanMove = Map->CanMovePos(NextPos);
+	bool CanMove = Map->CanMovePos(NextPos, _Dir);
 
 	if (true == CanMove)
 	{

@@ -21,6 +21,9 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private:
+	float MoveTime = 0.0f;
+	FVector StartPos = FVector::Zero;
+	FVector TargetPos = FVector::Zero;
 
 };
 
