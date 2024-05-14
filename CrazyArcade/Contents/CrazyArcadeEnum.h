@@ -1,15 +1,19 @@
 #pragma once
 
-enum class ERenderOrder
+enum class ECharacterType
 {
-	None,
-	Map,
-	Block,
-	Shadow,
-	Bomb,
-	Item,
-	Player,
-	Debug,
+	Random,
+	Dao,
+	Dizni,
+	Mos,
+	Ethi,
+	Marid,
+	Bazzi,
+	Uni,
+	Kephi,
+	Su,
+	Hoou,
+	Ray
 };
 
 enum class EBlockType

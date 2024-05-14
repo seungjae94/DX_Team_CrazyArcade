@@ -18,10 +18,15 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private:
+	ECharacterType CharacterType = ECharacterType::Random;
+
 	UImage* LobbyBackGround = nullptr;
 	UImage* Btn_GameStart = nullptr;
 	UImage* Btn_MapSelect = nullptr;
+	UImage* Outline_CharacterSelect = nullptr;
+
 	std::vector<UImage*> Btns_Space;
 	std::vector<UImage*> Btns_CharacterSelect;
-	std::vector<bool> Space_Active;
+	std::vector<bool> Space_Available;
+	std::vector<bool> CharacterSelect_Pick;
 };
