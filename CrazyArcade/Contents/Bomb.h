@@ -26,11 +26,14 @@ private:
 
 	UDefaultSceneComponent* DefaultComponent;
 	USpriteRenderer* BombRenderer;
+	USpriteRenderer* EffectRenderer_C;
+	USpriteRenderer* EffectRenderer_L;
+	USpriteRenderer* EffectRenderer_R;
+	USpriteRenderer* EffectRenderer_U;
+	USpriteRenderer* EffectRenderer_D;
 
-	//USpriteRenderer* EffectRenderer_C;
-	//USpriteRenderer* EffectRenderer_L;
-	//USpriteRenderer* EffectRenderer_R;
-	//USpriteRenderer* EffectRenderer_U;
-	//USpriteRenderer* EffectRenderer_D;
+	float BlockSize = 0.0f;
+	float ExplosionTime = 2.0f;
+	float CurExplosionTime = 0.0f;
 };
 
