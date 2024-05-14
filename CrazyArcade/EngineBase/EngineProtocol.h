@@ -13,8 +13,6 @@ protected:
 	int PacketType = 0; // 내가 공격이다. 그래서 int Enum이 될수 없다.
 	int SessionToken = 0; // 내가 보낸 패킷을 받아할 애들
 	int ObjectToken = 0; // 내가 보낸 패킷을 받아야할 오브젝트
-	static int MyObjectToken;
-
 
 	UEngineSerializer GetSerializer()
 	{
@@ -25,14 +23,6 @@ public:
 	int GetPacketSize()
 	{
 		return PacketSize;
-	}
-
-	static void ObjectTokenInit(int _MyObjectToken) {
-		MyObjectToken = _MyObjectToken;
-	}
-
-	static int GetMyObjectToken() {
-		return MyObjectToken;
 	}
 
 	template<typename EnumType>

@@ -4,11 +4,11 @@
 #include "EngineProtocol.h"
 #include "NetObject.h"
 
-UEngineServer::UEngineServer() 
+UEngineServer::UEngineServer()
 {
 }
 
-UEngineServer::~UEngineServer() 
+UEngineServer::~UEngineServer()
 {
 }
 
@@ -33,7 +33,7 @@ void UEngineServer::AcceptThreadFunction(UEngineServer* Server, SOCKET _AcceptSo
 		// 토큰의 생성은 가장 쉬운게 서버에요.
 		// 서버가 다 담당할 겁니다.
 		int SessionToken = USession::GetNewSessionToken();
-		int ObjectToken = SessionToken * 1000;
+		int ObjectToken = UNetObject::GetNewObjectToken();
 
 		USessionTokenPacket NewPacket;
 
@@ -79,7 +79,9 @@ void UEngineServer::ServerOpen(int _Port, int _BackLog /*= 512*/)
 void UEngineServer::Send(std::shared_ptr<UEngineProtocol> _Protocol)
 {
 	// 서버같은 경우에는 브로드캐스트를 해야한다.
+
 	UEngineSerializer Ser = _Protocol->GetSerialize();
+
 	for (std::shared_ptr<USession> User : Sessions)
 	{
 		if (false == User->IsTokenInit())
@@ -91,11 +93,6 @@ void UEngineServer::Send(std::shared_ptr<UEngineProtocol> _Protocol)
 		{
 			continue;
 		}
-		int SendObjectToken = User->GetSessionToken() * 1000;
-		Ser.Paste(12, &SendObjectToken, sizeof(SendObjectToken));
-
-		UEngineProtocol Protocol;  //TESTValue
-		Protocol.DeSerialize(Ser);  //TESTValue
 
 		User->Send(Ser);
 	}
