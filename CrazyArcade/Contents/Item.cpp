@@ -7,16 +7,12 @@ AItem::AItem()
 	DefaultComponent = CreateDefaultSubObject<UDefaultSceneComponent>("DefaultComponent");
 	SetRoot(DefaultComponent);
 
-	Order = PlayLevel->GetMap()->GetRenderOrder(GetActorLocation());
-
 	Renderer = CreateDefaultSubObject<USpriteRenderer>("Renderer");
 	Renderer->SetupAttachment(DefaultComponent);
 	Renderer->AddPosition({ 0.0f, (BlockSize / 2.0f) });	
-	Renderer->SetOrder(Order);
 
 	ShadowRenderer = CreateDefaultSubObject<USpriteRenderer>("ShadowRenderer");
 	ShadowRenderer->SetupAttachment(DefaultComponent);
-	ShadowRenderer->SetOrder(Order - 1);
 }
 
 AItem::~AItem()
@@ -38,7 +34,9 @@ void AItem::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	
+	Order = PlayLevel->GetMap()->GetRenderOrder(GetActorLocation());
+	Renderer->SetOrder(Order);
+	ShadowRenderer->SetOrder(Order - 1);
 
 	MoveUpDown(_DeltaTime);
 }
