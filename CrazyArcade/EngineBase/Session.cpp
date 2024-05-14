@@ -6,7 +6,7 @@
 
 std::atomic<int> USession::CurSessionToken = 0;
 
-USession::USession() 
+USession::USession()
 {
 }
 
@@ -15,7 +15,7 @@ USession::USession(SOCKET _Socket)
 {
 }
 
-USession::~USession() 
+USession::~USession()
 {
 	// ¿¬°á ²÷±â
 	if (Socket != 0)

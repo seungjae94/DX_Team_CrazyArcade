@@ -47,7 +47,7 @@ public:
 	void SetObjectToken(int _ObjectToken)
 	{
 		ObjectToken = _ObjectToken;
-		
+
 		if (false == IsNetObject(_ObjectToken))
 		{
 			AllNetObject[_ObjectToken] = this;
