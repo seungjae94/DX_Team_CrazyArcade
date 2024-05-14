@@ -26,7 +26,7 @@ void AMainTitleGameMode::BeginPlay()
 	StartButton->CreateAnimation("NoneStartButtonAni", "StartButton", 0.1f, false, 0, 0);
 	StartButton->CreateAnimation("HoverStartButtonAni", "StartButton", 0.5f, false, 1, 1);
 	StartButton->ChangeAnimation("NoneStartButtonAni");
-	StartButton->SetPosition(FVector{ 0.0f,0.0f });
+	StartButton->SetPosition(FVector{ 0.0f,-218.0f });
 
 	StartButton->SetUnHover([=] {
 
