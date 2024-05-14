@@ -1,5 +1,11 @@
 #pragma once
 
+enum class ERenderOrder
+{
+	BackGround,
+	Shadow
+};
+
 enum class EBlockType
 {
 	Wall,
