@@ -22,7 +22,7 @@ void AMainPlayLevel::BeginPlay()
 	TileMap = GetWorld()->SpawnActor<AVillageMap>("TileMap");
 
 	Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
-	Player->SetActorLocation({ 350.0f, 300.0f, 0.0f });
+	Player->SetActorLocation({ 398.0f, 344.0f, 0.0f });
 
 	//UI
 	Timer = GetWorld()->SpawnActor<ATimerUI>("TimeUI");
