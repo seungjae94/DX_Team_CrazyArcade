@@ -1,27 +1,27 @@
 #include "PreCompile.h"
-#include "MapTestLevel.h"
+#include "MainPlayLevel.h"
 
-#include "TestPlayer.h"
+#include "Player.h"
 #include "VillageMap.h"
 
 //UI
 #include "TimerUI.h"
 
-AMapTestLevel::AMapTestLevel()
+AMainPlayLevel::AMainPlayLevel()
 {
 }
 
-AMapTestLevel::~AMapTestLevel()
+AMainPlayLevel::~AMainPlayLevel()
 {
 }
 
-void AMapTestLevel::BeginPlay()
+void AMainPlayLevel::BeginPlay()
 {
 	Super::BeginPlay();
 
 	TileMap = GetWorld()->SpawnActor<AVillageMap>("TileMap");
 
-	Player = GetWorld()->SpawnActor<ATestPlayer>("Player");
+	Player = GetWorld()->SpawnActor<APlayer>("Player");
 	Player->SetActorLocation({ 350.0f, 300.0f, 0.0f });
 
 	//UI
@@ -30,7 +30,7 @@ void AMapTestLevel::BeginPlay()
 
 }
 
-void AMapTestLevel::Tick(float _DeltaTime)
+void AMainPlayLevel::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 

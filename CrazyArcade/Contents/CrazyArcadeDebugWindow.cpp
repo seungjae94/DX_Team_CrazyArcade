@@ -21,9 +21,9 @@ void UCrazyArcadeDebugWindow::OnGui(ULevel* Level, float _Delta)
 		GEngine->ChangeLevel("LobbyTitleTestLevel");
 	}
 
-	if (true == ImGui::Button("Map Test Level"))
+	if (true == ImGui::Button("MainPlayLevel"))
 	{
-		GEngine->ChangeLevel("MapTestLevel");
+		GEngine->ChangeLevel("MainPlayLevel");
 	}
 
 	if (true == ImGui::Button("Play Level"))

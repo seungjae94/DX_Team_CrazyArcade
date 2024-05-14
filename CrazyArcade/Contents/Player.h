@@ -2,7 +2,6 @@
 #include <EngineCore/Actor.h>
 #include <EngineCore/StateManager.h>
 #include <EngineCore/SpriteRenderer.h>
-#include "MapBase.h"
 
 enum class EPlayerDir
 {
@@ -11,6 +10,8 @@ enum class EPlayerDir
 	Up,
 	Down,
 };
+
+class AMainPlayLevel;
 
 class APlayer : public AActor
 {
@@ -57,7 +58,8 @@ protected:
 	std::map<EPlayerItem, int> MPlayerItem;
 	std::map<EPlayerItem, int>::iterator MPlayerItemIter;
 
-	float BlockSize = AMapBase::GetBlockSize();
+	float BlockSize = 0.0f;
+	AMainPlayLevel* PlayLevel = nullptr;
 
 	//State
 	void StateInit();
