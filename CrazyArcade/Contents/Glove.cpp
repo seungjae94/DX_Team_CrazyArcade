@@ -21,8 +21,3 @@ void AGlove::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 }
-
-void AGlove::PlayerGetItem(APlayer* _Player)
-{
-
-}

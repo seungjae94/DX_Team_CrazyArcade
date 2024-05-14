@@ -21,8 +21,3 @@ void ARedDevil::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 }
-
-void ARedDevil::PlayerGetItem(APlayer* _Player)
-{
-
-}

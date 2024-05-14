@@ -21,8 +21,3 @@ void ABubble::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 }
-
-void ABubble::PlayerGetItem(APlayer* _Player)
-{
-
-}

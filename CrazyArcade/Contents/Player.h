@@ -61,6 +61,8 @@ protected:
 
 	float BlockSize = AMapBase::GetBlockSize();
 
+	void PickUpItem(EPlayerItem _PickUpItem);
+
 	//State
 	void StateInit();
 

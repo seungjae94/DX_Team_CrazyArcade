@@ -28,7 +28,6 @@ void UCrazyArcadeCore::Initialize()
 
 	GEngine->CreateLevel<AInitTestGameMode>("InitTestLevel");
 	GEngine->CreateLevel<AMapTestLevel>("MapTestLevel");
-	GEngine->CreateLevel<APlayGameMode>("PlayGameMode");
 	GEngine->CreateLevel<AServerGameMode>("ServerGameMode");
 	GEngine->CreateLevel<AMainTitleGameMode>("TitleTestLevel");
 	GEngine->CreateLevel<ALobbyTitleGameMode>("LobbyTitleTestLevel");

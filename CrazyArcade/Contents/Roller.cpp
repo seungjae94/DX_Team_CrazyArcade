@@ -21,7 +21,3 @@ void ARoller::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 }
-
-void ARoller::PlayerGetItem(APlayer* _Player)
-{
-}

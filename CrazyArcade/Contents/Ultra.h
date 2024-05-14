@@ -16,8 +16,6 @@ public:
 	AUltra& operator=(const AUltra& _Other) = delete;
 	AUltra& operator=(AUltra&& _Other) noexcept = delete;
 
-	void PlayerGetItem(APlayer* _Player) override;
-
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

@@ -19,7 +19,8 @@ APlayer::APlayer()
 
 	for (MPlayerItemIter = MPlayerItem.begin(); MPlayerItemIter != MPlayerItem.end(); ++MPlayerItemIter)
 	{
-		//*MPlayerItemIter;
+		int Clear = 0;
+		//*MPlayerItemIter = Clear;
 	}
 
 	InputOn();
@@ -50,14 +51,11 @@ void APlayer::BeginPlay()
 
 	Renderer->ChangeAnimation("Idle_Down");
 	Renderer->SetAutoSize(1.0f, true);
-	Renderer->SetOrder(ERenderOrder::Player);
 
 	ShadowRenderer->SetSprite("Shadow.png");
 	ShadowRenderer->SetAutoSize(1.0f, true);
-	ShadowRenderer->SetOrder(ERenderOrder::Shadow);
 
 	DebugRenderer->SetScale({ 5,5,5 });
-	DebugRenderer->SetOrder(ERenderOrder::Debug);
 
 	StateInit();
 }
@@ -69,4 +67,28 @@ void APlayer::Tick(float _DeltaTime)
 	State.Update(_DeltaTime);
 
 	PlayerPos = GetActorLocation();
+}
+
+void APlayer::PickUpItem(EPlayerItem _PickUpItem)
+{
+	switch (_PickUpItem)
+	{
+	case EPlayerItem::Bubble:
+		++BombCount;
+		break;
+	case EPlayerItem::Fluid:
+		break;
+	case EPlayerItem::Ultra:
+		break;
+	case EPlayerItem::Roller:
+		break;
+	case EPlayerItem::RedDevil:
+		break;
+	case EPlayerItem::Glove:
+		break;
+	case EPlayerItem::Shoes:
+		break;
+	default:
+		break;
+	}
 }
