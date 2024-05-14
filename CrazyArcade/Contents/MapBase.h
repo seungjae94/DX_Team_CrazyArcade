@@ -40,6 +40,7 @@ protected:
 	void SetMapInfoSize(int _X, int _Y);
 	void CreateWall(int _X, int _Y, std::string_view _ImgName);
 	void CreateBox(int _X, int _Y, std::string_view _ImgName);
+	void CreateMoveBox(int _X, int _Y, std::string_view _ImgName);
 
 
 protected:
