@@ -64,6 +64,9 @@
     <Filter Include="Map\Test">
       <UniqueIdentifier>{a69a4582-2292-4f76-9289-34319875866f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\InputRecorderTestLevel">
+      <UniqueIdentifier>{49136a5e-a11c-46ee-9714-f7634d7c6728}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Level\MainPlayLevel">
       <UniqueIdentifier>{1170aae8-151e-4f80-b2e5-b84e3c7d7284}</UniqueIdentifier>
     </Filter>
@@ -173,6 +176,9 @@
     </ClInclude>
     <ClInclude Include="Bomb.h">
       <Filter>Level\PlayLevel\Actor\Bomb</Filter>
+    </ClInclude>
+    <ClInclude Include="InputRecorderTestGameMode.h">
+      <Filter>Level\InputRecorderTestLevel</Filter>
     </ClInclude>
     <ClInclude Include="InGameUI.h">
       <Filter>UI</Filter>
@@ -288,6 +294,9 @@
     </ClCompile>
     <ClCompile Include="Bomb.cpp">
       <Filter>Level\PlayLevel\Actor\Bomb</Filter>
+    </ClCompile>
+    <ClCompile Include="InputRecorderTestGameMode.cpp">
+      <Filter>Level\InputRecorderTestLevel</Filter>
     </ClCompile>
     <ClCompile Include="InGameUI.cpp" />
     <ClCompile Include="Devil.cpp">

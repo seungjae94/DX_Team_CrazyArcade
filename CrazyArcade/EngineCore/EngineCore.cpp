@@ -7,6 +7,7 @@
 #include <EngineCore/EngineDebugMsgWindow.h>
 #include "EngineEditorGUI.h"
 #include "EngineDebug3D.h"
+#include <EnginePlatform/EngineInputRecorder.h>
 
 #include "Level.h"
 #include "GameMode.h"
@@ -49,6 +50,8 @@ void UEngineCore::EngineStart(HINSTANCE _Inst)
 	// 해상도는 윈도우 크기와 관련이 없습니다.
 	EngineWindow.SetWindowScale(EngineOption.WindowScale);
 	EngineDevice.Initialize(EngineWindow, EngineOption.ClearColor);
+
+	UEngineInputRecorder::Init(EngineWindow.GetHWND());
 
 	UEngineEditorGUI::GUIInit();
 
@@ -111,6 +114,7 @@ void UEngineCore::EngineFrameUpdate()
 	if (true == EngineWindow.IsFocus())
 	{
 		UEngineInput::KeyCheckTick(DeltaTime);
+		UEngineInputRecorder::Tick();
 	}
 	else
 	{
