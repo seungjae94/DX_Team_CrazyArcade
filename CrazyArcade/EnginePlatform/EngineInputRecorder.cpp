@@ -4,14 +4,13 @@
 
 bool UEngineInputRecorder::Activeness = false;
 bool UEngineInputRecorder::ImeTickCalled = false;
+bool UEngineInputRecorder::IgnoreCompositionResult = false;
 std::wstring UEngineInputRecorder::WText = L"";
 std::string UEngineInputRecorder::CombLetter = "";
-std::string UEngineInputRecorder::CompLetter = "";
 HWND UEngineInputRecorder::hWnd = nullptr;
 HIMC UEngineInputRecorder::hIMC = nullptr;
 const std::string UEngineInputRecorder::AllAlpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const std::string UEngineInputRecorder::AllNumeric = "0123456789";
-UEngineInputRecorder::EFinalLetterState UEngineInputRecorder::FinalLetterState;
 UEngineInputRecorder::UEngineInputRecorderReleaser UEngineInputRecorder::Releaser;
 
 UEngineInputRecorder::UEngineInputRecorder()
@@ -26,6 +25,7 @@ void UEngineInputRecorder::RecordStart()
 {
 	Activeness = true;
 	WText = L"";
+	ImmSetCompositionString(hIMC, SCS_SETSTR, NULL, 0, NULL, 0);
 	ImmNotifyIME(hIMC, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
 }
 
@@ -75,14 +75,14 @@ void UEngineInputRecorder::ImeTick(LPARAM _lParam)
 	if (_lParam & GCS_RESULTSTR)
 	{
 		Len = ImmGetCompositionString(hIMC, GCS_RESULTSTR, NULL, 0);
-		if (Len > 0)
+		if (Len > 0 && false == IgnoreCompositionResult)
 		{
+			std::string CompLetter;
 			CompLetter.resize(Len);
 			ImmGetCompositionString(hIMC, GCS_RESULTSTR, &CompLetter[0], Len);
-			CompLetter.resize(Len);
 			WText += UEngineString::AnsiToUniCode(CompLetter);
-			CombLetter.clear();
 			CompLetter.clear();
+			CombLetter.clear();
 		}
 	}
 	else if (_lParam & GCS_COMPSTR)
@@ -93,7 +93,6 @@ void UEngineInputRecorder::ImeTick(LPARAM _lParam)
 		{
 			CombLetter.resize(Len);
 			ImmGetCompositionString(hIMC, GCS_COMPSTR, &CombLetter[0], Len);
-			CombLetter.resize(Len);
 		}
 		else
 		{
@@ -102,6 +101,7 @@ void UEngineInputRecorder::ImeTick(LPARAM _lParam)
 	}
 
 	ImeTickCalled = true;
+	IgnoreCompositionResult = false;
 }
 
 void UEngineInputRecorder::Tick()
@@ -121,14 +121,6 @@ void UEngineInputRecorder::Tick()
 	{
 		if (CombLetter.size() > 0)
 		{
-			for (char Ch : CombLetter)
-			{
-				if (Ch == 0)
-				{
-					MsgBoxAssert("문자가 0입니다.");
-				}
-			}
-
 			WText += UEngineString::AnsiToUniCode(CombLetter);
 			CombLetter.clear();
 			ImmNotifyIME(hIMC, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
@@ -149,21 +141,13 @@ void UEngineInputRecorder::Tick()
 		{
 			if (CombLetter.size() > 0)
 			{
-				for (char Ch : CombLetter)
-				{
-					if (Ch == 0)
-					{
-						MsgBoxAssert("문자가 0입니다.");
-					}
-				}
-
 				WText += UEngineString::AnsiToUniCode(CombLetter);
 				CombLetter.clear();
 				ImmNotifyIME(hIMC, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
 			}
 
 			WText += UEngineString::AnsiToUniCode(std::string(1, c));
-			FinalLetterState = EFinalLetterState::AlphaNumeric;
+			IgnoreCompositionResult = true;
 			return;
 		}
 	}
@@ -179,21 +163,13 @@ void UEngineInputRecorder::Tick()
 		{
 			if (CombLetter.size() > 0)
 			{
-				for (char Ch : CombLetter)
-				{
-					if (Ch == 0)
-					{
-						MsgBoxAssert("문자가 0입니다.");
-					}
-				}
-
 				WText += UEngineString::AnsiToUniCode(CombLetter);
 				CombLetter.clear();
 				ImmNotifyIME(hIMC, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
 			}
 
 			WText += UEngineString::AnsiToUniCode(std::string(1, c));
-			FinalLetterState = EFinalLetterState::AlphaNumeric;
+			IgnoreCompositionResult = true;
 			return;
 		}
 	}
@@ -212,12 +188,3 @@ bool UEngineInputRecorder::IsNative()
 
 	return IME_CMODE_NATIVE == dwConversion;
 }
-
-//class UEngineInputRecorderReleaser
-//{
-//public:
-//	~UEngineInputRecorderReleaser()
-//	{
-//		UEngineInputRecorder::Release();
-//	}
-//};
