@@ -98,6 +98,24 @@ void UCrazyArcadeCore::ResLoad()
 	{
 		UEngineDirectory Dir;
 		Dir.MoveToSearchChild("ContentsResources");
+		Dir.Move("Bomb");
+
+		std::vector<UEngineFile> AllFiles = Dir.GetAllFile({ ".png" }, true);
+		for (UEngineFile& File : AllFiles)
+		{
+			UEngineSprite::Load(File.GetFullPath());
+		}
+
+		std::vector<UEngineDirectory> AllDirectorys = Dir.GetAllDirectory();
+		for (size_t i = 0; i < AllDirectorys.size(); i++)
+		{
+			UEngineSprite::LoadFolder(AllDirectorys[i].GetFullPath());
+		}
+	}
+
+	{
+		UEngineDirectory Dir;
+		Dir.MoveToSearchChild("ContentsResources");
 		Dir.Move("Item");
 
 		std::vector<UEngineFile> AllFiles = Dir.GetAllFile({ ".png" }, true);
