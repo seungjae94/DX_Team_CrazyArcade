@@ -27,14 +27,14 @@ public:
 
 	void operator<<(UEngineSerializeObject* _Data);
 
-	void operator<<(const int& _Data)
-	{
-		Write(&_Data, sizeof(int));
-	}
-
 	void operator<<(const float& _Data)
 	{
 		Write(&_Data, sizeof(float));
+	}
+
+	void operator<<(const int& _Data)
+	{
+		Write(&_Data, sizeof(int));
 	}
 
 	void operator<<(const bool& _Data)
@@ -51,8 +51,10 @@ public:
 	void operator<<(const std::string& _Data)
 	{
 		int Size = static_cast<int>(_Data.size());
-		operator<<(Size);
+		operator<<(Size + 1);
 		Write(_Data.c_str(), Size);
+		char Test = 0;
+		Write(&Test, 1);
 	}
 
 	template<typename DataType>
@@ -70,14 +72,19 @@ public:
 
 	void Read(void* _Data, size_t _Size);
 
+	void operator>>(float& _Data)
+	{
+		Read(&_Data, sizeof(float));
+	}
+
 	void operator>>(int& _Data)
 	{
 		Read(&_Data, sizeof(int));
 	}
 
-	void operator>>(float& _Data)
+	void operator>>(bool& _Data)
 	{
-		Read(&_Data, sizeof(float));
+		Read(&_Data, sizeof(bool));
 	}
 
 	void operator>>(float4& _Data)
@@ -161,6 +168,11 @@ public:
 		return &Data[WriteOffset];
 	}
 
+	char* DataCharPtrToReadOffset()
+	{
+		return &Data[ReadOffset];
+	}
+
 	int GetWriteOffset()
 	{
 		return WriteOffset;
@@ -183,6 +195,8 @@ public:
 
 
 	void DataToReadOffsetPush();
+
+	void AddReadOffset(int _Value);
 
 protected:
 

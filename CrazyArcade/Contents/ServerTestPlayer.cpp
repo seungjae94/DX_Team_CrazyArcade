@@ -53,7 +53,7 @@ void ServerTestPlayer::Tick(float _DeltaTime)
 
 		Packet->Pos = GetActorLocation();
 		Packet->SpriteName = Renderer->GetCurAnimationName();
-		//Send(Packet);
+		Send(Packet);
 		CurTime += FrameTime;
 		if (true == IsSpawn) {
 			SpawnBomb();

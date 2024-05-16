@@ -2,11 +2,11 @@
 #include "EngineSerializer.h"
 #include "EngineDebug.h"
 
-UEngineSerializer::UEngineSerializer() 
+UEngineSerializer::UEngineSerializer()
 {
 }
 
-UEngineSerializer::~UEngineSerializer() 
+UEngineSerializer::~UEngineSerializer()
 {
 }
 
@@ -89,6 +89,11 @@ void UEngineSerializer::ResetRead()
 	ReadOffset = 0;
 }
 
+void UEngineSerializer::AddReadOffset(int _Value)
+{
+	ReadOffset += _Value;
+}
+
 void UEngineSerializer::ResetWrite()
 {
 	WriteOffset = 0;
@@ -101,7 +106,7 @@ void UEngineSerializer::DataToReadOffsetPush()
 	// 18바이트를 맨 앞으로 밀어버린다.
 
 	int ReMainSize = WriteOffset - ReadOffset;
-	memcpy_s(&Data[0], ReMainSize, &Data[ReadOffset],ReMainSize);
+	memcpy_s(&Data[0], ReMainSize, &Data[ReadOffset], ReMainSize);
 	WriteOffset = ReMainSize;
 	ReadOffset = 0;
 }
