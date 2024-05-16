@@ -2,6 +2,10 @@
 #include "MainTitleGameMode.h"
 #include <vector>
 
+
+
+class ALobbyTitleGameMode;
+
 AMainTitleGameMode::AMainTitleGameMode()
 {
 
@@ -30,7 +34,9 @@ void AMainTitleGameMode::BeginPlay()
 
 	PlayerNameBox = CreateWidget<UImage>(GetWorld(), "PlayerBoxUI");
 	PlayerNameBox->AddToViewPort(3);
-	PlayerNameBox->SetSprite("NameBox.png");
+	PlayerNameBox->CreateAnimation("NotActiveAni", "NameBoxNotActive.png", 0.1f, false, 0, 0);
+	PlayerNameBox->CreateAnimation("ActiveAni", "NameBox.png", 0.1f, false, 0, 0);
+	PlayerNameBox->ChangeAnimation("NotActiveAni");
 	PlayerNameBox->SetScale({ 200.0f, 22.0f });
 	PlayerNameBox->SetWidgetLocation({ -15.0f,-156.0f });
 
@@ -42,6 +48,7 @@ void AMainTitleGameMode::BeginPlay()
 	TextWidget->SetFlag(FW1_LEFT); //좌로 정렬
 	TextWidget->AddToViewPort(4);
 	TextWidget->SetText(PlayerName);
+	
 
 	StartButton->SetUnHover([=] {
 
@@ -57,7 +64,18 @@ void AMainTitleGameMode::BeginPlay()
 
 	StartButton->SetDown([=] {
 	
+		if (TextWidget->GetText().size() <= 1)
+		{
+			// 이름을 입력해주세요 UI 추가 
+			return;
+		}
 		GEngine->ChangeLevel("LobbyTitleTestLevel");
+		});
+
+
+	PlayerNameBox->SetDown([=] {
+
+		PlayerNameBox->ChangeAnimation("ActiveAni");
 		});
 
 }
@@ -65,11 +83,11 @@ void AMainTitleGameMode::BeginPlay()
 
 void AMainTitleGameMode::Tick(float _DeltaTime)
 {
-	static float Offset = 0.0f;
+	
 
 	Super::Tick(_DeltaTime);
 
-	if (UEngineInput::IsAnykeyDown())
+	/*if (UEngineInput::IsAnykeyDown())
 	{
 		if (PlayerName.size() > 8)
 		{
@@ -81,9 +99,38 @@ void AMainTitleGameMode::Tick(float _DeltaTime)
 		if (ch != NULL)
 		{
 			PlayerName.push_back(ch);
+		
 		}
 
 		TextWidget->SetText(PlayerName);
-	}
+	std::string CurText = TextWidget->GetText();
+	임시 방편 
+	}*/
 
+
+	std::string Text = UEngineInputRecorder::GetText();
+
+	if (Text.size() > 0)
+	{
+		TextWidget->SetText(Text);
+	}
+	else
+	{
+		TextWidget->SetText(" ");
+	}
 }
+
+void AMainTitleGameMode::LevelStart(ULevel* _PrevLevel)
+{
+	Super::LevelStart(_PrevLevel);
+	UEngineInputRecorder::RecordStart();
+	//레벨 시작과 동시에 입력 받을 준비 
+}
+
+void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
+{
+	Super::LevelEnd(_NextLevel);
+	UEngineInputRecorder::RecordEnd();
+}
+
+
