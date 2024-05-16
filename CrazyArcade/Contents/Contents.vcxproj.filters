@@ -63,8 +63,6 @@
     </Filter>
     <Filter Include="Map\Bomb">
       <UniqueIdentifier>{0b2e129d-56fe-4eaf-9ca7-fe27b1972192}</UniqueIdentifier>
-    <Filter Include="Level\ServerLevel\ServerHelper">
-      <UniqueIdentifier>{76219962-434e-4efe-ba24-663416f69e87}</UniqueIdentifier>
     </Filter>
     <Filter Include="Map\Item">
       <UniqueIdentifier>{35424463-9a6c-4589-95d0-71e80d1d54a2}</UniqueIdentifier>
@@ -154,8 +152,9 @@
     </ClInclude>
     <ClInclude Include="BlockBase.h">
       <Filter>Map\Block\Base</Filter>
+    </ClInclude>
     <ClInclude Include="ServerHelper.h">
-      <Filter>Level\ServerLevel\ServerHelper</Filter>
+      <Filter>Level\ServerLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -209,9 +208,6 @@
     <ClCompile Include="LobbyTitleGameMode.cpp">
       <Filter>Level\MainTitle</Filter>
     </ClCompile>
-    <ClCompile Include="LobbyTitleGameMode.cpp">
-      <Filter>Level\MainTitle</Filter>
-    </ClCompile>
     <ClCompile Include="TimerUI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -230,7 +226,6 @@
     <ClCompile Include="InputRecorderTestGameMode.cpp">
       <Filter>Level\InputRecorderTestLevel</Filter>
     </ClCompile>
-    <ClCompile Include="InGameUI.cpp" />
     <ClCompile Include="ItemBase.cpp">
       <Filter>Map\Item</Filter>
     </ClCompile>
@@ -245,8 +240,9 @@
     </ClCompile>
     <ClCompile Include="InGameUI.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
     <ClCompile Include="ServerHelper.cpp">
-      <Filter>Level\ServerLevel\ServerHelper</Filter>
+      <Filter>Level\ServerLevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
