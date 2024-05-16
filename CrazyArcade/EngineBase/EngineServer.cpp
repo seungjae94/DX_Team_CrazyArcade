@@ -3,6 +3,7 @@
 #include <functional>
 #include "EngineProtocol.h"
 #include "NetObject.h"
+#include "ServerNumber.h"
 
 UEngineServer::UEngineServer()
 {
@@ -70,7 +71,7 @@ void UEngineServer::ServerOpen(int _Port, int _BackLog /*= 512*/)
 	{
 		assert(false);
 	}
-
+	ServerNumber::GetInst().Connected();
 	// 접속자가 있으면 접속자를 빼내야 하는데 쓰레로 해야한다.
 	AcceptThread.SetName("AcceptThread");
 	AcceptThread.Start(std::bind(AcceptThreadFunction, this, AcceptSession.GetSocket()));
