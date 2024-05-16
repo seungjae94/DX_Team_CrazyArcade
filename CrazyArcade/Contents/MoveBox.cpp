@@ -18,19 +18,17 @@ void AMoveBox::BeginPlay()
 
 	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
 
-	StateInit();
 	SetBlockType(EBlockType::MoveBox);
-	State.ChangeState("Idle");
 }
 
 void AMoveBox::StateInit()
 {
+	Super::StateInit();
+	 
 	// State Create
-	State.CreateState("Idle");
 	State.CreateState("Move");
 
 	// State Start
-	State.SetStartFunction("Idle", [=] {});
 	State.SetStartFunction("Move", [=] 
 		{
 			MoveOneBlockCheck();
@@ -38,7 +36,6 @@ void AMoveBox::StateInit()
 	);
 
 	// State Update
-	State.SetUpdateFunction("Idle", [=](float _DeltaTime) {});
 	State.SetUpdateFunction("Move", [=](float _DeltaTime)
 		{
 			MoveUpdate(_DeltaTime);
@@ -77,8 +74,6 @@ void AMoveBox::StateInit()
 void AMoveBox::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
-
-	State.Update(_DeltaTime);
 }
 
 void AMoveBox::MoveOneBlockCheck()

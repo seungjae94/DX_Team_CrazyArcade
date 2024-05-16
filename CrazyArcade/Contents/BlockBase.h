@@ -15,6 +15,16 @@ public:
 	ABlockBase& operator=(const ABlockBase& _Other) = delete;
 	ABlockBase& operator=(ABlockBase&& _Other) noexcept = delete;
 
+	inline void StateChange(std::string_view _State)
+	{
+		State.ChangeState(_State);
+	}
+
+	inline std::string GetCurState() const
+	{
+		return State.GetCurStateName();
+	}
+
 	inline EBlockType GetBlockType() const
 	{
 		return BlockType;
@@ -42,5 +52,11 @@ protected:
 private:
 	USpriteRenderer* Body = nullptr;
 	EBlockType BlockType;
+
+// FSM
+protected:
+	UStateManager State;
+	virtual void StateInit();
+
 };
 
