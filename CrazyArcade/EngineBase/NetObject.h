@@ -23,6 +23,10 @@ public:
 		return CurObjectToken++;
 	}
 
+	int GetObjectToken() {
+		return ObjectToken;
+	}
+
 	static bool IsNetObject(int _ObjectToken)
 	{
 		return AllNetObject.contains(_ObjectToken);
@@ -67,6 +71,7 @@ public:
 	}
 
 	void Send(std::shared_ptr<UEngineProtocol> _Protocol);
+	void Send(std::shared_ptr<UEngineProtocol> _Protocol, int _ObjectToken);
 
 	void PushProtocolAsync(std::shared_ptr<UEngineProtocol> _Protocal)
 	{
