@@ -25,7 +25,9 @@ void AInputRecorderTestGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	std::string Text = UEngineInputRecorder::GetText();
+	FEngineTimeStamp Stamp = UEngineTime::GetCurTime();
+
+	/*std::string Text = UEngineInputRecorder::GetText();
 	if (Text.size() > 0)
 	{
 		TextWidget->SetText(Text);
@@ -33,7 +35,7 @@ void AInputRecorderTestGameMode::Tick(float _DeltaTime)
 	else
 	{
 		TextWidget->SetText(" ");
-	}
+	}*/
 }
 
 void AInputRecorderTestGameMode::LevelStart(ULevel* _PrevLevel)
