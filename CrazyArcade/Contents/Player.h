@@ -59,8 +59,8 @@ protected:
 	FVector PlayerPos;
 	std::string Name = "Player";
 	EPlayerDir PlayerDir = EPlayerDir::Down;
-	std::vector<ABombBase*> Bombs;
-	int BombCount = 1;
+	ABombBase* Bomb = nullptr;
+	int BombCount = 10;
 	int MaxBombPower = 5;
 	int BombPower = 0;
 	float BaseSpeed = 200.0f;

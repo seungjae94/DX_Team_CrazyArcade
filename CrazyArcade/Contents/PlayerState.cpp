@@ -67,6 +67,7 @@ void APlayer::StateInit()
 	State.SetUpdateFunction("Die", std::bind(&APlayer::Die, this, std::placeholders::_1));
 	State.SetStartFunction("Die", [=]()
 		{
+			Renderer->ChangeAnimation("Die");
 		});
 
 	State.SetUpdateFunction("Revival", std::bind(&APlayer::Revival, this, std::placeholders::_1));
@@ -92,9 +93,12 @@ void APlayer::Idle(float _Update)
 	{
 		if (0 < BombCount)
 		{
-			ABombBase* Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
-			Bombs.push_back(Bomb);
+			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
 			--BombCount;
+		}
+		else
+		{
+			Bomb = nullptr;
 		}
 	}
 
@@ -112,9 +116,12 @@ void APlayer::Run(float _DeltaTime)
 	{
 		if (0 < BombCount)
 		{
-			ABombBase* Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
-			Bombs.push_back(Bomb);
+			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
 			--BombCount;
+		}
+		else
+		{
+			Bomb = nullptr;
 		}
 	}
 
@@ -152,14 +159,26 @@ void APlayer::Run(float _DeltaTime)
 
 void APlayer::TrapStart(float _DeltaTime)
 {
+	if (Renderer->IsCurAnimationEnd())
+	{
+		State.ChangeState("Traped");
+	}
 }
 
 void APlayer::Traped(float _DeltaTime)
 {
+	if (Renderer->IsCurAnimationEnd())
+	{
+		State.ChangeState("TrapEnd");
+	}
 }
 
 void APlayer::TrapEnd(float _DeltaTime)
 {
+	if (Renderer->IsCurAnimationEnd())
+	{
+		State.ChangeState("Die");
+	}
 }
 
 void APlayer::Die(float _Update)
