@@ -106,12 +106,12 @@ void ABombBase::StateInit()
 	State.SetStartFunction(BombState::idle, [=] 
 		{
 			int BombOrder = PlayLevel->GetMap()->GetRenderOrder(GetActorLocation());
-			Body->SetOrder(BombOrder - 1);
-			Effect_Center->SetOrder(BombOrder - 1);
-			Effect_Left->SetOrder(BombOrder - 1);
-			Effect_Right->SetOrder(BombOrder - 1);
-			Effect_Up->SetOrder(BombOrder - 1);
-			Effect_Down->SetOrder(BombOrder - 1);
+			Body->SetOrder(BombOrder);
+			Effect_Center->SetOrder(BombOrder);
+			Effect_Left->SetOrder(BombOrder);
+			Effect_Right->SetOrder(BombOrder);
+			Effect_Up->SetOrder(BombOrder);
+			Effect_Down->SetOrder(BombOrder);
 
 			Body->ChangeAnimation(MapAnim::bomb);
 			Body->SetActive(true);
@@ -142,6 +142,11 @@ void ABombBase::StateInit()
 			CurExplosionTime -= _DeltaTime;
 			if (CurExplosionTime < 0)
 			{
+				if (nullptr != Player)
+				{
+					Player->IncreaseBombCount();
+				}
+
 				State.ChangeState(BombState::explosion);
 				return;
 			}
@@ -157,11 +162,6 @@ void ABombBase::StateInit()
 
 			if (Effect_Left->IsCurAnimationEnd())
 			{
-				if (nullptr != Player)
-				{
-					Player->IncreaseBombCount();
-				}
-
 				PlayLevel->GetMap()->GetTileInfo(CurPoint).Bomb = nullptr;
 				Destroy();
 			}
