@@ -11,9 +11,16 @@ AItemBase::AItemBase()
 	SetRoot(Root);
 
 	Body = CreateDefaultSubObject<USpriteRenderer>("Renderer");
+	Body->SetAutoSize(1.0f, true);
+	Body->SetPosition({ 0.0f, 20.0f, 0.0f });
 	Body->SetupAttachment(Root);
 
 	Shadow = CreateDefaultSubObject<USpriteRenderer>("ShadowRenderer");
+	Shadow->CreateAnimation(MapAnim::item_shadow, MapImgRes::item_shadow, 0.5f, true);
+	Shadow->ChangeAnimation(MapAnim::item_shadow);
+	Shadow->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.7f });
+	Shadow->SetOrder(ERenderOrder::Shadow);
+	Shadow->SetAutoSize(1.0f, true);
 	Shadow->SetupAttachment(Root);
 }
 
@@ -24,15 +31,6 @@ AItemBase::~AItemBase()
 void AItemBase::BeginPlay()
 {
 	Super::BeginPlay();
-
-	Shadow->CreateAnimation(MapAnim::item_shadow, MapImgRes::item_shadow, 0.5f, true);
-	Shadow->SetAutoSize(1.0f, true);
-	Shadow->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.7f });
-	Shadow->SetOrder(ERenderOrder::Shadow);
-	Shadow->ChangeAnimation(MapAnim::item_shadow);
-
-	Body->AddPosition({ 0.0f, (AMapBase::GetBlockSize() / 2.0f) });
-	Body->SetAutoSize(1.0f, true);
 	
 	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
 	StateInit();
@@ -66,7 +64,7 @@ void AItemBase::Tick(float _DeltaTime)
 	State.Update(_DeltaTime);
 }
 
-void AItemBase::CreateItem(EPlayerItem _Type)
+void AItemBase::SetItem(EPlayerItem _Type)
 {
 	ItemType = _Type;
 
@@ -97,6 +95,8 @@ void AItemBase::CreateItem(EPlayerItem _Type)
 		Body->SetSprite(MapImgRes::item_ultra);
 		break;
 	}
+
+	State.ChangeState(ItemState::idle);
 }
 
 void AItemBase::MoveUpDown(float _DeltaTime)

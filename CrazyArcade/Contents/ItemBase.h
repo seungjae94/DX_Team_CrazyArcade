@@ -6,7 +6,6 @@ class AMainPlayLevel;
 class AItemBase : public AActor
 {
 	GENERATED_BODY(AActor)
-
 public:
 	// constrcuter destructer
 	AItemBase();
@@ -23,7 +22,7 @@ public:
 		return ItemType;
 	}
 
-	void CreateItem(EPlayerItem _Type);
+	void SetItem(EPlayerItem _Type);
 
 protected:
 	void BeginPlay() override;

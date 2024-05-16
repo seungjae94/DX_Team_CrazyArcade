@@ -18,12 +18,22 @@ void AVillageMap::BeginPlay()
 
 	SetBackGround(MapImgRes::village_background);
 	SetMapInfoSize(15, 13);
-	
-	CreateHouse();
-	CreateTree();
-	CreateVillageBox();
-	CreateVillageMoveBox();
-	CreateItem();
+}
+
+void AVillageMap::LevelStart(ULevel* _PrevLevel)
+{
+	Super::LevelStart(_PrevLevel);
+
+	CreateHouses();
+	CreateTrees();
+	CreateVillageBoxs();
+	CreateVillageMoveBoxs();
+	CreateItems();
+}
+
+void AVillageMap::LevelEnd(ULevel* _NextLevel)
+{
+	Super::LevelEnd(_NextLevel);
 }
 
 void AVillageMap::Tick(float _DeltaTime)
@@ -31,7 +41,7 @@ void AVillageMap::Tick(float _DeltaTime)
 	Super::Tick(_DeltaTime);
 }
 
-void AVillageMap::CreateHouse()
+void AVillageMap::CreateHouses()
 {
 	for (int i = 0; i < 3; i++)
 	{
@@ -66,7 +76,7 @@ void AVillageMap::CreateHouse()
 	}
 }
 
-void AVillageMap::CreateTree()
+void AVillageMap::CreateTrees()
 {
 	CreateWall({  0,  6 }, MapImgRes::block_vil_tree_0);
 	CreateWall({  2,  6 }, MapImgRes::block_vil_tree_0);
@@ -86,7 +96,7 @@ void AVillageMap::CreateTree()
 	CreateWall({ 14,  6 }, MapImgRes::block_vil_tree_0);
 }
 
-void AVillageMap::CreateVillageBox()
+void AVillageMap::CreateVillageBoxs()
 {
 	CreateBox({  0,  3 }, MapImgRes::block_vil_box2);
 	CreateBox({  0,  7 }, MapImgRes::block_vil_box2);
@@ -149,7 +159,7 @@ void AVillageMap::CreateVillageBox()
 	CreateBox({ 14,  7 }, MapImgRes::block_vil_box1);
 }
 
-void AVillageMap::CreateVillageMoveBox()
+void AVillageMap::CreateVillageMoveBoxs()
 {
 	CreateMoveBox({  0,  9 }, MapImgRes::block_vil_box0);
 	CreateMoveBox({  1,  4 }, MapImgRes::block_vil_box0);
@@ -187,7 +197,7 @@ void AVillageMap::CreateVillageMoveBox()
 	CreateMoveBox({ 14,  3 }, MapImgRes::block_vil_box0);
 }
 
-void AVillageMap::CreateItem()
+void AVillageMap::CreateItems()
 {
-
+	CreateItem({ 7, 8 }, EPlayerItem::Bubble);
 }
