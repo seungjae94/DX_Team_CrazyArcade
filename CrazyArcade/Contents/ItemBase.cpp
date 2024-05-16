@@ -1,18 +1,20 @@
 #include "PreCompile.h"
 #include "ItemBase.h"
+
 #include "MainPlayLevel.h"
+#include "MapConstant.h"
+#include "MapBase.h"
 
 AItemBase::AItemBase()
 {
-	DefaultComponent = CreateDefaultSubObject<UDefaultSceneComponent>("DefaultComponent");
-	SetRoot(DefaultComponent);
+	UDefaultSceneComponent* Root = CreateDefaultSubObject<UDefaultSceneComponent>("Root");
+	SetRoot(Root);
 
-	Renderer = CreateDefaultSubObject<USpriteRenderer>("Renderer");
-	Renderer->SetupAttachment(DefaultComponent);
-	Renderer->AddPosition({ 0.0f, (BlockSize / 2.0f) });	
+	Body = CreateDefaultSubObject<USpriteRenderer>("Renderer");
+	Body->SetupAttachment(Root);
 
-	ShadowRenderer = CreateDefaultSubObject<USpriteRenderer>("ShadowRenderer");
-	ShadowRenderer->SetupAttachment(DefaultComponent);
+	Shadow = CreateDefaultSubObject<USpriteRenderer>("ShadowRenderer");
+	Shadow->SetupAttachment(Root);
 }
 
 AItemBase::~AItemBase()
@@ -23,34 +25,89 @@ void AItemBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	ShadowRenderer->CreateAnimation("ItemShadow", "Shadow", 0.5f, true);
-	ShadowRenderer->SetAutoSize(1.0f, true);
-	ShadowRenderer->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.7f });
-	ShadowRenderer->SetOrder(ERenderOrder::Shadow);
-	ShadowRenderer->ChangeAnimation("ItemShadow");
+	Shadow->CreateAnimation(MapAnim::item_shadow, MapImgRes::item_shadow, 0.5f, true);
+	Shadow->SetAutoSize(1.0f, true);
+	Shadow->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.7f });
+	Shadow->SetOrder(ERenderOrder::Shadow);
+	Shadow->ChangeAnimation(MapAnim::item_shadow);
 
+	Body->AddPosition({ 0.0f, (AMapBase::GetBlockSize() / 2.0f) });
+	Body->SetAutoSize(1.0f, true);
+	
 	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
+	StateInit();
+}
+
+void AItemBase::StateInit()
+{
+	// State Create
+	State.CreateState(ItemState::idle);
+
+	// State Start
+	State.SetStartFunction(ItemState::idle, [=] 
+		{
+			int Order = PlayLevel->GetMap()->GetRenderOrder(GetActorLocation());
+			Body->SetOrder(Order);
+		}
+	);
+
+	// State Update
+	State.SetUpdateFunction(ItemState::idle, [=](float _DeltaTime) 
+		{
+			MoveUpDown(_DeltaTime);
+		}
+	);		
 }
 
 void AItemBase::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	Order = PlayLevel->GetMap()->GetRenderOrder(GetActorLocation());
-	Renderer->SetOrder(Order);
+	State.Update(_DeltaTime);
+}
 
-	MoveUpDown(_DeltaTime);
+void AItemBase::CreateItem(EPlayerItem _Type)
+{
+	ItemType = _Type;
+
+	switch (ItemType)
+	{
+	case EPlayerItem::Bubble:
+		Body->SetSprite(MapImgRes::item_bubble);
+		break;
+	case EPlayerItem::Devil:
+		Body->SetSprite(MapImgRes::item_devil);
+		break;
+	case EPlayerItem::Fluid:
+		Body->SetSprite(MapImgRes::item_fluid);
+		break;
+	case EPlayerItem::Glove:
+		Body->SetSprite(MapImgRes::item_glove);
+		break;
+	case EPlayerItem::RedDevil:
+		Body->SetSprite(MapImgRes::item_reddevil);
+		break;
+	case EPlayerItem::Roller:
+		Body->SetSprite(MapImgRes::item_roller);
+		break;
+	case EPlayerItem::Shoes:
+		Body->SetSprite(MapImgRes::item_shoes);
+		break;
+	case EPlayerItem::Ultra:
+		Body->SetSprite(MapImgRes::item_ultra);
+		break;
+	}
 }
 
 void AItemBase::MoveUpDown(float _DeltaTime)
 {
 	if (0.0f <= MoveTime && MoveTime < 0.5f)
 	{
-		Renderer->AddPosition(FVector::Down * MoveSpeed * _DeltaTime);
+		Body->AddPosition(FVector::Down * MoveSpeed * _DeltaTime);
 	}
 	else if (0.5f <= MoveTime && MoveTime < 1.0f)
 	{
-		Renderer->AddPosition(FVector::Up * MoveSpeed * _DeltaTime);
+		Body->AddPosition(FVector::Up * MoveSpeed * _DeltaTime);
 	}
 	else
 	{
@@ -59,3 +116,4 @@ void AItemBase::MoveUpDown(float _DeltaTime)
 
 	MoveTime += _DeltaTime;
 }
+

@@ -70,9 +70,6 @@
     <Filter Include="Map\Stage">
       <UniqueIdentifier>{570d4c26-edb1-4be8-8434-b4c6934858aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Map\Items">
-      <UniqueIdentifier>{92bfd764-32c9-46df-bceb-22f2af19bbf2}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -123,27 +120,6 @@
     <ClInclude Include="ServerTestPlayer.h">
       <Filter>Level\ServerLevel\ServerActor</Filter>
     </ClInclude>
-    <ClInclude Include="Roller.h">
-      <Filter>Map\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="Fluid.h">
-      <Filter>Map\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="Bubble.h">
-      <Filter>Map\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="Ultra.h">
-      <Filter>Map\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="RedDevil.h">
-      <Filter>Map\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="Glove.h">
-      <Filter>Map\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="Shoes.h">
-      <Filter>Map\Items</Filter>
-    </ClInclude>
     <ClInclude Include="CrazyArcadeDebugWindow.h">
       <Filter>Debug</Filter>
     </ClInclude>
@@ -179,9 +155,6 @@
     </ClInclude>
     <ClInclude Include="InGameUI.h">
       <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Devil.h">
-      <Filter>Map\Items</Filter>
     </ClInclude>
     <ClInclude Include="ItemBase.h">
       <Filter>Map\Base</Filter>
@@ -241,27 +214,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>Level\PlayLevel\Actor\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Roller.cpp">
-      <Filter>Map\Items</Filter>
-    </ClCompile>
-    <ClCompile Include="Fluid.cpp">
-      <Filter>Map\Items</Filter>
-    </ClCompile>
-    <ClCompile Include="Bubble.cpp">
-      <Filter>Map\Items</Filter>
-    </ClCompile>
-    <ClCompile Include="Ultra.cpp">
-      <Filter>Map\Items</Filter>
-    </ClCompile>
-    <ClCompile Include="RedDevil.cpp">
-      <Filter>Map\Items</Filter>
-    </ClCompile>
-    <ClCompile Include="Glove.cpp">
-      <Filter>Map\Items</Filter>
-    </ClCompile>
-    <ClCompile Include="Shoes.cpp">
-      <Filter>Map\Items</Filter>
-    </ClCompile>
     <ClCompile Include="CrazyArcadeDebugWindow.cpp">
       <Filter>Debug</Filter>
     </ClCompile>
@@ -296,9 +248,6 @@
       <Filter>Level\InputRecorderTestLevel</Filter>
     </ClCompile>
     <ClCompile Include="InGameUI.cpp" />
-    <ClCompile Include="Devil.cpp">
-      <Filter>Map\Items</Filter>
-    </ClCompile>
     <ClCompile Include="ItemBase.cpp">
       <Filter>Map\Base</Filter>
     </ClCompile>

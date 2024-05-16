@@ -1,7 +1,7 @@
 #pragma once
-#include <EngineCore/Actor.h>
-#include "MapBase.h"
-#include "Player.h"
+#include <EngineCore/StateManager.h>
+
+class AMainPlayLevel;
 
 class AItemBase : public AActor
 {
@@ -18,25 +18,36 @@ public:
 	AItemBase& operator=(const AItemBase& _Other) = delete;
 	AItemBase& operator=(AItemBase&& _Other) noexcept = delete;
 
+	inline EPlayerItem GetItemType() const
+	{
+		return ItemType;
+	}
+
+	void CreateItem(EPlayerItem _Type);
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	UDefaultSceneComponent* DefaultComponent = nullptr;
-	USpriteRenderer* Renderer = nullptr;
-	USpriteRenderer* ShadowRenderer = nullptr;
+private:
+	void MoveUpDown(float _DeltaTime);
+
+private:
+	USpriteRenderer* Body = nullptr;
+	USpriteRenderer* Shadow = nullptr;
 
 	AMainPlayLevel* PlayLevel = nullptr;
-	int Order;
-	FVector Pos = FVector::Zero;
 
-	float BlockSize = AMapBase::GetBlockSize();
-
+	EPlayerItem ItemType = EPlayerItem::None;
 	float MoveTime = 0.25f;
 	float MoveSpeed = 10.0f;
 
-	void MoveUpDown(float _DeltaTime);
+// FSM
 private:
+	UStateManager State;
+	void StateInit();
+
+	
 
 };
 
