@@ -38,6 +38,13 @@ void AMapBase::BeginPlay()
 	SetActorLocation({ 400.0f, 300.0f, 0.0f });
 }
 
+void AMapBase::LevelEnd(ULevel* _NextLevel)
+{
+	Super::LevelEnd(_NextLevel);
+
+
+}
+
 void AMapBase::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);

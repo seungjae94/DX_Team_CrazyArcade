@@ -74,6 +74,8 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	void LevelEnd(ULevel* _NextLevel) override;
+
 private:
 	USpriteRenderer* BackGround = nullptr;
 	USpriteRenderer* PlayUI_BackGround = nullptr;
