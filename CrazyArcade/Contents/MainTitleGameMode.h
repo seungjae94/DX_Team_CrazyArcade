@@ -20,7 +20,8 @@ public:
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
-
+	void LevelStart(ULevel* _PrevLevel) override;
+	void LevelEnd(ULevel* _NextLevel) override;
 private:
 	UImage* TitleBackGround = nullptr;
 	
@@ -31,13 +32,8 @@ private:
 	UImage* PlayerNameBox = nullptr;
 
 	UTextWidget* TextWidget = nullptr;
-	std::vector<char> NameText;
+
 	std::string PlayerName = " ";
-	std::vector<UTextWidget*> TextWidgets = {};
-	inline void SetText(const char _Text)
-	{
-		
-		NameText.push_back( _Text);
-	}
+	
 };
 

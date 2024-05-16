@@ -68,8 +68,8 @@ void AMoveBox::StateInit()
 				PrevPoint.Y += 1;
 			}
 
-			PlayLevel->GetMap()->SetMapBlock(CurPoint.X, CurPoint.Y, PlayLevel->GetMap()->GetMapBlock(PrevPoint.X, PrevPoint.Y));
-			PlayLevel->GetMap()->SetMapBlock(PrevPoint.X, PrevPoint.Y, nullptr);
+			PlayLevel->GetMap()->SetMapBlock({ CurPoint.X, CurPoint.Y }, PlayLevel->GetMap()->GetMapBlock({ PrevPoint.X, PrevPoint.Y }));
+			PlayLevel->GetMap()->SetMapBlock({ PrevPoint.X, PrevPoint.Y }, nullptr);
 		}
 	);
 }

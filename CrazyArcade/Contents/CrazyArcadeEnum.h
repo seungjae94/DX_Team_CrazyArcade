@@ -34,11 +34,13 @@ enum class EBlockType
 // 2000 ~ 2999 (아이템 타입)
 enum class EPlayerItem
 {
-	Bubble = 2000,
+	None = 2000,
+	Bubble,
+	Devil,
 	Fluid,
-	Ultra,
-	Roller,
-	RedDevil,
 	Glove,
+	RedDevil,
+	Roller,
 	Shoes,
+	Ultra
 };

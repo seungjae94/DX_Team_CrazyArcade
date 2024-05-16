@@ -1,6 +1,18 @@
 #pragma once
-// #include <chrono> 최신 시간 재는 헤더 std.
+#include <chrono>
 #include <Windows.h>
+
+struct FEngineTimeStamp
+{
+public:
+	int Hour = 0;
+	int Minute = 0;
+	int Second = 0;
+	int MilliSecond = 0;
+
+	FEngineTimeStamp operator-(const FEngineTimeStamp& _Other) const;
+	float TimeToFloat() const;
+};
 
 // 설명 :
 class UEngineTime
@@ -26,6 +38,8 @@ public:
 	{
 		return DeltaTime;
 	}
+
+	static FEngineTimeStamp GetCurTime();
 
 protected:
 

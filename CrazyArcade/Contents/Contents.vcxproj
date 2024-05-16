@@ -19,19 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Devil.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Bomb.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="Box.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Bubble.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -44,27 +36,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Fluid.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Glove.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="MoveBox.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="RedDevil.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Roller.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Shoes.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -73,10 +45,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TimerUI.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Ultra.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -145,19 +113,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Devil.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Bomb.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="Box.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Bubble.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -170,27 +130,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Fluid.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Glove.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="MoveBox.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="RedDevil.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Roller.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Shoes.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -199,10 +139,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TimerUI.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Ultra.cpp">
       <SubType>
       </SubType>
     </ClCompile>
