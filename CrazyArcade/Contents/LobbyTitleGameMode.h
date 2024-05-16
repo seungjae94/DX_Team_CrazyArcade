@@ -17,6 +17,9 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	void SpaceOn(int _Index);
+	void SpaceOff(int _Index);
+
 	void PanelOn();
 	void PanelOff();
 
@@ -41,7 +44,8 @@ private:
 	std::vector<bool> Space_Available;
 	std::vector<UImage*> Btns_Space;
 	std::vector<UImage*> Characters_Space;
-	std::vector<UImage*> Flag_Space;
+	std::vector<UImage*> Flags_Space;
+	std::vector<UImage*> Shadows_Space;
 
 	// CharacterSelect
 	ECharacterType CharacterType = ECharacterType::Random;

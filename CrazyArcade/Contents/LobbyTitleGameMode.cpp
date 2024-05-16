@@ -72,6 +72,7 @@ void ALobbyTitleGameMode::BeginPlay()
 
 			Btn_GameStart->SetUp([=] {
 				IsFadeOut = true;
+				Fade->SetActive(true);
 				});
 		}
 
@@ -140,21 +141,26 @@ void ALobbyTitleGameMode::BeginPlay()
 			for (int i = 0; i < 8; i++)
 			{
 				UImage* Character_Space = CreateWidget<UImage>(GetWorld(), "Character_Space");
-				Character_Space->AddToViewPort(1);
+				Character_Space->AddToViewPort(2);
 				Character_Space->SetAutoSize(1.0f, true);
-				Character_Space->SetWidgetLocation({ -335.0f + 106.0f * (i % 4), 160.0f - 145.0f * (i / 4) });
+				Character_Space->SetWidgetLocation({ -341.0f + 106.0f * (i % 4), 145.0f - 145.0f * (i / 4) });
 				Character_Space->SetSprite("Charcater_Space_Random.png");
 
-				if (i == 0)
-				{
-					Character_Space->SetActive(true);
-				}
-				else
-				{
-					Character_Space->SetActive(false);
-				}
+				UImage* Flag_Space = CreateWidget<UImage>(GetWorld(), "Flag_Space");
+				Flag_Space->AddToViewPort(1);
+				Flag_Space->SetAutoSize(1.0f, true);
+				Flag_Space->SetWidgetLocation({ -298.0f + 106.0f * (i % 4), 138.0f - 145.0f * (i / 4) });
+				Flag_Space->SetSprite("Flag_Space.png");
+
+				UImage* Shadow_Space = CreateWidget<UImage>(GetWorld(), "Shadow_Space");
+				Shadow_Space->AddToViewPort(1);
+				Shadow_Space->SetAutoSize(1.0f, true);
+				Shadow_Space->SetWidgetLocation({ -340.0f + 106.0f * (i % 4), 120.0f - 145.0f * (i / 4) });
+				Shadow_Space->SetSprite("Shadow_Space.png");
 
 				Characters_Space.push_back(Character_Space);
+				Flags_Space.push_back(Flag_Space);
+				Shadows_Space.push_back(Shadow_Space);
 			}
 
 			for (int i = 0; i < 7; i++)
@@ -202,14 +208,16 @@ void ALobbyTitleGameMode::BeginPlay()
 					if (Space_Available[i] == true)
 					{
 						Btns_Space[i]->ChangeAnimation("Space_Hover");
-						Characters_Space[i + 1]->SetActive(true);
+						SpaceOn(i + 1);
 					}
 					else
 					{
 						Btns_Space[i]->ChangeAnimation("UnSpace_Hover");
-						Characters_Space[i + 1]->SetActive(false);
+						SpaceOff(i + 1);
 					}
 					});
+
+				SpaceOff(i + 1);
 			}
 		}
 		
@@ -464,6 +472,7 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 			if (FadeAlpha <= 0.0f)
 			{
 				IsFadeIn = false;
+				Fade->SetActive(false);
 				return;
 			}
 
@@ -483,6 +492,20 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 			FadeOut(_DeltaTime);
 		}
 	}
+}
+
+void ALobbyTitleGameMode::SpaceOn(int _Index)
+{
+	Characters_Space[_Index]->SetActive(true);
+	Flags_Space[_Index]->SetActive(true);
+	Shadows_Space[_Index]->SetActive(true);
+}
+
+void ALobbyTitleGameMode::SpaceOff(int _Index)
+{
+	Characters_Space[_Index]->SetActive(false);
+	Flags_Space[_Index]->SetActive(false);
+	Shadows_Space[_Index]->SetActive(false);
 }
 
 void ALobbyTitleGameMode::PanelOn()
