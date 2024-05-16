@@ -25,6 +25,7 @@ private:
 	void CreateTree();
 	void CreateVillageBox();
 	void CreateVillageMoveBox();
+	void CreateItem();
 
 };
 

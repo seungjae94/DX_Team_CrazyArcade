@@ -23,7 +23,7 @@ void AVillageMap::BeginPlay()
 	CreateTree();
 	CreateVillageBox();
 	CreateVillageMoveBox();
-
+	CreateItem();
 }
 
 void AVillageMap::Tick(float _DeltaTime)
@@ -185,4 +185,9 @@ void AVillageMap::CreateVillageMoveBox()
 	CreateMoveBox({ 13,  8 }, MapImgRes::block_vil_box0);
 	CreateMoveBox({ 13, 10 }, MapImgRes::block_vil_box0);
 	CreateMoveBox({ 14,  3 }, MapImgRes::block_vil_box0);
+}
+
+void AVillageMap::CreateItem()
+{
+
 }

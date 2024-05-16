@@ -64,6 +64,7 @@ protected:
 	void CreateWall(FPoint _Point, std::string_view _ImgName);
 	void CreateBox(FPoint _Point, std::string_view _ImgName);
 	void CreateMoveBox(FPoint _Point, std::string_view _ImgName);
+	void CreateItem(EPlayerItem _ItemType);
 
 protected:
 	void BeginPlay() override;
