@@ -19,9 +19,9 @@ void ALobbyTitleGameMode::BeginPlay()
 		TextWidget = CreateWidget<UTextWidget>(GetWorld(), "LobbytText");
 		TextWidget->SetFont("굴림");
 		TextWidget->SetScale(15.0f);
-		TextWidget->SetColor(Color8Bit::Black);
-		TextWidget->SetPosition({ -340.0f ,100.0f });
-		TextWidget->SetFlag(FW1_LEFT); //좌로 정렬
+		TextWidget->SetColor(Color8Bit::White);
+		TextWidget->SetPosition({ -325.0f ,104.0f });
+		TextWidget->SetFlag(FW1_CENTER); //가운데 정렬
 		TextWidget->AddToViewPort(4);
 		TextWidget->SetText(PlayerName);
 	}
