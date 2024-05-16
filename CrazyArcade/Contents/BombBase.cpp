@@ -87,7 +87,7 @@ void ABombBase::Tick(float _DeltaTime)
 	EffectRenderer_U->SetOrder(BombOrder - 1);
 	EffectRenderer_D->SetOrder(BombOrder - 1);
 
-	CurExplosionTime -= _DeltaTime;
+	//CurExplosionTime -= _DeltaTime;
 	if (CurExplosionTime < 0)
 	{
 		BombRenderer->SetActive(false);
