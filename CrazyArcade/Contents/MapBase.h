@@ -63,6 +63,8 @@ public:
 		MapInfo[_Point.Y][_Point.X].Block = _Block;
 	}
 
+
+
 protected:
 	inline void SetBackGround(std::string_view _Name)
 	{
