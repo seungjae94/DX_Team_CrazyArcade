@@ -16,7 +16,7 @@ public:
 	AMainTitleGameMode& operator=(const AMainTitleGameMode& _Other) = delete;
 	AMainTitleGameMode& operator=(AMainTitleGameMode&& _Other) = delete;
 
-	UTextWidget* GetPlayerName();
+	std::string GetPlayerName();
 
 
 
@@ -41,6 +41,8 @@ private:
 	UTextWidget* TextWidget = nullptr;
 
 	std::string PlayerName;
+
+	
 	
 
 	bool IsNameBoxAct = false;

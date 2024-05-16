@@ -70,6 +70,9 @@
     <Filter Include="Map\Stage">
       <UniqueIdentifier>{570d4c26-edb1-4be8-8434-b4c6934858aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\MainTitle\LobbyTitle">
+      <UniqueIdentifier>{e3c79255-dfa8-4f6b-8274-874db14dd6ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -123,9 +126,6 @@
     <ClInclude Include="CrazyArcadeDebugWindow.h">
       <Filter>Debug</Filter>
     </ClInclude>
-    <ClInclude Include="LobbyTitleGameMode.h">
-      <Filter>Level\MainTitle</Filter>
-    </ClInclude>
     <ClInclude Include="TimerUI.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -158,6 +158,9 @@
     </ClInclude>
     <ClInclude Include="ItemBase.h">
       <Filter>Map\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyTitleGameMode.h">
+      <Filter>Level\MainTitle\LobbyTitle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -220,9 +223,6 @@
     <ClCompile Include="MapBase_Create.cpp">
       <Filter>Map\Base</Filter>
     </ClCompile>
-    <ClCompile Include="LobbyTitleGameMode.cpp">
-      <Filter>Level\MainTitle</Filter>
-    </ClCompile>
     <ClCompile Include="TimerUI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -250,6 +250,9 @@
     <ClCompile Include="InGameUI.cpp" />
     <ClCompile Include="ItemBase.cpp">
       <Filter>Map\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyTitleGameMode.cpp">
+      <Filter>Level\MainTitle\LobbyTitle</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

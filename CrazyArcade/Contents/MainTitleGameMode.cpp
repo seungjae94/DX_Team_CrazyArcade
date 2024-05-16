@@ -98,7 +98,7 @@ void AMainTitleGameMode::BeginPlay()
 		//Å° ÀÔ·Â
 		PlayerNameBox->ChangeAnimation("ActiveAni");
 		IsNameBoxAct = true;
-		UEngineInputRecorder::RecordStart();
+		UEngineInputRecorder::RecordStart(TextWidget->GetText());
 		
 		GetPlayerName();
 		});
@@ -159,9 +159,9 @@ void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
 }
 
 
-UTextWidget* AMainTitleGameMode::GetPlayerName()
+std::string AMainTitleGameMode::GetPlayerName()
 {
-	return TextWidget;
+	return TextWidget->GetText();
 }
 void AMainTitleGameMode::StringToText()
 {
