@@ -247,12 +247,14 @@
     <ClCompile Include="InputRecorderTestGameMode.cpp">
       <Filter>Level\InputRecorderTestLevel</Filter>
     </ClCompile>
-    <ClCompile Include="InGameUI.cpp" />
     <ClCompile Include="ItemBase.cpp">
       <Filter>Map\Base</Filter>
     </ClCompile>
     <ClCompile Include="LobbyTitleGameMode.cpp">
       <Filter>Level\MainTitle\LobbyTitle</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameUI.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
