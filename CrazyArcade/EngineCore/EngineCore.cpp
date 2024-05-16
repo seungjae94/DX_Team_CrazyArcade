@@ -154,6 +154,7 @@ void UEngineCore::EngineFrameUpdate()
 		NextLevel = nullptr;
 	}
 
+	UserCorePtr->Tick(DeltaTime);
 	CurLevel->Tick(DeltaTime);
 
 	// 화면 지우고

@@ -23,7 +23,7 @@ public:
 	}
 protected:
 	void Initialize() override;
-
+	void Tick(float _DeltaTime) override;
 private:
 	void ResLoad();
 

@@ -1,14 +1,8 @@
 #pragma once
-#include"MainTitleGameMode.h"
-class MainTitleGameMode;
+#include <EngineCore/TextWidget.h>
 
 class ALobbyTitleGameMode :public AGameMode
 {
-	struct LobbyUserInfo
-	{
-		std::string UserName;
-	};
-
 	GENERATED_BODY(AGameMode)
 public:
 	// constructor destructor
@@ -21,9 +15,9 @@ public:
 	ALobbyTitleGameMode& operator=(const ALobbyTitleGameMode& _Other) = delete;
 	ALobbyTitleGameMode& operator=(ALobbyTitleGameMode&& _Other) = delete;
 
-	inline void SetPlayerName(std::string_view _UserName)
+	inline void SetUserName(std::string_view _UserName)
 	{
-		PlayerName = _UserName;
+		Name_Player = _UserName;
 	}
 
 protected:
@@ -41,9 +35,13 @@ protected:
 
 private:
 	// PlayerInfo
+	int SpaceIndex_Player = 2;
+	std::string Name_Player = "";
 	ECharacterType CharacterType_Player = ECharacterType::Random;
-	int SpaceIndex_Player = 0;
-	//name, charactercolor, ability, rank, ...etc.
+	//charactercolor, ability, rank, ...etc.
+
+	// TitleLevel Info
+	std::string UserName_Input = "";
 
 	// BackGround
 	UImage* LobbyBackGround = nullptr;
@@ -64,6 +62,7 @@ private:
 	std::vector<UImage*> Characters_Space;
 	std::vector<UImage*> Flags_Space;
 	std::vector<UImage*> Shadows_Space;
+	std::vector<UTextWidget*> Usernames_Space;
 
 	// CharacterSelect
 	int BombMin_Panel = 0;
@@ -73,11 +72,6 @@ private:
 	int SpeedMin_Panel = 0;
 	int SpeedMax_Panel = 0;
 
-	//UserName
-	std::string PlayerName = "";
-	UTextWidget* TextWidget = nullptr;
-
-
 	UImage* UpperPanel_CharacterSelect = nullptr;
 	UImage* Panel_CharacterSelect = nullptr;
 	std::map<int, std::vector<UImage*>> Traits_CharacterSelect;
@@ -85,8 +79,6 @@ private:
 	std::vector<bool> CharacterSelect_Pick;
 	UImage* Outline_CharacterSelect = nullptr;
 	UImage* Checker_CharacterSelect = nullptr;
-	
-
 
 	void SettingPanel(ECharacterType _CharacterType);
 	void ChangeCharacter(ECharacterType _CharacterType);
