@@ -159,6 +159,9 @@
     <ClInclude Include="MapHelper.h">
       <Filter>Map\Helper</Filter>
     </ClInclude>
+    <ClInclude Include="ServerNumber.h">
+      <Filter>Level\ServerLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -245,6 +248,9 @@
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="ServerHelper.cpp">
+      <Filter>Level\ServerLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerNumber.cpp">
       <Filter>Level\ServerLevel</Filter>
     </ClCompile>
   </ItemGroup>

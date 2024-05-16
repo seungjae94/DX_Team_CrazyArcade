@@ -26,6 +26,6 @@ protected:
 	void Tick(float _DeltaTime) override;
 private:
 	void ResLoad();
-
+	bool IsFunctionInit = false;
 };
 
