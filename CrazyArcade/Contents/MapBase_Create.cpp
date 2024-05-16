@@ -3,9 +3,10 @@
 
 #include "MapConstant.h"
 #include "BlockBase.h"
+#include "ItemBase.h"
+#include "MoveBox.h"
 #include "Wall.h"
 #include "Box.h"
-#include "MoveBox.h"
 
 void AMapBase::CreateWall(FPoint _Point, std::string_view _ImgName)
 {
@@ -49,6 +50,13 @@ void AMapBase::CreateMoveBox(FPoint _Point, std::string_view _ImgName)
 	MapInfo[_Point.Y][_Point.X].Block->SetActorLocation(Pos);
 }
 
-void AMapBase::CreateItem(EPlayerItem _ItemType)
+void AMapBase::CreateItem(FPoint _Point, EPlayerItem _ItemType)
 {
+	MapInfo[_Point.Y][_Point.X].Item = GetWorld()->SpawnActor<AItemBase>("Item");
+	MapInfo[_Point.Y][_Point.X].Item->SetItem(_ItemType);
+
+	FVector Pos = StartPos;
+	Pos.X += (_Point.X * BlockSize) + (0.5f * BlockSize);
+	Pos.Y += (_Point.Y * BlockSize) + (0.5f * BlockSize);
+	MapInfo[_Point.Y][_Point.X].Item->SetActorLocation(Pos);
 }
