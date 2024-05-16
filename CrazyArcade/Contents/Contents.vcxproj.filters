@@ -19,9 +19,6 @@
     <Filter Include="Map">
       <UniqueIdentifier>{2725ac91-1a32-4115-a2cc-1f86e74e3738}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Map\Constant">
-      <UniqueIdentifier>{ffb710fc-a9c5-4508-af0f-aa58f41067ed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Level\PlayLevel">
       <UniqueIdentifier>{44ade195-7278-4b24-a3f2-bb726807fefe}</UniqueIdentifier>
     </Filter>
@@ -73,6 +70,9 @@
     <Filter Include="Map\Block\Base">
       <UniqueIdentifier>{df52a80a-76e2-4fac-8d4d-d1104e253884}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Map\Helper">
+      <UniqueIdentifier>{ffb710fc-a9c5-4508-af0f-aa58f41067ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -88,7 +88,7 @@
       <Filter>Level\MainTitle</Filter>
     </ClInclude>
     <ClInclude Include="MapConstant.h">
-      <Filter>Map\Constant</Filter>
+      <Filter>Map\Helper</Filter>
     </ClInclude>
     <ClInclude Include="MainPlayLevel.h">
       <Filter>Level\MainPlayLevel</Filter>
@@ -156,6 +156,9 @@
     <ClInclude Include="ServerHelper.h">
       <Filter>Level\ServerLevel</Filter>
     </ClInclude>
+    <ClInclude Include="MapHelper.h">
+      <Filter>Map\Helper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -171,7 +174,7 @@
       <Filter>Level\MainTitle</Filter>
     </ClCompile>
     <ClCompile Include="MapConstant.cpp">
-      <Filter>Map\Constant</Filter>
+      <Filter>Map\Helper</Filter>
     </ClCompile>
     <ClCompile Include="MainPlayLevel.cpp">
       <Filter>Level\MainPlayLevel</Filter>

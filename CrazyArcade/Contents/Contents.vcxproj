@@ -36,6 +36,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="MapHelper.h" />
     <ClInclude Include="MoveBox.h">
       <SubType>
       </SubType>

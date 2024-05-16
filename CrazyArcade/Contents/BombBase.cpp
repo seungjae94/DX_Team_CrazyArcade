@@ -68,7 +68,7 @@ void ABombBase::BeginPlay()
 	Effect_Up->CreateAnimation(MapAnim::bomb_effect_up1, MapImgRes::bomb_effect_up1, 0.05f, false, 0, 10);
 	Effect_Down->CreateAnimation(MapAnim::bomb_effect_down1, MapImgRes::bomb_effect_down1, 0.05f, false, 0, 10);
 
-	BlockSize = AMapBase::GetBlockSize();
+	float BlockSize = AMapBase::GetBlockSize();
 	Effect_Center->SetPosition({ 0.0f, 0.0f, 0.0f });
 	Effect_Left->SetPosition({ -BlockSize, 0.0f, 0.0f });
 	Effect_Right->SetPosition({ BlockSize, 0.0f, 0.0f });
@@ -112,6 +112,8 @@ void ABombBase::Tick(float _DeltaTime)
 			{
 				Player->IncreaseBombCount();
 			}
+
+			PlayLevel->GetMap()->GetTileInfo(CurPoint).Bomb = nullptr;
 			Destroy();
 		}
 	}
@@ -120,4 +122,9 @@ void ABombBase::Tick(float _DeltaTime)
 void ABombBase::SetPlayer(APlayer* _Player)
 {
 	Player = _Player;
+}
+
+void ABombBase::SetCurPoint(FPoint _Point)
+{
+	CurPoint = _Point;
 }
