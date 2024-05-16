@@ -48,7 +48,7 @@ void AMoveBox::StateInit()
 	// State End
 	State.SetEndFunction("Move", [=]
 		{
-			FPoint CurPoint = PlayLevel->GetMap()->CovertLocationToPoint(GetActorLocation());
+			FPoint CurPoint = PlayLevel->GetMap()->ConvertLocationToPoint(GetActorLocation());
 			FPoint PrevPoint = CurPoint;
 
 			if (0.0f < MoveDir.X)

@@ -2,6 +2,7 @@
 #include "MapBase.h"
 
 #include "MapConstant.h"
+#include "BombBase.h"
 #include "BlockBase.h"
 #include "ItemBase.h"
 #include "MoveBox.h"
@@ -81,7 +82,7 @@ void AMapBase::SetMapInfoSize(int _SizeX, int _SizeY)
 }
 
 // 위치 정보를 Tile 좌표값으로 반환
-FPoint AMapBase::CovertLocationToPoint(const FVector& _Pos)
+FPoint AMapBase::ConvertLocationToPoint(const FVector& _Pos)
 {
 	FPoint Result = FPoint();
 	FVector Pos = _Pos - StartPos;
@@ -92,10 +93,21 @@ FPoint AMapBase::CovertLocationToPoint(const FVector& _Pos)
 	return Result;
 }
 
-// 해당 위치 Tile의 RenderOrder를 반환
-int AMapBase::GetRenderOrder(const FVector& _CurPos)
+// 해당 좌표 Tile의 중앙 위치 정보를 반환
+FVector AMapBase::ConvertPointToLocation(const FPoint& _Point)
 {
-	FVector CurPos = _CurPos;
+	FVector Result = StartPos;
+
+	Result.X += (_Point.X * BlockSize) + (0.5f * BlockSize);
+	Result.Y += (_Point.Y * BlockSize) + (0.5f * BlockSize);
+
+	return Result;
+}
+
+// 해당 위치 Tile의 RenderOrder를 반환
+int AMapBase::GetRenderOrder(const FVector& _Pos)
+{
+	FVector CurPos = _Pos;
 	CurPos.Y -= StartPos.Y;
 	int CurY = static_cast<int>(CurPos.Y / BlockSize);
 	return Const::MaxOrder - CurY;
@@ -194,11 +206,16 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 }
 
 // 해당 위치 Tile의 ItemType을 반환
-EItemType AMapBase::IsItemTile(const FVector& _CurPos)
+EItemType AMapBase::IsItemTile(const FVector& _Pos)
 {
-	FPoint CurPoint = CovertLocationToPoint(_CurPos);
+	FPoint CurPoint = ConvertLocationToPoint(_Pos);
 
-	if (CurPoint.X < 0 || CurPoint.Y < 0 || nullptr == MapInfo[CurPoint.Y][CurPoint.X].Item)
+	if (0 > CurPoint.X || SizeX <= CurPoint.X || 0 > CurPoint.Y || SizeY <= CurPoint.Y)
+	{
+		return EItemType::None;
+	}
+
+	if (nullptr == MapInfo[CurPoint.Y][CurPoint.X].Item)
 	{
 		return EItemType::None;
 	}
@@ -211,4 +228,32 @@ EItemType AMapBase::IsItemTile(const FVector& _CurPos)
 	}
 }
 
+// 현재 위치 Tile에 Bomb 스폰 함수 (성공시 true, 실패시 false 반환)
+bool AMapBase::SpawnBomb(const FVector& _Pos, APlayer* _Player)
+{
+	FPoint CurPoint = ConvertLocationToPoint(_Pos);
+
+	if (0 > CurPoint.X || SizeX <= CurPoint.X || 0 > CurPoint.Y || SizeY <= CurPoint.Y)
+	{
+		return false;
+	}
+
+	if (nullptr == MapInfo[CurPoint.Y][CurPoint.X].Bomb)
+	{
+		FVector TargetPos = ConvertPointToLocation(CurPoint);
+		MapInfo[CurPoint.Y][CurPoint.X].Bomb = GetWorld()->SpawnActor<ABombBase>("Bomb");
+		MapInfo[CurPoint.Y][CurPoint.X].Bomb->SetActorLocation(TargetPos);
+		MapInfo[CurPoint.Y][CurPoint.X].Bomb->SetPlayer(_Player);
+
+
+
+		//
+		MapInfo[CurPoint.Y][CurPoint.X].Bomb = nullptr;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
 

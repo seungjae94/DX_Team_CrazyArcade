@@ -1,8 +1,10 @@
 #pragma once
 
 class ABlockBase;
+class ABombBase;
 class AItemBase;
 class UTileInfo;
+class APlayer;
 class ABox;
 
 // Tile 좌표 구조체
@@ -18,6 +20,7 @@ class UTileInfo
 public:
 	std::shared_ptr<ABlockBase> Block = nullptr;
 	std::shared_ptr<AItemBase> Item = nullptr;
+	std::shared_ptr<ABombBase> Bomb = nullptr;
 };
 
 // 설명 : Map 기초 클래스
@@ -35,10 +38,12 @@ public:
 	AMapBase& operator=(const AMapBase& _Other) = delete;
 	AMapBase& operator=(AMapBase&& _Other) noexcept = delete;
 
-	int GetRenderOrder(const FVector& _CurPos);
-	FPoint CovertLocationToPoint(const FVector& _Pos);
+	int GetRenderOrder(const FVector& _Pos);
+	FPoint ConvertLocationToPoint(const FVector& _Pos);
+	FVector ConvertPointToLocation(const FPoint& _Point);
 	bool CanMovePos(const FVector& _NextPos, const FVector& _Dir);
-	EItemType IsItemTile(const FVector& _CurPos);
+	EItemType IsItemTile(const FVector& _Pos);
+	bool SpawnBomb(const FVector& _Pos, APlayer* _Player);
 	
 	// Tile의 한변의 길이를 반환
 	static float GetBlockSize()

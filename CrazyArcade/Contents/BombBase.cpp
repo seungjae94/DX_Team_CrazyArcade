@@ -2,32 +2,35 @@
 #include "BombBase.h"
 
 #include "MainPlayLevel.h"
+#include "MapConstant.h"
 #include "MapBase.h"
+#include "Player.h"
 
 ABombBase::ABombBase()
 {
-	DefaultComponent = CreateDefaultSubObject<UDefaultSceneComponent>("DefaultComponent");
-	SetRoot(DefaultComponent);
+	UDefaultSceneComponent* Root = CreateDefaultSubObject<UDefaultSceneComponent>("Root");
 
-	BombRenderer = CreateDefaultSubObject<USpriteRenderer>("BombRenderer");
-	BombRenderer->SetupAttachment(DefaultComponent);
+	Body = CreateDefaultSubObject<USpriteRenderer>("Bomb");
+	Body->SetupAttachment(Root);
 
-	EffectRenderer_C = CreateDefaultSubObject<USpriteRenderer>("EffectRenderer_C");
-	EffectRenderer_C->SetupAttachment(DefaultComponent);
+	Effect_Center = CreateDefaultSubObject<USpriteRenderer>("Effect_Center");
+	Effect_Center->SetupAttachment(Root);
 
-	EffectRenderer_L = CreateDefaultSubObject<USpriteRenderer>("EffectRenderer_L");
-	EffectRenderer_L->SetupAttachment(DefaultComponent);
+	Effect_Left = CreateDefaultSubObject<USpriteRenderer>("Effect_Left");
+	Effect_Left->SetupAttachment(Root);
 
-	EffectRenderer_R = CreateDefaultSubObject<USpriteRenderer>("EffectRenderer_R");
-	EffectRenderer_R->SetupAttachment(DefaultComponent);
+	Effect_Right = CreateDefaultSubObject<USpriteRenderer>("Effect_Right");
+	Effect_Right->SetupAttachment(Root);
 
-	EffectRenderer_U = CreateDefaultSubObject<USpriteRenderer>("EffectRenderer_U");
-	EffectRenderer_U->SetupAttachment(DefaultComponent);
+	Effect_Up = CreateDefaultSubObject<USpriteRenderer>("Effect_Up");
+	Effect_Up->SetupAttachment(Root);
 
-	EffectRenderer_D = CreateDefaultSubObject<USpriteRenderer>("EffectRenderer_D");
-	EffectRenderer_D->SetupAttachment(DefaultComponent);
-
+	Effect_Down = CreateDefaultSubObject<USpriteRenderer>("Effect_Down");
+	Effect_Down->SetupAttachment(Root);
+	
 	CurExplosionTime = ExplosionTime;
+
+	SetRoot(Root);
 }
 
 ABombBase::~ABombBase()
@@ -40,39 +43,39 @@ void ABombBase::BeginPlay()
 
 	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
 
-	UEngineSprite::CreateCutting("Bomb.png", 3, 1);
-	UEngineSprite::CreateCutting("center.png", 3, 1);
-	UEngineSprite::CreateCutting("left1.png", 11, 1);
-	UEngineSprite::CreateCutting("left2.png", 11, 1);
-	UEngineSprite::CreateCutting("right1.png", 11, 1);
-	UEngineSprite::CreateCutting("right2.png", 11, 1);
-	UEngineSprite::CreateCutting("up1.png", 11, 1);
-	UEngineSprite::CreateCutting("up2.png", 11, 1);
-	UEngineSprite::CreateCutting("down1.png", 11, 1);
-	UEngineSprite::CreateCutting("down2.png", 11, 1);
+	UEngineSprite::CreateCutting(MapImgRes::bomb, 3, 1);
+	UEngineSprite::CreateCutting(MapImgRes::bomb_effect_center, 3, 1);
+	UEngineSprite::CreateCutting(MapImgRes::bomb_effect_left1, 11, 1);
+	UEngineSprite::CreateCutting(MapImgRes::bomb_effect_left2, 11, 1);
+	UEngineSprite::CreateCutting(MapImgRes::bomb_effect_right1, 11, 1);
+	UEngineSprite::CreateCutting(MapImgRes::bomb_effect_right2, 11, 1);
+	UEngineSprite::CreateCutting(MapImgRes::bomb_effect_up1, 11, 1);
+	UEngineSprite::CreateCutting(MapImgRes::bomb_effect_up2, 11, 1);
+	UEngineSprite::CreateCutting(MapImgRes::bomb_effect_down1, 11, 1);
+	UEngineSprite::CreateCutting(MapImgRes::bomb_effect_down2, 11, 1);
 
-	BombRenderer->SetAutoSize(1.0f, true);
-	EffectRenderer_C->SetAutoSize(1.0f, true);
-	EffectRenderer_L->SetAutoSize(1.0f, true);
-	EffectRenderer_R->SetAutoSize(1.0f, true);
-	EffectRenderer_U->SetAutoSize(1.0f, true);
-	EffectRenderer_D->SetAutoSize(1.0f, true);
+	Body->SetAutoSize(1.0f, true);
+	Effect_Center->SetAutoSize(1.0f, true);
+	Effect_Left->SetAutoSize(1.0f, true);
+	Effect_Right->SetAutoSize(1.0f, true);
+	Effect_Up->SetAutoSize(1.0f, true);
+	Effect_Down->SetAutoSize(1.0f, true);
 
-	BombRenderer->CreateAnimation("Bomb", "Bomb.png", 0.1f, true, 0, 2);
-	EffectRenderer_C->CreateAnimation("CenterEffect", "center.png", 0.1f, false, 0, 2);
-	EffectRenderer_L->CreateAnimation("LeftEffect", "left1.png", 0.05f, false, 0, 10);
-	EffectRenderer_R->CreateAnimation("RigthEffect", "right1.png", 0.05f, false, 0, 10);
-	EffectRenderer_U->CreateAnimation("UpEffect", "up1.png", 0.05f, false, 0, 10);
-	EffectRenderer_D->CreateAnimation("DownEffect", "down1.png", 0.05f, false, 0, 10);
+	Body->CreateAnimation(MapAnim::bomb, MapImgRes::bomb, 0.1f, true, 0, 2);
+	Effect_Center->CreateAnimation(MapAnim::bomb_effect_center, MapImgRes::bomb_effect_center, 0.1f, false, 0, 2);
+	Effect_Left->CreateAnimation(MapAnim::bomb_effect_left1, MapImgRes::bomb_effect_left1, 0.05f, false, 0, 10);
+	Effect_Right->CreateAnimation(MapAnim::bomb_effect_right1, MapImgRes::bomb_effect_right1, 0.05f, false, 0, 10);
+	Effect_Up->CreateAnimation(MapAnim::bomb_effect_up1, MapImgRes::bomb_effect_up1, 0.05f, false, 0, 10);
+	Effect_Down->CreateAnimation(MapAnim::bomb_effect_down1, MapImgRes::bomb_effect_down1, 0.05f, false, 0, 10);
 
 	BlockSize = AMapBase::GetBlockSize();
-	EffectRenderer_C->SetPosition({ 0.0f, 0.0f, 0.0f });
-	EffectRenderer_L->SetPosition({ -BlockSize, 0.0f, 0.0f });
-	EffectRenderer_R->SetPosition({ BlockSize, 0.0f, 0.0f });
-	EffectRenderer_U->SetPosition({ 0.0f, BlockSize, 0.0f });
-	EffectRenderer_D->SetPosition({ 0.0f, -BlockSize, 0.0f });
+	Effect_Center->SetPosition({ 0.0f, 0.0f, 0.0f });
+	Effect_Left->SetPosition({ -BlockSize, 0.0f, 0.0f });
+	Effect_Right->SetPosition({ BlockSize, 0.0f, 0.0f });
+	Effect_Up->SetPosition({ 0.0f, BlockSize, 0.0f });
+	Effect_Down->SetPosition({ 0.0f, -BlockSize, 0.0f });
 
-	BombRenderer->ChangeAnimation("Bomb");
+	Body->ChangeAnimation(MapAnim::bomb);
 }
 
 void ABombBase::Tick(float _DeltaTime)
@@ -80,31 +83,38 @@ void ABombBase::Tick(float _DeltaTime)
 	Super::Tick(_DeltaTime);
 
 	int BombOrder = PlayLevel->GetMap()->GetRenderOrder(GetActorLocation());
-	BombRenderer->SetOrder(BombOrder - 1);
-	EffectRenderer_C->SetOrder(BombOrder - 1);
-	EffectRenderer_L->SetOrder(BombOrder - 1);
-	EffectRenderer_R->SetOrder(BombOrder - 1);
-	EffectRenderer_U->SetOrder(BombOrder - 1);
-	EffectRenderer_D->SetOrder(BombOrder - 1);
+	Body->SetOrder(BombOrder - 1);
+	Effect_Center->SetOrder(BombOrder - 1);
+	Effect_Left->SetOrder(BombOrder - 1);
+	Effect_Right->SetOrder(BombOrder - 1);
+	Effect_Up->SetOrder(BombOrder - 1);
+	Effect_Down->SetOrder(BombOrder - 1);
 
 	//CurExplosionTime -= _DeltaTime;
 	if (CurExplosionTime < 0)
 	{
-		BombRenderer->SetActive(false);
-		EffectRenderer_C->ChangeAnimation("CenterEffect");
-		EffectRenderer_L->ChangeAnimation("LeftEffect");
-		EffectRenderer_R->ChangeAnimation("RigthEffect");
-		EffectRenderer_U->ChangeAnimation("UpEffect");
-		EffectRenderer_D->ChangeAnimation("DownEffect");
+		Body->SetActive(false);
+		Effect_Center->ChangeAnimation(MapAnim::bomb_effect_center);
+		Effect_Left->ChangeAnimation(MapAnim::bomb_effect_left1);
+		Effect_Right->ChangeAnimation(MapAnim::bomb_effect_right1);
+		Effect_Up->ChangeAnimation(MapAnim::bomb_effect_up1);
+		Effect_Down->ChangeAnimation(MapAnim::bomb_effect_down1);
+		
 
-		if (EffectRenderer_C->IsCurAnimationEnd())
+		if (Effect_Center->IsCurAnimationEnd())
 		{
-			EffectRenderer_C->SetActive(false);
+			Effect_Center->SetActive(false);
 		}
-		if (EffectRenderer_L->IsCurAnimationEnd())
+
+		if (Effect_Left->IsCurAnimationEnd())
 		{
+			Player->IncreaseBombCount();
 			Destroy();
 		}
 	}
 }
 
+void ABombBase::SetPlayer(APlayer* _Player)
+{
+	Player = _Player;
+}

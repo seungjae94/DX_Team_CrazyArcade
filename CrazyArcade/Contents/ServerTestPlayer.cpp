@@ -5,6 +5,9 @@
 #include "ServerTestOtherPlayer.h"
 #include "BombBase.h"
 
+#include "MainPlayLevel.h"
+#include "MapBase.h"
+
 ServerTestPlayer::ServerTestPlayer()
 	:APlayer()
 {
@@ -69,7 +72,10 @@ void ServerTestPlayer::SpawnBomb()
 	SpawnPacket->Pos = GetActorLocation();
 	SpawnPacket->SpawnSelect = static_cast<int>(EItemType::Bubble);
 	SpawnPacket->SpawnTime = FloatResult;
+
+	PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
 	ABombBase* Boom = GetWorld()->SpawnActor<ABombBase>("Boom").get();
+
 	Boom->SetObjectToken(GetToken);
 	Boom->SetActorLocation(GetActorLocation());
 	Send(SpawnPacket, Boom->GetObjectToken());

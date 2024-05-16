@@ -16,18 +16,6 @@ void ALobbyTitleGameMode::BeginPlay()
 	Super::BeginPlay();
 
 	{
-		TextWidget = CreateWidget<UTextWidget>(GetWorld(), "LobbytText");
-		TextWidget->SetFont("±¼¸²");
-		TextWidget->SetScale(15.0f);
-		TextWidget->SetColor(Color8Bit::Black);
-		TextWidget->SetPosition({ -340.0f ,100.0f });
-		TextWidget->SetFlag(FW1_LEFT); //ÁÂ·Î Á¤·Ä
-		TextWidget->AddToViewPort(4);
-		TextWidget->SetText(PlayerName);
-	}
-
-
-	{
 		UEngineSprite::CreateCutting("Button_GameStart_Hover.png", 1, 3);
 		UEngineSprite::CreateCutting("Button_MapSelect_Hover.png", 1, 2);
 	}
@@ -125,46 +113,62 @@ void ALobbyTitleGameMode::BeginPlay()
 		{
 			for (int i = 0; i < 8; i++)
 			{
-				UImage* Btn_Space = CreateWidget<UImage>(GetWorld(), "Button_Space");
-				Btn_Space->AddToViewPort(1);
-				Btn_Space->SetAutoSize(1.0f, true);
-				Btn_Space->SetWidgetLocation({ -324.0f + 106.0f * (i % 4), 157.0f - 145.0f * (i / 4) });
+				{
+					UImage* Btn_Space = CreateWidget<UImage>(GetWorld(), "Button_Space");
+					Btn_Space->AddToViewPort(1);
+					Btn_Space->SetAutoSize(1.0f, true);
+					Btn_Space->SetWidgetLocation({ -324.0f + 106.0f * (i % 4), 157.0f - 145.0f * (i / 4) });
 
-				Btn_Space->CreateAnimation("Space_UnHover", "Button_Space_UnHover.png", 0.1f, false, 0, 0);
-				Btn_Space->CreateAnimation("Space_Hover", "Button_Space_Hover.png", 0.1f, false, 0, 0);
-				Btn_Space->CreateAnimation("Space_Down", "Button_Space_Down.png", 0.1f, false, 0, 0);
-				Btn_Space->CreateAnimation("UnSpace_UnHover", "Button_UnSpace_UnHover.png", 0.1f, false, 0, 0);
-				Btn_Space->CreateAnimation("UnSpace_Hover", "Button_UnSpace_Hover.png", 0.1f, false, 0, 0);
-				Btn_Space->CreateAnimation("UnSpace_Down", "Button_UnSpace_Down.png", 0.1f, false, 0, 0);
-				Btn_Space->ChangeAnimation("UnSpace_UnHover");
+					Btn_Space->CreateAnimation("Space_UnHover", "Button_Space_UnHover.png", 0.1f, false, 0, 0);
+					Btn_Space->CreateAnimation("Space_Hover", "Button_Space_Hover.png", 0.1f, false, 0, 0);
+					Btn_Space->CreateAnimation("Space_Down", "Button_Space_Down.png", 0.1f, false, 0, 0);
+					Btn_Space->CreateAnimation("UnSpace_UnHover", "Button_UnSpace_UnHover.png", 0.1f, false, 0, 0);
+					Btn_Space->CreateAnimation("UnSpace_Hover", "Button_UnSpace_Hover.png", 0.1f, false, 0, 0);
+					Btn_Space->CreateAnimation("UnSpace_Down", "Button_UnSpace_Down.png", 0.1f, false, 0, 0);
+					Btn_Space->ChangeAnimation("UnSpace_UnHover");
 
-				Btns_Space.push_back(Btn_Space);
-				Space_Available.push_back(false);
-			}
+					Btns_Space.push_back(Btn_Space);
+					Space_Available.push_back(false);
+				}
+				{
+					UImage* Character_Space = CreateWidget<UImage>(GetWorld(), "Character_Space");
+					Character_Space->AddToViewPort(2);
+					Character_Space->SetAutoSize(1.0f, true);
+					Character_Space->SetWidgetLocation({ -341.0f + 106.0f * (i % 4), 145.0f - 145.0f * (i / 4) });
+					Character_Space->SetSprite("Charcater_Space_Random.png");
 
-			for (int i = 0; i < 8; i++)
-			{
-				UImage* Character_Space = CreateWidget<UImage>(GetWorld(), "Character_Space");
-				Character_Space->AddToViewPort(2);
-				Character_Space->SetAutoSize(1.0f, true);
-				Character_Space->SetWidgetLocation({ -341.0f + 106.0f * (i % 4), 145.0f - 145.0f * (i / 4) });
-				Character_Space->SetSprite("Charcater_Space_Random.png");
+					Characters_Space.push_back(Character_Space);
+				}
+				{
+					UImage* Flag_Space = CreateWidget<UImage>(GetWorld(), "Flag_Space");
+					Flag_Space->AddToViewPort(1);
+					Flag_Space->SetAutoSize(1.0f, true);
+					Flag_Space->SetWidgetLocation({ -298.0f + 106.0f * (i % 4), 138.0f - 145.0f * (i / 4) });
+					Flag_Space->SetSprite("Flag_Space.png");
 
-				UImage* Flag_Space = CreateWidget<UImage>(GetWorld(), "Flag_Space");
-				Flag_Space->AddToViewPort(1);
-				Flag_Space->SetAutoSize(1.0f, true);
-				Flag_Space->SetWidgetLocation({ -298.0f + 106.0f * (i % 4), 138.0f - 145.0f * (i / 4) });
-				Flag_Space->SetSprite("Flag_Space.png");
+					Flags_Space.push_back(Flag_Space);
+				}
+				{
+					UImage* Shadow_Space = CreateWidget<UImage>(GetWorld(), "Shadow_Space");
+					Shadow_Space->AddToViewPort(1);
+					Shadow_Space->SetAutoSize(1.0f, true);
+					Shadow_Space->SetWidgetLocation({ -340.0f + 106.0f * (i % 4), 120.0f - 145.0f * (i / 4) });
+					Shadow_Space->SetSprite("Shadow_Space.png");
 
-				UImage* Shadow_Space = CreateWidget<UImage>(GetWorld(), "Shadow_Space");
-				Shadow_Space->AddToViewPort(1);
-				Shadow_Space->SetAutoSize(1.0f, true);
-				Shadow_Space->SetWidgetLocation({ -340.0f + 106.0f * (i % 4), 120.0f - 145.0f * (i / 4) });
-				Shadow_Space->SetSprite("Shadow_Space.png");
+					Shadows_Space.push_back(Shadow_Space);
+				}
+				{
+					UTextWidget* Username_Space = CreateWidget<UTextWidget>(GetWorld(), "Username_Space");
+					Username_Space->AddToViewPort(1);
+					Username_Space->SetScale(15.0f);
+					Username_Space->SetPosition({ -322.0f + 106.0f * (i % 4), 103.0f - 145.0f * (i / 4) });
+					Username_Space->SetFont("±¼¸²");
+					Username_Space->SetColor(Color8Bit::Black);
+					Username_Space->SetFlag(FW1_CENTER);
+					Username_Space->SetText(" ");
 
-				Characters_Space.push_back(Character_Space);
-				Flags_Space.push_back(Flag_Space);
-				Shadows_Space.push_back(Shadow_Space);
+					Usernames_Space.push_back(Username_Space);
+				}
 			}
 
 			for (int i = 0; i < 8; i++)
@@ -234,28 +238,29 @@ void ALobbyTitleGameMode::BeginPlay()
 				UpperPanel_CharacterSelect->SetAutoSize(1.0f, true);
 				UpperPanel_CharacterSelect->SetWidgetLocation({ -21.0f, 230.0f });
 				UpperPanel_CharacterSelect->SetActive(false);
-			}
-			{
+
 				Panel_CharacterSelect = CreateWidget<UImage>(GetWorld(), "Panel_CharacterSelect");
 				Panel_CharacterSelect->SetSprite("Panel_CharatorSelect.png");
 				Panel_CharacterSelect->AddToViewPort(2);
 				Panel_CharacterSelect->SetAutoSize(1.0f, true);
 				Panel_CharacterSelect->SetWidgetLocation({ -21.0f, 185.0f });
 				Panel_CharacterSelect->SetActive(false);
-			}
 
-			for (int i = 0; i < 3; i++)
-			{
-				for (int j = 0; j < 10; j++)
+				for (int i = 0; i < 3; i++)
 				{
-					UImage* TraitBar_CharacterSelect = CreateWidget<UImage>(GetWorld(), "TraitBar_CharacterSelect");
-					TraitBar_CharacterSelect->SetSprite("TraitBar_CharatorSelect_Min.png");
-					TraitBar_CharacterSelect->AddToViewPort(3);
-					TraitBar_CharacterSelect->SetAutoSize(1.0f, true);
-					TraitBar_CharacterSelect->SetWidgetLocation({ -24.0f + (10.0f * j), 204.0f - (19.0f * i) });
+					for (int j = 0; j < 10; j++)
+					{
+						UImage* TraitBar_CharacterSelect = CreateWidget<UImage>(GetWorld(), "TraitBar_CharacterSelect");
+						TraitBar_CharacterSelect->SetSprite("TraitBar_CharatorSelect_Min.png");
+						TraitBar_CharacterSelect->AddToViewPort(3);
+						TraitBar_CharacterSelect->SetAutoSize(1.0f, true);
+						TraitBar_CharacterSelect->SetWidgetLocation({ -24.0f + (10.0f * j), 204.0f - (19.0f * i) });
 
-					Traits_CharacterSelect[i].push_back(TraitBar_CharacterSelect);
+						Traits_CharacterSelect[i].push_back(TraitBar_CharacterSelect);
+					}
 				}
+
+				PanelOff();
 			}
 
 			for (int i = 0; i < 12; i++)
@@ -437,8 +442,7 @@ void ALobbyTitleGameMode::BeginPlay()
 				Outline_CharacterSelect->AddToViewPort(1);
 				Outline_CharacterSelect->SetAutoSize(1.0f, true);
 				Outline_CharacterSelect->SetWidgetLocation({ 229.0f, 245.0f });
-			}
-			{
+
 				Checker_CharacterSelect = CreateWidget<UImage>(GetWorld(), "Checker_CharacterSelect");
 				Checker_CharacterSelect->SetSprite("Checker_CharacterSelect.png");
 				Checker_CharacterSelect->AddToViewPort(2);
@@ -452,8 +456,8 @@ void ALobbyTitleGameMode::BeginPlay()
 		Space_Available[SpaceIndex_Player] = true;
 		Btns_Space[SpaceIndex_Player]->ChangeAnimation("Space_UnHover");
 		SpaceOn(SpaceIndex_Player);
+		Usernames_Space[SpaceIndex_Player]->SetText(Name_Player);
 		ChangeCharacter(CharacterType_Player);
-		PanelOff();
 	}
 }
 
@@ -461,12 +465,6 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 	
-	if (UEngineInput::IsDown('P'))
-	{
-		std::string str = PlayerName;
-		TextWidget->SetText(PlayerName);
-		//½ÇÇè¿ë °æÅÃ 
-	}
 	// Debug
 	{
 		FVector CameraPos = GetWorld()->GetMainCamera()->GetActorLocation();
@@ -514,6 +512,7 @@ void ALobbyTitleGameMode::SpaceOn(int _Index)
 	Characters_Space[_Index]->SetActive(true);
 	Flags_Space[_Index]->SetActive(true);
 	Shadows_Space[_Index]->SetActive(true);
+	Usernames_Space[_Index]->SetActive(true);
 }
 
 void ALobbyTitleGameMode::SpaceOff(int _Index)
@@ -521,6 +520,7 @@ void ALobbyTitleGameMode::SpaceOff(int _Index)
 	Characters_Space[_Index]->SetActive(false);
 	Flags_Space[_Index]->SetActive(false);
 	Shadows_Space[_Index]->SetActive(false);
+	Usernames_Space[_Index]->SetActive(false);
 }
 
 void ALobbyTitleGameMode::PanelOn()
