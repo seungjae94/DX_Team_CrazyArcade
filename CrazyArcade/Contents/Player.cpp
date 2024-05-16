@@ -37,7 +37,7 @@ void APlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SetPlayerColor(EPlayerColor::Yellow);
+	//SetPlayerColor(EPlayerColor::Yellow);
 
 	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
 	BlockSize = AMapBase::GetBlockSize();
