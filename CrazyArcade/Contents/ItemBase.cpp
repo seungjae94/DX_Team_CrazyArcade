@@ -45,7 +45,7 @@ void AItemBase::StateInit()
 	State.SetStartFunction(ItemState::idle, [=] 
 		{
 			int Order = PlayLevel->GetMap()->GetRenderOrder(GetActorLocation());
-			Body->SetOrder(Order);
+			Body->SetOrder(Order - 1);
 		}
 	);
 

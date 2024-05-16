@@ -43,6 +43,12 @@ namespace Const
 	const int MaxOrder = 1000;
 }
 
+namespace MoveBoxState
+{
+	const std::string_view idle					= "Idle";
+	const std::string_view move					= "Move";
+}
+
 namespace ItemState
 {
 	const std::string_view idle					= "Idle";

@@ -199,5 +199,12 @@ void AVillageMap::CreateVillageMoveBoxs()
 
 void AVillageMap::CreateItems()
 {
-	CreateItem({ 7, 8 }, EPlayerItem::Bubble);
+	CreateItem({ 6, 1 }, EPlayerItem::Bubble);
+	CreateItem({ 6, 3 }, EPlayerItem::Devil);
+	CreateItem({ 6, 5 }, EPlayerItem::Fluid);
+	CreateItem({ 6, 7 }, EPlayerItem::Glove);
+	CreateItem({ 8, 1 }, EPlayerItem::RedDevil);
+	CreateItem({ 8, 3 }, EPlayerItem::Roller);
+	CreateItem({ 8, 5 }, EPlayerItem::Shoes);
+	CreateItem({ 8, 7 }, EPlayerItem::Ultra);
 }
