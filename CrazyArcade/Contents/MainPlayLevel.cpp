@@ -38,10 +38,10 @@ void AMainPlayLevel::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	FVector PlayerPos = Player->GetActorLocation();
-	
-	{
-		std::string Msg = std::format("Item : {}\n", static_cast<int>(TileMap->IsItemTile(PlayerPos)));
-		UEngineDebugMsgWindow::PushMsg(Msg);
-	}
+	//FVector PlayerPos = Player->GetActorLocation();
+	//
+	//{
+	//	std::string Msg = std::format("Item : {}\n", static_cast<int>(TileMap->IsItemTile(PlayerPos)));
+	//	UEngineDebugMsgWindow::PushMsg(Msg);
+	//}
 }

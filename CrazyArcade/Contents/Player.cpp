@@ -109,21 +109,24 @@ void APlayer::Tick(float _DeltaTime)
 		UEngineDebugMsgWindow::PushMsg(Msg);
 	}
 	// Item 임의 적용 테스트
-	if (true == IsDown('R'))
-	{
-		PickUpItem(EPlayerItem::Roller);
-	}
-	if (true == IsDown('B'))
-	{
-		PickUpItem(EPlayerItem::Bubble);
-	}
+	//if (true == IsDown('R'))
+	//{
+	//	PickUpItem(EPlayerItem::Roller);
+	//}
+	//if (true == IsDown('B'))
+	//{
+	//	PickUpItem(EPlayerItem::Bubble);
+	//}
 
 	PlayerPos = GetActorLocation();
+
+	PickUpItem();
 }
 
-void APlayer::PickUpItem(EPlayerItem _ItemType)
+void APlayer::PickUpItem()
 {
-	switch (_ItemType)
+	EPlayerItem ItemType = PlayLevel->GetMap()->IsItemTile(GetActorLocation());
+	switch (ItemType)
 	{
 	case EPlayerItem::Bubble:
 		++BombCount;
@@ -158,7 +161,7 @@ void APlayer::PickUpItem(EPlayerItem _ItemType)
 		break;
 	}
 
-	AddItemCount(_ItemType);
+	//AddItemCount(_ItemType);
 }
 
 void APlayer::AddItemCount(EPlayerItem _ItemType)
