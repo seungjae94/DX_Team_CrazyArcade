@@ -19,9 +19,9 @@ enum class EPlayerColor
 
 class AMainPlayLevel;
 
-class APlayer : public AActor
+class APlayer : public ANetActor
 {
-	GENERATED_BODY(AActor)
+	GENERATED_BODY(ANetActor)
 
 public:
 	// constrcuter destructer

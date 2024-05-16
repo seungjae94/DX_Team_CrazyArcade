@@ -2,9 +2,9 @@
 #include <EngineCore/Actor.h>
 
 class AMainPlayLevel;
-class ABomb : public AActor
+class ABomb : public ANetActor
 {
-	GENERATED_BODY(AActor)
+	GENERATED_BODY(ANetActor)
 
 public:
 	// constrcuter destructer

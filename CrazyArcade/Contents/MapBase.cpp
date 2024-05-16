@@ -38,6 +38,13 @@ void AMapBase::BeginPlay()
 	SetActorLocation({ 400.0f, 300.0f, 0.0f });
 }
 
+void AMapBase::LevelEnd(ULevel* _NextLevel)
+{
+	Super::LevelEnd(_NextLevel);
+
+
+}
+
 void AMapBase::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
@@ -175,7 +182,7 @@ EPlayerItem AMapBase::IsItemTile(const FVector& _CurPos)
 {
 	FPoint CurPoint = CovertLocationToPoint(_CurPos);
 
-	if (nullptr == MapInfo[CurPoint.Y][CurPoint.X].Item)
+	if (CurPoint.X < 0 || CurPoint.Y < 0 || nullptr == MapInfo[CurPoint.Y][CurPoint.X].Item)
 	{
 		return EPlayerItem::None;
 	}

@@ -99,13 +99,7 @@
     <ClInclude Include="CrazyArcadeEnum.h">
       <Filter>Option</Filter>
     </ClInclude>
-    <ClInclude Include="OtherPlayer.h">
-      <Filter>Level\ServerLevel</Filter>
-    </ClInclude>
     <ClInclude Include="ServerGameMode.h">
-      <Filter>Level\ServerLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerPlayer.h">
       <Filter>Level\ServerLevel</Filter>
     </ClInclude>
     <ClInclude Include="Packets.h">
@@ -159,6 +153,9 @@
     <ClInclude Include="BlockBase.h">
       <Filter>Map\Block\Base</Filter>
     </ClInclude>
+    <ClInclude Include="ServerHelper.h">
+      <Filter>Level\ServerLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -182,13 +179,7 @@
     <ClCompile Include="PlayGameMode.cpp">
       <Filter>Level\PlayLevel</Filter>
     </ClCompile>
-    <ClCompile Include="OtherPlayer.cpp">
-      <Filter>Level\ServerLevel</Filter>
-    </ClCompile>
     <ClCompile Include="ServerGameMode.cpp">
-      <Filter>Level\ServerLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="ServerPlayer.cpp">
       <Filter>Level\ServerLevel</Filter>
     </ClCompile>
     <ClCompile Include="Packets.cpp">
@@ -249,6 +240,9 @@
     </ClCompile>
     <ClCompile Include="InGameUI.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerHelper.cpp">
+      <Filter>Level\ServerLevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
