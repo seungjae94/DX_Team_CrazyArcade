@@ -157,7 +157,12 @@ void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
 	Super::LevelEnd(_NextLevel);
 	
 	ALobbyTitleGameMode* Lobby = dynamic_cast<ALobbyTitleGameMode*>(_NextLevel->GetGameMode().get());
-	Lobby->SetPlayerName(PlayerName);
+	if (nullptr == Lobby)
+	{
+		return;
+	}
+	
+	Lobby->SetUserName(PlayerName);
 	//UEngineInputRecorder::RecordEnd();
 }
 

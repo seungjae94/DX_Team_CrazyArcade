@@ -43,20 +43,20 @@ void AMapBase::LevelEnd(ULevel* _NextLevel)
 {
 	Super::LevelEnd(_NextLevel);
 
-	for (size_t Y = 0; Y < MapInfo.size(); Y++)
+	for (size_t Y = 0; Y < TileInfo.size(); Y++)
 	{
-		for (size_t X = 0; X < MapInfo[Y].size(); X++)
+		for (size_t X = 0; X < TileInfo[Y].size(); X++)
 		{
-			if (nullptr != MapInfo[Y][X].Block)
+			if (nullptr != TileInfo[Y][X].Block)
 			{
-				MapInfo[Y][X].Block->Destroy();
-				MapInfo[Y][X].Block = nullptr;
+				TileInfo[Y][X].Block->Destroy();
+				TileInfo[Y][X].Block = nullptr;
 			}
 
-			if (nullptr != MapInfo[Y][X].Item)
+			if (nullptr != TileInfo[Y][X].Item)
 			{
-				MapInfo[Y][X].Item->Destroy();
-				MapInfo[Y][X].Item = nullptr;
+				TileInfo[Y][X].Item->Destroy();
+				TileInfo[Y][X].Item = nullptr;
 			}
 		}
 	}
@@ -71,10 +71,10 @@ void AMapBase::SetMapInfoSize(int _SizeX, int _SizeY)
 {
 	SizeY = _SizeY;
 	SizeX = _SizeX;
-	MapInfo.resize(SizeY);
-	for (size_t Y = 0; Y < MapInfo.size(); Y++)
+	TileInfo.resize(SizeY);
+	for (size_t Y = 0; Y < TileInfo.size(); Y++)
 	{
-		MapInfo[Y].resize(SizeX);
+		TileInfo[Y].resize(SizeX);
 	}
 
 	BackGround->SetOrder(ERenderOrder::BackGround);
@@ -150,13 +150,13 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 	}
 	
 	// 빈 공간일때
-	if (nullptr == MapInfo[NextPoint.Y][NextPoint.X].Block)
+	if (nullptr == TileInfo[NextPoint.Y][NextPoint.X].Block)
 	{
 		return true;
 	}
 
 	// 오브젝트 존재할때
-	EBlockType BlockType = MapInfo[NextPoint.Y][NextPoint.X].Block->GetBlockType();
+	EBlockType BlockType = TileInfo[NextPoint.Y][NextPoint.X].Block->GetBlockType();
 	if (EBlockType::Wall == BlockType || EBlockType::Box == BlockType)
 	{
 		return false;
@@ -165,7 +165,7 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 	// MoveBox 체크
 	if (EBlockType::MoveBox == BlockType)
 	{
-		std::shared_ptr<AMoveBox> MoveBox = std::dynamic_pointer_cast<AMoveBox>(MapInfo[NextPoint.Y][NextPoint.X].Block);
+		std::shared_ptr<AMoveBox> MoveBox = std::dynamic_pointer_cast<AMoveBox>(TileInfo[NextPoint.Y][NextPoint.X].Block);
 		MoveBox->SetMoveDir(_Dir);
 		FPoint TwoStepPoint = NextPoint;
 
@@ -188,7 +188,7 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 
 		if (0 > TwoStepPoint.X || SizeX <= TwoStepPoint.X 
 		||  0 > TwoStepPoint.Y || SizeY <= TwoStepPoint.Y
-		|| nullptr != MapInfo[TwoStepPoint.Y][TwoStepPoint.X].Block)
+		|| nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Block)
 		{
 			return false;
 		}
@@ -215,45 +215,41 @@ EItemType AMapBase::IsItemTile(const FVector& _Pos)
 		return EItemType::None;
 	}
 
-	if (nullptr == MapInfo[CurPoint.Y][CurPoint.X].Item)
+	if (nullptr == TileInfo[CurPoint.Y][CurPoint.X].Item)
 	{
 		return EItemType::None;
 	}
 	else
 	{
-		EItemType ItemType = MapInfo[CurPoint.Y][CurPoint.X].Item->GetItemType();
-		MapInfo[CurPoint.Y][CurPoint.X].Item->Destroy();
-		MapInfo[CurPoint.Y][CurPoint.X].Item = nullptr;
+		EItemType ItemType = TileInfo[CurPoint.Y][CurPoint.X].Item->GetItemType();
+		TileInfo[CurPoint.Y][CurPoint.X].Item->Destroy();
+		TileInfo[CurPoint.Y][CurPoint.X].Item = nullptr;
 		return ItemType;
 	}
 }
 
-// 현재 위치 Tile에 Bomb 스폰 함수 (성공시 true, 실패시 false 반환)
-bool AMapBase::SpawnBomb(const FVector& _Pos, APlayer* _Player)
+// 현재 위치 Tile에 Bomb 스폰 함수 (실패시 nullptr 반환)
+ABombBase* AMapBase::SpawnBomb(const FVector& _Pos, APlayer* _Player)
 {
 	FPoint CurPoint = ConvertLocationToPoint(_Pos);
 
 	if (0 > CurPoint.X || SizeX <= CurPoint.X || 0 > CurPoint.Y || SizeY <= CurPoint.Y)
 	{
-		return false;
+		return nullptr;
 	}
 
-	if (nullptr == MapInfo[CurPoint.Y][CurPoint.X].Bomb)
+	if (nullptr == TileInfo[CurPoint.Y][CurPoint.X].Bomb)
 	{
 		FVector TargetPos = ConvertPointToLocation(CurPoint);
-		MapInfo[CurPoint.Y][CurPoint.X].Bomb = GetWorld()->SpawnActor<ABombBase>("Bomb");
-		MapInfo[CurPoint.Y][CurPoint.X].Bomb->SetActorLocation(TargetPos);
-		MapInfo[CurPoint.Y][CurPoint.X].Bomb->SetPlayer(_Player);
-
-
-
-		//
-		MapInfo[CurPoint.Y][CurPoint.X].Bomb = nullptr;
-		return true;
+		TileInfo[CurPoint.Y][CurPoint.X].Bomb = GetWorld()->SpawnActor<ABombBase>("Bomb");
+		TileInfo[CurPoint.Y][CurPoint.X].Bomb->SetActorLocation(TargetPos);
+		TileInfo[CurPoint.Y][CurPoint.X].Bomb->SetPlayer(_Player);
+		TileInfo[CurPoint.Y][CurPoint.X].Bomb->SetCurPoint(CurPoint);
+		return TileInfo[CurPoint.Y][CurPoint.X].Bomb.get();
 	}
 	else
 	{
-		return false;
+		return nullptr;
 	}
 }
 

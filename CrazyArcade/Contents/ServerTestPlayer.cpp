@@ -5,6 +5,9 @@
 #include "ServerTestOtherPlayer.h"
 #include "BombBase.h"
 
+#include "MainPlayLevel.h"
+#include "MapBase.h"
+
 ServerTestPlayer::ServerTestPlayer()
 	:APlayer()
 {
@@ -66,12 +69,15 @@ void ServerTestPlayer::SpawnBomb()
 	FEngineTimeStamp Stamp = UEngineTime::GetCurTime();
 	float FloatResult = Stamp.TimeToFloat();
 	std::shared_ptr<USpawnUpdatePacket> SpawnPacket = std::make_shared<USpawnUpdatePacket>();
-	SpawnPacket->Pos = GetActorLocation();
 	SpawnPacket->SpawnSelect = static_cast<int>(EItemType::Bubble);
 	SpawnPacket->SpawnTime = FloatResult;
-	ABombBase* Boom = GetWorld()->SpawnActor<ABombBase>("Boom").get();
-	Boom->SetObjectToken(GetToken);
-	Boom->SetActorLocation(GetActorLocation());
-	Send(SpawnPacket);
+
+	if (Bomb == nullptr) {
+		return;
+	}
+	Bomb->SetObjectToken(GetToken);
+	SpawnPacket->Pos = Bomb->GetActorLocation();
+	Send(SpawnPacket, Bomb->GetObjectToken());
 	IsSpawn = false;
+	Bomb = nullptr;
 }

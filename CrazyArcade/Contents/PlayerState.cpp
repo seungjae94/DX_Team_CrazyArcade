@@ -11,9 +11,11 @@ void APlayer::StateInit()
 	// 스테이트 생성
 	State.CreateState("Idle");
 	State.CreateState("Run");
-	State.CreateState("Lock");
-	State.CreateState("Escape");
+	State.CreateState("TrapStart");
+	State.CreateState("Traped");
+	State.CreateState("TrapEnd");
 	State.CreateState("Die");
+	State.CreateState("Revival");
 
 	// 함수 세팅
 	State.SetUpdateFunction("Idle", std::bind(&APlayer::Idle, this, std::placeholders::_1));
@@ -44,18 +46,31 @@ void APlayer::StateInit()
 		{
 		});
 
-	State.SetUpdateFunction("Lock", std::bind(&APlayer::Lock, this, std::placeholders::_1));
-	State.SetStartFunction("Lock", [=]()
+	State.SetUpdateFunction("TrapStart", std::bind(&APlayer::TrapStart, this, std::placeholders::_1));
+	State.SetStartFunction("TrapStart", [=]()
 		{
+			Renderer->ChangeAnimation("TrapStart");
 		});
 
-	State.SetUpdateFunction("Escape", std::bind(&APlayer::Escape, this, std::placeholders::_1));
-	State.SetStartFunction("Escape", [=]()
+	State.SetUpdateFunction("Traped", std::bind(&APlayer::Traped, this, std::placeholders::_1));
+	State.SetStartFunction("Traped", [=]()
 		{
+			Renderer->ChangeAnimation("Traped");
+		});
+
+	State.SetUpdateFunction("TrapEnd", std::bind(&APlayer::TrapEnd, this, std::placeholders::_1));
+	State.SetStartFunction("TrapEnd", [=]()
+		{
+			Renderer->ChangeAnimation("TrapEnd");
 		});
 
 	State.SetUpdateFunction("Die", std::bind(&APlayer::Die, this, std::placeholders::_1));
 	State.SetStartFunction("Die", [=]()
+		{
+		});
+
+	State.SetUpdateFunction("Revival", std::bind(&APlayer::Revival, this, std::placeholders::_1));
+	State.SetStartFunction("Revival", [=]()
 		{
 		});
 
@@ -64,16 +79,22 @@ void APlayer::StateInit()
 
 void APlayer::Idle(float _Update)
 {
+	// Bomb 피격
+	//if (/*피격 당했으면*/)
+	if (true == IsDown('1'))
+	{
+		State.ChangeState("TrapStart");
+		return;
+	}
+
 	// Bomb 설치
 	if (true == IsDown(VK_SPACE))
 	{
 		if (0 < BombCount)
 		{
-			bool IsBombSpawn = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
-			if (true == IsBombSpawn)
-			{
-				--BombCount;
-			}
+			ABombBase* Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+			Bombs.push_back(Bomb);
+			--BombCount;
 		}
 	}
 
@@ -91,11 +112,9 @@ void APlayer::Run(float _DeltaTime)
 	{
 		if (0 < BombCount)
 		{
-			bool IsBombSpawn = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
-			if (true == IsBombSpawn)
-			{
-   				--BombCount;
-			}
+			ABombBase* Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+			Bombs.push_back(Bomb);
+			--BombCount;
 		}
 	}
 
@@ -131,17 +150,24 @@ void APlayer::Run(float _DeltaTime)
 	}
 }
 
-void APlayer::Lock(float _DeltaTime)
+void APlayer::TrapStart(float _DeltaTime)
 {
 }
 
-void APlayer::Escape(float _DeltaTime)
+void APlayer::Traped(float _DeltaTime)
+{
+}
+
+void APlayer::TrapEnd(float _DeltaTime)
 {
 }
 
 void APlayer::Die(float _Update)
 {
+}
 
+void APlayer::Revival(float _DeltaTime)
+{
 }
 
 void APlayer::KeyMove(float _DeltaTime, FVector _Dir, float _Speed)

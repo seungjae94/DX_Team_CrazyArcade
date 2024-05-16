@@ -1,4 +1,5 @@
 #pragma once
+#include "MapHelper.h"
 
 class AMainPlayLevel;
 class APlayer;
@@ -18,6 +19,7 @@ public:
 	ABombBase& operator=(ABombBase&& _Other) noexcept = delete;
 
 	void SetPlayer(APlayer* _Player);
+	void SetCurPoint(FPoint _Point);
 
 	//
 	inline void ReduceCurExplosionTime(float _ReduceTime)
@@ -40,7 +42,7 @@ private:
 	USpriteRenderer* Effect_Up;
 	USpriteRenderer* Effect_Down;
 
-	float BlockSize = 0.0f;
+	FPoint CurPoint;
 	float ExplosionTime = 2.0f;
 	float CurExplosionTime = 0.0f;
 };

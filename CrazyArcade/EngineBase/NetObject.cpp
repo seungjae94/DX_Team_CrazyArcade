@@ -29,6 +29,21 @@ void UNetObject::Send(std::shared_ptr<UEngineProtocol> _Protocol)
 	Net->Send(_Protocol);
 }
 
+void UNetObject::Send(std::shared_ptr<UEngineProtocol> _Protocol, int _ObjectToken)
+{
+	if (nullptr == Net)
+	{
+		return;
+	}
+
+	// 오브젝트 토큰과 세션토큰은 무조건 채워져 있어야 한다.
+	// 채워서 보내야 하고.
+	_Protocol->SetSessionToken(Net->GetSessionToken());
+	_Protocol->ObjectToken = _ObjectToken;
+
+	Net->Send(_Protocol);
+}
+
 
 
 std::shared_ptr<UEngineProtocol> UNetObject::PopProtocol()

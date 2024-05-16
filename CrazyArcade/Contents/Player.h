@@ -18,6 +18,7 @@ enum class EPlayerColor
 };
 
 class AMainPlayLevel;
+class ABombBase;
 
 class APlayer : public ANetActor
 {
@@ -58,6 +59,7 @@ protected:
 	FVector PlayerPos;
 	std::string Name = "Player";
 	EPlayerDir PlayerDir = EPlayerDir::Down;
+	std::vector<ABombBase*> Bombs;
 	int BombCount = 1;
 	int MaxBombPower = 5;
 	int BombPower = 0;
@@ -85,9 +87,11 @@ protected:
 
 	void Idle(float _DeltaTime);
 	void Run(float _DeltaTime);
-	void Lock(float _DeltaTime);
-	void Escape(float _DeltaTime);
+	void TrapStart(float _DeltaTime);
+	void Traped(float _DeltaTime);
+	void TrapEnd(float _DeltaTime);
 	void Die(float _DeltaTime);
+	void Revival(float _DeltaTime);
 
 	void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
 
