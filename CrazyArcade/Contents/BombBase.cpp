@@ -90,7 +90,7 @@ void ABombBase::Tick(float _DeltaTime)
 	Effect_Up->SetOrder(BombOrder - 1);
 	Effect_Down->SetOrder(BombOrder - 1);
 
-	//CurExplosionTime -= _DeltaTime;
+	CurExplosionTime -= _DeltaTime;
 	if (CurExplosionTime < 0)
 	{
 		Body->SetActive(false);
