@@ -18,6 +18,7 @@ enum class EPlayerColor
 };
 
 class AMainPlayLevel;
+class ABombBase;
 
 class APlayer : public ANetActor
 {
@@ -58,6 +59,7 @@ protected:
 	FVector PlayerPos;
 	std::string Name = "Player";
 	EPlayerDir PlayerDir = EPlayerDir::Down;
+	ABombBase* Bomb = nullptr;
 	int BombCount = 1;
 	int MaxBombPower = 5;
 	int BombPower = 0;

@@ -81,23 +81,25 @@ void APlayer::Idle(float _Update)
 {
 	// Bomb 피격
 	//if (/*피격 당했으면*/)
-	if(true == IsDown('1'))
+	if (true == IsDown('1'))
 	{
 		State.ChangeState("TrapStart");
 		return;
 	}
 
 	// Bomb 설치
-	//if (true == IsDown(VK_SPACE))
-	//{
-	//	if (0 < BombCount)
-	//	{
-	//		if (nullptr != PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this))
-	//		{
-	//			--BombCount;
-	//		}
-	//	}
-	//}
+	if (true == IsDown(VK_SPACE))
+	{
+		if (0 < BombCount)
+		{
+			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+			--BombCount;
+		}
+		else
+		{
+			Bomb = nullptr;
+		}
+	}
 
 	if (true == IsPress(VK_LEFT) || true == IsPress(VK_RIGHT) || true == IsPress(VK_UP) || true == IsPress(VK_DOWN))
 	{
@@ -109,16 +111,18 @@ void APlayer::Idle(float _Update)
 void APlayer::Run(float _DeltaTime)
 {
 	// Bomb 설치
-	//if (true == IsDown(VK_SPACE))
-	//{
-	//	if (0 < BombCount)
-	//	{
-	//		if (nullptr != PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this))
-	//		{
-	//			--BombCount;
-	//		}
-	//	}
-	//}
+	if (true == IsDown(VK_SPACE))
+	{
+		if (0 < BombCount)
+		{
+			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+			--BombCount;
+		}
+		else
+		{
+			Bomb = nullptr;
+		}
+	}
 
 	if (true == IsPress(VK_LEFT))
 	{
