@@ -1,4 +1,6 @@
 #pragma once
+#include <EngineCore/StateManager.h>
+#include "MapConstant.h"
 #include "MapHelper.h"
 
 class AMainPlayLevel;
@@ -18,6 +20,11 @@ public:
 	ABombBase& operator=(const ABombBase& _Other) = delete;
 	ABombBase& operator=(ABombBase&& _Other) noexcept = delete;
 
+	void SetIdle()
+	{
+		State.ChangeState(BombState::idle);
+	}
+
 	void SetPlayer(APlayer* _Player);
 	void SetCurPoint(FPoint _Point);
 
@@ -30,6 +37,10 @@ public:
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
+
+private:
+	void SetImgCutting();
+	void RendererInit();
 
 private:
 	AMainPlayLevel* PlayLevel = nullptr;
@@ -45,5 +56,11 @@ private:
 	FPoint CurPoint;
 	float ExplosionTime = 2.0f;
 	float CurExplosionTime = 0.0f;
+
+// FSM
+private:
+	UStateManager State;
+	void StateInit();
+
 };
 
