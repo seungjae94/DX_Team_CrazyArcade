@@ -33,6 +33,7 @@ void AInputRecorderTestGameMode::Tick(float _DeltaTime)
 		FEngineTimeStamp Second = { 22, 10, 59, 533 };
 
 		FEngineTimeStamp Result = Second - First;
+		float FloatResult = Result.TimeToFloat();
 		int a = 0;
 	}
 	
@@ -41,6 +42,7 @@ void AInputRecorderTestGameMode::Tick(float _DeltaTime)
 		FEngineTimeStamp Second = { 22, 11, 01, 000 };
 
 		FEngineTimeStamp Result = Second - First;
+		float FloatResult = Result.TimeToFloat();
 		int a = 0;
 	}
 
@@ -49,6 +51,7 @@ void AInputRecorderTestGameMode::Tick(float _DeltaTime)
 		FEngineTimeStamp Second = { 00,  00, 00, 100};
 
 		FEngineTimeStamp Result = Second - First;
+		float FloatResult = Result.TimeToFloat();
 		int a = 0;
 	}
 

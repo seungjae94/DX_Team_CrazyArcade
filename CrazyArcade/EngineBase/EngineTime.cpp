@@ -84,3 +84,9 @@ FEngineTimeStamp FEngineTimeStamp::operator-(const FEngineTimeStamp& _Other) con
 	Result.Hour = ResultTotalMilliSecond % 24;
 	return Result;
 }
+
+float FEngineTimeStamp::TimeToFloat() const
+{
+	int TotalMilliSecond = Hour * 60 * 60 * 1000 + Minute * 60 * 1000 + Second * 1000 + MilliSecond;
+	return static_cast<float>(TotalMilliSecond / 1000) + (MilliSecond / 1000.0f);
+}
