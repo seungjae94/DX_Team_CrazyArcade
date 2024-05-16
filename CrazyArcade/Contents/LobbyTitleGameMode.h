@@ -27,6 +27,11 @@ protected:
 	void FadeOut(float _DeltaTime);
 
 private:
+	// PlayerInfo
+	ECharacterType CharacterType_Player = ECharacterType::Random;
+	int SpaceIndex_Player = 0;
+	//name, charactercolor, ability, rank, ...etc.
+
 	// BackGround
 	UImage* LobbyBackGround = nullptr;
 
@@ -48,13 +53,12 @@ private:
 	std::vector<UImage*> Shadows_Space;
 
 	// CharacterSelect
-	ECharacterType CharacterType = ECharacterType::Random;
-	int BombMin = 0;
-	int BombMax = 0;
-	int BombWaterMin = 0;
-	int BombWaterMax = 0;
-	int SpeedMin = 0;
-	int SpeedMax = 0;
+	int BombMin_Panel = 0;
+	int BombMax_Panel = 0;
+	int BombWaterMin_Panel = 0;
+	int BombWaterMax_Panel = 0;
+	int SpeedMin_Panel = 0;
+	int SpeedMax_Panel = 0;
 
 	UImage* UpperPanel_CharacterSelect = nullptr;
 	UImage* Panel_CharacterSelect = nullptr;
