@@ -40,7 +40,8 @@ private:
 	int SpaceIndex_Player = 2;
 	std::string Name_Player = "";
 	ECharacterType CharacterType_Player = ECharacterType::Random;
-	//charactercolor, ability, rank, ...etc.
+	ECharacterColor CharacterCorlor_Player = ECharacterColor::Red;
+	//ability, rank, ...etc.
 
 	// TitleLevel Info
 	std::string UserName_Input = "";
@@ -81,6 +82,12 @@ private:
 	int SpeedMin_Panel = 0;
 	int SpeedMax_Panel = 0;
 
+	// ColorSelect
+	std::vector<UImage*> Btns_ColorSelect;
+	std::vector<bool> ColorSelect_Pick;
+	UImage* Checker_ColorSelect = nullptr;
+
 	void SettingPanel(ECharacterType _CharacterType);
 	void ChangeCharacter(ECharacterType _CharacterType);
+	void ChangeColor(ECharacterColor _CharacterColor);
 };

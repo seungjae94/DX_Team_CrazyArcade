@@ -23,6 +23,18 @@ enum class ECharacterType
 	Ray
 };
 
+enum class ECharacterColor
+{
+	Red,
+	Yellow,
+	Orange,
+	Green,
+	Skyblue,
+	Blue,
+	Purple,
+	Pink
+};
+
 // 1000 ~ 1999 (∏  ∫Ì∑œ ≈∏¿‘)
 enum class EBlockType
 {
