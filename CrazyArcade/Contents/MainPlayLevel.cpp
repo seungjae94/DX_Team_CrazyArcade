@@ -38,14 +38,10 @@ void AMainPlayLevel::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	FVector CameraPos = GetWorld()->GetMainCamera()->GetActorLocation();
-	FVector MousePos = GEngine->EngineWindow.GetScreenMousePos();
-	FVector WindowScale = GEngine->EngineWindow.GetWindowScale();
+	FVector PlayerPos = Player->GetActorLocation();
 	
-	FVector TargetPos = FVector(CameraPos.X, CameraPos.Y, 0.0f) + FVector(MousePos.X - WindowScale.hX(), -(MousePos.Y - WindowScale.hY()), 0.0f);
-
 	{
-		std::string Msg = std::format("MousePos : {}\n", TargetPos.ToString());
+		std::string Msg = std::format("Item : {}\n", static_cast<int>(TileMap->IsItemTile(PlayerPos)));
 		UEngineDebugMsgWindow::PushMsg(Msg);
 	}
 }
