@@ -175,7 +175,7 @@ EPlayerItem AMapBase::IsItemTile(const FVector& _CurPos)
 {
 	FPoint CurPoint = CovertLocationToPoint(_CurPos);
 
-	if (nullptr == MapInfo[CurPoint.Y][CurPoint.X].Item)
+	if (CurPoint.X < 0 || CurPoint.Y < 0 || nullptr == MapInfo[CurPoint.Y][CurPoint.X].Item)
 	{
 		return EPlayerItem::None;
 	}
