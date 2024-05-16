@@ -1,4 +1,6 @@
 #pragma once
+#include"MainTitleGameMode.h"
+class MainTitleGameMode;
 
 class ALobbyTitleGameMode :public AGameMode
 {
@@ -18,6 +20,11 @@ public:
 	ALobbyTitleGameMode(ALobbyTitleGameMode&& _Other) noexcept = delete;
 	ALobbyTitleGameMode& operator=(const ALobbyTitleGameMode& _Other) = delete;
 	ALobbyTitleGameMode& operator=(ALobbyTitleGameMode&& _Other) = delete;
+
+	inline void SetPlayerName(std::string_view _UserName)
+	{
+		PlayerName = _UserName;
+	}
 
 protected:
 	void BeginPlay() override;
@@ -62,6 +69,11 @@ private:
 	int SpeedMin = 0;
 	int SpeedMax = 0;
 
+	//UserName
+	std::string PlayerName = "";
+	UTextWidget* TextWidget = nullptr;
+
+
 	UImage* UpperPanel_CharacterSelect = nullptr;
 	UImage* Panel_CharacterSelect = nullptr;
 	std::map<int, std::vector<UImage*>> Traits_CharacterSelect;
@@ -69,6 +81,8 @@ private:
 	std::vector<bool> CharacterSelect_Pick;
 	UImage* Outline_CharacterSelect = nullptr;
 	UImage* Checker_CharacterSelect = nullptr;
+	
+
 
 	void SettingPanel(ECharacterType _CharacterType);
 	void ChangeCharacter(ECharacterType _CharacterType);

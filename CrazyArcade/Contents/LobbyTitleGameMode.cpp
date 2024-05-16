@@ -1,6 +1,6 @@
 #include "PreCompile.h"
 #include "LobbyTitleGameMode.h"
-
+#include "MainTitleGameMode.h"
 #include <format>
 
 ALobbyTitleGameMode::ALobbyTitleGameMode()
@@ -14,6 +14,18 @@ ALobbyTitleGameMode::~ALobbyTitleGameMode()
 void ALobbyTitleGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+
+	{
+		TextWidget = CreateWidget<UTextWidget>(GetWorld(), "LobbytText");
+		TextWidget->SetFont("굴림");
+		TextWidget->SetScale(15.0f);
+		TextWidget->SetColor(Color8Bit::Black);
+		TextWidget->SetPosition({ -340.0f ,100.0f });
+		TextWidget->SetFlag(FW1_LEFT); //좌로 정렬
+		TextWidget->AddToViewPort(4);
+		TextWidget->SetText(PlayerName);
+	}
+
 
 	{
 		UEngineSprite::CreateCutting("Button_GameStart_Hover.png", 1, 3);
@@ -452,13 +464,19 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 	
+	if (UEngineInput::IsDown('P'))
+	{
+		std::string str = PlayerName;
+		TextWidget->SetText(PlayerName);
+		//실험용 경택 
+	}
 	// Debug
 	{
 		FVector CameraPos = GetWorld()->GetMainCamera()->GetActorLocation();
 		FVector MousePos = GEngine->EngineWindow.GetScreenMousePos();
 		FVector WindowScale = GEngine->EngineWindow.GetWindowScale();
 		FVector TargetPos = FVector(CameraPos.X, CameraPos.Y, 0.0f) + FVector(MousePos.X - WindowScale.hX(), -(MousePos.Y - WindowScale.hY()), 0.0f);
-
+		 
 		{
 			std::string Msg = std::format("MousePos : {}\n", TargetPos.ToString());
 			UEngineDebugMsgWindow::PushMsg(Msg);
