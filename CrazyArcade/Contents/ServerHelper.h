@@ -18,8 +18,8 @@ public:
 			return static_cast<EBlockType>(_EnumNum);
 		}
 		else if (_EnumNum < 3000) {
-			return static_cast<EPlayerItem>(_EnumNum);
+			return static_cast<EItemType>(_EnumNum);
 		}
-		return static_cast<EPlayerItem>(_EnumNum);
+		return static_cast<EItemType>(_EnumNum);
 	}
 };

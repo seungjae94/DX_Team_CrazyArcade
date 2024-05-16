@@ -3,7 +3,7 @@
 #include "Packets.h"
 #include "CrazyArcadeCore.h"
 #include "ServerTestOtherPlayer.h"
-#include "Bomb.h"
+#include "BombBase.h"
 
 ServerTestPlayer::ServerTestPlayer()
 	:APlayer()
@@ -54,8 +54,8 @@ void ServerTestPlayer::Tick(float _DeltaTime)
 		if (true == IsSpawn) {
 			std::shared_ptr<USpawnUpdatePacket> SpawnPacket = std::make_shared<USpawnUpdatePacket>();
 			SpawnPacket->Pos = GetActorLocation();
-			SpawnPacket->SpawnSelect = static_cast<int>(EPlayerItem::Bubble);
-			ABomb* Boom = GetWorld()->SpawnActor<ABomb>("Boom").get();
+			SpawnPacket->SpawnSelect = static_cast<int>(EItemType::Bubble);
+			ABombBase* Boom = GetWorld()->SpawnActor<ABombBase>("Boom").get();
 			Boom->SetObjectToken(GetToken);
 			Boom->SetActorLocation(GetActorLocation());
  			Send(SpawnPacket);

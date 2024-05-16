@@ -194,17 +194,17 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 }
 
 // 해당 위치 Tile의 ItemType을 반환
-EPlayerItem AMapBase::IsItemTile(const FVector& _CurPos)
+EItemType AMapBase::IsItemTile(const FVector& _CurPos)
 {
 	FPoint CurPoint = CovertLocationToPoint(_CurPos);
 
 	if (CurPoint.X < 0 || CurPoint.Y < 0 || nullptr == MapInfo[CurPoint.Y][CurPoint.X].Item)
 	{
-		return EPlayerItem::None;
+		return EItemType::None;
 	}
 	else
 	{
-		EPlayerItem ItemType = MapInfo[CurPoint.Y][CurPoint.X].Item->GetItemType();
+		EItemType ItemType = MapInfo[CurPoint.Y][CurPoint.X].Item->GetItemType();
 		MapInfo[CurPoint.Y][CurPoint.X].Item->Destroy();
 		MapInfo[CurPoint.Y][CurPoint.X].Item = nullptr;
 		return ItemType;

@@ -64,14 +64,14 @@ protected:
 	bool Push = false;
 	bool Throw = false;
 
-	std::map<EPlayerItem, int> MPlayerItem;
-	std::map<EPlayerItem, int>::iterator MPlayerItemIter;
+	std::map<EItemType, int> MPlayerItem;
+	std::map<EItemType, int>::iterator MPlayerItemIter;
 
 	float BlockSize = 0.0f;
 	AMainPlayLevel* PlayLevel = nullptr;
 
 	void PickUpItem();
-	void AddItemCount(EPlayerItem _ItemType);
+	void AddItemCount(EItemType _ItemType);
 	void SetPlayerColor(EPlayerColor _Color);
 	std::string PlayerColor = "";
 

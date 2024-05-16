@@ -18,13 +18,13 @@ APlayer::APlayer()
 	DebugRenderer = CreateDefaultSubObject<USpriteRenderer>("DebugRenderer");
 	DebugRenderer->SetupAttachment(DefaultComponent);
 
-	MPlayerItem.insert(std::pair(EPlayerItem::Bubble, 0));
-	MPlayerItem.insert(std::pair(EPlayerItem::Fluid, 0));
-	MPlayerItem.insert(std::pair(EPlayerItem::Ultra, 0));
-	MPlayerItem.insert(std::pair(EPlayerItem::Roller, 0));
-	MPlayerItem.insert(std::pair(EPlayerItem::RedDevil, 0));
-	MPlayerItem.insert(std::pair(EPlayerItem::Glove, 0));
-	MPlayerItem.insert(std::pair(EPlayerItem::Shoes, 0));
+	MPlayerItem.insert(std::pair(EItemType::Bubble, 0));
+	MPlayerItem.insert(std::pair(EItemType::Fluid, 0));
+	MPlayerItem.insert(std::pair(EItemType::Ultra, 0));
+	MPlayerItem.insert(std::pair(EItemType::Roller, 0));
+	MPlayerItem.insert(std::pair(EItemType::RedDevil, 0));
+	MPlayerItem.insert(std::pair(EItemType::Glove, 0));
+	MPlayerItem.insert(std::pair(EItemType::Shoes, 0));
 
 	InputOn();
 }
@@ -112,7 +112,7 @@ void APlayer::Tick(float _DeltaTime)
 		UEngineDebugMsgWindow::PushMsg(Msg);
 	}
 	{
-		std::string Msg = std::format("Bubble : {}\n", MPlayerItem[EPlayerItem::Bubble]);
+		std::string Msg = std::format("Bubble : {}\n", MPlayerItem[EItemType::Bubble]);
 		UEngineDebugMsgWindow::PushMsg(Msg);
 	}
 	// Item 임의 적용 테스트
@@ -132,22 +132,22 @@ void APlayer::Tick(float _DeltaTime)
 
 void APlayer::PickUpItem()
 {
-	EPlayerItem ItemType = PlayLevel->GetMap()->IsItemTile(GetActorLocation());
+	EItemType ItemType = PlayLevel->GetMap()->IsItemTile(GetActorLocation());
 	switch (ItemType)
 	{
-	case EPlayerItem::Bubble:
+	case EItemType::Bubble:
 		++BombCount;
 		break;
-	case EPlayerItem::Fluid:
+	case EItemType::Fluid:
 		if (BombPower < MaxBombPower)
 		{
 			++BombPower;
 		}
 		break;
-	case EPlayerItem::Ultra:
+	case EItemType::Ultra:
 		BombPower = MaxBombPower;
 		break;
-	case EPlayerItem::Roller:
+	case EItemType::Roller:
 		Speed += 10.0f;
 		CurSpeed = BaseSpeed + Speed;
 		if (MaxSpeed < CurSpeed)
@@ -155,13 +155,13 @@ void APlayer::PickUpItem()
 			CurSpeed = MaxSpeed;
 		}
 		break;
-	case EPlayerItem::RedDevil:
+	case EItemType::RedDevil:
 		CurSpeed = MaxSpeed;
 		break;
-	case EPlayerItem::Glove:
+	case EItemType::Glove:
 		Throw = true;
 		break;
-	case EPlayerItem::Shoes:
+	case EItemType::Shoes:
 		Push = true;
 		break;
 	default:
@@ -171,7 +171,7 @@ void APlayer::PickUpItem()
 	//AddItemCount(_ItemType);
 }
 
-void APlayer::AddItemCount(EPlayerItem _ItemType)
+void APlayer::AddItemCount(EItemType _ItemType)
 {
 	int Count = MPlayerItem[_ItemType];
 	++Count;

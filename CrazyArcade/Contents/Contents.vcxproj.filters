@@ -135,7 +135,7 @@
     <ClInclude Include="MoveBox.h">
       <Filter>Map\Block</Filter>
     </ClInclude>
-    <ClInclude Include="Bomb.h">
+    <ClInclude Include="BombBase.h">
       <Filter>Map\Bomb</Filter>
     </ClInclude>
     <ClInclude Include="InputRecorderTestGameMode.h">
@@ -220,7 +220,7 @@
     <ClCompile Include="MoveBox.cpp">
       <Filter>Map\Block</Filter>
     </ClCompile>
-    <ClCompile Include="Bomb.cpp">
+    <ClCompile Include="BombBase.cpp">
       <Filter>Map\Bomb</Filter>
     </ClCompile>
     <ClCompile Include="InputRecorderTestGameMode.cpp">

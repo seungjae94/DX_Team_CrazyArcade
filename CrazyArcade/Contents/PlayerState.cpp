@@ -4,7 +4,7 @@
 #include "MainPlayLevel.h"
 #include "MapBase.h"
 
-#include "Bomb.h"
+#include "BombBase.h"
 
 void APlayer::StateInit()
 {
@@ -69,7 +69,7 @@ void APlayer::Idle(float _Update)
 	{
 		//if (0 < BombCount)
 		{
-			std::shared_ptr<ABomb> Bomb = GetWorld()->SpawnActor<ABomb>("Bomb");
+			std::shared_ptr<ABombBase> Bomb = GetWorld()->SpawnActor<ABombBase>("Bomb");
 			Bomb->SetActorLocation(GetActorLocation());
 			Bomb->AddActorLocation({ 0.0f, BlockSize / 2.0f });
 			--BombCount;
@@ -90,7 +90,7 @@ void APlayer::Run(float _DeltaTime)
 	{
 		//if (0 < BombCount)
 		{
-			std::shared_ptr<ABomb> Bomb = GetWorld()->SpawnActor<ABomb>("Bomb");
+			std::shared_ptr<ABombBase> Bomb = GetWorld()->SpawnActor<ABombBase>("Bomb");
 			Bomb->SetActorLocation(GetActorLocation());
 			Bomb->AddActorLocation({ 0.0f, BlockSize / 2.0f });
 			--BombCount;

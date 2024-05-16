@@ -1,21 +1,19 @@
 #pragma once
-#include <EngineCore/Actor.h>
 
 class AMainPlayLevel;
-class ABomb : public ANetActor
+class ABombBase : public ANetActor
 {
 	GENERATED_BODY(ANetActor)
-
 public:
 	// constrcuter destructer
-	ABomb();
-	~ABomb();
+	ABombBase();
+	~ABombBase();
 
 	// delete Function
-	ABomb(const ABomb& _Other) = delete;
-	ABomb(ABomb&& _Other) noexcept = delete;
-	ABomb& operator=(const ABomb& _Other) = delete;
-	ABomb& operator=(ABomb&& _Other) noexcept = delete;
+	ABombBase(const ABombBase& _Other) = delete;
+	ABombBase(ABombBase&& _Other) noexcept = delete;
+	ABombBase& operator=(const ABombBase& _Other) = delete;
+	ABombBase& operator=(ABombBase&& _Other) noexcept = delete;
 
 
 	void ReduceCurExplosionTime(float _ReduceTime)

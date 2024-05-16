@@ -1,9 +1,10 @@
 #include "PreCompile.h"
-#include "Bomb.h"
+#include "BombBase.h"
+
 #include "MainPlayLevel.h"
 #include "MapBase.h"
 
-ABomb::ABomb()
+ABombBase::ABombBase()
 {
 	DefaultComponent = CreateDefaultSubObject<UDefaultSceneComponent>("DefaultComponent");
 	SetRoot(DefaultComponent);
@@ -29,11 +30,11 @@ ABomb::ABomb()
 	CurExplosionTime = ExplosionTime;
 }
 
-ABomb::~ABomb()
+ABombBase::~ABombBase()
 {
 }
 
-void ABomb::BeginPlay()
+void ABombBase::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -74,7 +75,7 @@ void ABomb::BeginPlay()
 	BombRenderer->ChangeAnimation("Bomb");
 }
 
-void ABomb::Tick(float _DeltaTime)
+void ABombBase::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 

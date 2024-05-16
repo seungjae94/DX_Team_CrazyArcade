@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "Bomb.h"
+#include "BombBase.h"
 #include "ServerHelper.h"
 
 
@@ -12,7 +12,7 @@ std::shared_ptr<ANetActor> ServerHelper::EnumSpawn(ULevel* _Level, int _Enum) {
 	case 2:
 		break;
 	case 2001:
-		return _Level->SpawnActor<ABomb>("Bomb");
+		return _Level->SpawnActor<ABombBase>("Bomb");
 		break;
 	default:
 		return nullptr;
