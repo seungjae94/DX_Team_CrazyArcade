@@ -80,7 +80,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Item.h">
+    <ClInclude Include="ItemBase.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -206,7 +206,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
+    <ClCompile Include="ItemBase.cpp">
       <SubType>
       </SubType>
     </ClCompile>

@@ -1,8 +1,8 @@
 #include "PreCompile.h"
-#include "Item.h"
+#include "ItemBase.h"
 #include "MainPlayLevel.h"
 
-AItem::AItem()
+AItemBase::AItemBase()
 {
 	DefaultComponent = CreateDefaultSubObject<UDefaultSceneComponent>("DefaultComponent");
 	SetRoot(DefaultComponent);
@@ -15,11 +15,11 @@ AItem::AItem()
 	ShadowRenderer->SetupAttachment(DefaultComponent);
 }
 
-AItem::~AItem()
+AItemBase::~AItemBase()
 {
 }
 
-void AItem::BeginPlay()
+void AItemBase::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -32,7 +32,7 @@ void AItem::BeginPlay()
 	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
 }
 
-void AItem::Tick(float _DeltaTime)
+void AItemBase::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
@@ -42,7 +42,7 @@ void AItem::Tick(float _DeltaTime)
 	MoveUpDown(_DeltaTime);
 }
 
-void AItem::MoveUpDown(float _DeltaTime)
+void AItemBase::MoveUpDown(float _DeltaTime)
 {
 	if (0.0f <= MoveTime && MoveTime < 0.5f)
 	{

@@ -3,20 +3,20 @@
 #include "MapBase.h"
 #include "Player.h"
 
-class AItem : public AActor
+class AItemBase : public AActor
 {
 	GENERATED_BODY(AActor)
 
 public:
 	// constrcuter destructer
-	AItem();
-	~AItem();
+	AItemBase();
+	~AItemBase();
 
 	// delete Function
-	AItem(const AItem& _Other) = delete;
-	AItem(AItem&& _Other) noexcept = delete;
-	AItem& operator=(const AItem& _Other) = delete;
-	AItem& operator=(AItem&& _Other) noexcept = delete;
+	AItemBase(const AItemBase& _Other) = delete;
+	AItemBase(AItemBase&& _Other) noexcept = delete;
+	AItemBase& operator=(const AItemBase& _Other) = delete;
+	AItemBase& operator=(AItemBase&& _Other) noexcept = delete;
 
 protected:
 	void BeginPlay() override;

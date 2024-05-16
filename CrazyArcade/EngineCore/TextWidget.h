@@ -36,6 +36,11 @@ public:
 		Text = _Text;
 	}
 
+	std::string GetText() const
+	{
+		return Text;
+	}
+
 protected:
 	bool Render(float _DeltaTime) override;
 
