@@ -9,6 +9,9 @@ public:
 	int Minute = 0;
 	int Second = 0;
 	int MilliSecond = 0;
+
+	FEngineTimeStamp operator-(const FEngineTimeStamp& _Other) const;
+	float TimeToFloat() const;
 };
 
 // Ό³Έν :

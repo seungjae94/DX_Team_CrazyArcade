@@ -9,7 +9,7 @@ class UEngineInputRecorder
 	friend UEngineWindow;
 	friend UEngineCore;
 public:
-	static void RecordStart();
+	static void RecordStart(std::string_view _Text = "");
 	static void RecordEnd();
 	static std::string GetText();
 

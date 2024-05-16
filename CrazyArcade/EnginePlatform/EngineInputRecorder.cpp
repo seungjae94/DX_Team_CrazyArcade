@@ -21,10 +21,18 @@ UEngineInputRecorder::~UEngineInputRecorder()
 {
 }
 
-void UEngineInputRecorder::RecordStart()
+void UEngineInputRecorder::RecordStart(std::string_view _Text)
 {
 	Activeness = true;
-	WText = L"";
+	if (0 == _Text.size())
+	{
+		WText = L"";
+	}
+	else
+	{
+		WText = UEngineString::AnsiToUniCode(_Text);
+	}
+	CombLetter.clear();
 	ImmSetCompositionString(hIMC, SCS_SETSTR, NULL, 0, NULL, 0);
 	ImmNotifyIME(hIMC, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
 }
@@ -36,7 +44,6 @@ void UEngineInputRecorder::RecordEnd()
 
 std::string UEngineInputRecorder::GetText()
 {
-	
 	std::string ReturnText = "";
 	
 	if (WText.size() > 0)
