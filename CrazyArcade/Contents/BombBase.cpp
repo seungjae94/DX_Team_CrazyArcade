@@ -108,8 +108,10 @@ void ABombBase::Tick(float _DeltaTime)
 
 		if (Effect_Left->IsCurAnimationEnd())
 		{
-
-			Player->IncreaseBombCount();
+			if (nullptr != Player)
+			{
+				Player->IncreaseBombCount();
+			}
 			Destroy();
 		}
 	}

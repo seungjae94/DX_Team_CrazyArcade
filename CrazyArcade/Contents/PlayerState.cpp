@@ -88,16 +88,16 @@ void APlayer::Idle(float _Update)
 	}
 
 	// Bomb 설치
-	if (true == IsDown(VK_SPACE))
-	{
-		if (0 < BombCount)
-		{
-			if (nullptr != PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this))
-			{
-				--BombCount;
-			}
-		}
-	}
+	//if (true == IsDown(VK_SPACE))
+	//{
+	//	if (0 < BombCount)
+	//	{
+	//		if (nullptr != PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this))
+	//		{
+	//			--BombCount;
+	//		}
+	//	}
+	//}
 
 	if (true == IsPress(VK_LEFT) || true == IsPress(VK_RIGHT) || true == IsPress(VK_UP) || true == IsPress(VK_DOWN))
 	{
@@ -109,16 +109,16 @@ void APlayer::Idle(float _Update)
 void APlayer::Run(float _DeltaTime)
 {
 	// Bomb 설치
-	if (true == IsDown(VK_SPACE))
-	{
-		if (0 < BombCount)
-		{
-			if (nullptr != PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this))
-			{
-				--BombCount;
-			}
-		}
-	}
+	//if (true == IsDown(VK_SPACE))
+	//{
+	//	if (0 < BombCount)
+	//	{
+	//		if (nullptr != PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this))
+	//		{
+	//			--BombCount;
+	//		}
+	//	}
+	//}
 
 	if (true == IsPress(VK_LEFT))
 	{
