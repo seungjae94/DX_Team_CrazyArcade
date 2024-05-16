@@ -92,12 +92,9 @@ void APlayer::Idle(float _Update)
 	{
 		if (0 < BombCount)
 		{
-			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+			ABombBase* Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+			Bombs.push_back(Bomb);
 			--BombCount;
-		}
-		else
-		{
-			Bomb = nullptr;
 		}
 	}
 
@@ -115,12 +112,9 @@ void APlayer::Run(float _DeltaTime)
 	{
 		if (0 < BombCount)
 		{
-			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+			ABombBase* Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+			Bombs.push_back(Bomb);
 			--BombCount;
-		}
-		else
-		{
-			Bomb = nullptr;
 		}
 	}
 
