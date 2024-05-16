@@ -122,7 +122,7 @@ void ALobbyTitleGameMode::BeginPlay()
 				Btn_Space->CreateAnimation("UnSpace_UnHover", "Button_UnSpace_UnHover.png", 0.1f, false, 0, 0);
 				Btn_Space->CreateAnimation("UnSpace_Hover", "Button_UnSpace_Hover.png", 0.1f, false, 0, 0);
 				Btn_Space->CreateAnimation("UnSpace_Down", "Button_UnSpace_Down.png", 0.1f, false, 0, 0);
-				Btn_Space->ChangeAnimation("Space_UnHover");
+				Btn_Space->ChangeAnimation("UnSpace_UnHover");
 
 				if (i < 3)
 				{
@@ -134,7 +134,27 @@ void ALobbyTitleGameMode::BeginPlay()
 				}
 
 				Btns_Space.push_back(Btn_Space);
-				Space_Available.push_back(true);
+				Space_Available.push_back(false);
+			}
+
+			for (int i = 0; i < 8; i++)
+			{
+				UImage* Character_Space = CreateWidget<UImage>(GetWorld(), "Character_Space");
+				Character_Space->AddToViewPort(1);
+				Character_Space->SetAutoSize(1.0f, true);
+				Character_Space->SetWidgetLocation({ -335.0f + 106.0f * (i % 4), 160.0f - 145.0f * (i / 4) });
+				Character_Space->SetSprite("Charcater_Space_Random.png");
+
+				if (i == 0)
+				{
+					Character_Space->SetActive(true);
+				}
+				else
+				{
+					Character_Space->SetActive(false);
+				}
+
+				Characters_Space.push_back(Character_Space);
 			}
 
 			for (int i = 0; i < 7; i++)
@@ -182,10 +202,12 @@ void ALobbyTitleGameMode::BeginPlay()
 					if (Space_Available[i] == true)
 					{
 						Btns_Space[i]->ChangeAnimation("Space_Hover");
+						Characters_Space[i + 1]->SetActive(true);
 					}
 					else
 					{
 						Btns_Space[i]->ChangeAnimation("UnSpace_Hover");
+						Characters_Space[i + 1]->SetActive(false);
 					}
 					});
 			}

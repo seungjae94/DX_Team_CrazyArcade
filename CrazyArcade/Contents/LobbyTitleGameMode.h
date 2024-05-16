@@ -38,8 +38,10 @@ private:
 	UImage* Btn_MapSelect = nullptr;
 
 	// Space
-	std::vector<UImage*> Btns_Space;
 	std::vector<bool> Space_Available;
+	std::vector<UImage*> Btns_Space;
+	std::vector<UImage*> Characters_Space;
+	std::vector<UImage*> Flag_Space;
 
 	// CharacterSelect
 	ECharacterType CharacterType = ECharacterType::Random;
