@@ -3,11 +3,29 @@
 #include <EngineCore/Actor.h>
 #include <EngineCore/Level.h>
 
+class ABombBase;
 class UNetObject;
 
 class ServerHelper {
 public:
-	static std::shared_ptr<ANetActor> EnumSpawn(ULevel* _Level, int _Enum);
+	template <typename Type>
+	static std::shared_ptr<Type> EnumSpawn(ULevel* _Level, int _Enum) {
+		switch (_Enum) {
+		case 0:
+			break;
+		case 1:
+			break;
+		case 2:
+			break;
+		case 2001:
+			return _Level->SpawnActor<ABombBase>("Bomb");
+			break;
+		default:
+			return nullptr;
+			break;
+		}
+		return nullptr;
+	}
 
 	template <typename Enum>
 	static Enum EnumReturn(int _EnumNum) {

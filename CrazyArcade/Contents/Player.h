@@ -39,6 +39,11 @@ public:
 		return Renderer;
 	}
 
+	inline void IncreaseBombCount()
+	{
+		++BombCount;
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
