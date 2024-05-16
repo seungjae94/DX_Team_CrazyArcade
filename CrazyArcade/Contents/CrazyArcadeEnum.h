@@ -6,7 +6,7 @@ enum class ERenderOrder
 	Shadow
 };
 
-// 0 ~ 999
+// 0 ~ 999 (캐릭터 타입)
 enum class ECharacterType
 {
 	Random,
@@ -23,7 +23,7 @@ enum class ECharacterType
 	Ray
 };
 
-// 1000 ~ 1999
+// 1000 ~ 1999 (맵 블록 타입)
 enum class EBlockType
 {
 	Wall = 1000,
@@ -31,7 +31,7 @@ enum class EBlockType
 	MoveBox
 };
 
-// 2000 ~ 2999
+// 2000 ~ 2999 (아이템 타입)
 enum class EPlayerItem
 {
 	Bubble = 2000,
