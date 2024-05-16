@@ -155,6 +155,7 @@ void AMainTitleGameMode::LevelStart(ULevel* _PrevLevel)
 void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
 {
 	Super::LevelEnd(_NextLevel);
+	
 	ALobbyTitleGameMode* Lobby = dynamic_cast<ALobbyTitleGameMode*>(_NextLevel->GetGameMode().get());
 	if (nullptr == Lobby)
 	{
