@@ -24,6 +24,8 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	void UserInfoUpdate(int _Index);
+
 	void SpaceOn(int _Index);
 	void SpaceOff(int _Index);
 
@@ -65,13 +67,6 @@ private:
 	std::vector<UTextWidget*> Usernames_Space;
 
 	// CharacterSelect
-	int BombMin_Panel = 0;
-	int BombMax_Panel = 0;
-	int BombWaterMin_Panel = 0;
-	int BombWaterMax_Panel = 0;
-	int SpeedMin_Panel = 0;
-	int SpeedMax_Panel = 0;
-
 	UImage* UpperPanel_CharacterSelect = nullptr;
 	UImage* Panel_CharacterSelect = nullptr;
 	std::map<int, std::vector<UImage*>> Traits_CharacterSelect;
@@ -79,6 +74,12 @@ private:
 	std::vector<bool> CharacterSelect_Pick;
 	UImage* Outline_CharacterSelect = nullptr;
 	UImage* Checker_CharacterSelect = nullptr;
+	int BombMin_Panel = 0;
+	int BombMax_Panel = 0;
+	int BombWaterMin_Panel = 0;
+	int BombWaterMax_Panel = 0;
+	int SpeedMin_Panel = 0;
+	int SpeedMax_Panel = 0;
 
 	void SettingPanel(ECharacterType _CharacterType);
 	void ChangeCharacter(ECharacterType _CharacterType);

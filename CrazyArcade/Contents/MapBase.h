@@ -1,4 +1,5 @@
 #pragma once
+#include "MapHelper.h"
 
 class ABlockBase;
 class ABombBase;
@@ -6,13 +7,6 @@ class AItemBase;
 class UTileInfo;
 class APlayer;
 class ABox;
-
-// Tile 좌표 구조체
-struct FPoint
-{
-	int X;
-	int Y;
-};
 
 // Tile 정보
 class UTileInfo
@@ -54,13 +48,19 @@ public:
 	// 해당 좌표 Tile의 블록을 반환
 	std::shared_ptr<ABlockBase> GetMapBlock(FPoint _Point) const
 	{
-		return MapInfo[_Point.Y][_Point.X].Block;
+		return TileInfo[_Point.Y][_Point.X].Block;
 	}
 
 	// 해당 좌표 Tile에 블록을 설정
 	void SetMapBlock(FPoint _Point, std::shared_ptr<ABlockBase> _Block)
 	{
-		MapInfo[_Point.Y][_Point.X].Block = _Block;
+		TileInfo[_Point.Y][_Point.X].Block = _Block;
+	}
+
+	// 해당 좌표의 Tile 정보의 참조를 반환
+	UTileInfo& GetTileInfo(FPoint _Point)
+	{
+		return TileInfo[_Point.Y][_Point.X];
 	}
 
 protected:
@@ -85,7 +85,7 @@ private:
 	USpriteRenderer* BackGround = nullptr;
 	USpriteRenderer* PlayUI_BackGround = nullptr;
 
-	std::vector<std::vector<UTileInfo>> MapInfo;
+	std::vector<std::vector<UTileInfo>> TileInfo;
 
 	FVector StartPos = { 20.0f, 40.0f, 0.0f };
 	static float BlockSize;
