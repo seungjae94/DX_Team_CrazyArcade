@@ -2,12 +2,12 @@
 #include "EngineTime.h"
 #include <Windows.h>
 
-UEngineTime::UEngineTime() 
+UEngineTime::UEngineTime()
 {
 	TimeCheckStart();
 }
 
-UEngineTime::~UEngineTime() 
+UEngineTime::~UEngineTime()
 {
 }
 
@@ -65,4 +65,22 @@ FEngineTimeStamp UEngineTime::GetCurTime()
 	TimeStamp.MilliSecond = MilliSecond;
 
 	return TimeStamp;
+}
+
+FEngineTimeStamp FEngineTimeStamp::operator-(const FEngineTimeStamp& _Other) const
+{
+	int ThisTotalMilliSecond = Hour * 60 * 60 * 1000 + Minute * 60 * 1000 + Second * 1000 + MilliSecond;
+	int OtherTotalMilliSecond = _Other.Hour * 60 * 60 * 1000 + _Other.Minute * 60 * 1000 + _Other.Second * 1000 + _Other.MilliSecond;
+
+	int ResultTotalMilliSecond = (ThisTotalMilliSecond - OtherTotalMilliSecond + 24 * 60 * 60 * 1000) % (24 * 60 * 60 * 1000);
+
+	FEngineTimeStamp Result = {};
+	Result.MilliSecond = ResultTotalMilliSecond % 1000;
+	ResultTotalMilliSecond /= 1000;
+	Result.Second = ResultTotalMilliSecond % 60;
+	ResultTotalMilliSecond /= 60;
+	Result.Minute = ResultTotalMilliSecond % 60;
+	ResultTotalMilliSecond /= 60;
+	Result.Hour = ResultTotalMilliSecond % 24;
+	return Result;
 }
