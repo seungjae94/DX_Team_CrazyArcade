@@ -69,15 +69,15 @@ void ServerTestPlayer::SpawnBomb()
 	FEngineTimeStamp Stamp = UEngineTime::GetCurTime();
 	float FloatResult = Stamp.TimeToFloat();
 	std::shared_ptr<USpawnUpdatePacket> SpawnPacket = std::make_shared<USpawnUpdatePacket>();
-	SpawnPacket->Pos = GetActorLocation();
 	SpawnPacket->SpawnSelect = static_cast<int>(EItemType::Bubble);
 	SpawnPacket->SpawnTime = FloatResult;
 
-	PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
-	ABombBase* Boom = GetWorld()->SpawnActor<ABombBase>("Boom").get();
-
+	ABombBase* Boom = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+	if (Boom == nullptr) {
+		return;
+	}
 	Boom->SetObjectToken(GetToken);
-	Boom->SetActorLocation(GetActorLocation());
+	SpawnPacket->Pos = Boom->GetActorLocation();
 	Send(SpawnPacket, Boom->GetObjectToken());
 	IsSpawn = false;
 }
