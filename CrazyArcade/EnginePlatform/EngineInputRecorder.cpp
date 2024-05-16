@@ -24,7 +24,7 @@ UEngineInputRecorder::~UEngineInputRecorder()
 void UEngineInputRecorder::RecordStart()
 {
 	Activeness = true;
-	WText = L"";
+	WText = L""; 
 	ImmSetCompositionString(hIMC, SCS_SETSTR, NULL, 0, NULL, 0);
 	ImmNotifyIME(hIMC, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
 }

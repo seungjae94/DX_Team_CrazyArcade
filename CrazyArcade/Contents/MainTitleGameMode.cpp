@@ -32,13 +32,19 @@ void AMainTitleGameMode::BeginPlay()
 	StartButton->ChangeAnimation("NoneStartButtonAni");
 	StartButton->SetPosition({ 0.0f,-218.0f });
 
+	VoidBox = CreateWidget<UImage>(GetWorld(), "VoidBoxUI");
+	VoidBox->SetSprite("Login.png");
+	VoidBox->AddToViewPort(1); //UITest;
+	VoidBox->SetScale({ 800,600 });
+	VoidBox->SetPosition({ 0.0f,0.0f });
+
 	PlayerNameBox = CreateWidget<UImage>(GetWorld(), "PlayerBoxUI");
 	PlayerNameBox->AddToViewPort(3);
 	PlayerNameBox->CreateAnimation("NotActiveAni", "NameBoxNotActive.png", 0.1f, false, 0, 0);
 	PlayerNameBox->CreateAnimation("ActiveAni", "NameBox.png", 0.1f, false, 0, 0);
 	PlayerNameBox->ChangeAnimation("NotActiveAni");
-	PlayerNameBox->SetScale({ 200.0f, 22.0f });
-	PlayerNameBox->SetWidgetLocation({ -15.0f,-156.0f });
+	PlayerNameBox->SetScale({ 210.0f, 22.5f });
+	PlayerNameBox->SetWidgetLocation({ -10.5f,-155.5f });
 
 	TextWidget = CreateWidget<UTextWidget>(GetWorld(), "TextWidget");
 	TextWidget->SetFont("굴림");
@@ -48,22 +54,22 @@ void AMainTitleGameMode::BeginPlay()
 	TextWidget->SetFlag(FW1_LEFT); //좌로 정렬
 	TextWidget->AddToViewPort(4);
 	TextWidget->SetText(PlayerName);
-	
+
 
 	StartButton->SetUnHover([=] {
 
 		StartButton->ChangeAnimation("NoneStartButtonAni");
 		});
-	
+
 
 	StartButton->SetHover([=]
 		{
 			StartButton->ChangeAnimation("HoverStartButtonAni");
-			
+
 		});
 
 	StartButton->SetDown([=] {
-	
+
 		if (TextWidget->GetText().size() <= 1)
 		{
 			// 이름을 입력해주세요 UI 추가 
@@ -72,18 +78,46 @@ void AMainTitleGameMode::BeginPlay()
 		GEngine->ChangeLevel("LobbyTitleTestLevel");
 		});
 
+	VoidBox->SetDown([=] {
+		//키 입력 제한
+		if (IsNameBoxAct == true)
+		{
+			PlayerNameBox->ChangeAnimation("NotActiveAni");
+			IsNameBoxAct = false;
+			UEngineInputRecorder::GetText();
+			UEngineInputRecorder::RecordEnd();
 
-	PlayerNameBox->SetDown([=] {
 
-		PlayerNameBox->ChangeAnimation("ActiveAni");
+		}
+
 		});
 
+
+
+	PlayerNameBox->SetDown([=] {
+		//키 입력
+		PlayerNameBox->ChangeAnimation("ActiveAni");
+		IsNameBoxAct = true;
+		UEngineInputRecorder::RecordStart();
+		
+		GetPlayerName();
+		});
+
+
+
+
+
+
+	if (UEngineInput::IsDown('M'))
+	{
+		GetPlayerName();
+	}
 }
 
 
 void AMainTitleGameMode::Tick(float _DeltaTime)
 {
-	
+
 
 	Super::Tick(_DeltaTime);
 
@@ -99,38 +133,46 @@ void AMainTitleGameMode::Tick(float _DeltaTime)
 		if (ch != NULL)
 		{
 			PlayerName.push_back(ch);
-		
+
 		}
 
 		TextWidget->SetText(PlayerName);
 	std::string CurText = TextWidget->GetText();
-	임시 방편 
+	임시 방편
 	}*/
+	StringToText();
 
-
-	std::string Text = UEngineInputRecorder::GetText();
-
-	if (Text.size() > 0)
-	{
-		TextWidget->SetText(Text);
-	}
-	else
-	{
-		TextWidget->SetText(" ");
-	}
+	
 }
 
 void AMainTitleGameMode::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
-	UEngineInputRecorder::RecordStart();
+	//UEngineInputRecorder::RecordStart();
 	//레벨 시작과 동시에 입력 받을 준비 
 }
 
 void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
 {
 	Super::LevelEnd(_NextLevel);
-	UEngineInputRecorder::RecordEnd();
+	//UEngineInputRecorder::RecordEnd();
 }
 
 
+UTextWidget* AMainTitleGameMode::GetPlayerName()
+{
+	return TextWidget;
+}
+void AMainTitleGameMode::StringToText()
+{
+	PlayerName = UEngineInputRecorder::GetText();
+	
+	if (PlayerName.size() > 0)
+	{
+		TextWidget->SetText(PlayerName);
+	}
+	else
+	{
+		TextWidget->SetText(" ");
+	}
+}
