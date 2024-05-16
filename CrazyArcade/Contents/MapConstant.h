@@ -26,6 +26,18 @@ namespace MapImgRes
 	const std::string_view item_roller			= "spr_item_roller.png";
 	const std::string_view item_shoes			= "spr_item_shoes.png";
 	const std::string_view item_ultra			= "spr_item_ultra.png";
+
+	// Bomb
+	const std::string_view bomb					= "spr_bomb.png";
+	const std::string_view bomb_effect_center	= "spr_bomb_effect_center.png";
+	const std::string_view bomb_effect_up1		= "spr_bomb_effect_up_0.png";
+	const std::string_view bomb_effect_up2		= "spr_bomb_effect_up_1.png";
+	const std::string_view bomb_effect_down1	= "spr_bomb_effect_down_0.png";
+	const std::string_view bomb_effect_down2	= "spr_bomb_effect_down_1.png";
+	const std::string_view bomb_effect_left1	= "spr_bomb_effect_left_0.png";
+	const std::string_view bomb_effect_left2	= "spr_bomb_effect_left_1.png";
+	const std::string_view bomb_effect_right1	= "spr_bomb_effect_right_0.png";
+	const std::string_view bomb_effect_right2	= "spr_bomb_effect_right_1.png";
 }
 
 namespace MapAnim
@@ -36,6 +48,18 @@ namespace MapAnim
 
 	// Item
 	const std::string_view item_shadow			= "Item_Shadow";
+
+	// Bomb
+	const std::string_view bomb					= "Bomb";
+	const std::string_view bomb_effect_center	= "Bomb_Effect_Center";
+	const std::string_view bomb_effect_up1		= "Bomb_Effect_Up1";
+	const std::string_view bomb_effect_up2		= "Bomb_Effect_Up2";
+	const std::string_view bomb_effect_down1	= "Bomb_Effect_Down1";
+	const std::string_view bomb_effect_down2	= "Bomb_Effect_Down2";
+	const std::string_view bomb_effect_left1	= "Bomb_Effect_Left1";
+	const std::string_view bomb_effect_left2	= "Bomb_Effect_Left2";
+	const std::string_view bomb_effect_right1	= "Bomb_Effect_Right1";
+	const std::string_view bomb_effect_right2	= "Bomb_Effect_Right2";
 }
 
 namespace Const
