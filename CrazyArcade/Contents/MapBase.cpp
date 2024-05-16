@@ -42,7 +42,23 @@ void AMapBase::LevelEnd(ULevel* _NextLevel)
 {
 	Super::LevelEnd(_NextLevel);
 
+	for (size_t Y = 0; Y < MapInfo.size(); Y++)
+	{
+		for (size_t X = 0; X < MapInfo[Y].size(); X++)
+		{
+			if (nullptr != MapInfo[Y][X].Block)
+			{
+				MapInfo[Y][X].Block->Destroy();
+				MapInfo[Y][X].Block = nullptr;
+			}
 
+			if (nullptr != MapInfo[Y][X].Item)
+			{
+				MapInfo[Y][X].Item->Destroy();
+				MapInfo[Y][X].Item = nullptr;
+			}
+		}
+	}
 }
 
 void AMapBase::Tick(float _DeltaTime)
