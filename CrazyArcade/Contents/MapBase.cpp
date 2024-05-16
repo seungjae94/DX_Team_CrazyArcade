@@ -42,14 +42,14 @@ void AMapBase::Tick(float _DeltaTime)
 	Super::Tick(_DeltaTime);
 }
 
-void AMapBase::SetMapInfoSize(int _X, int _Y)
+void AMapBase::SetMapInfoSize(int _SizeX, int _SizeY)
 {
-	SizeY = _Y;
-	SizeX = _X;
-	MapInfo.resize(_Y);
+	SizeY = _SizeY;
+	SizeX = _SizeX;
+	MapInfo.resize(SizeY);
 	for (size_t Y = 0; Y < MapInfo.size(); Y++)
 	{
-		MapInfo[Y].resize(_X);
+		MapInfo[Y].resize(SizeX);
 	}
 
 	BackGround->SetOrder(ERenderOrder::BackGround);

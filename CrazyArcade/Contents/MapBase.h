@@ -1,16 +1,18 @@
 #pragma once
 
 class ABlockBase;
-class UMapInfo;
+class UTileInfo;
 class ABox;
 
+// Tile 좌표 구조체
 struct FPoint
 {
 	int X;
 	int Y;
 };
 
-class UMapInfo
+// Tile 정보
+class UTileInfo
 {
 public:
 	std::shared_ptr<ABlockBase> Block = nullptr;
@@ -42,14 +44,14 @@ public:
 		return BlockSize;
 	}
 
-	std::shared_ptr<ABlockBase> GetMapBlock(int _X, int _Y) const
+	std::shared_ptr<ABlockBase> GetMapBlock(FPoint _Point) const
 	{
-		return MapInfo[_Y][_X].Block;
+		return MapInfo[_Point.Y][_Point.X].Block;
 	}
 
-	void SetMapBlock(int _X, int _Y, std::shared_ptr<ABlockBase> _Block)
+	void SetMapBlock(FPoint _Point, std::shared_ptr<ABlockBase> _Block)
 	{
-		MapInfo[_Y][_X].Block = _Block;
+		MapInfo[_Point.Y][_Point.X].Block = _Block;
 	}
 
 protected:
@@ -58,10 +60,10 @@ protected:
 		BackGround->SetSprite(_Name);
 	}
 
-	void SetMapInfoSize(int _X, int _Y);
-	void CreateWall(int _X, int _Y, std::string_view _ImgName);
-	void CreateBox(int _X, int _Y, std::string_view _ImgName);
-	void CreateMoveBox(int _X, int _Y, std::string_view _ImgName);
+	void SetMapInfoSize(int _SizeX, int _SizeY);
+	void CreateWall(FPoint _Point, std::string_view _ImgName);
+	void CreateBox(FPoint _Point, std::string_view _ImgName);
+	void CreateMoveBox(FPoint _Point, std::string_view _ImgName);
 
 protected:
 	void BeginPlay() override;
@@ -71,7 +73,7 @@ private:
 	USpriteRenderer* BackGround = nullptr;
 	USpriteRenderer* PlayUI_BackGround = nullptr;
 
-	std::vector<std::vector<UMapInfo>> MapInfo;
+	std::vector<std::vector<UTileInfo>> MapInfo;
 
 	FVector StartPos = { 20.0f, 40.0f, 0.0f };
 	static float BlockSize;
