@@ -11,6 +11,12 @@ enum class EPlayerDir
 	Down,
 };
 
+enum class EPlayerColor
+{
+	Red,
+	Yellow,
+};
+
 class AMainPlayLevel;
 
 class APlayer : public ANetActor
@@ -66,6 +72,8 @@ protected:
 
 	void PickUpItem();
 	void AddItemCount(EPlayerItem _ItemType);
+	void SetPlayerColor(EPlayerColor _Color);
+	std::string PlayerColor = "";
 
 	//State
 	void StateInit();
@@ -76,5 +84,6 @@ protected:
 	void Escape(float _DeltaTime);
 	void Die(float _DeltaTime);
 
-	virtual void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
+	void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
+
 };

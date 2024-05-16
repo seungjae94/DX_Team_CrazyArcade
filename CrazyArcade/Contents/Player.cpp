@@ -37,6 +37,8 @@ void APlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
+	SetPlayerColor(EPlayerColor::Yellow);
+
 	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
 	BlockSize = AMapBase::GetBlockSize();
 
@@ -45,10 +47,15 @@ void APlayer::BeginPlay()
 	//UEngineSprite::CreateCutting("up.png", 8, 1);
 	//UEngineSprite::CreateCutting("right.png", 6, 1);
 	//UEngineSprite::CreateCutting("left.png", 6, 1);
-	UEngineSprite::CreateCutting("Bazzi_1.png", 5, 18);
+	UEngineSprite::CreateCutting("Bazzi" + PlayerColor + "_1.png", 5, 18);
 	UEngineSprite::CreateCutting("Bazzi_2.png", 5, 2);
 	UEngineSprite::CreateCutting("Bazzi_3.png", 5, 4);
 	UEngineSprite::CreateCutting("Bazzi_4.png", 5, 7);
+
+	UEngineSprite::CreateCutting("Bazzi_Y_1.png", 5, 18);
+	//UEngineSprite::CreateCutting("Bazzi_Y_2.png", 5, 2);
+	//UEngineSprite::CreateCutting("Bazzi_Y_3.png", 5, 4);
+	//UEngineSprite::CreateCutting("Bazzi_Y_4.png", 5, 7);
 
 	// 局聪皋捞记 积己
 	//Renderer->CreateAnimation("Idle_Down", "down.png", 0.1f, false, 0, 0);
@@ -59,16 +66,16 @@ void APlayer::BeginPlay()
 	//Renderer->CreateAnimation("Run_Up", "up.png", 0.1f, true, 0, 7);
 	//Renderer->CreateAnimation("Run_Right", "right.png", 0.1f, true, 0, 5);
 	//Renderer->CreateAnimation("Run_Left", "left.png", 0.1f, true, 0, 5);
-	Renderer->CreateAnimation("Ready", "Bazzi_1.png", 0.06f, false, 37, 53);
-	Renderer->CreateAnimation("Idle_Left", "Bazzi_1.png", 1.0f, false, 0, 0);
-	Renderer->CreateAnimation("Idle_Right", "Bazzi_1.png", 1.0f, false, 6, 6);
-	Renderer->CreateAnimation("Idle_Up", "Bazzi_1.png", 1.0f, false, 12, 12);
-	Renderer->CreateAnimation("Idle_Down", "Bazzi_1.png", 1.0f, false, 20, 20);
-	Renderer->CreateAnimation("Run_Left", "Bazzi_1.png", 0.1f, true, 1, 5);
-	Renderer->CreateAnimation("Run_Right", "Bazzi_1.png", 0.1f, true, 7, 11);
-	Renderer->CreateAnimation("Run_Up", "Bazzi_1.png", 0.1f, true, 13, 19);
-	Renderer->CreateAnimation("Run_Down", "Bazzi_1.png", 0.1f, true, 21, 28);
-	Renderer->CreateAnimation("Win", "Bazzi_1.png", 0.1f, true, 29, 36);
+	Renderer->CreateAnimation("Ready", "Bazzi" + PlayerColor + "_1.png", 0.06f, false, 37, 53);
+	Renderer->CreateAnimation("Idle_Left", "Bazzi" + PlayerColor + "_1.png", 1.0f, false, 0, 0);
+	Renderer->CreateAnimation("Idle_Right", "Bazzi" + PlayerColor + "_1.png", 1.0f, false, 6, 6);
+	Renderer->CreateAnimation("Idle_Up", "Bazzi" + PlayerColor + "_1.png", 1.0f, false, 12, 12);
+	Renderer->CreateAnimation("Idle_Down", "Bazzi" + PlayerColor + "_1.png", 1.0f, false, 20, 20);
+	Renderer->CreateAnimation("Run_Left", "Bazzi" + PlayerColor + "_1.png", 0.1f, true, 1, 5);
+	Renderer->CreateAnimation("Run_Right", "Bazzi" + PlayerColor + "_1.png", 0.1f, true, 7, 11);
+	Renderer->CreateAnimation("Run_Up", "Bazzi" + PlayerColor + "_1.png", 0.1f, true, 13, 19);
+	Renderer->CreateAnimation("Run_Down", "Bazzi" + PlayerColor + "_1.png", 0.1f, true, 21, 28);
+	Renderer->CreateAnimation("Win", "Bazzi" + PlayerColor + "_1.png", 0.1f, true, 29, 36);
 	Renderer->CreateAnimation("DamagedStart_", "Bazzi_4.png", 0.07f, false, 6, 10);
 	Renderer->CreateAnimation("Damaged_", "Bazzi_4.png", 0.2f, true, 11, 23);
 	Renderer->CreateAnimation("Fade_", "Bazzi_4.png", 0.25f, true, 24, 31);
@@ -169,4 +176,20 @@ void APlayer::AddItemCount(EPlayerItem _ItemType)
 	int Count = MPlayerItem[_ItemType];
 	++Count;
 	MPlayerItem[_ItemType] = Count;
+}
+
+void APlayer::SetPlayerColor(EPlayerColor _Color)
+{
+	switch (_Color)
+	{
+	case EPlayerColor::Red:
+		PlayerColor = "";
+		break;
+	case EPlayerColor::Yellow:
+		PlayerColor = "_Y";
+		break;
+	default:
+		PlayerColor = "";
+		break;
+	}
 }
