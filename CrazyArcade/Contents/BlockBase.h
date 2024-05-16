@@ -1,9 +1,9 @@
 #pragma once
 
 // 설명 : Block 기본 클래스
-class ABlockBase : public AActor
+class ABlockBase : public ANetActor
 {
-	GENERATED_BODY(AActor)
+	GENERATED_BODY(ANetActor)
 public:
 	// constrcuter destructer
 	ABlockBase();

@@ -13,9 +13,9 @@ enum class EPlayerDir
 
 class AMainPlayLevel;
 
-class APlayer : public AActor
+class APlayer : public ANetActor
 {
-	GENERATED_BODY(AActor)
+	GENERATED_BODY(ANetActor)
 
 public:
 	// constrcuter destructer
@@ -64,7 +64,7 @@ protected:
 	float BlockSize = 0.0f;
 	AMainPlayLevel* PlayLevel = nullptr;
 
-	void PickUpItem(EPlayerItem _ItemType);
+	void PickUpItem();
 	void AddItemCount(EPlayerItem _ItemType);
 
 	//State

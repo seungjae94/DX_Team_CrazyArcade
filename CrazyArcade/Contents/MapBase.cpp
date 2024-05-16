@@ -3,6 +3,7 @@
 
 #include "MapConstant.h"
 #include "BlockBase.h"
+#include "ItemBase.h"
 #include "MoveBox.h"
 
 float AMapBase::BlockSize = 40.0f;
@@ -56,6 +57,7 @@ void AMapBase::SetMapInfoSize(int _SizeX, int _SizeY)
 	PlayUI_BackGround->SetOrder(ERenderOrder::BackGround);
 }
 
+// 위치 정보를 Tile 좌표값으로 반환
 FPoint AMapBase::CovertLocationToPoint(const FVector& _Pos)
 {
 	FPoint Result = FPoint();
@@ -67,6 +69,7 @@ FPoint AMapBase::CovertLocationToPoint(const FVector& _Pos)
 	return Result;
 }
 
+// 해당 위치 Tile의 RenderOrder를 반환
 int AMapBase::GetRenderOrder(const FVector& _CurPos)
 {
 	FVector CurPos = _CurPos;
@@ -75,6 +78,7 @@ int AMapBase::GetRenderOrder(const FVector& _CurPos)
 	return Const::MaxOrder - CurY;
 } 
 
+// 움직일 수 있는 위치인지를 반환
 bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 {
 	// MapInfo
@@ -154,9 +158,9 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 			return false;
 		}
 		
-		if ("Idle" == MoveBox->GetCurState())
+		if (MoveBoxState::idle == MoveBox->GetCurState())
 		{
-			MoveBox->StateChange("Move");
+			MoveBox->StateChange(MoveBoxState::move);
 			return false;
 		}
 		
@@ -164,6 +168,24 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 	}
 
 	return true;
+}
+
+// 해당 위치 Tile의 ItemType을 반환
+EPlayerItem AMapBase::IsItemTile(const FVector& _CurPos)
+{
+	FPoint CurPoint = CovertLocationToPoint(_CurPos);
+
+	if (nullptr == MapInfo[CurPoint.Y][CurPoint.X].Item)
+	{
+		return EPlayerItem::None;
+	}
+	else
+	{
+		EPlayerItem ItemType = MapInfo[CurPoint.Y][CurPoint.X].Item->GetItemType();
+		MapInfo[CurPoint.Y][CurPoint.X].Item->Destroy();
+		MapInfo[CurPoint.Y][CurPoint.X].Item = nullptr;
+		return ItemType;
+	}
 }
 
 

@@ -1,6 +1,12 @@
 #pragma once
+
 class ALobbyTitleGameMode :public AGameMode
 {
+	struct LobbyUserInfo
+	{
+		std::string UserName;
+	};
+
 	GENERATED_BODY(AGameMode)
 public:
 	// constructor destructor

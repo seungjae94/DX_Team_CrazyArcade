@@ -82,7 +82,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="OtherPlayer.h" />
     <ClInclude Include="Packets.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayGameMode.h" />
@@ -91,7 +90,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ServerGameMode.h" />
-    <ClInclude Include="ServerPlayer.h" />
     <ClInclude Include="MapBase.h">
       <SubType>
       </SubType>
@@ -177,7 +175,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="OtherPlayer.cpp" />
     <ClCompile Include="Packets.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerState.cpp" />
@@ -191,7 +188,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ServerGameMode.cpp" />
-    <ClCompile Include="ServerPlayer.cpp" />
     <ClCompile Include="MapBase.cpp">
       <SubType>
       </SubType>

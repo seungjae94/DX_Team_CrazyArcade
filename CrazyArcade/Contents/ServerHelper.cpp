@@ -1,10 +1,9 @@
 #include "PreCompile.h"
 #include "Bomb.h"
 #include "ServerHelper.h"
-#include <EngineBase/NetObject.h>
 
 
-std::shared_ptr<UNetObject> ServerHelper::EnumSpawn(ULevel* _Level, int _Enum) {
+std::shared_ptr<ANetActor> ServerHelper::EnumSpawn(ULevel* _Level, int _Enum) {
 	switch (_Enum) {
 	case 0:
 		break;

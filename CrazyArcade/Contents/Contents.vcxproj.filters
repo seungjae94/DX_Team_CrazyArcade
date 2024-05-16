@@ -99,13 +99,7 @@
     <ClInclude Include="CrazyArcadeEnum.h">
       <Filter>Option</Filter>
     </ClInclude>
-    <ClInclude Include="OtherPlayer.h">
-      <Filter>Level\ServerLevel</Filter>
-    </ClInclude>
     <ClInclude Include="ServerGameMode.h">
-      <Filter>Level\ServerLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerPlayer.h">
       <Filter>Level\ServerLevel</Filter>
     </ClInclude>
     <ClInclude Include="Packets.h">
@@ -188,13 +182,7 @@
     <ClCompile Include="PlayGameMode.cpp">
       <Filter>Level\PlayLevel</Filter>
     </ClCompile>
-    <ClCompile Include="OtherPlayer.cpp">
-      <Filter>Level\ServerLevel</Filter>
-    </ClCompile>
     <ClCompile Include="ServerGameMode.cpp">
-      <Filter>Level\ServerLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="ServerPlayer.cpp">
       <Filter>Level\ServerLevel</Filter>
     </ClCompile>
     <ClCompile Include="Packets.cpp">

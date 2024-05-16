@@ -7,7 +7,7 @@ class UNetObject;
 
 class ServerHelper {
 public:
-	static std::shared_ptr<UNetObject> EnumSpawn(ULevel* _Level, int _Enum);
+	static std::shared_ptr<ANetActor> EnumSpawn(ULevel* _Level, int _Enum);
 
 	template <typename Enum>
 	static Enum EnumReturn(int _EnumNum) {

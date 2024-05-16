@@ -2,9 +2,9 @@
 #include <EngineCore/Actor.h>
 
 class AMainPlayLevel;
-class ABomb : public AActor
+class ABomb : public ANetActor
 {
-	GENERATED_BODY(AActor)
+	GENERATED_BODY(ANetActor)
 
 public:
 	// constrcuter destructer
@@ -16,6 +16,12 @@ public:
 	ABomb(ABomb&& _Other) noexcept = delete;
 	ABomb& operator=(const ABomb& _Other) = delete;
 	ABomb& operator=(ABomb&& _Other) noexcept = delete;
+
+
+	void ReduceCurExplosionTime(float _ReduceTime)
+	{
+		CurExplosionTime -= _ReduceTime;
+	}
 
 protected:
 	void BeginPlay() override;
