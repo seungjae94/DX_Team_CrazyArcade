@@ -64,34 +64,34 @@ void AItemBase::Tick(float _DeltaTime)
 	State.Update(_DeltaTime);
 }
 
-void AItemBase::SetItem(EPlayerItem _Type)
+void AItemBase::SetItem(EItemType _Type)
 {
 	ItemType = _Type;
 
 	switch (ItemType)
 	{
-	case EPlayerItem::Bubble:
+	case EItemType::Bubble:
 		Body->SetSprite(MapImgRes::item_bubble);
 		break;
-	case EPlayerItem::Devil:
+	case EItemType::Devil:
 		Body->SetSprite(MapImgRes::item_devil);
 		break;
-	case EPlayerItem::Fluid:
+	case EItemType::Fluid:
 		Body->SetSprite(MapImgRes::item_fluid);
 		break;
-	case EPlayerItem::Glove:
+	case EItemType::Glove:
 		Body->SetSprite(MapImgRes::item_glove);
 		break;
-	case EPlayerItem::RedDevil:
+	case EItemType::RedDevil:
 		Body->SetSprite(MapImgRes::item_reddevil);
 		break;
-	case EPlayerItem::Roller:
+	case EItemType::Roller:
 		Body->SetSprite(MapImgRes::item_roller);
 		break;
-	case EPlayerItem::Shoes:
+	case EItemType::Shoes:
 		Body->SetSprite(MapImgRes::item_shoes);
 		break;
-	case EPlayerItem::Ultra:
+	case EItemType::Ultra:
 		Body->SetSprite(MapImgRes::item_ultra);
 		break;
 	}

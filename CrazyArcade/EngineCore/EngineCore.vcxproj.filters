@@ -288,6 +288,9 @@
     <ClCompile Include="EngineNetWindow.cpp">
       <Filter>Editor\Contents</Filter>
     </ClCompile>
+    <ClCompile Include="NetActor.cpp">
+      <Filter>Object\Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineCore.h">
@@ -481,6 +484,9 @@
     </ClInclude>
     <ClInclude Include="EngineNetWindow.h">
       <Filter>Editor\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="NetActor.h">
+      <Filter>Object\Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@
 #include "ServerTestPlayer.h"
 
 
-class ServerTestOtherPlayer : public APlayer , public UNetObject
+class ServerTestOtherPlayer : public APlayer
 {
 	GENERATED_BODY(APlayer)
 

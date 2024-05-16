@@ -11,11 +11,17 @@ enum class EPlayerDir
 	Down,
 };
 
+enum class EPlayerColor
+{
+	Red,
+	Yellow,
+};
+
 class AMainPlayLevel;
 
-class APlayer : public AActor
+class APlayer : public ANetActor
 {
-	GENERATED_BODY(AActor)
+	GENERATED_BODY(ANetActor)
 
 public:
 	// constrcuter destructer
@@ -58,14 +64,16 @@ protected:
 	bool Push = false;
 	bool Throw = false;
 
-	std::map<EPlayerItem, int> MPlayerItem;
-	std::map<EPlayerItem, int>::iterator MPlayerItemIter;
+	std::map<EItemType, int> MPlayerItem;
+	std::map<EItemType, int>::iterator MPlayerItemIter;
 
 	float BlockSize = 0.0f;
 	AMainPlayLevel* PlayLevel = nullptr;
 
 	void PickUpItem();
-	void AddItemCount(EPlayerItem _ItemType);
+	void AddItemCount(EItemType _ItemType);
+	void SetPlayerColor(EPlayerColor _Color);
+	std::string PlayerColor = "";
 
 	//State
 	void StateInit();
@@ -76,5 +84,6 @@ protected:
 	void Escape(float _DeltaTime);
 	void Die(float _DeltaTime);
 
-	virtual void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
+	void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
+
 };

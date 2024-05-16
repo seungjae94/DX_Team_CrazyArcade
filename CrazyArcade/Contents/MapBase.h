@@ -38,7 +38,7 @@ public:
 	int GetRenderOrder(const FVector& _CurPos);
 	FPoint CovertLocationToPoint(const FVector& _Pos);
 	bool CanMovePos(const FVector& _NextPos, const FVector& _Dir);
-	EPlayerItem IsItemTile(const FVector& _CurPos);
+	EItemType IsItemTile(const FVector& _CurPos);
 	
 	// Tile의 한변의 길이를 반환
 	static float GetBlockSize()
@@ -68,11 +68,13 @@ protected:
 	void CreateWall(FPoint _Point, std::string_view _ImgName);
 	void CreateBox(FPoint _Point, std::string_view _ImgName);
 	void CreateMoveBox(FPoint _Point, std::string_view _ImgName);
-	void CreateItem(FPoint _Point, EPlayerItem _ItemType);
+	void CreateItem(FPoint _Point, EItemType _ItemType);
 
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
+
+	void LevelEnd(ULevel* _NextLevel) override;
 
 private:
 	USpriteRenderer* BackGround = nullptr;

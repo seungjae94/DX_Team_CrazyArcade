@@ -32,7 +32,7 @@ enum class EBlockType
 };
 
 // 2000 ~ 2999 (아이템 타입)
-enum class EPlayerItem
+enum class EItemType
 {
 	None = 2000,
 	Bubble,

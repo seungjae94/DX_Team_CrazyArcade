@@ -38,6 +38,29 @@ void AMapBase::BeginPlay()
 	SetActorLocation({ 400.0f, 300.0f, 0.0f });
 }
 
+void AMapBase::LevelEnd(ULevel* _NextLevel)
+{
+	Super::LevelEnd(_NextLevel);
+
+	for (size_t Y = 0; Y < MapInfo.size(); Y++)
+	{
+		for (size_t X = 0; X < MapInfo[Y].size(); X++)
+		{
+			if (nullptr != MapInfo[Y][X].Block)
+			{
+				MapInfo[Y][X].Block->Destroy();
+				MapInfo[Y][X].Block = nullptr;
+			}
+
+			if (nullptr != MapInfo[Y][X].Item)
+			{
+				MapInfo[Y][X].Item->Destroy();
+				MapInfo[Y][X].Item = nullptr;
+			}
+		}
+	}
+}
+
 void AMapBase::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
@@ -171,17 +194,17 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 }
 
 // 해당 위치 Tile의 ItemType을 반환
-EPlayerItem AMapBase::IsItemTile(const FVector& _CurPos)
+EItemType AMapBase::IsItemTile(const FVector& _CurPos)
 {
 	FPoint CurPoint = CovertLocationToPoint(_CurPos);
 
-	if (nullptr == MapInfo[CurPoint.Y][CurPoint.X].Item)
+	if (CurPoint.X < 0 || CurPoint.Y < 0 || nullptr == MapInfo[CurPoint.Y][CurPoint.X].Item)
 	{
-		return EPlayerItem::None;
+		return EItemType::None;
 	}
 	else
 	{
-		EPlayerItem ItemType = MapInfo[CurPoint.Y][CurPoint.X].Item->GetItemType();
+		EItemType ItemType = MapInfo[CurPoint.Y][CurPoint.X].Item->GetItemType();
 		MapInfo[CurPoint.Y][CurPoint.X].Item->Destroy();
 		MapInfo[CurPoint.Y][CurPoint.X].Item = nullptr;
 		return ItemType;
