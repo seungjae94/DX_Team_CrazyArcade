@@ -35,22 +35,24 @@ public:
 	AMapBase& operator=(const AMapBase& _Other) = delete;
 	AMapBase& operator=(AMapBase&& _Other) noexcept = delete;
 
-	FPoint CovertLocationToPoint(const FVector& _Pos);
-	
 	int GetRenderOrder(const FVector& _CurPos);
-	
+	FPoint CovertLocationToPoint(const FVector& _Pos);
 	bool CanMovePos(const FVector& _NextPos, const FVector& _Dir);
+	EItemType IsItemTile(const FVector& _CurPos);
 	
+	// Tile의 한변의 길이를 반환
 	static float GetBlockSize()
 	{
 		return BlockSize;
 	}
 
+	// 해당 좌표 Tile의 블록을 반환
 	std::shared_ptr<ABlockBase> GetMapBlock(FPoint _Point) const
 	{
 		return MapInfo[_Point.Y][_Point.X].Block;
 	}
 
+	// 해당 좌표 Tile에 블록을 설정
 	void SetMapBlock(FPoint _Point, std::shared_ptr<ABlockBase> _Block)
 	{
 		MapInfo[_Point.Y][_Point.X].Block = _Block;
@@ -66,11 +68,13 @@ protected:
 	void CreateWall(FPoint _Point, std::string_view _ImgName);
 	void CreateBox(FPoint _Point, std::string_view _ImgName);
 	void CreateMoveBox(FPoint _Point, std::string_view _ImgName);
-	void CreateItem(FPoint _Point, EPlayerItem _ItemType);
+	void CreateItem(FPoint _Point, EItemType _ItemType);
 
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
+
+	void LevelEnd(ULevel* _NextLevel) override;
 
 private:
 	USpriteRenderer* BackGround = nullptr;

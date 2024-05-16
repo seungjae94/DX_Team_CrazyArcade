@@ -13,7 +13,7 @@ enum class ServerDir
 	Down,
 };
 
-class ServerTestPlayer : public APlayer, public UNetObject
+class ServerTestPlayer : public APlayer
 {
 	GENERATED_BODY(APlayer)
 

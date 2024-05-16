@@ -16,6 +16,9 @@ public:
 	AMainTitleGameMode& operator=(const AMainTitleGameMode& _Other) = delete;
 	AMainTitleGameMode& operator=(AMainTitleGameMode&& _Other) = delete;
 
+	std::string GetPlayerName();
+
+
 
 protected:
 	void BeginPlay() override;
@@ -23,6 +26,8 @@ protected:
 	void LevelStart(ULevel* _PrevLevel) override;
 	void LevelEnd(ULevel* _NextLevel) override;
 private:
+	void StringToText();
+	
 	UImage* TitleBackGround = nullptr;
 	
 	UImage* LoginUI = nullptr;
@@ -31,9 +36,15 @@ private:
 
 	UImage* PlayerNameBox = nullptr;
 
+	UImage* VoidBox = nullptr;
+
 	UTextWidget* TextWidget = nullptr;
 
-	std::string PlayerName = " ";
+	std::string PlayerName;
+
 	
+	
+
+	bool IsNameBoxAct = false;
 };
 

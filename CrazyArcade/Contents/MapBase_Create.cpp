@@ -50,13 +50,14 @@ void AMapBase::CreateMoveBox(FPoint _Point, std::string_view _ImgName)
 	MapInfo[_Point.Y][_Point.X].Block->SetActorLocation(Pos);
 }
 
-void AMapBase::CreateItem(FPoint _Point, EPlayerItem _ItemType)
+void AMapBase::CreateItem(FPoint _Point, EItemType _ItemType)
 {
 	MapInfo[_Point.Y][_Point.X].Item = GetWorld()->SpawnActor<AItemBase>("Item");
-	MapInfo[_Point.Y][_Point.X].Item->SetItem(_ItemType);
 
 	FVector Pos = StartPos;
 	Pos.X += (_Point.X * BlockSize) + (0.5f * BlockSize);
 	Pos.Y += (_Point.Y * BlockSize) + (0.5f * BlockSize);
 	MapInfo[_Point.Y][_Point.X].Item->SetActorLocation(Pos);
+
+	MapInfo[_Point.Y][_Point.X].Item->SetItem(_ItemType);
 }

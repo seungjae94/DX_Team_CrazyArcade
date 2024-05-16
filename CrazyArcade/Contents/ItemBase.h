@@ -3,9 +3,9 @@
 
 class AMainPlayLevel;
 
-class AItemBase : public AActor
+class AItemBase : public ANetActor
 {
-	GENERATED_BODY(AActor)
+	GENERATED_BODY(ANetActor)
 public:
 	// constrcuter destructer
 	AItemBase();
@@ -17,12 +17,12 @@ public:
 	AItemBase& operator=(const AItemBase& _Other) = delete;
 	AItemBase& operator=(AItemBase&& _Other) noexcept = delete;
 
-	inline EPlayerItem GetItemType() const
+	inline EItemType GetItemType() const
 	{
 		return ItemType;
 	}
 
-	void SetItem(EPlayerItem _Type);
+	void SetItem(EItemType _Type);
 
 protected:
 	void BeginPlay() override;
@@ -37,7 +37,7 @@ private:
 
 	AMainPlayLevel* PlayLevel = nullptr;
 
-	EPlayerItem ItemType = EPlayerItem::None;
+	EItemType ItemType = EItemType::None;
 	float MoveTime = 0.25f;
 	float MoveSpeed = 10.0f;
 

@@ -76,11 +76,11 @@ public:
 	{
 		UEngineProtocol::DeSerialize(_Ser);
 		_Ser >> Pos;
-		_Ser >> reinterpret_cast<int&>(SpawnSelect);
+		_Ser >> SpawnSelect;
 	}
 
 public:
 	float4 Pos = float4::Zero;
-	ServerObjectType SpawnSelect = ServerObjectType::Player; // ?? ·£´ý
+	int SpawnSelect = 0; // ?? ·£´ý
 	float SpawnTime = 0.0f;
 };
