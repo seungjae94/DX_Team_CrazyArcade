@@ -37,6 +37,11 @@ void UCrazyArcadeCore::Initialize()
 	GEngine->ChangeLevel("LobbyTitleTestLevel");
 }
 
+void UCrazyArcadeCore::Tick(float _DeltaTime)
+{
+	int a = 0;
+}
+
 void UCrazyArcadeCore::ResLoad()
 {
 
