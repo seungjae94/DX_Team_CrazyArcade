@@ -14,7 +14,7 @@
 #include <EngineBase/NetObject.h>
 #include "ServerHelper.h"
 #include "CrazyArcadeEnum.h"
-
+#include "BombBase.h"
 
 AServerGameMode::AServerGameMode()
 	:AMainPlayLevel()
@@ -110,11 +110,14 @@ void AServerGameMode::ServerPacketInit(UEngineDispatcher& Dis)
 		{
 			GetWorld()->PushFunction([=]()
 				{
-					ANetActor* OtherPlayer;
-					OtherPlayer = ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect).get();
-					OtherPlayer->SetObjectToken(_Packet->GetObjectToken());
-					OtherPlayer->PushProtocol(_Packet);
-					OtherPlayer->SetActorLocation(_Packet->Pos);
+					ABombBase* MyBomb;
+					MyBomb = ServerHelper::EnumSpawn<ABombBase>(GetWorld(), _Packet->SpawnSelect).get();
+					MyBomb->SetObjectToken(_Packet->GetObjectToken());
+					MyBomb->PushProtocol(_Packet);
+					MyBomb->SetActorLocation(_Packet->Pos);
+					FEngineTimeStamp Stamp = UEngineTime::GetCurTime();
+					float FloatResult = Stamp.TimeToFloat();
+					MyBomb->ReduceCurExplosionTime(FloatResult - _Packet->SpawnTime);
 				});
 		});
 }
@@ -139,11 +142,14 @@ void AServerGameMode::ClientPacketInit(UEngineDispatcher& Dis)
 		{
 			GetWorld()->PushFunction([=]()
 				{
-					ANetActor* OtherPlayer;
-					OtherPlayer = ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect).get();
-					OtherPlayer->SetObjectToken(_Packet->GetObjectToken());
-					OtherPlayer->PushProtocol(_Packet);
-					OtherPlayer->SetActorLocation(_Packet->Pos);
+					ABombBase* MyBomb;
+					MyBomb = ServerHelper::EnumSpawn<ABombBase>(GetWorld(), _Packet->SpawnSelect).get();
+					MyBomb->SetObjectToken(_Packet->GetObjectToken());
+					MyBomb->PushProtocol(_Packet);
+					MyBomb->SetActorLocation(_Packet->Pos);
+					FEngineTimeStamp Stamp = UEngineTime::GetCurTime();
+					float FloatResult = Stamp.TimeToFloat();
+					MyBomb->ReduceCurExplosionTime(FloatResult - _Packet->SpawnTime);
 				});
 		});
 }

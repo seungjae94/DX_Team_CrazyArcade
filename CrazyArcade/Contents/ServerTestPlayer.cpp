@@ -14,6 +14,7 @@ ServerTestPlayer::~ServerTestPlayer()
 {
 }
 
+
 void ServerTestPlayer::BeginPlay()
 {
 	Super::BeginPlay();
@@ -49,17 +50,28 @@ void ServerTestPlayer::Tick(float _DeltaTime)
 
 		Packet->Pos = GetActorLocation();
 		Packet->SpriteName = Renderer->GetCurAnimationName();
-		Send(Packet);
+		//Send(Packet);
 		CurTime += FrameTime;
 		if (true == IsSpawn) {
-			std::shared_ptr<USpawnUpdatePacket> SpawnPacket = std::make_shared<USpawnUpdatePacket>();
-			SpawnPacket->Pos = GetActorLocation();
-			SpawnPacket->SpawnSelect = static_cast<int>(EItemType::Bubble);
-			ABombBase* Boom = GetWorld()->SpawnActor<ABombBase>("Boom").get();
-			Boom->SetObjectToken(GetToken);
-			Boom->SetActorLocation(GetActorLocation());
- 			Send(SpawnPacket);
- 			IsSpawn = false;
+			SpawnBomb();
 		}
 	}
+}
+
+
+
+
+void ServerTestPlayer::SpawnBomb()
+{
+	FEngineTimeStamp Stamp = UEngineTime::GetCurTime();
+	float FloatResult = Stamp.TimeToFloat();
+	std::shared_ptr<USpawnUpdatePacket> SpawnPacket = std::make_shared<USpawnUpdatePacket>();
+	SpawnPacket->Pos = GetActorLocation();
+	SpawnPacket->SpawnSelect = static_cast<int>(EItemType::Bubble);
+	SpawnPacket->SpawnTime = FloatResult;
+	ABombBase* Boom = GetWorld()->SpawnActor<ABombBase>("Boom").get();
+	Boom->SetObjectToken(GetToken);
+	Boom->SetActorLocation(GetActorLocation());
+	Send(SpawnPacket);
+	IsSpawn = false;
 }

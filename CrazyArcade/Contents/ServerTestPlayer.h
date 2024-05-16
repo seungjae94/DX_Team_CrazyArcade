@@ -36,4 +36,5 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 	bool IsSpawn = false;
+	void SpawnBomb();
 };
