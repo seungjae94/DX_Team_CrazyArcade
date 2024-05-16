@@ -70,6 +70,9 @@
     <Filter Include="Map\Stage">
       <UniqueIdentifier>{570d4c26-edb1-4be8-8434-b4c6934858aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\ServerLevel\ServerHelper">
+      <UniqueIdentifier>{76219962-434e-4efe-ba24-663416f69e87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -158,6 +161,9 @@
     </ClInclude>
     <ClInclude Include="ItemBase.h">
       <Filter>Map\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerHelper.h">
+      <Filter>Level\ServerLevel\ServerHelper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +256,9 @@
     <ClCompile Include="InGameUI.cpp" />
     <ClCompile Include="ItemBase.cpp">
       <Filter>Map\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerHelper.cpp">
+      <Filter>Level\ServerLevel\ServerHelper</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

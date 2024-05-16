@@ -3,7 +3,7 @@
 #include <EngineBase/NetObject.h>
 
 // Ό³Έν :
-class AServerPlayer : public AActor, public UNetObject
+class AServerPlayer : public AActor
 {
 public:
 	// constrcuter destructer

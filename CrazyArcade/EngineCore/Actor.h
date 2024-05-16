@@ -5,13 +5,13 @@
 #include "TickObject.h"
 #include "WorldObject.h"
 #include "Level.h"
-
+#include <EngineBase/NetObject.h>
 
 // 설명 : 액터가 트랜스폼을 가지는게 아니라
 class ULevel;
 class UActorComponent;
 class USceneComponent;
-class AActor : public UTickObject, public UWorldObject, public UNameObject
+class AActor : public UTickObject, public UWorldObject, public UNameObject, public UNetObject
 {
 	friend ULevel;
 	GENERATED_BODY(UTickObject)

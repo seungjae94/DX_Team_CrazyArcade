@@ -14,6 +14,9 @@
 #include "ServerTestPlayer.h"
 #include "ServerTestOtherPlayer.h"
 #include <EngineBase/NetObject.h>
+#include "ServerHelper.h"
+#include "CrazyArcadeEnum.h"
+
 
 AServerGameMode::AServerGameMode()
 	:AMainPlayLevel()
@@ -109,10 +112,12 @@ void AServerGameMode::ServerPacketInit(UEngineDispatcher& Dis)
 		{
 			GetWorld()->PushFunction([=]()
 				{
-					ServerTestOtherPlayer* OtherPlayer;
-					OtherPlayer = this->GetWorld()->SpawnActor<ServerTestOtherPlayer>("OtherPlayer", 0).get();
-					OtherPlayer->SetObjectToken(_Packet->GetObjectToken());
-					OtherPlayer->PushProtocol(_Packet);
+					UNetObject* OtherPlayer;
+					OtherPlayer = ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect).get();
+					AActor* Boom = dynamic_cast<AActor*>(OtherPlayer);
+					Boom->SetObjectToken(_Packet->GetObjectToken());
+					Boom->PushProtocol(_Packet);
+					Boom->SetActorLocation(_Packet->Pos);
 				});
 		});
 }
@@ -137,10 +142,12 @@ void AServerGameMode::ClientPacketInit(UEngineDispatcher& Dis)
 		{
 			GetWorld()->PushFunction([=]()
 				{
-					ServerTestOtherPlayer* OtherPlayer;
-					OtherPlayer = this->GetWorld()->SpawnActor<ServerTestOtherPlayer>("OtherPlayer", 0).get();
-					OtherPlayer->SetObjectToken(_Packet->GetObjectToken());
-					OtherPlayer->PushProtocol(_Packet);
+					UNetObject* OtherPlayer;
+					OtherPlayer = ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect).get();
+					AActor* Boom = dynamic_cast<AActor*>(OtherPlayer);
+					Boom->SetObjectToken(_Packet->GetObjectToken());
+					Boom->PushProtocol(_Packet);
+					Boom->SetActorLocation(_Packet->Pos);
 				});
 		});
 }

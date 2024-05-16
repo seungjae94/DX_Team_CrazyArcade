@@ -53,7 +53,7 @@ void ServerTestPlayer::Tick(float _DeltaTime)
 		if (true == IsSpawn) {
 			std::shared_ptr<USpawnUpdatePacket> SpawnPacket = std::make_shared<USpawnUpdatePacket>();
 			SpawnPacket->Pos = GetActorLocation();
-			SpawnPacket->SpawnSelect = ServerObjectType::Player;
+			SpawnPacket->SpawnSelect = static_cast<int>(EPlayerItem::Bubble);
 			ServerTestOtherPlayer* Test = GetWorld()->SpawnActor<ServerTestOtherPlayer>("Test").get();
 			Test->SetObjectToken(GetToken);
 			Test->SetActorLocation(GetActorLocation());
