@@ -1,4 +1,6 @@
 #pragma once
+#include"MainTitleGameMode.h"
+class MainTitleGameMode;
 
 class ALobbyTitleGameMode :public AGameMode
 {
@@ -19,6 +21,11 @@ public:
 	ALobbyTitleGameMode& operator=(const ALobbyTitleGameMode& _Other) = delete;
 	ALobbyTitleGameMode& operator=(ALobbyTitleGameMode&& _Other) = delete;
 
+	inline void SetPlayerName(std::string_view _UserName)
+	{
+		PlayerName = _UserName;
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -33,6 +40,11 @@ protected:
 	void FadeOut(float _DeltaTime);
 
 private:
+	// PlayerInfo
+	ECharacterType CharacterType_Player = ECharacterType::Random;
+	int SpaceIndex_Player = 0;
+	//name, charactercolor, ability, rank, ...etc.
+
 	// BackGround
 	UImage* LobbyBackGround = nullptr;
 
@@ -54,13 +66,17 @@ private:
 	std::vector<UImage*> Shadows_Space;
 
 	// CharacterSelect
-	ECharacterType CharacterType = ECharacterType::Random;
-	int BombMin = 0;
-	int BombMax = 0;
-	int BombWaterMin = 0;
-	int BombWaterMax = 0;
-	int SpeedMin = 0;
-	int SpeedMax = 0;
+	int BombMin_Panel = 0;
+	int BombMax_Panel = 0;
+	int BombWaterMin_Panel = 0;
+	int BombWaterMax_Panel = 0;
+	int SpeedMin_Panel = 0;
+	int SpeedMax_Panel = 0;
+
+	//UserName
+	std::string PlayerName = "";
+	UTextWidget* TextWidget = nullptr;
+
 
 	UImage* UpperPanel_CharacterSelect = nullptr;
 	UImage* Panel_CharacterSelect = nullptr;
@@ -69,6 +85,8 @@ private:
 	std::vector<bool> CharacterSelect_Pick;
 	UImage* Outline_CharacterSelect = nullptr;
 	UImage* Checker_CharacterSelect = nullptr;
+	
+
 
 	void SettingPanel(ECharacterType _CharacterType);
 	void ChangeCharacter(ECharacterType _CharacterType);

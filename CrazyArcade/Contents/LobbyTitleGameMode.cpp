@@ -1,6 +1,6 @@
 #include "PreCompile.h"
 #include "LobbyTitleGameMode.h"
-
+#include "MainTitleGameMode.h"
 #include <format>
 
 ALobbyTitleGameMode::ALobbyTitleGameMode()
@@ -14,6 +14,18 @@ ALobbyTitleGameMode::~ALobbyTitleGameMode()
 void ALobbyTitleGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+
+	{
+		TextWidget = CreateWidget<UTextWidget>(GetWorld(), "LobbytText");
+		TextWidget->SetFont("굴림");
+		TextWidget->SetScale(15.0f);
+		TextWidget->SetColor(Color8Bit::Black);
+		TextWidget->SetPosition({ -340.0f ,100.0f });
+		TextWidget->SetFlag(FW1_LEFT); //좌로 정렬
+		TextWidget->AddToViewPort(4);
+		TextWidget->SetText(PlayerName);
+	}
+
 
 	{
 		UEngineSprite::CreateCutting("Button_GameStart_Hover.png", 1, 3);
@@ -111,11 +123,12 @@ void ALobbyTitleGameMode::BeginPlay()
 
 		// Space
 		{
-			for (int i = 0; i < 7; i++)
+			for (int i = 0; i < 8; i++)
 			{
 				UImage* Btn_Space = CreateWidget<UImage>(GetWorld(), "Button_Space");
 				Btn_Space->AddToViewPort(1);
 				Btn_Space->SetAutoSize(1.0f, true);
+				Btn_Space->SetWidgetLocation({ -324.0f + 106.0f * (i % 4), 157.0f - 145.0f * (i / 4) });
 
 				Btn_Space->CreateAnimation("Space_UnHover", "Button_Space_UnHover.png", 0.1f, false, 0, 0);
 				Btn_Space->CreateAnimation("Space_Hover", "Button_Space_Hover.png", 0.1f, false, 0, 0);
@@ -124,15 +137,6 @@ void ALobbyTitleGameMode::BeginPlay()
 				Btn_Space->CreateAnimation("UnSpace_Hover", "Button_UnSpace_Hover.png", 0.1f, false, 0, 0);
 				Btn_Space->CreateAnimation("UnSpace_Down", "Button_UnSpace_Down.png", 0.1f, false, 0, 0);
 				Btn_Space->ChangeAnimation("UnSpace_UnHover");
-
-				if (i < 3)
-				{
-					Btn_Space->SetWidgetLocation({ -324.0f + 106.0f * (i + 1), 157.0f });
-				}
-				else
-				{
-					Btn_Space->SetWidgetLocation({ -324.0f + 106.0f * (i - 3), 12.0f });
-				}
 
 				Btns_Space.push_back(Btn_Space);
 				Space_Available.push_back(false);
@@ -163,7 +167,7 @@ void ALobbyTitleGameMode::BeginPlay()
 				Shadows_Space.push_back(Shadow_Space);
 			}
 
-			for (int i = 0; i < 7; i++)
+			for (int i = 0; i < 8; i++)
 			{
 				Btns_Space[i]->SetUnHover([=] {
 					if (Space_Available[i] == true)
@@ -208,16 +212,16 @@ void ALobbyTitleGameMode::BeginPlay()
 					if (Space_Available[i] == true)
 					{
 						Btns_Space[i]->ChangeAnimation("Space_Hover");
-						SpaceOn(i + 1);
+						SpaceOn(i);
 					}
 					else
 					{
 						Btns_Space[i]->ChangeAnimation("UnSpace_Hover");
-						SpaceOff(i + 1);
+						SpaceOff(i);
 					}
 					});
 
-				SpaceOff(i + 1);
+				SpaceOff(i);
 			}
 		}
 		
@@ -269,7 +273,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_CharacterSelect->CreateAnimation("Hover", "Button_CharatorSelect_Random_Hover.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Down", "Button_CharatorSelect_Random_Down.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Random_Pick.png", 0.1f, false, 0, 0);
-					CharacterType = ECharacterType::Random;
+					CharacterType_Player = ECharacterType::Random;
 					break;
 				}
 				case 1:
@@ -278,7 +282,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_CharacterSelect->CreateAnimation("Hover", "Button_CharatorSelect_Dao_Hover.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Down", "Button_CharatorSelect_Dao_Down.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Dao_Pick.png", 0.1f, false, 0, 0);
-					CharacterType = ECharacterType::Dao;
+					CharacterType_Player = ECharacterType::Dao;
 					break;
 				}
 				case 2:
@@ -288,7 +292,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_CharacterSelect->CreateAnimation("Down", "Button_CharatorSelect_Dizni_Down.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Dizni_UnHover.png", 0.1f, false, 0, 0);
 					//Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Dizni_Pick.png", 0.1f, false, 0, 0);
-					CharacterType = ECharacterType::Dizni;
+					CharacterType_Player = ECharacterType::Dizni;
 					break;
 				}
 				case 3:
@@ -298,7 +302,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_CharacterSelect->CreateAnimation("Down", "Button_CharatorSelect_Mos_Down.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Mos_UnHover.png", 0.1f, false, 0, 0);
 					//Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Mos_Pick.png", 0.1f, false, 0, 0);
-					CharacterType = ECharacterType::Mos;
+					CharacterType_Player = ECharacterType::Mos;
 					break;
 				}
 				case 4:
@@ -308,7 +312,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_CharacterSelect->CreateAnimation("Down", "Button_CharatorSelect_Ethi_Down.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Ethi_UnHover.png", 0.1f, false, 0, 0);
 					//Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Ethi_Pick.png", 0.1f, false, 0, 0);
-					CharacterType = ECharacterType::Ethi;
+					CharacterType_Player = ECharacterType::Ethi;
 					break;
 				}
 				case 5:
@@ -317,7 +321,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_CharacterSelect->CreateAnimation("Hover", "Button_CharatorSelect_Marid_Hover.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Down", "Button_CharatorSelect_Marid_Down.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Marid_Pick.png", 0.1f, false, 0, 0);
-					CharacterType = ECharacterType::Marid;
+					CharacterType_Player = ECharacterType::Marid;
 					break;
 				}
 				case 6:
@@ -326,7 +330,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_CharacterSelect->CreateAnimation("Hover", "Button_CharatorSelect_Bazzi_Hover.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Down", "Button_CharatorSelect_Bazzi_Down.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Bazzi_Pick.png", 0.1f, false, 0, 0);
-					CharacterType = ECharacterType::Bazzi;
+					CharacterType_Player = ECharacterType::Bazzi;
 					break;
 				}
 				case 7:
@@ -336,7 +340,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_CharacterSelect->CreateAnimation("Down", "Button_CharatorSelect_Uni_Down.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Uni_UnHover.png", 0.1f, false, 0, 0);
 					//Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Uni_Pick.png", 0.1f, false, 0, 0);
-					CharacterType = ECharacterType::Uni;
+					CharacterType_Player = ECharacterType::Uni;
 					break;
 				}
 				case 8:
@@ -345,7 +349,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_CharacterSelect->CreateAnimation("Hover", "Button_CharatorSelect_Kephi_Hover.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Down", "Button_CharatorSelect_Kephi_Down.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Kephi_Pick.png", 0.1f, false, 0, 0);
-					CharacterType = ECharacterType::Kephi;
+					CharacterType_Player = ECharacterType::Kephi;
 					break;
 				}
 				case 9:
@@ -355,7 +359,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_CharacterSelect->CreateAnimation("Down", "Button_CharatorSelect_Su_Down.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Su_UnHover.png", 0.1f, false, 0, 0);
 					//Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Su_Pick.png", 0.1f, false, 0, 0);
-					CharacterType = ECharacterType::Su;
+					CharacterType_Player = ECharacterType::Su;
 					break;
 				}
 				case 10:
@@ -365,7 +369,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_CharacterSelect->CreateAnimation("Down", "Button_CharatorSelect_Hoou_Down.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Hoou_UnHover.png", 0.1f, false, 0, 0);
 					//Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Hoou_Pick.png", 0.1f, false, 0, 0);
-					CharacterType = ECharacterType::HooU;
+					CharacterType_Player = ECharacterType::HooU;
 					break;
 				}
 				case 11:
@@ -375,7 +379,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_CharacterSelect->CreateAnimation("Down", "Button_CharatorSelect_Ray_Down.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Ray_UnHover.png", 0.1f, false, 0, 0);
 					//Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Ray_Pick.png", 0.1f, false, 0, 0);
-					CharacterType = ECharacterType::Ray;
+					CharacterType_Player = ECharacterType::Ray;
 					break;
 				}
 				default:
@@ -441,10 +445,15 @@ void ALobbyTitleGameMode::BeginPlay()
 				Checker_CharacterSelect->SetAutoSize(1.0f, true);
 				Checker_CharacterSelect->SetWidgetLocation({ 150.0f, 202.0f });
 			}
-
-			PanelOff();
-			ChangeCharacter(ECharacterType::Random);
 		}
+	}
+	{
+		// Initialize
+		Space_Available[SpaceIndex_Player] = true;
+		Btns_Space[SpaceIndex_Player]->ChangeAnimation("Space_UnHover");
+		SpaceOn(SpaceIndex_Player);
+		ChangeCharacter(CharacterType_Player);
+		PanelOff();
 	}
 }
 
@@ -452,13 +461,19 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 	
+	if (UEngineInput::IsDown('P'))
+	{
+		std::string str = PlayerName;
+		TextWidget->SetText(PlayerName);
+		//실험용 경택 
+	}
 	// Debug
 	{
 		FVector CameraPos = GetWorld()->GetMainCamera()->GetActorLocation();
 		FVector MousePos = GEngine->EngineWindow.GetScreenMousePos();
 		FVector WindowScale = GEngine->EngineWindow.GetWindowScale();
 		FVector TargetPos = FVector(CameraPos.X, CameraPos.Y, 0.0f) + FVector(MousePos.X - WindowScale.hX(), -(MousePos.Y - WindowScale.hY()), 0.0f);
-
+		 
 		{
 			std::string Msg = std::format("MousePos : {}\n", TargetPos.ToString());
 			UEngineDebugMsgWindow::PushMsg(Msg);
@@ -513,15 +528,15 @@ void ALobbyTitleGameMode::PanelOn()
 	UpperPanel_CharacterSelect->SetActive(true);
 	Panel_CharacterSelect->SetActive(true);
 
-	for (int i = 0; i < BombMax; i++)
+	for (int i = 0; i < BombMax_Panel; i++)
 	{
 		Traits_CharacterSelect[0][i]->SetActive(true);
 	}
-	for (int i = 0; i < BombWaterMax; i++)
+	for (int i = 0; i < BombWaterMax_Panel; i++)
 	{
 		Traits_CharacterSelect[1][i]->SetActive(true);
 	}
-	for (int i = 0; i < SpeedMax; i++)
+	for (int i = 0; i < SpeedMax_Panel; i++)
 	{
 		Traits_CharacterSelect[2][i]->SetActive(true);
 	}
@@ -547,162 +562,162 @@ void ALobbyTitleGameMode::SettingPanel(ECharacterType _CharacterType)
 	case ECharacterType::Random:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Random.png");
-		BombMin = 0;
-		BombMax = 0;
-		BombWaterMin = 0;
-		BombWaterMax = 0;
-		SpeedMin = 0;
-		SpeedMax = 0;
+		BombMin_Panel = 0;
+		BombMax_Panel = 0;
+		BombWaterMin_Panel = 0;
+		BombWaterMax_Panel = 0;
+		SpeedMin_Panel = 0;
+		SpeedMax_Panel = 0;
 		break;
 	}
 	case ECharacterType::Dao:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Dao.png");
-		BombMin = 1;
-		BombMax = 10;
-		BombWaterMin = 1;
-		BombWaterMax = 7;
-		SpeedMin = 5;
-		SpeedMax = 7;
+		BombMin_Panel = 1;
+		BombMax_Panel = 10;
+		BombWaterMin_Panel = 1;
+		BombWaterMax_Panel = 7;
+		SpeedMin_Panel = 5;
+		SpeedMax_Panel = 7;
 		break;
 	}
 	case ECharacterType::Dizni:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Dizni.png");
-		BombMin = 2;
-		BombMax = 7;
-		BombWaterMin = 1;
-		BombWaterMax = 9;
-		SpeedMin = 4;
-		SpeedMax = 8;
+		BombMin_Panel = 2;
+		BombMax_Panel = 7;
+		BombWaterMin_Panel = 1;
+		BombWaterMax_Panel = 9;
+		SpeedMin_Panel = 4;
+		SpeedMax_Panel = 8;
 		break;
 	}
 	case ECharacterType::Mos:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Mos.png");
-		BombMin = 1;
-		BombMax = 8;
-		BombWaterMin = 1;
-		BombWaterMax = 5;
-		SpeedMin = 5;
-		SpeedMax = 8;
+		BombMin_Panel = 1;
+		BombMax_Panel = 8;
+		BombWaterMin_Panel = 1;
+		BombWaterMax_Panel = 5;
+		SpeedMin_Panel = 5;
+		SpeedMax_Panel = 8;
 		break;
 	}
 	case ECharacterType::Ethi:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Ethi.png");
-		BombMin = 1;
-		BombMax = 10;
-		BombWaterMin = 1;
-		BombWaterMax = 8;
-		SpeedMin = 4;
-		SpeedMax = 8;
+		BombMin_Panel = 1;
+		BombMax_Panel = 10;
+		BombWaterMin_Panel = 1;
+		BombWaterMax_Panel = 8;
+		SpeedMin_Panel = 4;
+		SpeedMax_Panel = 8;
 		break;
 	}
 	case ECharacterType::Marid:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Marid.png");
-		BombMin = 2;
-		BombMax = 9;
-		BombWaterMin = 1;
-		BombWaterMax = 6;
-		SpeedMin = 4;
-		SpeedMax = 8;
+		BombMin_Panel = 2;
+		BombMax_Panel = 9;
+		BombWaterMin_Panel = 1;
+		BombWaterMax_Panel = 6;
+		SpeedMin_Panel = 4;
+		SpeedMax_Panel = 8;
 		break;
 	}
 	case ECharacterType::Bazzi:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Bazzi.png");
-		BombMin = 1;
-		BombMax = 6;
-		BombWaterMin = 1;
-		BombWaterMax = 7;
-		SpeedMin = 5;
-		SpeedMax = 9;
+		BombMin_Panel = 1;
+		BombMax_Panel = 6;
+		BombWaterMin_Panel = 1;
+		BombWaterMax_Panel = 7;
+		SpeedMin_Panel = 5;
+		SpeedMax_Panel = 9;
 		break;
 	}
 	case ECharacterType::Uni:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Uni.png");
-		BombMin = 1;
-		BombMax = 6;
-		BombWaterMin = 2;
-		BombWaterMax = 7;
-		SpeedMin = 5;
-		SpeedMax = 8;
+		BombMin_Panel = 1;
+		BombMax_Panel = 6;
+		BombWaterMin_Panel = 2;
+		BombWaterMax_Panel = 7;
+		SpeedMin_Panel = 5;
+		SpeedMax_Panel = 8;
 		break;
 	}
 	case ECharacterType::Kephi:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Kephi.png");
-		BombMin = 1;
-		BombMax = 9;
-		BombWaterMin = 2;
-		BombWaterMax = 8;
-		SpeedMin = 4;
-		SpeedMax = 8;
+		BombMin_Panel = 1;
+		BombMax_Panel = 9;
+		BombWaterMin_Panel = 2;
+		BombWaterMax_Panel = 8;
+		SpeedMin_Panel = 4;
+		SpeedMax_Panel = 8;
 		break;
 	}
 	case ECharacterType::Su:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Su.png");
-		BombMin = 2;
-		BombMax = 9;
-		BombWaterMin = 1;
-		BombWaterMax = 7;
-		SpeedMin = 6;
-		SpeedMax = 10;
+		BombMin_Panel = 2;
+		BombMax_Panel = 9;
+		BombWaterMin_Panel = 1;
+		BombWaterMax_Panel = 7;
+		SpeedMin_Panel = 6;
+		SpeedMax_Panel = 10;
 		break;
 	}
 	case ECharacterType::HooU:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_HooU.png");
-		BombMin = 3;
-		BombMax = 9;
-		BombWaterMin = 1;
-		BombWaterMax = 7;
-		SpeedMin = 5;
-		SpeedMax = 10;
+		BombMin_Panel = 3;
+		BombMax_Panel = 9;
+		BombWaterMin_Panel = 1;
+		BombWaterMax_Panel = 7;
+		SpeedMin_Panel = 5;
+		SpeedMax_Panel = 10;
 		break;
 	}
 	case ECharacterType::Ray:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Ray.png");
-		BombMin = 2;
-		BombMax = 9;
-		BombWaterMin = 1;
-		BombWaterMax = 7;
-		SpeedMin = 6;
-		SpeedMax = 10;
+		BombMin_Panel = 2;
+		BombMax_Panel = 9;
+		BombWaterMin_Panel = 1;
+		BombWaterMax_Panel = 7;
+		SpeedMin_Panel = 6;
+		SpeedMax_Panel = 10;
 		break;
 	}
 	default:
 		break;
 	}
 
-	for (int i = 0; i < BombMin; i++)
+	for (int i = 0; i < BombMin_Panel; i++)
 	{
 		Traits_CharacterSelect[0][i]->SetSprite("TraitBar_CharatorSelect_Min.png");
 	}
-	for (int i = BombMin; i < BombMax; i++)
+	for (int i = BombMin_Panel; i < BombMax_Panel; i++)
 	{
 		Traits_CharacterSelect[0][i]->SetSprite("TraitBar_CharatorSelect_Max.png");
 	}
 
-	for (int i = 0; i < BombWaterMin; i++)
+	for (int i = 0; i < BombWaterMin_Panel; i++)
 	{
 		Traits_CharacterSelect[1][i]->SetSprite("TraitBar_CharatorSelect_Min.png");
 	}
-	for (int i = BombWaterMin; i < BombWaterMax; i++)
+	for (int i = BombWaterMin_Panel; i < BombWaterMax_Panel; i++)
 	{
 		Traits_CharacterSelect[1][i]->SetSprite("TraitBar_CharatorSelect_Max.png");
 	}
 
-	for (int i = 0; i < SpeedMin; i++)
+	for (int i = 0; i < SpeedMin_Panel; i++)
 	{
 		Traits_CharacterSelect[2][i]->SetSprite("TraitBar_CharatorSelect_Min.png");
 	}
-	for (int i = SpeedMin; i < SpeedMax; i++)
+	for (int i = SpeedMin_Panel; i < SpeedMax_Panel; i++)
 	{
 		Traits_CharacterSelect[2][i]->SetSprite("TraitBar_CharatorSelect_Max.png");
 	}
@@ -723,15 +738,15 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 		return;
 	}
 
-	CharacterType = _CharacterType;
-	int Index = int(_CharacterType);
+	CharacterType_Player = _CharacterType;
+	int Index_CharacterType = int(_CharacterType);
 
-	CharacterSelect_Pick[Index] = true;
-	Btns_CharacterSelect[Index]->ChangeAnimation("Pick");
+	CharacterSelect_Pick[Index_CharacterType] = true;
+	Btns_CharacterSelect[Index_CharacterType]->ChangeAnimation("Pick");
 
 	for (int i = 0; i < 12; i++)
 	{
-		if (i != Index)
+		if (i != Index_CharacterType)
 		{
 			CharacterSelect_Pick[i] = false;
 			Btns_CharacterSelect[i]->ChangeAnimation("UnHover");
@@ -742,26 +757,31 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 	{
 	case ECharacterType::Random:
 	{
+		Characters_Space[SpaceIndex_Player]->SetSprite("Charcater_Space_Random.png");
 		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Random.png");
 		break;
 	}
 	case ECharacterType::Dao:
 	{
+		Characters_Space[SpaceIndex_Player]->SetSprite("Charcater_Space_Dao.png");
 		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Dao.png");
 		break;
 	}
 	case ECharacterType::Marid:
 	{
+		Characters_Space[SpaceIndex_Player]->SetSprite("Charcater_Space_Marid.png");
 		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Marid.png");
 		break;
 	}
 	case ECharacterType::Bazzi:
 	{
+		Characters_Space[SpaceIndex_Player]->SetSprite("Charcater_Space_Bazzi.png");
 		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Bazzi.png");
 		break;
 	}
 	case ECharacterType::Kephi:
 	{
+		Characters_Space[SpaceIndex_Player]->SetSprite("Charcater_Space_Kephi.png");
 		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Kephi.png");
 		break;
 	}
@@ -769,7 +789,7 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 		break;
 	}
 
-	Checker_CharacterSelect->SetWidgetLocation({ 150.0f + (72.0f * (Index % 4)), 202.0f - (55.0f * (Index / 4)) });
+	Checker_CharacterSelect->SetWidgetLocation({ 150.0f + (72.0f * (Index_CharacterType % 4)), 202.0f - (55.0f * (Index_CharacterType / 4)) });
 }
 
 void ALobbyTitleGameMode::FadeIn(float _DeltaTime)
