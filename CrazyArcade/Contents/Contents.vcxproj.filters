@@ -37,17 +37,11 @@
     <Filter Include="Protocol">
       <UniqueIdentifier>{2c7c4b11-f86c-4b2b-8b6e-d3349507d2a7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Map\Base">
-      <UniqueIdentifier>{12dc57c0-8830-42d5-8b5c-027ff2e571a8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Map\Block">
       <UniqueIdentifier>{72f176bb-3c05-4479-9e5f-62c8628c17a8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Level\PlayLevel\Actor\Player">
       <UniqueIdentifier>{2d6be738-09f5-486b-8f7f-cc89e70a8824}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Level\PlayLevel\Actor\Bomb">
-      <UniqueIdentifier>{0b2e129d-56fe-4eaf-9ca7-fe27b1972192}</UniqueIdentifier>
     </Filter>
     <Filter Include="Debug">
       <UniqueIdentifier>{a04418e5-d48f-42b4-9fbf-a320400c0254}</UniqueIdentifier>
@@ -58,9 +52,6 @@
     <Filter Include="UI">
       <UniqueIdentifier>{e3519d18-b196-4cae-85f5-09714166564e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Map\Test">
-      <UniqueIdentifier>{a69a4582-2292-4f76-9289-34319875866f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Level\InputRecorderTestLevel">
       <UniqueIdentifier>{49136a5e-a11c-46ee-9714-f7634d7c6728}</UniqueIdentifier>
     </Filter>
@@ -70,8 +61,17 @@
     <Filter Include="Map\Stage">
       <UniqueIdentifier>{570d4c26-edb1-4be8-8434-b4c6934858aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level\MainTitle\LobbyTitle">
-      <UniqueIdentifier>{e3c79255-dfa8-4f6b-8274-874db14dd6ae}</UniqueIdentifier>
+    <Filter Include="Map\Bomb">
+      <UniqueIdentifier>{0b2e129d-56fe-4eaf-9ca7-fe27b1972192}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map\Item">
+      <UniqueIdentifier>{35424463-9a6c-4589-95d0-71e80d1d54a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map\Stage\Base">
+      <UniqueIdentifier>{54143f1f-a917-4d6e-92d3-fddf1968f138}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map\Block\Base">
+      <UniqueIdentifier>{df52a80a-76e2-4fac-8d4d-d1104e253884}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -111,9 +111,6 @@
     <ClInclude Include="Packets.h">
       <Filter>Protocol</Filter>
     </ClInclude>
-    <ClInclude Include="MapBase.h">
-      <Filter>Map\Base</Filter>
-    </ClInclude>
     <ClInclude Include="VillageMap.h">
       <Filter>Map\Stage</Filter>
     </ClInclude>
@@ -126,14 +123,14 @@
     <ClInclude Include="CrazyArcadeDebugWindow.h">
       <Filter>Debug</Filter>
     </ClInclude>
+    <ClInclude Include="LobbyTitleGameMode.h">
+      <Filter>Level\MainTitle</Filter>
+    </ClInclude>
     <ClInclude Include="TimerUI.h">
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Level\PlayLevel\Actor\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="BlockBase.h">
-      <Filter>Map\Base</Filter>
     </ClInclude>
     <ClInclude Include="Wall.h">
       <Filter>Map\Block</Filter>
@@ -141,14 +138,11 @@
     <ClInclude Include="Box.h">
       <Filter>Map\Block</Filter>
     </ClInclude>
-    <ClInclude Include="TestPlayer.h">
-      <Filter>Map\Test</Filter>
-    </ClInclude>
     <ClInclude Include="MoveBox.h">
       <Filter>Map\Block</Filter>
     </ClInclude>
     <ClInclude Include="Bomb.h">
-      <Filter>Level\PlayLevel\Actor\Bomb</Filter>
+      <Filter>Map\Bomb</Filter>
     </ClInclude>
     <ClInclude Include="InputRecorderTestGameMode.h">
       <Filter>Level\InputRecorderTestLevel</Filter>
@@ -157,10 +151,13 @@
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="ItemBase.h">
-      <Filter>Map\Base</Filter>
+      <Filter>Map\Item</Filter>
     </ClInclude>
-    <ClInclude Include="LobbyTitleGameMode.h">
-      <Filter>Level\MainTitle\LobbyTitle</Filter>
+    <ClInclude Include="MapBase.h">
+      <Filter>Map\Stage\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockBase.h">
+      <Filter>Map\Block\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -197,9 +194,6 @@
     <ClCompile Include="Packets.cpp">
       <Filter>Protocol</Filter>
     </ClCompile>
-    <ClCompile Include="MapBase.cpp">
-      <Filter>Map\Base</Filter>
-    </ClCompile>
     <ClCompile Include="VillageMap.cpp">
       <Filter>Map\Stage</Filter>
     </ClCompile>
@@ -220,14 +214,11 @@
     <ClCompile Include="CrazyArcadeDebugWindow.cpp">
       <Filter>Debug</Filter>
     </ClCompile>
-    <ClCompile Include="MapBase_Create.cpp">
-      <Filter>Map\Base</Filter>
+    <ClCompile Include="LobbyTitleGameMode.cpp">
+      <Filter>Level\MainTitle</Filter>
     </ClCompile>
     <ClCompile Include="TimerUI.cpp">
       <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="BlockBase.cpp">
-      <Filter>Map\Base</Filter>
     </ClCompile>
     <ClCompile Include="Wall.cpp">
       <Filter>Map\Block</Filter>
@@ -235,24 +226,27 @@
     <ClCompile Include="Box.cpp">
       <Filter>Map\Block</Filter>
     </ClCompile>
-    <ClCompile Include="TestPlayer.cpp">
-      <Filter>Map\Test</Filter>
-    </ClCompile>
     <ClCompile Include="MoveBox.cpp">
       <Filter>Map\Block</Filter>
     </ClCompile>
     <ClCompile Include="Bomb.cpp">
-      <Filter>Level\PlayLevel\Actor\Bomb</Filter>
+      <Filter>Map\Bomb</Filter>
     </ClCompile>
     <ClCompile Include="InputRecorderTestGameMode.cpp">
       <Filter>Level\InputRecorderTestLevel</Filter>
     </ClCompile>
     <ClCompile Include="InGameUI.cpp" />
     <ClCompile Include="ItemBase.cpp">
-      <Filter>Map\Base</Filter>
+      <Filter>Map\Item</Filter>
     </ClCompile>
-    <ClCompile Include="LobbyTitleGameMode.cpp">
-      <Filter>Level\MainTitle\LobbyTitle</Filter>
+    <ClCompile Include="MapBase.cpp">
+      <Filter>Map\Stage\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="MapBase_Create.cpp">
+      <Filter>Map\Stage\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockBase.cpp">
+      <Filter>Map\Block\Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
