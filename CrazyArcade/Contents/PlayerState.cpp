@@ -67,6 +67,7 @@ void APlayer::StateInit()
 	State.SetUpdateFunction("Die", std::bind(&APlayer::Die, this, std::placeholders::_1));
 	State.SetStartFunction("Die", [=]()
 		{
+			Renderer->ChangeAnimation("Die");
 		});
 
 	State.SetUpdateFunction("Revival", std::bind(&APlayer::Revival, this, std::placeholders::_1));
@@ -81,23 +82,25 @@ void APlayer::Idle(float _Update)
 {
 	// Bomb 피격
 	//if (/*피격 당했으면*/)
-	if(true == IsDown('1'))
+	if (true == IsDown('1'))
 	{
 		State.ChangeState("TrapStart");
 		return;
 	}
 
 	// Bomb 설치
-	//if (true == IsDown(VK_SPACE))
-	//{
-	//	if (0 < BombCount)
-	//	{
-	//		if (nullptr != PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this))
-	//		{
-	//			--BombCount;
-	//		}
-	//	}
-	//}
+	if (true == IsDown(VK_SPACE))
+	{
+		if (0 < BombCount)
+		{
+			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+			--BombCount;
+		}
+		else
+		{
+			Bomb = nullptr;
+		}
+	}
 
 	if (true == IsPress(VK_LEFT) || true == IsPress(VK_RIGHT) || true == IsPress(VK_UP) || true == IsPress(VK_DOWN))
 	{
@@ -109,16 +112,18 @@ void APlayer::Idle(float _Update)
 void APlayer::Run(float _DeltaTime)
 {
 	// Bomb 설치
-	//if (true == IsDown(VK_SPACE))
-	//{
-	//	if (0 < BombCount)
-	//	{
-	//		if (nullptr != PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this))
-	//		{
-	//			--BombCount;
-	//		}
-	//	}
-	//}
+	if (true == IsDown(VK_SPACE))
+	{
+		if (0 < BombCount)
+		{
+			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+			--BombCount;
+		}
+		else
+		{
+			Bomb = nullptr;
+		}
+	}
 
 	if (true == IsPress(VK_LEFT))
 	{
@@ -154,14 +159,26 @@ void APlayer::Run(float _DeltaTime)
 
 void APlayer::TrapStart(float _DeltaTime)
 {
+	if (Renderer->IsCurAnimationEnd())
+	{
+		State.ChangeState("Traped");
+	}
 }
 
 void APlayer::Traped(float _DeltaTime)
 {
+	if (Renderer->IsCurAnimationEnd())
+	{
+		State.ChangeState("TrapEnd");
+	}
 }
 
 void APlayer::TrapEnd(float _DeltaTime)
 {
+	if (Renderer->IsCurAnimationEnd())
+	{
+		State.ChangeState("Die");
+	}
 }
 
 void APlayer::Die(float _Update)

@@ -15,6 +15,7 @@
 #include "ServerHelper.h"
 #include "CrazyArcadeEnum.h"
 #include "BombBase.h"
+#include "MapBase.h"
 
 AServerGameMode::AServerGameMode()
 	:AMainPlayLevel()
@@ -115,6 +116,10 @@ void AServerGameMode::ServerPacketInit(UEngineDispatcher& Dis)
 					MyBomb->SetObjectToken(_Packet->GetObjectToken());
 					MyBomb->PushProtocol(_Packet);
 					MyBomb->SetActorLocation(_Packet->Pos);
+
+					FPoint Point = GetMap()->ConvertLocationToPoint(_Packet->Pos);
+					MyBomb->SetCurPoint(Point);
+
 					FEngineTimeStamp Stamp = UEngineTime::GetCurTime();
 					float FloatResult = Stamp.TimeToFloat();
 					MyBomb->ReduceCurExplosionTime(FloatResult - _Packet->SpawnTime);
@@ -147,6 +152,10 @@ void AServerGameMode::ClientPacketInit(UEngineDispatcher& Dis)
 					MyBomb->SetObjectToken(_Packet->GetObjectToken());
 					MyBomb->PushProtocol(_Packet);
 					MyBomb->SetActorLocation(_Packet->Pos);
+
+					FPoint Point = GetMap()->ConvertLocationToPoint(_Packet->Pos);
+					MyBomb->SetCurPoint(Point);
+
 					FEngineTimeStamp Stamp = UEngineTime::GetCurTime();
 					float FloatResult = Stamp.TimeToFloat();
 					MyBomb->ReduceCurExplosionTime(FloatResult - _Packet->SpawnTime);

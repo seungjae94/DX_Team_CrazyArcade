@@ -27,6 +27,23 @@ void AInGameUI::BeginPlay()
 	CancelBtn->AddToViewPort(3);
 
 
+	ResultBackGround = CreateWidget<UImage>(GetWorld(), "ResultBackGroundUI");
+	ResultBackGround->SetSprite("ResultWindow.png");
+	ResultBackGround->SetMulColor({ 1.0f,1.0f,1.0f,0.7f });
+	ResultBackGround->AddWidgetLocation(FVector{-80.0,-30.0f });
+	ResultBackGround->AddToViewPort(3);
+	ResultBackGround->SetScale({ 550,400 });
+
+
+	ResultSummary = CreateWidget<UImage>(GetWorld(), "ResultBackGroundUI");
+	ResultSummary->SetSprite("Result_Summary.png");
+	
+	ResultSummary->AddWidgetLocation(FVector{ -90.0f,140.0f });
+	ResultSummary->SetScale({ 350,20 });
+	ResultSummary->AddToViewPort(4);
+
+
+
 	CancelBtn->SetUnHover([=] {
 
 

@@ -72,12 +72,12 @@ void ServerTestPlayer::SpawnBomb()
 	SpawnPacket->SpawnSelect = static_cast<int>(EItemType::Bubble);
 	SpawnPacket->SpawnTime = FloatResult;
 
-	ABombBase* Boom = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
-	if (Boom == nullptr) {
+	if (Bomb == nullptr) {
 		return;
 	}
-	Boom->SetObjectToken(GetToken);
-	SpawnPacket->Pos = Boom->GetActorLocation();
-	Send(SpawnPacket, Boom->GetObjectToken());
+	Bomb->SetObjectToken(GetToken);
+	SpawnPacket->Pos = Bomb->GetActorLocation();
+	Send(SpawnPacket, Bomb->GetObjectToken());
 	IsSpawn = false;
+	Bomb = nullptr;
 }
