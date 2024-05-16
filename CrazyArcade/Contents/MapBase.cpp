@@ -228,14 +228,14 @@ EItemType AMapBase::IsItemTile(const FVector& _Pos)
 	}
 }
 
-// 현재 위치 Tile에 Bomb 스폰 함수 (성공시 true, 실패시 false 반환)
-bool AMapBase::SpawnBomb(const FVector& _Pos, APlayer* _Player)
+// 현재 위치 Tile에 Bomb 스폰 함수 (실패시 nullptr 반환)
+ABombBase* AMapBase::SpawnBomb(const FVector& _Pos, APlayer* _Player)
 {
 	FPoint CurPoint = ConvertLocationToPoint(_Pos);
 
 	if (0 > CurPoint.X || SizeX <= CurPoint.X || 0 > CurPoint.Y || SizeY <= CurPoint.Y)
 	{
-		return false;
+		return nullptr;
 	}
 
 	if (nullptr == MapInfo[CurPoint.Y][CurPoint.X].Bomb)
@@ -244,16 +244,11 @@ bool AMapBase::SpawnBomb(const FVector& _Pos, APlayer* _Player)
 		MapInfo[CurPoint.Y][CurPoint.X].Bomb = GetWorld()->SpawnActor<ABombBase>("Bomb");
 		MapInfo[CurPoint.Y][CurPoint.X].Bomb->SetActorLocation(TargetPos);
 		MapInfo[CurPoint.Y][CurPoint.X].Bomb->SetPlayer(_Player);
-
-
-
-		//
-		MapInfo[CurPoint.Y][CurPoint.X].Bomb = nullptr;
-		return true;
+		return MapInfo[CurPoint.Y][CurPoint.X].Bomb.get();
 	}
 	else
 	{
-		return false;
+		return nullptr;
 	}
 }
 
