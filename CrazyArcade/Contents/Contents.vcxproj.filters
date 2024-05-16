@@ -183,7 +183,7 @@
     <ClInclude Include="Devil.h">
       <Filter>Map\Items</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h">
+    <ClInclude Include="ItemBase.h">
       <Filter>Map\Base</Filter>
     </ClInclude>
   </ItemGroup>
@@ -299,7 +299,7 @@
     <ClCompile Include="Devil.cpp">
       <Filter>Map\Items</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
+    <ClCompile Include="ItemBase.cpp">
       <Filter>Map\Base</Filter>
     </ClCompile>
   </ItemGroup>

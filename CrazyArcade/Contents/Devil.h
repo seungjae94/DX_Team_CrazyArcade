@@ -1,8 +1,9 @@
 #pragma once
-#include "Item.h"
-class ADevil : public AItem
+#include "ItemBase.h"
+
+class ADevil : public AItemBase
 {
-	GENERATED_BODY(AItem)
+	GENERATED_BODY(AItemBase)
 
 public:
 	// constrcuter destructer

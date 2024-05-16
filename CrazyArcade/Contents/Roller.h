@@ -1,9 +1,9 @@
 #pragma once
-#include "Item.h"
+#include "ItemBase.h"
 
-class ARoller : public AItem
+class ARoller : public AItemBase
 {
-	GENERATED_BODY(AItem)
+	GENERATED_BODY(AItemBase)
 
 public:
 	// constrcuter destructer
