@@ -16,7 +16,7 @@ enum EContentPacket
 {
 	ActorUpdatePacket = 99,
 	SpawnUpdatePacket,
-
+	ConnectUpdatePacket,
 };
 
 // 우리는 최소 16바이트는 있어야 뭔가할수 있다.
@@ -85,4 +85,29 @@ public:
 	float4 Pos = float4::Zero;
 	int SpawnSelect = 0; // ?? 랜덤
 	float SpawnTime = 0.0f;
+};
+
+class UConnectNumberPacket : public UEngineProtocol {
+public:
+	static const EContentPacket Type = EContentPacket::ConnectUpdatePacket;
+public:
+	UConnectNumberPacket()
+	{
+		SetType(EContentPacket::ConnectUpdatePacket);
+	}
+
+	void Serialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::Serialize(_Ser);
+		_Ser << ConnectNum;
+	}
+
+	void DeSerialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::DeSerialize(_Ser);
+		_Ser >> ConnectNum;
+	}
+
+public:
+	int ConnectNum = 0;
 };

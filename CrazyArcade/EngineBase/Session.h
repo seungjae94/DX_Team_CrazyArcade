@@ -22,6 +22,10 @@ public:
 		return CurSessionToken++;
 	}
 
+	int GetCurSessionToken()
+	{
+		return CurSessionToken;
+	}
 	SOCKET GetSocket()
 	{
 		return Socket;
