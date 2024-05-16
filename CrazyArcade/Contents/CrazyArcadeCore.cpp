@@ -10,6 +10,9 @@
 #include "ServerGameMode.h"
 #include "InputRecorderTestGameMode.h"
 
+#include "Packets.h"
+#include "ServerNumber.h"
+
 std::shared_ptr<UEngineNet> UCrazyArcadeCore::Net = nullptr;
 
 UCrazyArcadeCore::UCrazyArcadeCore()
@@ -39,12 +42,53 @@ void UCrazyArcadeCore::Initialize()
 
 void UCrazyArcadeCore::Tick(float _DeltaTime)
 {
+	int Count = ServerNumber::GetInst().CurSessionCount;
 	int a = 0;
+	if (false == IsFunctionInit)
+	{
+		if (nullptr == UCrazyArcadeCore::Net)
+		{
+			return;
+		}
+		IsFunctionInit = true;
+		UEngineDispatcher& Dis = UCrazyArcadeCore::Net->Dispatcher;
+		Dis.AddHandler<UConnectNumberPacket>([=](std::shared_ptr<UConnectNumberPacket> _Packet)
+			{
+				UCrazyArcadeCore::Net->Send(_Packet);
+				GEngine->GetCurLevel()->PushFunction([=]()
+					{
+						ServerNumber::ServerNumber::GetInst().CurSessionCount = _Packet->ConnectNum;
+						
+						/*UCrazyArcadeCore::Net->SetSessionCount(_Packet->ConnectNum);*/
+					});
+			});
+	}
+
+	if (true == IsFunctionInit)
+	{
+		if (nullptr != UCrazyArcadeCore::Net)
+		{
+			std::shared_ptr<UEngineServer> Server = dynamic_pointer_cast<UEngineServer>(UCrazyArcadeCore::Net);
+			if (nullptr == Server)
+			{
+				return;
+			}
+
+			int ServerSessionCount = ServerNumber::GetInst().CurSessionCount;
+			int CurSessionToken = Server->GetCurSessionToken();
+			if (ServerSessionCount != CurSessionToken)
+			{
+				ServerNumber::GetInst().CurSessionCount = Server->GetCurSessionToken();
+				std::shared_ptr<UConnectNumberPacket> ConnectNumPacket = std::make_shared<UConnectNumberPacket>();
+				ConnectNumPacket->ConnectNum = ServerNumber::GetInst().CurSessionCount;
+				UCrazyArcadeCore::Net->Send(ConnectNumPacket);
+			}
+		}
+	}
 }
 
 void UCrazyArcadeCore::ResLoad()
 {
-
 	// UI 리소스 로드
 	{
 		UEngineDirectory Dir;
@@ -68,7 +112,7 @@ void UCrazyArcadeCore::ResLoad()
 		UEngineDirectory Dir;
 		Dir.MoveToSearchChild("ContentsResources");
 		Dir.Move("Map");
-		
+
 		std::vector<UEngineFile> AllFiles = Dir.GetAllFile({ ".png" }, true);
 		for (UEngineFile& File : AllFiles)
 		{

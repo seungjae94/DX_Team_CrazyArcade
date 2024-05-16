@@ -19,16 +19,6 @@ public:
 	AMoveBox& operator=(const AMoveBox& _Other) = delete;
 	AMoveBox& operator=(AMoveBox&& _Other) noexcept = delete;
 
-	inline void StateChange(std::string_view _State)
-	{
-		State.ChangeState(_State);
-	}
-
-	inline std::string GetCurState() const 
-	{
-		return State.GetCurStateName();
-	}
-
 	inline void SetMoveDir(const FVector& _Dir)
 	{
 		MoveDir = _Dir;
@@ -52,9 +42,8 @@ private:
 	AMainPlayLevel* PlayLevel = nullptr;
 
 // FSM
-private:
-	UStateManager State;
-	void StateInit();
+protected:
+	void StateInit() override;
 
 };
 

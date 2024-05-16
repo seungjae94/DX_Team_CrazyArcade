@@ -28,6 +28,11 @@ public:
 		AcceptSession.SetSessionToken(_SessionToken);
 	}
 
+	int GetCurSessionToken()
+	{
+		return AcceptSession.GetCurSessionToken();
+	}
+
 protected:
 	void ServerOpen(int _Port, int _BackLog = 512) override;
 

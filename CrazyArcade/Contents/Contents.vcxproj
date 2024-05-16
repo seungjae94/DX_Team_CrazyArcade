@@ -36,11 +36,16 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="MapHelper.h" />
     <ClInclude Include="MoveBox.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="ServerHelper.h" />
+    <ClInclude Include="ServerNumber.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TimerUI.h">
       <SubType>
       </SubType>
@@ -130,6 +135,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ServerHelper.cpp" />
+    <ClCompile Include="ServerNumber.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TimerUI.cpp">
       <SubType>
       </SubType>

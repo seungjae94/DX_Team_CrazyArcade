@@ -144,6 +144,11 @@ public:
 		return CurCreateLevel;
 	}
 
+	std::shared_ptr<ULevel> GetCurLevel()
+	{
+		return CurLevel;
+	}
+
 protected:
 
 private:

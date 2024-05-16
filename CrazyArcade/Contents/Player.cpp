@@ -37,17 +37,13 @@ void APlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SetPlayerColor(EPlayerColor::Yellow);
+	//SetPlayerColor(EPlayerColor::Yellow);
 
 	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
 	BlockSize = AMapBase::GetBlockSize();
 
 	// 이미지 컷팅
-	//UEngineSprite::CreateCutting("down.png", 8, 1);
-	//UEngineSprite::CreateCutting("up.png", 8, 1);
-	//UEngineSprite::CreateCutting("right.png", 6, 1);
-	//UEngineSprite::CreateCutting("left.png", 6, 1);
-	UEngineSprite::CreateCutting("Bazzi" + PlayerColor + "_1.png", 5, 18);
+	UEngineSprite::CreateCutting("Bazzi_1.png", 5, 18);
 	UEngineSprite::CreateCutting("Bazzi_2.png", 5, 2);
 	UEngineSprite::CreateCutting("Bazzi_3.png", 5, 4);
 	UEngineSprite::CreateCutting("Bazzi_4.png", 5, 7);
@@ -58,14 +54,6 @@ void APlayer::BeginPlay()
 	//UEngineSprite::CreateCutting("Bazzi_Y_4.png", 5, 7);
 
 	// 애니메이션 생성
-	//Renderer->CreateAnimation("Idle_Down", "down.png", 0.1f, false, 0, 0);
-	//Renderer->CreateAnimation("Idle_Up", "up.png", 0.1f, false, 0, 0);
-	//Renderer->CreateAnimation("Idle_Right", "right.png", 0.1f, false, 0, 0);
-	//Renderer->CreateAnimation("Idle_Left", "left.png", 0.1f, false, 0, 0);
-	//Renderer->CreateAnimation("Run_Down", "down.png", 0.1f, true, 0, 7);
-	//Renderer->CreateAnimation("Run_Up", "up.png", 0.1f, true, 0, 7);
-	//Renderer->CreateAnimation("Run_Right", "right.png", 0.1f, true, 0, 5);
-	//Renderer->CreateAnimation("Run_Left", "left.png", 0.1f, true, 0, 5);
 	Renderer->CreateAnimation("Ready", "Bazzi" + PlayerColor + "_1.png", 0.06f, false, 37, 53);
 	Renderer->CreateAnimation("Idle_Left", "Bazzi" + PlayerColor + "_1.png", 1.0f, false, 0, 0);
 	Renderer->CreateAnimation("Idle_Right", "Bazzi" + PlayerColor + "_1.png", 1.0f, false, 6, 6);
@@ -76,11 +64,11 @@ void APlayer::BeginPlay()
 	Renderer->CreateAnimation("Run_Up", "Bazzi" + PlayerColor + "_1.png", 0.1f, true, 13, 19);
 	Renderer->CreateAnimation("Run_Down", "Bazzi" + PlayerColor + "_1.png", 0.1f, true, 21, 28);
 	Renderer->CreateAnimation("Win", "Bazzi" + PlayerColor + "_1.png", 0.1f, true, 29, 36);
-	Renderer->CreateAnimation("DamagedStart_", "Bazzi_4.png", 0.07f, false, 6, 10);
-	Renderer->CreateAnimation("Damaged_", "Bazzi_4.png", 0.2f, true, 11, 23);
-	Renderer->CreateAnimation("Fade_", "Bazzi_4.png", 0.25f, true, 24, 31);
-	Renderer->CreateAnimation("Die_", "Bazzi_2.png", 0.15f, false, 0, 5);
-	Renderer->CreateAnimation("Revival_", "Bazzi_2.png", 0.15f, false, 6, 9);
+	Renderer->CreateAnimation("TrapStart", "Bazzi_4.png", 0.07f, false, 6, 10);
+	Renderer->CreateAnimation("Traped", "Bazzi_4.png", 0.2f, false, 11, 23);
+	Renderer->CreateAnimation("TrapEnd", "Bazzi_4.png", 0.25f, false, 24, 31);
+	Renderer->CreateAnimation("Die", "Bazzi_2.png", 0.15f, false, 0, 5);
+	Renderer->CreateAnimation("Revival", "Bazzi_2.png", 0.15f, false, 6, 9);
 
 	Renderer->ChangeAnimation("Idle_Down");
 	Renderer->SetAutoSize(0.9f, true);
