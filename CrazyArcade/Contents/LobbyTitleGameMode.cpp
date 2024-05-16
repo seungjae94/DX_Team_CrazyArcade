@@ -161,7 +161,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					UTextWidget* Username_Space = CreateWidget<UTextWidget>(GetWorld(), "Username_Space");
 					Username_Space->AddToViewPort(1);
 					Username_Space->SetScale(15.0f);
-					Username_Space->SetPosition({ -322.0f + 106.0f * (i % 4), 103.0f - 145.0f * (i / 4) });
+					Username_Space->SetPosition({ -326.0f + 106.0f * (i % 4), 103.0f - 145.0f * (i / 4) });
 					Username_Space->SetFont("±¼¸²");
 					Username_Space->SetColor(Color8Bit::Black);
 					Username_Space->SetFlag(FW1_CENTER);
@@ -464,19 +464,6 @@ void ALobbyTitleGameMode::BeginPlay()
 void ALobbyTitleGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
-	
-	// Debug
-	{
-		FVector CameraPos = GetWorld()->GetMainCamera()->GetActorLocation();
-		FVector MousePos = GEngine->EngineWindow.GetScreenMousePos();
-		FVector WindowScale = GEngine->EngineWindow.GetWindowScale();
-		FVector TargetPos = FVector(CameraPos.X, CameraPos.Y, 0.0f) + FVector(MousePos.X - WindowScale.hX(), -(MousePos.Y - WindowScale.hY()), 0.0f);
-		 
-		{
-			std::string Msg = std::format("MousePos : {}\n", TargetPos.ToString());
-			UEngineDebugMsgWindow::PushMsg(Msg);
-		}
-	}
 
 	// Fade & ChangeLevel
 	{
@@ -504,6 +491,30 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 
 			FadeOut(_DeltaTime);
 		}
+	}
+
+	// UserInfo Update
+	UserInfoUpdate(SpaceIndex_Player);
+
+	// Debug
+	{
+		FVector CameraPos = GetWorld()->GetMainCamera()->GetActorLocation();
+		FVector MousePos = GEngine->EngineWindow.GetScreenMousePos();
+		FVector WindowScale = GEngine->EngineWindow.GetWindowScale();
+		FVector TargetPos = FVector(CameraPos.X, CameraPos.Y, 0.0f) + FVector(MousePos.X - WindowScale.hX(), -(MousePos.Y - WindowScale.hY()), 0.0f);
+
+		{
+			std::string Msg = std::format("MousePos : {}\n", TargetPos.ToString());
+			UEngineDebugMsgWindow::PushMsg(Msg);
+		}
+	}
+}
+
+void ALobbyTitleGameMode::UserInfoUpdate(int _Index)
+{
+	if (Usernames_Space[_Index]->GetText() != Name_Player)
+	{
+		Usernames_Space[_Index]->SetText(Name_Player);
 	}
 }
 
