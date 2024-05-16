@@ -64,7 +64,7 @@ protected:
 	float BlockSize = 0.0f;
 	AMainPlayLevel* PlayLevel = nullptr;
 
-	void PickUpItem(EPlayerItem _ItemType);
+	void PickUpItem();
 	void AddItemCount(EPlayerItem _ItemType);
 
 	//State

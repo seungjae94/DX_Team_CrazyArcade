@@ -17,6 +17,12 @@ public:
 	ABomb& operator=(const ABomb& _Other) = delete;
 	ABomb& operator=(ABomb&& _Other) noexcept = delete;
 
+
+	void ReduceCurExplosionTime(float _ReduceTime)
+	{
+		CurExplosionTime -= _ReduceTime;
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

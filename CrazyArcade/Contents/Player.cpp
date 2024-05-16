@@ -11,11 +11,9 @@ APlayer::APlayer()
 
 	Renderer = CreateDefaultSubObject<USpriteRenderer>("Renderer");
 	Renderer->SetupAttachment(DefaultComponent);
-	Renderer->AddPosition({ 0.0f, -BlockSize / 2.0f });
 
 	ShadowRenderer = CreateDefaultSubObject<USpriteRenderer>("ShadowRenderer");
 	ShadowRenderer->SetupAttachment(DefaultComponent);
-	ShadowRenderer->AddPosition({ 0.0f, -BlockSize / 2.0f });
 
 	DebugRenderer = CreateDefaultSubObject<USpriteRenderer>("DebugRenderer");
 	DebugRenderer->SetupAttachment(DefaultComponent);
@@ -38,6 +36,9 @@ APlayer::~APlayer()
 void APlayer::BeginPlay()
 {
 	Super::BeginPlay();
+
+	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
+	BlockSize = AMapBase::GetBlockSize();
 
 	// 이미지 컷팅
 	//UEngineSprite::CreateCutting("down.png", 8, 1);
@@ -75,17 +76,17 @@ void APlayer::BeginPlay()
 	Renderer->CreateAnimation("Revival_", "Bazzi_2.png", 0.15f, false, 6, 9);
 
 	Renderer->ChangeAnimation("Idle_Down");
-	Renderer->SetAutoSize(1.0f, true);
+	Renderer->SetAutoSize(0.9f, true);
+	Renderer->AddPosition({ 0.0f, BlockSize / 2.0f, 0.0f });
 
 	ShadowRenderer->SetSprite("Shadow.png");
 	ShadowRenderer->SetAutoSize(1.0f, true);
 	ShadowRenderer->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.7f });
 	ShadowRenderer->SetOrder(ERenderOrder::Shadow);
+	ShadowRenderer->AddPosition({ 0.0f, -BlockSize / 4.0f });
 
-	DebugRenderer->SetScale({ 5,5,5 });
-
-	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
-	BlockSize = AMapBase::GetBlockSize();
+	DebugRenderer->SetScale({ 5,5,10 });
+	DebugRenderer->SetOrder(9999);
 
 	StateInit();
 }
@@ -108,21 +109,24 @@ void APlayer::Tick(float _DeltaTime)
 		UEngineDebugMsgWindow::PushMsg(Msg);
 	}
 	// Item 임의 적용 테스트
-	if (true == IsDown('R'))
-	{
-		PickUpItem(EPlayerItem::Roller);
-	}
-	if (true == IsDown('B'))
-	{
-		PickUpItem(EPlayerItem::Bubble);
-	}
+	//if (true == IsDown('R'))
+	//{
+	//	PickUpItem(EPlayerItem::Roller);
+	//}
+	//if (true == IsDown('B'))
+	//{
+	//	PickUpItem(EPlayerItem::Bubble);
+	//}
 
 	PlayerPos = GetActorLocation();
+
+	PickUpItem();
 }
 
-void APlayer::PickUpItem(EPlayerItem _ItemType)
+void APlayer::PickUpItem()
 {
-	switch (_ItemType)
+	EPlayerItem ItemType = PlayLevel->GetMap()->IsItemTile(GetActorLocation());
+	switch (ItemType)
 	{
 	case EPlayerItem::Bubble:
 		++BombCount;
@@ -157,7 +161,7 @@ void APlayer::PickUpItem(EPlayerItem _ItemType)
 		break;
 	}
 
-	AddItemCount(_ItemType);
+	//AddItemCount(_ItemType);
 }
 
 void APlayer::AddItemCount(EPlayerItem _ItemType)

@@ -181,7 +181,10 @@ EPlayerItem AMapBase::IsItemTile(const FVector& _CurPos)
 	}
 	else
 	{
-		return MapInfo[CurPoint.Y][CurPoint.X].Item->GetItemType();
+		EPlayerItem ItemType = MapInfo[CurPoint.Y][CurPoint.X].Item->GetItemType();
+		MapInfo[CurPoint.Y][CurPoint.X].Item->Destroy();
+		MapInfo[CurPoint.Y][CurPoint.X].Item = nullptr;
+		return ItemType;
 	}
 }
 
