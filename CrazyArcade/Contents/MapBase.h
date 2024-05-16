@@ -4,6 +4,7 @@ class ABlockBase;
 class ABombBase;
 class AItemBase;
 class UTileInfo;
+class APlayer;
 class ABox;
 
 // Tile 좌표 구조체
@@ -38,10 +39,11 @@ public:
 	AMapBase& operator=(AMapBase&& _Other) noexcept = delete;
 
 	int GetRenderOrder(const FVector& _Pos);
-	FPoint CovertLocationToPoint(const FVector& _Pos);
+	FPoint ConvertLocationToPoint(const FVector& _Pos);
+	FVector ConvertPointToLocation(const FPoint& _Point);
 	bool CanMovePos(const FVector& _NextPos, const FVector& _Dir);
 	EItemType IsItemTile(const FVector& _Pos);
-	bool CreateBomb(const FVector& _Pos);
+	bool CreateBomb(const FVector& _Pos, APlayer* _Player);
 	
 	// Tile의 한변의 길이를 반환
 	static float GetBlockSize()
