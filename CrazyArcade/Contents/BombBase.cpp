@@ -4,6 +4,7 @@
 #include "MainPlayLevel.h"
 #include "MapConstant.h"
 #include "MapBase.h"
+#include "Player.h"
 
 ABombBase::ABombBase()
 {
@@ -98,15 +99,22 @@ void ABombBase::Tick(float _DeltaTime)
 		Effect_Right->ChangeAnimation(MapAnim::bomb_effect_right1);
 		Effect_Up->ChangeAnimation(MapAnim::bomb_effect_up1);
 		Effect_Down->ChangeAnimation(MapAnim::bomb_effect_down1);
+		
 
 		if (Effect_Center->IsCurAnimationEnd())
 		{
 			Effect_Center->SetActive(false);
 		}
+
 		if (Effect_Left->IsCurAnimationEnd())
 		{
+			Player->IncreaseBombCount();
 			Destroy();
 		}
 	}
 }
 
+void ABombBase::SetPlayer(APlayer* _Player)
+{
+	Player = _Player;
+}

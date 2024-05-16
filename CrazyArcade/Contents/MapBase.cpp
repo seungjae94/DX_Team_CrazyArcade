@@ -98,8 +98,8 @@ FVector AMapBase::ConvertPointToLocation(const FPoint& _Point)
 {
 	FVector Result = StartPos;
 
-	Result.X = _Point.X * BlockSize;
-	Result.Y = _Point.Y * BlockSize;
+	Result.X += (_Point.X * BlockSize) + (0.5f * BlockSize);
+	Result.Y += (_Point.Y * BlockSize) + (0.5f * BlockSize);
 
 	return Result;
 }
@@ -228,7 +228,8 @@ EItemType AMapBase::IsItemTile(const FVector& _Pos)
 	}
 }
 
-bool AMapBase::CreateBomb(const FVector& _Pos, APlayer* _Player)
+// 현재 위치 Tile에 Bomb 스폰 함수 (성공시 true, 실패시 false 반환)
+bool AMapBase::SpawnBomb(const FVector& _Pos, APlayer* _Player)
 {
 	FPoint CurPoint = ConvertLocationToPoint(_Pos);
 
@@ -239,9 +240,15 @@ bool AMapBase::CreateBomb(const FVector& _Pos, APlayer* _Player)
 
 	if (nullptr == MapInfo[CurPoint.Y][CurPoint.X].Bomb)
 	{
-		MapInfo[CurPoint.Y][CurPoint.X].Bomb = GetWorld()->SpawnActor<ABombBase>("Bomb");
 		FVector TargetPos = ConvertPointToLocation(CurPoint);
+		MapInfo[CurPoint.Y][CurPoint.X].Bomb = GetWorld()->SpawnActor<ABombBase>("Bomb");
 		MapInfo[CurPoint.Y][CurPoint.X].Bomb->SetActorLocation(TargetPos);
+		MapInfo[CurPoint.Y][CurPoint.X].Bomb->SetPlayer(_Player);
+
+
+
+		//
+		MapInfo[CurPoint.Y][CurPoint.X].Bomb = nullptr;
 		return true;
 	}
 	else
@@ -249,5 +256,4 @@ bool AMapBase::CreateBomb(const FVector& _Pos, APlayer* _Player)
 		return false;
 	}
 }
-
 

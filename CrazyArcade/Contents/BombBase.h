@@ -1,6 +1,8 @@
 #pragma once
 
 class AMainPlayLevel;
+class APlayer;
+
 class ABombBase : public ANetActor
 {
 	GENERATED_BODY(ANetActor)
@@ -15,7 +17,10 @@ public:
 	ABombBase& operator=(const ABombBase& _Other) = delete;
 	ABombBase& operator=(ABombBase&& _Other) noexcept = delete;
 
-	void ReduceCurExplosionTime(float _ReduceTime)
+	void SetPlayer(APlayer* _Player);
+
+	//
+	inline void ReduceCurExplosionTime(float _ReduceTime)
 	{
 		CurExplosionTime -= _ReduceTime;
 	}
@@ -26,6 +31,7 @@ protected:
 
 private:
 	AMainPlayLevel* PlayLevel = nullptr;
+	APlayer* Player = nullptr;
 
 	USpriteRenderer* Body;
 	USpriteRenderer* Effect_Center;

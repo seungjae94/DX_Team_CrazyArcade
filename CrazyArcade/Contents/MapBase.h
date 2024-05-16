@@ -43,7 +43,7 @@ public:
 	FVector ConvertPointToLocation(const FPoint& _Point);
 	bool CanMovePos(const FVector& _NextPos, const FVector& _Dir);
 	EItemType IsItemTile(const FVector& _Pos);
-	bool CreateBomb(const FVector& _Pos, APlayer* _Player);
+	bool SpawnBomb(const FVector& _Pos, APlayer* _Player);
 	
 	// Tile의 한변의 길이를 반환
 	static float GetBlockSize()

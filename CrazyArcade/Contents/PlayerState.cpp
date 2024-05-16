@@ -67,12 +67,13 @@ void APlayer::Idle(float _Update)
 	// Bomb 설치
 	if (true == IsDown(VK_SPACE))
 	{
-		//if (0 < BombCount)
+		if (0 < BombCount)
 		{
-			std::shared_ptr<ABombBase> Bomb = GetWorld()->SpawnActor<ABombBase>("Bomb");
-			Bomb->SetActorLocation(GetActorLocation());
-			Bomb->AddActorLocation({ 0.0f, BlockSize / 2.0f });
-			--BombCount;
+			bool IsBombSpawn = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+			if (true == IsBombSpawn)
+			{
+				--BombCount;
+			}
 		}
 	}
 
@@ -88,12 +89,13 @@ void APlayer::Run(float _DeltaTime)
 	// Bomb 설치
 	if (true == IsDown(VK_SPACE))
 	{
-		//if (0 < BombCount)
+		if (0 < BombCount)
 		{
-			std::shared_ptr<ABombBase> Bomb = GetWorld()->SpawnActor<ABombBase>("Bomb");
-			Bomb->SetActorLocation(GetActorLocation());
-			Bomb->AddActorLocation({ 0.0f, BlockSize / 2.0f });
-			--BombCount;
+			bool IsBombSpawn = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+			if (true == IsBombSpawn)
+			{
+   				--BombCount;
+			}
 		}
 	}
 
