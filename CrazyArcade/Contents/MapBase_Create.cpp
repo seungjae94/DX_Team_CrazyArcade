@@ -44,7 +44,7 @@ void AMapBase::CreateMoveBox(FPoint _Point, std::string_view _ImgName)
 	MapInfo[_Point.Y][_Point.X].Block->GetBody()->SetOrder(Const::MaxOrder - _Point.Y);
 
 	FVector Pos = StartPos;
-	Pos.X += _Point.Y * BlockSize;
+	Pos.X += _Point.X * BlockSize;
 	Pos.Y += _Point.Y * BlockSize;
 	MapInfo[_Point.Y][_Point.X].Block->SetActorLocation(Pos);
 }
