@@ -245,6 +245,7 @@ ABombBase* AMapBase::SpawnBomb(const FVector& _Pos, APlayer* _Player)
 		TileInfo[CurPoint.Y][CurPoint.X].Bomb->SetActorLocation(TargetPos);
 		TileInfo[CurPoint.Y][CurPoint.X].Bomb->SetPlayer(_Player);
 		TileInfo[CurPoint.Y][CurPoint.X].Bomb->SetCurPoint(CurPoint);
+		TileInfo[CurPoint.Y][CurPoint.X].Bomb->SetIdle();
 		return TileInfo[CurPoint.Y][CurPoint.X].Bomb.get();
 	}
 	else

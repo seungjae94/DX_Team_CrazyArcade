@@ -94,7 +94,10 @@ void APlayer::Idle(float _Update)
 		if (0 < BombCount)
 		{
 			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
-			--BombCount;
+			if (nullptr != Bomb)
+			{
+				--BombCount;
+			}
 		}
 		else
 		{
@@ -117,7 +120,10 @@ void APlayer::Run(float _DeltaTime)
 		if (0 < BombCount)
 		{
 			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
-			--BombCount;
+			if (nullptr != Bomb)
+			{
+				--BombCount;
+			}
 		}
 		else
 		{

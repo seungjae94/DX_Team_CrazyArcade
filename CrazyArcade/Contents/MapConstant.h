@@ -77,3 +77,9 @@ namespace ItemState
 {
 	const std::string_view idle					= "Idle";
 }
+
+namespace BombState
+{
+	const std::string_view idle					 = "Idle";
+	const std::string_view explosion			 = "Explosion";
+}
