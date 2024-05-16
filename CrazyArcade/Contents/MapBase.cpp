@@ -2,6 +2,7 @@
 #include "MapBase.h"
 
 #include "MapConstant.h"
+#include "BombBase.h"
 #include "BlockBase.h"
 #include "ItemBase.h"
 #include "MoveBox.h"
@@ -93,9 +94,9 @@ FPoint AMapBase::CovertLocationToPoint(const FVector& _Pos)
 }
 
 // 해당 위치 Tile의 RenderOrder를 반환
-int AMapBase::GetRenderOrder(const FVector& _CurPos)
+int AMapBase::GetRenderOrder(const FVector& _Pos)
 {
-	FVector CurPos = _CurPos;
+	FVector CurPos = _Pos;
 	CurPos.Y -= StartPos.Y;
 	int CurY = static_cast<int>(CurPos.Y / BlockSize);
 	return Const::MaxOrder - CurY;
@@ -194,11 +195,16 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 }
 
 // 해당 위치 Tile의 ItemType을 반환
-EItemType AMapBase::IsItemTile(const FVector& _CurPos)
+EItemType AMapBase::IsItemTile(const FVector& _Pos)
 {
-	FPoint CurPoint = CovertLocationToPoint(_CurPos);
+	FPoint CurPoint = CovertLocationToPoint(_Pos);
 
-	if (CurPoint.X < 0 || CurPoint.Y < 0 || nullptr == MapInfo[CurPoint.Y][CurPoint.X].Item)
+	if (0 > CurPoint.X || SizeX <= CurPoint.X || 0 > CurPoint.Y || SizeY <= CurPoint.Y)
+	{
+		return EItemType::None;
+	}
+
+	if (nullptr == MapInfo[CurPoint.Y][CurPoint.X].Item)
 	{
 		return EItemType::None;
 	}
@@ -209,6 +215,19 @@ EItemType AMapBase::IsItemTile(const FVector& _CurPos)
 		MapInfo[CurPoint.Y][CurPoint.X].Item = nullptr;
 		return ItemType;
 	}
+}
+
+bool AMapBase::CreateBomb(const FVector& _Pos)
+{
+	FPoint CurPoint = CovertLocationToPoint(_Pos);
+
+	//if (nullptr == MapInfo[CurPo])
+	//{
+	//
+	//}
+
+
+	return false;
 }
 
 

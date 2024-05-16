@@ -15,7 +15,6 @@ public:
 	ABombBase& operator=(const ABombBase& _Other) = delete;
 	ABombBase& operator=(ABombBase&& _Other) noexcept = delete;
 
-
 	void ReduceCurExplosionTime(float _ReduceTime)
 	{
 		CurExplosionTime -= _ReduceTime;
@@ -28,13 +27,12 @@ protected:
 private:
 	AMainPlayLevel* PlayLevel = nullptr;
 
-	UDefaultSceneComponent* DefaultComponent;
-	USpriteRenderer* BombRenderer;
-	USpriteRenderer* EffectRenderer_C;
-	USpriteRenderer* EffectRenderer_L;
-	USpriteRenderer* EffectRenderer_R;
-	USpriteRenderer* EffectRenderer_U;
-	USpriteRenderer* EffectRenderer_D;
+	USpriteRenderer* Body;
+	USpriteRenderer* Effect_Center;
+	USpriteRenderer* Effect_Left;
+	USpriteRenderer* Effect_Right;
+	USpriteRenderer* Effect_Up;
+	USpriteRenderer* Effect_Down;
 
 	float BlockSize = 0.0f;
 	float ExplosionTime = 2.0f;
