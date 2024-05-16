@@ -78,6 +78,6 @@ void ServerTestPlayer::SpawnBomb()
 
 	Boom->SetObjectToken(GetToken);
 	Boom->SetActorLocation(GetActorLocation());
-	Send(SpawnPacket);
+	Send(SpawnPacket, Boom->GetObjectToken());
 	IsSpawn = false;
 }
