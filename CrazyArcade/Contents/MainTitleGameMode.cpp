@@ -190,8 +190,6 @@ void AMainTitleGameMode::BeginPlay()
 
 void AMainTitleGameMode::Tick(float _DeltaTime)
 {
-
-
 	Super::Tick(_DeltaTime);
 
 	/*if (UEngineInput::IsAnykeyDown())
@@ -221,17 +219,22 @@ void AMainTitleGameMode::Tick(float _DeltaTime)
 		{
 			UCrazyArcadeCore::NetWindow->ServerOpen();
 			GEngine->ChangeLevel("LobbyTitleTestLevel");
+
+			ConnectionInfo::GetInst().PushUserInfos(UCrazyArcadeCore::Net->GetSessionToken(), PlayerName);
+			ConnectionInfo::GetInst().SetOrder(UCrazyArcadeCore::Net->GetSessionToken());
 		}
 
 		if (UEngineInput::IsDown('C'))
 		{
 			UCrazyArcadeCore::NetWindow->ClientOpen(PlayerName,3);
 			GEngine->ChangeLevel("LobbyTitleTestLevel");
-			std::shared_ptr<UConnectNumberPacket> NumberPacket = std::make_shared<UConnectNumberPacket>();
+
 			std::shared_ptr<UConnectInitPacket> InitPacket = std::make_shared<UConnectInitPacket>();
 			InitPacket->Session = UCrazyArcadeCore::Net->GetSessionToken();
-			
-			
+			InitPacket->Name = PlayerName;
+
+			ConnectionInfo::GetInst().SetOrder(UCrazyArcadeCore::Net->GetSessionToken());
+
 			UCrazyArcadeCore::Net->Send(InitPacket);
 		}
 
@@ -274,7 +277,7 @@ void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
 	{
 		return;
 	}
-	ConnectionInfo::GetInst().SetMyName(PlayerName);
+	//ConnectionInfo::GetInst().SetMyName(PlayerName);
 	//Lobby->SetUserName(PlayerName);
 	//UEngineInputRecorder::RecordEnd();
 }
