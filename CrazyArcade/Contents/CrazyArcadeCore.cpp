@@ -46,8 +46,8 @@ void UCrazyArcadeCore::Tick(float _DeltaTime)
 	int Order = ServerNumber::GetInst().GetOrder();
 	std::string MyName = ServerNumber::GetInst().GetMyName();
 	std::map<int, std::string> Map = ServerNumber::GetInst().GetUserInfos(); 
-	
 	int a = 0;
+
 	if (false == IsFunctionInit)
 	{
 		if (nullptr == UCrazyArcadeCore::Net)
@@ -65,10 +65,15 @@ void UCrazyArcadeCore::Tick(float _DeltaTime)
 						int Order = _Packet->ConnectNum;
 						std::string Name = _Packet->UserName;
 						ServerNumber::GetInst().SetSessionCount(Order);
-						ServerNumber::GetInst().SetOrder(Order);
-						ServerNumber::GetInst().SetMyName(Name);
-						ServerNumber::GetInst().PushUserInfos(Order, Name);
-						/*UCrazyArcadeCore::Net->SetSessionCount(_Packet->ConnectNum);*/
+
+						if (false == ClientInfoInit)
+						{
+							ServerNumber::GetInst().SetOrder(Order);
+							ServerNumber::GetInst().SetMyName(Name);
+							ClientInfoInit = true;
+						}
+
+						ServerNumber::GetInst().SetUserInfos(_Packet->Infos);
 					});
 			});
 
@@ -113,14 +118,22 @@ void UCrazyArcadeCore::Tick(float _DeltaTime)
 				ServerNumber::GetInst().SetSessionCount(Server->GetCurSessionToken());
 				std::shared_ptr<UConnectNumberPacket> ConnectNumPacket = std::make_shared<UConnectNumberPacket>();
 
-
 				int Count = ServerNumber::GetInst().GetCurSessionCount();
 				std::string Name = ServerNumber::GetInst().GetMyName();
-				ConnectNumPacket->ConnectNum = Count;
-				ServerNumber::GetInst().SetOrder(Count);
-				ServerNumber::GetInst().PushUserInfos(Count, Name);
-				ConnectNumPacket->UserName = Name;
+				
+				if (false == ServerInfoInit)
+				{
+					ServerNumber::GetInst().SetOrder(Count);
+					ServerNumber::GetInst().SetMyName(Name);
+					ServerInfoInit = true;
+				}
 
+				ServerNumber::GetInst().PushUserInfos(Count, Name);
+				
+				ConnectNumPacket->ConnectNum = Count;
+				ConnectNumPacket->UserName = Name;
+				
+				ConnectNumPacket->Infos = ServerNumber::GetInst().GetUserInfos();
 				UCrazyArcadeCore::Net->Send(ConnectNumPacket);
 			}
 		}
