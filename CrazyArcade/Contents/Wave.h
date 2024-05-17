@@ -20,6 +20,11 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private:
+	void SetImgCutting();
+	void CreateAnimation();
+
+private:
+	USpriteRenderer* Body = nullptr;
 
 };
 

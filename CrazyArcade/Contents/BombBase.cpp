@@ -11,25 +11,7 @@ ABombBase::ABombBase()
 	UDefaultSceneComponent* Root = CreateDefaultSubObject<UDefaultSceneComponent>("Root");
 
 	Body = CreateDefaultSubObject<USpriteRenderer>("Bomb");
-	Body->SetupAttachment(Root);
-
-
-	////
-	//Effect_Center = CreateDefaultSubObject<USpriteRenderer>("Effect_Center");
-	//Effect_Center->SetupAttachment(Root);
-
-	//Effect_Left = CreateDefaultSubObject<USpriteRenderer>("Effect_Left");
-	//Effect_Left->SetupAttachment(Root);
-
-	//Effect_Right = CreateDefaultSubObject<USpriteRenderer>("Effect_Right");
-	//Effect_Right->SetupAttachment(Root);
-
-	//Effect_Up = CreateDefaultSubObject<USpriteRenderer>("Effect_Up");
-	//Effect_Up->SetupAttachment(Root);
-
-	//Effect_Down = CreateDefaultSubObject<USpriteRenderer>("Effect_Down");
-	//Effect_Down->SetupAttachment(Root);
-	////
+	Body->SetupAttachment(Root);	
 
 	SetRoot(Root);
 }
@@ -54,15 +36,6 @@ void ABombBase::SetImgCutting()
 {
 	UEngineSprite::CreateCutting(MapImgRes::bomb, 3, 1);
 	UEngineSprite::CreateCutting(MapImgRes::bomb_effect_center, 3, 1);
-	
-	UEngineSprite::CreateCutting(MapImgRes::bomb_effect_left1, 11, 1);
-	UEngineSprite::CreateCutting(MapImgRes::bomb_effect_left2, 11, 1);
-	UEngineSprite::CreateCutting(MapImgRes::bomb_effect_right1, 11, 1);
-	UEngineSprite::CreateCutting(MapImgRes::bomb_effect_right2, 11, 1);
-	UEngineSprite::CreateCutting(MapImgRes::bomb_effect_up1, 11, 1);
-	UEngineSprite::CreateCutting(MapImgRes::bomb_effect_up2, 11, 1);
-	UEngineSprite::CreateCutting(MapImgRes::bomb_effect_down1, 11, 1);
-	UEngineSprite::CreateCutting(MapImgRes::bomb_effect_down2, 11, 1);
 }
 
 void ABombBase::RendererInit()
@@ -73,26 +46,6 @@ void ABombBase::RendererInit()
 	Body->CreateAnimation(MapAnim::bomb_effect_center, MapImgRes::bomb_effect_center, 0.1f, false);
 	Body->SetAutoSize(1.0f, true);
 	Body->SetActive(false);
-	
-	//Effect_Left->CreateAnimation(MapAnim::bomb_effect_left1, MapImgRes::bomb_effect_left1, 0.05f, false, 0, 10);
-	//Effect_Left->SetPosition({ -BlockSize, 0.0f, 0.0f });
-	//Effect_Left->SetAutoSize(1.0f, true);
-	//Effect_Left->SetActive(false);
-
-	//Effect_Right->CreateAnimation(MapAnim::bomb_effect_right1, MapImgRes::bomb_effect_right1, 0.05f, false, 0, 10);
-	//Effect_Right->SetPosition({ BlockSize, 0.0f, 0.0f });
-	//Effect_Right->SetAutoSize(1.0f, true);
-	//Effect_Right->SetActive(false);
-
-	//Effect_Up->CreateAnimation(MapAnim::bomb_effect_up1, MapImgRes::bomb_effect_up1, 0.05f, false, 0, 10);
-	//Effect_Up->SetPosition({ 0.0f, BlockSize, 0.0f });
-	//Effect_Up->SetAutoSize(1.0f, true);
-	//Effect_Up->SetActive(false);
-
-	//Effect_Down->CreateAnimation(MapAnim::bomb_effect_down1, MapImgRes::bomb_effect_down1, 0.05f, false, 0, 10);
-	//Effect_Down->SetPosition({ 0.0f, -BlockSize, 0.0f });
-	//Effect_Down->SetAutoSize(1.0f, true);
-	//Effect_Down->SetActive(false);
 }
 
 void ABombBase::StateInit()
@@ -110,30 +63,12 @@ void ABombBase::StateInit()
 			Body->SetActive(true);
 
 			ExplosionTimeCount = ExplosionTime;
-
-
-
-			//Effect_Left->SetOrder(BombOrder);
-			//Effect_Right->SetOrder(BombOrder);
-			//Effect_Up->SetOrder(BombOrder);
-			//Effect_Down->SetOrder(BombOrder);
 		}
 	);
 
 	State.SetStartFunction(BombState::explosion, [=] 
 		{
 			Body->ChangeAnimation(MapAnim::bomb_effect_center);
-
-			//Effect_Left->ChangeAnimation(MapAnim::bomb_effect_left1);
-			//Effect_Right->ChangeAnimation(MapAnim::bomb_effect_right1);
-			//Effect_Up->ChangeAnimation(MapAnim::bomb_effect_up1);
-			//Effect_Down->ChangeAnimation(MapAnim::bomb_effect_down1);
-			
-			//Effect_Left->SetActive(true);
-			//Effect_Right->SetActive(true);
-			//Effect_Up->SetActive(true);
-			//Effect_Down->SetActive(true);
-
 		}
 	);
 
