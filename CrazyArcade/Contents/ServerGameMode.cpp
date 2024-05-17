@@ -117,8 +117,9 @@ void AServerGameMode::ServerPacketInit(UEngineDispatcher& Dis)
 					MyBomb->PushProtocol(_Packet);
 					MyBomb->SetActorLocation(_Packet->Pos);
 
-					FPoint Point = GetMap()->ConvertLocationToPoint(_Packet->Pos);
+					FPoint Point = AMapBase::ConvertLocationToPoint(_Packet->Pos);
 					MyBomb->SetCurPoint(Point);
+					GetMap()->SetMapBomb(Point, MyBomb);
 
 					FEngineTimeStamp Stamp = UEngineTime::GetCurTime();
 					float FloatResult = Stamp.TimeToFloat();
@@ -153,8 +154,9 @@ void AServerGameMode::ClientPacketInit(UEngineDispatcher& Dis)
 					MyBomb->PushProtocol(_Packet);
 					MyBomb->SetActorLocation(_Packet->Pos);
 
-					FPoint Point = GetMap()->ConvertLocationToPoint(_Packet->Pos);
+					FPoint Point = AMapBase::ConvertLocationToPoint(_Packet->Pos);
 					MyBomb->SetCurPoint(Point);
+					GetMap()->SetMapBomb(Point, MyBomb);
 
 					FEngineTimeStamp Stamp = UEngineTime::GetCurTime();
 					float FloatResult = Stamp.TimeToFloat();

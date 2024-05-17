@@ -13,9 +13,9 @@ class ABox;
 class UTileInfo
 {
 public:
-	std::shared_ptr<ABlockBase> Block = nullptr;
-	std::shared_ptr<AItemBase> Item = nullptr;
-	std::shared_ptr<ABombBase> Bomb = nullptr;
+	ABlockBase* Block = nullptr;
+	AItemBase* Item = nullptr;
+	ABombBase* Bomb = nullptr;
 };
 
 // 설명 : Map 기초 클래스
@@ -52,15 +52,21 @@ public:
 	}
 
 	// 해당 좌표 Tile의 블록을 반환
-	std::shared_ptr<ABlockBase> GetMapBlock(FPoint _Point) const
+	ABlockBase* GetMapBlock(FPoint _Point) const
 	{
 		return TileInfo[_Point.Y][_Point.X].Block;
 	}
 
 	// 해당 좌표 Tile에 블록을 설정
-	void SetMapBlock(FPoint _Point, std::shared_ptr<ABlockBase> _Block)
+	void SetMapBlock(FPoint _Point, ABlockBase* _Block)
 	{
 		TileInfo[_Point.Y][_Point.X].Block = _Block;
+	}
+		
+	// 해당 좌표 Tile에 블록을 설정
+	void SetMapBomb(FPoint _Point, ABombBase* _Bomb)
+	{
+		TileInfo[_Point.Y][_Point.X].Bomb = _Bomb;
 	}
 
 protected:
