@@ -5,6 +5,9 @@
 #include "MapBase.h"
 #include "CrazyArcadeCore.h"
 
+std::map<int, bool> FPlayerInfo::IsDeads;
+std::map<int, std::string> FPlayerInfo::Names;
+
 APlayer::APlayer()
 {
 	DefaultComponent = CreateDefaultSubObject<UDefaultSceneComponent>("DefaultComponent");
@@ -175,8 +178,8 @@ void APlayer::AddItemCount(EItemType _ItemType)
 
 void APlayer::SetPlayerDead()
 {
-	//int MySessionToken = UCrazyArcadeCore::Net->GetSessionToken();
-	//FPlayerInfo::IsDeads[MySessionToken] = true;
+	IsDead = true;
+	PlayerInfoUpdate();
 }
 
 void APlayer::SetCharacterType(ECharacterType _Character)
@@ -233,4 +236,13 @@ void APlayer::SetPlayerColor(ECharacterColor _Color)
 
 void APlayer::PlayerInfoUpdate()
 {
+	if (nullptr != UCrazyArcadeCore::Net)
+	{
+		int MySessionToken = UCrazyArcadeCore::Net->GetSessionToken();
+		FPlayerInfo::IsDeads[MySessionToken] = IsDead;
+	}
+	else
+	{
+		return;
+	}
 }
