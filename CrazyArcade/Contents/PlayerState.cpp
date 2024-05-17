@@ -76,7 +76,15 @@ void APlayer::StateInit()
 	State.SetUpdateFunction("Revival", std::bind(&APlayer::Revival, this, std::placeholders::_1));
 	State.SetStartFunction("Revival", [=]()
 		{
+			if (IsTraped == false)
+			{
+				State.ChangeState("Idle");
+				return;
+			}
+
 			CurSpeed = BaseSpeed + Speed;
+			Renderer->ChangeAnimation(Type + PlayerColorText + "_Revival");
+			IsTraped = false;
 		});
 
 	State.ChangeState("Idle");
@@ -216,6 +224,13 @@ void APlayer::Traped(float _DeltaTime)
 	{
 		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
 	}
+
+	// 바늘 사용하면
+	if (true == IsDown('2'))
+	{
+		State.ChangeState("Revival");
+		return;
+	}
 }
 
 void APlayer::TrapEnd(float _DeltaTime)
@@ -240,6 +255,13 @@ void APlayer::TrapEnd(float _DeltaTime)
 	{
 		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
 	}
+
+	// 바늘 사용하면
+	if (true == IsDown('2'))
+	{
+		State.ChangeState("Revival");
+		return;
+	}
 }
 
 void APlayer::Die(float _Update)
@@ -248,6 +270,11 @@ void APlayer::Die(float _Update)
 
 void APlayer::Revival(float _DeltaTime)
 {
+	if (Renderer->IsCurAnimationEnd())
+	{
+		State.ChangeState("Idle");
+		return;
+	}
 }
 
 void APlayer::KeyMove(float _DeltaTime, FVector _Dir, float _Speed)
