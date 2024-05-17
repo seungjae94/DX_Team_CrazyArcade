@@ -45,6 +45,8 @@ public:
 		++BombCount;
 	}
 
+	void SetPlayerColor(EPlayerColor _Color);
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -79,7 +81,6 @@ protected:
 
 	void PickUpItem();
 	void AddItemCount(EItemType _ItemType);
-	void SetPlayerColor(EPlayerColor _Color);
 	std::string PlayerColor = "";
 
 	//State
