@@ -93,6 +93,7 @@ protected:
 	void PickUpItem();
 	void AddItemCount(EItemType _ItemType);
 
+	float DevilTime = 10.0f;
 	void Devil(float _DeltaTime);
 
 	ECharacterType PlayerType = ECharacterType::Bazzi;
