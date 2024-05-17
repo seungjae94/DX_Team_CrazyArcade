@@ -48,9 +48,9 @@ void APlayer::BeginPlay()
 
 	// 이미지 컷팅
 	UEngineSprite::CreateCutting("Bazzi_R_1.png", 5, 18);
-	UEngineSprite::CreateCutting("Bazzi_2.png", 5, 2);
-	UEngineSprite::CreateCutting("Bazzi_3.png", 5, 4);
-	UEngineSprite::CreateCutting("Bazzi_4.png", 5, 7);
+	UEngineSprite::CreateCutting("Bazzi_R_2.png", 5, 2);
+	UEngineSprite::CreateCutting("Bazzi_R_3.png", 5, 4);
+	UEngineSprite::CreateCutting("Bazzi_R_4.png", 5, 7);
 
 	UEngineSprite::CreateCutting("Bazzi_Y_1.png", 5, 18);
 	//UEngineSprite::CreateCutting("Bazzi_Y_2.png", 5, 2);
@@ -62,16 +62,19 @@ void APlayer::BeginPlay()
 
 	// 애니메이션 생성
 	//Bazzi
-	PlayerCreateAnimation("Bazzi_R");
-	Renderer->CreateAnimation("Bazzi_R_TrapStart", "Bazzi_4.png", 0.07f, false, 6, 10);
-	Renderer->CreateAnimation("Bazzi_R_Traped", "Bazzi_4.png", 0.2f, false, 11, 23);
-	Renderer->CreateAnimation("Bazzi_R_TrapEnd", "Bazzi_4.png", 0.25f, false, 24, 31);
-	Renderer->CreateAnimation("Bazzi_R_Die", "Bazzi_2.png", 0.15f, false, 0, 5);
-	Renderer->CreateAnimation("Bazzi_R_Revival", "Bazzi_2.png", 0.15f, false, 6, 9);
+	PlayerCreateBazziAnimation("_R");
+	Renderer->CreateAnimation("Bazzi_R_TrapStart", "Bazzi_R_4.png", 0.07f, false, 6, 10);
+	Renderer->CreateAnimation("Bazzi_R_Traped", "Bazzi_R_4.png", 0.2f, false, 11, 23);
+	Renderer->CreateAnimation("Bazzi_R_TrapEnd", "Bazzi_R_4.png", 0.25f, false, 24, 31);
+	Renderer->CreateAnimation("Bazzi_R_Die", "Bazzi_R_2.png", 0.15f, false, 0, 5);
+	Renderer->CreateAnimation("Bazzi_R_Revival", "Bazzi_R_2.png", 0.15f, false, 6, 9);
+	
+	PlayerCreateBazziAnimation("_Y");
+	PlayerCreateBazziAnimation("_G");
+	PlayerCreateBazziAnimation("_B");
+	PlayerCreateBazziAnimation("_P");
 
-	PlayerCreateAnimation("Bazzi_Y");
-	PlayerCreateAnimation("Bazzi_G");
-	PlayerCreateAnimation("Bazzi_P");
+	PlayerCreateAnimation("Dao_R");
 
 	Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Down");
 	Renderer->SetAutoSize(0.9f, true);
@@ -117,6 +120,21 @@ void APlayer::Tick(float _DeltaTime)
 	PickUpItem(_DeltaTime);
 }
 
+void APlayer::PlayerCreateBazziAnimation(std::string _Color)
+{
+
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Ready", "Bazzi" + _Color + "_1.png", 0.06f, false, 37, 53);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Idle_Left", "Bazzi" + _Color + "_1.png", 1.0f, false, 0, 0);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Idle_Right", "Bazzi" + _Color + "_1.png", 1.0f, false, 6, 6);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Idle_Up", "Bazzi" + _Color + "_1.png", 1.0f, false, 12, 12);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Idle_Down", "Bazzi" + _Color + "_1.png", 1.0f, false, 20, 20);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Left", "Bazzi" + _Color + "_1.png", 0.1f, true, 1, 5);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Right", "Bazzi" + _Color + "_1.png", 0.1f, true, 7, 11);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Up", "Bazzi" + _Color + "_1.png", 0.1f, true, 13, 19);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Down", "Bazzi" + _Color + "_1.png", 0.1f, true, 21, 28);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Win", "Bazzi" + _Color + "_1.png", 0.1f, true, 29, 36);
+}
+
 void APlayer::PlayerCreateAnimation(std::string _CharacterType_Color)
 {
 	Renderer->CreateAnimation(_CharacterType_Color + "_Ready", _CharacterType_Color + "_1.png", 0.06f, false, 37, 53);
@@ -145,13 +163,13 @@ void APlayer::PickUpItem(float _DeltaTime)
 		++BombCount;
 		break;
 	case EItemType::Devil:
-	/*	if (0.0f <= RenderChangeTime && RenderChangeTime < 0.5f)
+		if (0.0f <= RenderChangeTime && RenderChangeTime < 0.5f)
 		{
-			Renderer->SetMulColor({0.7f, 1.0f, 1.0f, 1.0f});
+			Renderer->SetMulColor({-0.7f, 1.0f, 1.0f, 1.0f});
 		}
 		else if (0.5f <= RenderChangeTime && RenderChangeTime < 1.0f)
 		{
-			Renderer->SetMulColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+			Renderer->SetMulColor(FVector::One);
 		}
 		else
 		{
@@ -159,7 +177,7 @@ void APlayer::PickUpItem(float _DeltaTime)
 			RenderChangeTime = 0.0f;
 		}
 
-		RenderChangeTime += _DeltaTime;*/
+		RenderChangeTime += _DeltaTime;
 		break;
 	case EItemType::Fluid:
 		if (BombPower < MaxBombPower)

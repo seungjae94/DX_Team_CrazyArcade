@@ -92,6 +92,7 @@ protected:
 	std::string Type = "Bazzi";
 	ECharacterColor PlayerColor = ECharacterColor::Red;
 	std::string PlayerColorText = "_R";
+	void PlayerCreateBazziAnimation(std::string _Color);
 	void PlayerCreateAnimation(std::string _CharacterType_Color);
 
 	//State
