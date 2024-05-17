@@ -159,7 +159,7 @@
     <ClInclude Include="MapHelper.h">
       <Filter>Map\Helper</Filter>
     </ClInclude>
-    <ClInclude Include="ServerNumber.h">
+    <ClInclude Include="ConnectionInfo.h">
       <Filter>Level\ServerLevel</Filter>
     </ClInclude>
     <ClInclude Include="Wave.h">
@@ -256,7 +256,7 @@
     <ClCompile Include="ServerHelper.cpp">
       <Filter>Level\ServerLevel</Filter>
     </ClCompile>
-    <ClCompile Include="ServerNumber.cpp">
+    <ClCompile Include="ConnectionInfo.cpp">
       <Filter>Level\ServerLevel</Filter>
     </ClCompile>
     <ClCompile Include="Wave.cpp">

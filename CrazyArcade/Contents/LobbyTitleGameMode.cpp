@@ -3,7 +3,7 @@
 
 #include <format>
 
-#include "ServerNumber.h"
+#include "ConnectionInfo.h"
 #include "MainTitleGameMode.h"
 
 ALobbyTitleGameMode::ALobbyTitleGameMode()
@@ -655,15 +655,15 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 {
 	// PlayerInfo Update
 	{
-		Player.SpaceIndex = ServerNumber::GetInst().GetOrder();
-		Player.Name = ServerNumber::GetInst().GetMyName();
+		Player.SpaceIndex = ConnectionInfo::GetInst().GetOrder();
+		Player.Name = ConnectionInfo::GetInst().GetMyName();
 
-		ServerNumber::GetInst().PushUserInfos(Player.SpaceIndex, Player.Name);
+		ConnectionInfo::GetInst().PushUserInfos(Player.SpaceIndex, Player.Name);
 	}
 
 	// UserInfos Update
 	{
-		std::map<int, std::string> ServerUserInfos = ServerNumber::GetInst().GetUserInfos();
+		std::map<int, std::string> ServerUserInfos = ConnectionInfo::GetInst().GetUserInfos();
 
 		for (int i = 0; i < 8; i++)
 		{
@@ -673,7 +673,7 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 
 	// Space Update
 	{
-		int UserCnt = ServerNumber::GetInst().GetCurSessionCount();
+		int UserCnt = ConnectionInfo::GetInst().GetCurSessionCount();
 		for (int i = 0; i < UserCnt + 1; i++)
 		{
 			SpaceOn(i);

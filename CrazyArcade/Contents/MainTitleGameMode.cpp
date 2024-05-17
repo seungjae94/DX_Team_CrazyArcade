@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "LobbyTitleGameMode.h"
-#include"ServerNumber.h"
+#include"ConnectionInfo.h"
 
 class ALobbyTitleGameMode;
 
@@ -227,7 +227,7 @@ void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
 	{
 		return;
 	}
-	ServerNumber::GetInst().SetMyName(PlayerName);
+	ConnectionInfo::GetInst().SetMyName(PlayerName);
 	//Lobby->SetUserName(PlayerName);
 	//UEngineInputRecorder::RecordEnd();
 }
