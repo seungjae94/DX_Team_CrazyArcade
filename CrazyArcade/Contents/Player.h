@@ -11,10 +11,11 @@ enum class EPlayerDir
 	Down,
 };
 
-enum class EPlayerColor
+struct FPlayerInfo
 {
-	Red,
-	Yellow,
+	// 키: 세션 토큰
+	static std::vector<bool> IsDeads; // IsDeads[3]: 3번 플레이어가 죽었는지
+	static std::vector<std::string> Names; // Names[3]: 3번 플레이어의 이름
 };
 
 class AMainPlayLevel;
@@ -45,7 +46,10 @@ public:
 		++BombCount;
 	}
 
-	void SetPlayerColor(EPlayerColor _Color);
+	void SetPlayerDead();
+	void SetCharacterType(ECharacterType _Character);
+	void SetPlayerColor(ECharacterColor _Color);
+	void PlayerInfoUpdate();
 
 protected:
 	void BeginPlay() override;
