@@ -44,8 +44,10 @@ void AServerGameMode::Tick(float _DeltaTime)
 	int a = 0;
 }
 
-void AServerGameMode::LevelStart(ULevel* _DeltaTime)
+void AServerGameMode::LevelStart(ULevel* _PrevLevel)
 {
+	Super::LevelStart(_PrevLevel);
+
 	if (nullptr == NetWindow)
 	{
 		NetWindow = UEngineEditorGUI::CreateEditorWindow<UEngineNetWindow>("NetWindow");
@@ -165,7 +167,9 @@ void AServerGameMode::ClientPacketInit(UEngineDispatcher& Dis)
 		});
 }
 
-void AServerGameMode::LevelEnd(ULevel* _DeltaTime)
+void AServerGameMode::LevelEnd(ULevel* _NextLevel)
 {
+	Super::LevelEnd(_NextLevel);
+
 	NetWindow->Off();
 }
