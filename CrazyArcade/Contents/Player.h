@@ -80,6 +80,7 @@ protected:
 	bool Throw = false;
 
 	bool IsDevil = false;
+	bool MoveDevil = false;
 
 	float RenderChangeTime = 0.0f;
 

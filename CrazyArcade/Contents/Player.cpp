@@ -1,6 +1,6 @@
 #include "PreCompile.h"
 #include "Player.h"
-
+#include <EngineBase/EngineRandom.h>
 #include "MainPlayLevel.h"
 #include "MapBase.h"
 #include "CrazyArcadeCore.h"
@@ -50,14 +50,6 @@ void APlayer::BeginPlay()
 	PlayerCreateCuttingBazzi("_R");
 	PlayerCreateCuttingBazzi("_B");
 
-	UEngineSprite::CreateCutting("Bazzi_Y_1.png", 5, 18);
-	//UEngineSprite::CreateCutting("Bazzi_Y_2.png", 5, 2);
-	//UEngineSprite::CreateCutting("Bazzi_Y_3.png", 5, 4);
-	//UEngineSprite::CreateCutting("Bazzi_Y_4.png", 5, 7);
-
-	UEngineSprite::CreateCutting("Bazzi_G_1.png", 5, 18);
-	UEngineSprite::CreateCutting("Bazzi_P_1.png", 5, 18);
-
 	PlayerCreateCutting("Dao_R");
 	PlayerCreateCutting("Dao_B");
 
@@ -68,18 +60,10 @@ void APlayer::BeginPlay()
 	// 애니메이션 생성
 	//Bazzi
 	PlayerCreateBazziAnimation("_R");
-	Renderer->CreateAnimation("Bazzi_R_TrapStart", "Bazzi_R_4.png", 0.07f, false, 6, 10);
-	Renderer->CreateAnimation("Bazzi_R_Traped", "Bazzi_R_4.png", 0.2f, false, 11, 23);
-	Renderer->CreateAnimation("Bazzi_R_TrapEnd", "Bazzi_R_4.png", 0.25f, false, 24, 31);
-	Renderer->CreateAnimation("Bazzi_R_Die", "Bazzi_R_2.png", 0.15f, false, 0, 5);
-	Renderer->CreateAnimation("Bazzi_R_Revival", "Bazzi_R_2.png", 0.15f, false, 6, 9);
-	
-	PlayerCreateBazziAnimation("_Y");
-	PlayerCreateBazziAnimation("_G");
 	PlayerCreateBazziAnimation("_B");
-	PlayerCreateBazziAnimation("_P");
 
 	PlayerCreateAnimation("Dao_R");
+	PlayerCreateAnimation("Dao_B");
 
 	PlayerCreateAnimation("luxMarid_R");
 	PlayerCreateAnimation("luxMarid_O");
@@ -119,22 +103,35 @@ void APlayer::Tick(float _DeltaTime)
 		UEngineDebugMsgWindow::PushMsg(Msg);
 	}
 	// 임의 적용 테스트
-	if (true == IsDown('Y'))
+	if (true == IsDown('C'))
 	{
-		SetPlayerColor(ECharacterColor::Yellow);
+		if (ECharacterColor::Red == PlayerColor)
+		{
+			SetPlayerColor(ECharacterColor::Blue);
+		}
+		else if (ECharacterColor::Blue == PlayerColor)
+		{
+			SetPlayerColor(ECharacterColor::Red);
+		}
 	}
-	if (true == IsDown('M'))
+	if (true == IsDown('B'))
 	{
-		SetCharacterType(ECharacterType::Marid);
+		SetCharacterType(ECharacterType::Bazzi);
 	}
 	if (true == IsDown('O'))
 	{
 		SetCharacterType(ECharacterType::Dao);
 	}
+	if (true == IsDown('M'))
+	{
+		SetCharacterType(ECharacterType::Marid);
+	}
 
 	PlayerPos = GetActorLocation();
 
 	PickUpItem();
+
+	Devil(_DeltaTime);
 }
 
 void APlayer::PlayerCreateCuttingBazzi(std::string _Color)
@@ -167,6 +164,11 @@ void APlayer::PlayerCreateBazziAnimation(std::string _Color)
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Up", "Bazzi" + _Color + "_1.png", 0.1f, true, 13, 19);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Down", "Bazzi" + _Color + "_1.png", 0.1f, true, 21, 28);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Win", "Bazzi" + _Color + "_1.png", 0.1f, true, 29, 36);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_TrapStart", "Bazzi" + _Color + "_4.png", 0.07f, false, 6, 10);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Traped", "Bazzi" + _Color + "_4.png", 0.2f, false, 11, 23);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_TrapEnd", "Bazzi" + _Color + "_4.png", 0.25f, false, 24, 31);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Die", "Bazzi" + _Color + "_2.png", 0.15f, false, 0, 5);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Revival", "Bazzi" + _Color + "_2.png", 0.15f, false, 6, 9);
 }
 
 void APlayer::PlayerCreateAnimation(std::string _CharacterType_Color)
@@ -226,7 +228,8 @@ void APlayer::PickUpItem()
 		++BombCount;
 		break;
 	case EItemType::Devil:
-
+		IsDevil = true;
+		MoveDevil = UEngineRandom::MainRandom.RandomInt(0, 1);
 		break;
 	case EItemType::Fluid:
 		if (BombPower < MaxBombPower)
@@ -288,6 +291,10 @@ void APlayer::Devil(float _DeltaTime)
 		}
 
 		RenderChangeTime += _DeltaTime;
+		if (false == MoveDevil)
+		{
+
+		}
 	}
 	
 }
