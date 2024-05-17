@@ -55,26 +55,20 @@ void APlayer::BeginPlay()
 	//UEngineSprite::CreateCutting("Bazzi_Y_4.png", 5, 7);
 
 	UEngineSprite::CreateCutting("Bazzi_G_1.png", 5, 18);
+	UEngineSprite::CreateCutting("Bazzi_P_1.png", 5, 18);
 
 	// 애니메이션 생성
-	//Bazzi_R
-	Renderer->CreateAnimation("Bazzi_R_Ready", "Bazzi_R_1.png", 0.06f, false, 37, 53);
-	Renderer->CreateAnimation("Bazzi_R_Idle_Left", "Bazzi_R_1.png", 1.0f, false, 0, 0);
-	Renderer->CreateAnimation("Bazzi_R_Idle_Right", "Bazzi_R_1.png", 1.0f, false, 6, 6);
-	Renderer->CreateAnimation("Bazzi_R_Idle_Up", "Bazzi_R_1.png", 1.0f, false, 12, 12);
-	Renderer->CreateAnimation("Bazzi_R_Idle_Down", "Bazzi_R_1.png", 1.0f, false, 20, 20);
-	Renderer->CreateAnimation("Bazzi_R_Run_Left", "Bazzi_R_1.png", 0.1f, true, 1, 5);
-	Renderer->CreateAnimation("Bazzi_R_Run_Right", "Bazzi_R_1.png", 0.1f, true, 7, 11);
-	Renderer->CreateAnimation("Bazzi_R_Run_Up", "Bazzi_R_1.png", 0.1f, true, 13, 19);
-	Renderer->CreateAnimation("Bazzi_R_Run_Down", "Bazzi_R_1.png", 0.1f, true, 21, 28);
-	Renderer->CreateAnimation("Bazzi_R_Win", "Bazzi_R_1.png", 0.1f, true, 29, 36);
+	//Bazzi
+	PlayerCreateAnimation("Bazzi_R");
 	Renderer->CreateAnimation("Bazzi_R_TrapStart", "Bazzi_4.png", 0.07f, false, 6, 10);
 	Renderer->CreateAnimation("Bazzi_R_Traped", "Bazzi_4.png", 0.2f, false, 11, 23);
 	Renderer->CreateAnimation("Bazzi_R_TrapEnd", "Bazzi_4.png", 0.25f, false, 24, 31);
 	Renderer->CreateAnimation("Bazzi_R_Die", "Bazzi_2.png", 0.15f, false, 0, 5);
 	Renderer->CreateAnimation("Bazzi_R_Revival", "Bazzi_2.png", 0.15f, false, 6, 9);
 
-
+	PlayerCreateAnimation("Bazzi_Y");
+	PlayerCreateAnimation("Bazzi_G");
+	PlayerCreateAnimation("Bazzi_P");
 
 	Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Down");
 	Renderer->SetAutoSize(0.9f, true);
@@ -110,18 +104,33 @@ void APlayer::Tick(float _DeltaTime)
 		UEngineDebugMsgWindow::PushMsg(Msg);
 	}
 	// 임의 적용 테스트
-	if (true == IsDown('R'))
+	if (true == IsDown('Y'))
 	{
 		SetPlayerColor(ECharacterColor::Yellow);
 	}
-	//if (true == IsDown('B'))
-	//{
-	//	PickUpItem(EPlayerItem::Bubble);
-	//}
 
 	PlayerPos = GetActorLocation();
 
 	PickUpItem();
+}
+
+void APlayer::PlayerCreateAnimation(std::string _CharacterType_Color)
+{
+	Renderer->CreateAnimation(_CharacterType_Color + "_Ready", _CharacterType_Color + "_1.png", 0.06f, false, 37, 53);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Left", _CharacterType_Color + "_1.png", 1.0f, false, 0, 0);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Right", _CharacterType_Color + "_1.png", 1.0f, false, 6, 6);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Up", _CharacterType_Color + "_1.png", 1.0f, false, 12, 12);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Down", _CharacterType_Color + "_1.png", 1.0f, false, 20, 20);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Run_Left", _CharacterType_Color + "_1.png", 0.1f, true, 1, 5);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Run_Right", _CharacterType_Color + "_1.png", 0.1f, true, 7, 11);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Run_Up", _CharacterType_Color + "_1.png", 0.1f, true, 13, 19);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Run_Down", _CharacterType_Color + "_1.png", 0.1f, true, 21, 28);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Win", _CharacterType_Color + "_1.png", 0.1f, true, 29, 36);
+	//Renderer->CreateAnimation(_CharacterType_Color + "_TrapStart", "Bazzi_4.png", 0.07f, false, 6, 10);
+	//Renderer->CreateAnimation(_CharacterType_Color + "_Traped", "Bazzi_4.png", 0.2f, false, 11, 23);
+	//Renderer->CreateAnimation(_CharacterType_Color + "_TrapEnd", "Bazzi_4.png", 0.25f, false, 24, 31);
+	//Renderer->CreateAnimation(_CharacterType_Color + "_Die", "Bazzi_2.png", 0.15f, false, 0, 5);
+	//Renderer->CreateAnimation(_CharacterType_Color + "_Revival", "Bazzi_2.png", 0.15f, false, 6, 9);
 }
 
 void APlayer::PickUpItem()
@@ -163,7 +172,7 @@ void APlayer::PickUpItem()
 		break;
 	}
 
-	//AddItemCount(_ItemType);
+	AddItemCount(ItemType);
 }
 
 void APlayer::AddItemCount(EItemType _ItemType)
@@ -196,6 +205,8 @@ void APlayer::SetCharacterType(ECharacterType _Character)
 	case ECharacterType::Marid:
 		break;
 	case ECharacterType::Bazzi:
+		PlayerType = ECharacterType::Bazzi;
+		Type = "Bazzi";
 		break;
 	case ECharacterType::Uni:
 		break;
@@ -217,12 +228,15 @@ void APlayer::SetPlayerColor(ECharacterColor _Color)
 	switch (_Color)
 	{
 	case ECharacterColor::Red:
+		PlayerColor = ECharacterColor::Red;
 		PlayerColorText = "_R";
 		break;
 	case ECharacterColor::Yellow:
+		PlayerColor = ECharacterColor::Yellow;
 		PlayerColorText = "_Y";
 		break;
 	case ECharacterColor::Green:
+		PlayerColor = ECharacterColor::Green;
 		PlayerColorText = "_G";
 		break;
 	default:
