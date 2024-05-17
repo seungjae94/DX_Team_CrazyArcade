@@ -168,6 +168,9 @@
     <ClInclude Include="ForestMap.h">
       <Filter>Map\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="ServerManager.h">
+      <Filter>Level\ServerLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -264,6 +267,9 @@
     </ClCompile>
     <ClCompile Include="ForestMap.cpp">
       <Filter>Map\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerManager.cpp">
+      <Filter>Level\ServerLevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

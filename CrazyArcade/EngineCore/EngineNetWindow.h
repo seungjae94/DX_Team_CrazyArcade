@@ -39,6 +39,12 @@ public:
 		return NetType;
 	}
 
+
+	void ServerOpen();
+
+	void ClientOpen(std::string_view _Ip, int _Port);
+
+
 protected:
 	void OnGui(ULevel* Level, float _Delta) override;
 

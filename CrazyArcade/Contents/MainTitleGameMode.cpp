@@ -4,8 +4,13 @@
 
 #include "LobbyTitleGameMode.h"
 #include"ServerNumber.h"
+#include "ServerGameMode.h"
 
-class ALobbyTitleGameMode;
+#include <EngineCore/EngineEditorGUI.h>
+#include "CrazyArcadeCore.h"
+#include "ServerManager.h"
+
+#include "Packets.h"
 
 AMainTitleGameMode::AMainTitleGameMode()
 {
@@ -100,7 +105,7 @@ void AMainTitleGameMode::BeginPlay()
 		PlayerNameBox->ChangeAnimation("ActiveAni");
 		IsNameBoxAct = true;
 		UEngineInputRecorder::RecordStart(TextWidget->GetText());
-		
+
 		GetPlayerName();
 		});
 
@@ -113,6 +118,8 @@ void AMainTitleGameMode::BeginPlay()
 	{
 		GetPlayerName();
 	}
+
+
 }
 
 
@@ -143,12 +150,52 @@ void AMainTitleGameMode::Tick(float _DeltaTime)
 	}*/
 	StringToText();
 
-	
+	if (UCrazyArcadeCore::Net == nullptr) {
+
+		if (UEngineInput::IsDown('S'))
+		{
+			UCrazyArcadeCore::NetWindow->ServerOpen();
+			GEngine->ChangeLevel("LobbyTitleTestLevel");
+		}
+
+		if (UEngineInput::IsDown('C'))
+		{
+			UCrazyArcadeCore::NetWindow->ClientOpen(PlayerName,3);
+			GEngine->ChangeLevel("LobbyTitleTestLevel");
+			std::shared_ptr<UConnectNumberPacket> NumberPacket = std::make_shared<UConnectNumberPacket>();
+			std::shared_ptr<UConnectInitPacket> InitPacket = std::make_shared<UConnectInitPacket>();
+			InitPacket->Session = UCrazyArcadeCore::Net->GetSessionToken();
+			
+			
+			UCrazyArcadeCore::Net->Send(InitPacket);
+		}
+
+	}
+
 }
 
 void AMainTitleGameMode::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
+
+	if (nullptr == UCrazyArcadeCore::NetWindow)
+	{
+		UCrazyArcadeCore::NetWindow = UEngineEditorGUI::CreateEditorWindow<ServerManager>("NetWindow");
+
+		UCrazyArcadeCore::NetWindow->SetServerOpenFunction([&]()
+			{
+				UCrazyArcadeCore::Net = std::make_shared<UEngineServer>();
+				UCrazyArcadeCore::Net->ServerOpen(30000, 512);
+			});
+
+		UCrazyArcadeCore::NetWindow->SetClientConnectFunction([&](std::string IP, short PORT)
+			{
+				UCrazyArcadeCore::Net = std::make_shared<UEngineClient>();
+				UCrazyArcadeCore::Net->Connect(IP, PORT);
+			});
+	}
+	UCrazyArcadeCore::NetWindow->On();
+
 	//UEngineInputRecorder::RecordStart();
 	//레벨 시작과 동시에 입력 받을 준비 
 }
@@ -156,7 +203,7 @@ void AMainTitleGameMode::LevelStart(ULevel* _PrevLevel)
 void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
 {
 	Super::LevelEnd(_NextLevel);
-	
+
 	ALobbyTitleGameMode* Lobby = dynamic_cast<ALobbyTitleGameMode*>(_NextLevel->GetGameMode().get());
 	if (nullptr == Lobby)
 	{
@@ -175,7 +222,7 @@ std::string AMainTitleGameMode::GetPlayerName()
 void AMainTitleGameMode::StringToText()
 {
 	PlayerName = UEngineInputRecorder::GetText();
-	
+
 	if (PlayerName.size() > 0)
 	{
 		TextWidget->SetText(PlayerName);

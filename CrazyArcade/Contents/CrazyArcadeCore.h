@@ -5,8 +5,9 @@
 #include "vector"
 
 #define GetToken UCrazyArcadeCore::GetNewNetObjectTokenSet() 
-
+class ServerManager;
 class UEngineNet;
+class UEngineNetWindow;
 class UCrazyArcadeCore : public UserCore
 {
 public:
@@ -19,12 +20,15 @@ public:
 	UCrazyArcadeCore& operator=(UCrazyArcadeCore&& _Other) noexcept = delete;
 
 	static std::shared_ptr<UEngineNet> Net;
+	static std::shared_ptr<ServerManager> NetWindow;
+
 	static int GetNewNetObjectTokenSet() {
 		return UCrazyArcadeCore::Net->GetSessionToken() * 1000 + UNetObject::GetNewObjectToken();
 	}
 protected:
 	void Initialize() override;
 	void Tick(float _DeltaTime) override;
+
 	std::vector<bool> SessionInitVec = { true, false, false, false, false, false, false, false};
 private:
 	void ResLoad();
