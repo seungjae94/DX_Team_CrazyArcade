@@ -73,6 +73,7 @@ protected:
 	void CreateWall(FPoint _Point, std::string_view _ImgName);
 	void CreateBox(FPoint _Point, std::string_view _ImgName);
 	void CreateMoveBox(FPoint _Point, std::string_view _ImgName);
+	void CreateHollowWall(FPoint _Point);
 	void CreateItem(FPoint _Point, EItemType _ItemType);
 
 private:

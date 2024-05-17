@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "BlockBase.h"
 
+#include "MapConstant.h"
+
 ABlockBase::ABlockBase()
 {
 	UDefaultSceneComponent* Root = CreateDefaultSubObject<UDefaultSceneComponent>("Root");
@@ -22,19 +24,19 @@ void ABlockBase::BeginPlay()
 	Super::BeginPlay();
 
 	StateInit();
-	State.ChangeState("Idle");
+	State.ChangeState(BlockBaseState::idle);
 }
 
 void ABlockBase::StateInit()
 {
 	// State Create
-	State.CreateState("Idle");
+	State.CreateState(BlockBaseState::idle);
 
 	// State Start
-	State.SetStartFunction("Idle", [=] {});
+	State.SetStartFunction(BlockBaseState::idle, [=] {});
 
 	// State Update
-	State.SetUpdateFunction("Idle", [=](float _DeltaTime) {});
+	State.SetUpdateFunction(BlockBaseState::idle, [=](float _DeltaTime) {});
 
 }
 

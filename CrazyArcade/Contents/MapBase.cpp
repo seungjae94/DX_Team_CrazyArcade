@@ -208,7 +208,7 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 			return false;
 		}
 		
-		if (MoveBoxState::idle == MoveBox->GetCurState())
+		if (BlockBaseState::idle == MoveBox->GetCurState())
 		{
 			MoveBox->StateChange(MoveBoxState::move);
 			return false;

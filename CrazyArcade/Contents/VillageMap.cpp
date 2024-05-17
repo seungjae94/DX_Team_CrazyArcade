@@ -29,6 +29,7 @@ void AVillageMap::LevelStart(ULevel* _PrevLevel)
 	CreateVillageBoxs();
 	CreateVillageMoveBoxs();
 	CreateItems();
+	CreateHollowWall({ 0, 7 });
 }
 
 void AVillageMap::LevelEnd(ULevel* _NextLevel)
