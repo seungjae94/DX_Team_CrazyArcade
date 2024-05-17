@@ -5,6 +5,7 @@
 #include "MapConstant.h"
 #include "MapBase.h"
 #include "BlockBase.h"
+#include "ServerTestPlayer.h"
 
 AWave::AWave()
 {
