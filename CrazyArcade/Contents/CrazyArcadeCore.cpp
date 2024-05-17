@@ -37,7 +37,7 @@ void UCrazyArcadeCore::Initialize()
 	GEngine->CreateLevel<ALobbyTitleGameMode>("LobbyTitleTestLevel");
 	GEngine->CreateLevel<AInputRecorderTestGameMode>("InputRecorderTestLevel");
 	//GEngine->ChangeLevel("InitTestLevel");
-	GEngine->ChangeLevel("LobbyTitleTestLevel");
+	GEngine->ChangeLevel("TitleTestLevel");
 }
 
 void UCrazyArcadeCore::Tick(float _DeltaTime)
@@ -50,6 +50,8 @@ void UCrazyArcadeCore::Tick(float _DeltaTime)
 		{
 			return;
 		}
+
+
 		IsFunctionInit = true;
 		UEngineDispatcher& Dis = UCrazyArcadeCore::Net->Dispatcher;
 		Dis.AddHandler<UConnectNumberPacket>([=](std::shared_ptr<UConnectNumberPacket> _Packet)
@@ -65,6 +67,23 @@ void UCrazyArcadeCore::Tick(float _DeltaTime)
 						/*UCrazyArcadeCore::Net->SetSessionCount(_Packet->ConnectNum);*/
 					});
 			});
+
+		UEngineDispatcher& Diss = UCrazyArcadeCore::Net->Dispatcher;
+		Dis.AddHandler<UConnectInitPacket>([=](std::shared_ptr<UConnectInitPacket> _Packet)
+			{
+				GEngine->GetCurLevel()->PushFunction([=]()
+					{
+						SessionInitVec[_Packet->Session] = true;
+					});
+			});
+		std::shared_ptr<UEngineClient> Client = dynamic_pointer_cast<UEngineClient>(UCrazyArcadeCore::Net);
+		if (nullptr != Client)
+		{
+			std::shared_ptr<UConnectInitPacket> ConnectNumPacket = std::make_shared<UConnectInitPacket>();
+			ConnectNumPacket->Session = UCrazyArcadeCore::Net->GetSessionToken();
+			UCrazyArcadeCore::Net->Send(ConnectNumPacket);
+			return;
+		}
 	}
 
 	if (true == IsFunctionInit)
@@ -76,8 +95,14 @@ void UCrazyArcadeCore::Tick(float _DeltaTime)
 			{
 				return;
 			}
-
 			int ServerSessionCount = ServerNumber::GetInst().GetCurSessionCount();
+			bool Isinit = true;
+			for (int i = 0; i <= ServerSessionCount; ++i) {
+				Isinit = Isinit || SessionInitVec[i];
+			}
+			if (Isinit == false) {
+				return;
+			}
 			int CurSessionToken = Server->GetCurSessionToken();
 			if (ServerSessionCount != CurSessionToken)
 			{

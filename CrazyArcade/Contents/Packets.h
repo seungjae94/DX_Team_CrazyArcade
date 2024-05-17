@@ -17,6 +17,7 @@ enum EContentPacket
 	ActorUpdatePacket = 99,
 	SpawnUpdatePacket,
 	ConnectUpdatePacket,
+	ConnectInitPacket,
 };
 
 // 우리는 최소 16바이트는 있어야 뭔가할수 있다.
@@ -113,4 +114,29 @@ public:
 public:
 	int ConnectNum = 0;
 	std::string UserName = "";
+};
+
+class UConnectInitPacket : public UEngineProtocol {
+public:
+	static const EContentPacket Type = EContentPacket::ConnectInitPacket;
+public:
+	UConnectInitPacket()
+	{
+		SetType(EContentPacket::ConnectInitPacket);
+	}
+
+	void Serialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::Serialize(_Ser);
+		_Ser << Session;
+	}
+
+	void DeSerialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::DeSerialize(_Ser);
+		_Ser >> Session;
+	}
+
+public:
+	int Session = 0;
 };
