@@ -16,49 +16,38 @@ public:
 		return Inst;
 	}
 
-	int GetCurSessionCount()
-	{
-		return CurSessionCount;
-	}
-
 	void SetSessionCount(int _Count)
 	{
 		CurSessionCount = _Count;
 	}
-
-	void AddSession()
+	int GetCurSessionCount() const
 	{
-		CurSessionCount += 1;
-	}
-
-	void MinSession()
-	{
-		CurSessionCount -= 1;
+		return CurSessionCount;
 	}
 
 	void SetOrder(int _Order)
 	{
 		MyOrder = _Order;
 	}
-	int GetOrder()
+	int GetOrder() const
 	{
 		return MyOrder;
 	}
 
-	void SetInfo(int _Order, std::string _Name)
+	void SetUserInfos(int _Order, std::string _Name)
 	{
-		UserInfo[_Order] = _Name;
+		UserInfos[_Order] = _Name;
 	}
-	std::string GetName(int _Order)
+	std::map<int, std::string> GetUserInfos() const
 	{
-		return UserInfo[_Order];
+		return UserInfos;
 	}
 	
 	void SetMyName(std::string _Name)
 	{
 		MyName = _Name;
 	}
-	std::string GetMyName()
+	std::string GetMyName() const
 	{
 		return MyName;
 	}
@@ -73,5 +62,5 @@ private:
 	int CurSessionCount = 0;
 	int MyOrder = 0;
 	std::string MyName = "";
-	std::map<int, std::string> UserInfo;
+	std::map<int, std::string> UserInfos;
 };
