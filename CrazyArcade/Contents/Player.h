@@ -86,10 +86,11 @@ protected:
 	void PickUpItem();
 	void AddItemCount(EItemType _ItemType);
 
+	ECharacterType PlayerType = ECharacterType::Bazzi;
+	std::string Type = "Bazzi";
 	ECharacterColor PlayerColor = ECharacterColor::Red;
 	std::string PlayerColorText = "_R";
-	std::string Type = "Bazzi";
-	void CreateAnimation();
+	void PlayerCreateAnimation(std::string _CharacterType_Color);
 
 	//State
 	void StateInit();
