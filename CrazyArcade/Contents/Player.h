@@ -51,6 +51,8 @@ public:
 	void SetPlayerColor(ECharacterColor _Color);
 	void PlayerInfoUpdate();
 
+	void SetTrapState();
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -92,6 +94,7 @@ protected:
 	std::string Type = "Bazzi";
 	ECharacterColor PlayerColor = ECharacterColor::Red;
 	std::string PlayerColorText = "_R";
+	void PlayerCreateBazziAnimation(std::string _Color);
 	void PlayerCreateAnimation(std::string _CharacterType_Color);
 
 	//State
@@ -108,4 +111,5 @@ protected:
 	void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
 
 	bool IsDead = false;
+	bool IsTraped = false;
 };

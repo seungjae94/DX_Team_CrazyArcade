@@ -5,6 +5,7 @@
 #include "MapConstant.h"
 #include "MapBase.h"
 #include "BlockBase.h"
+#include "ServerTestPlayer.h"
 
 AWave::AWave()
 {
@@ -100,6 +101,13 @@ void AWave::SetWaveType(EWaveType _WaveType)
 void AWave::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+
+	ServerTestPlayer* Player = PlayLevel->GetPlayer().get();
+	FPoint PlayerPoint = AMapBase::ConvertLocationToPoint(Player->GetActorLocation());
+	if (PlayerPoint == CurPoint)
+	{
+		Player->SetTrapState();
+	}
 
 	switch (WaveType)
 	{
