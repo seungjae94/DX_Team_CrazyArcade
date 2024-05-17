@@ -1,4 +1,7 @@
 #pragma once
+#include "MapHelper.h"
+
+class AMainPlayLevel;
 
 // 설명 : Block 기본 클래스
 class ABlockBase : public ANetActor
@@ -48,6 +51,9 @@ public:
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
+
+protected:
+	AMainPlayLevel* PlayLevel = nullptr;
 
 private:
 	USpriteRenderer* Body = nullptr;

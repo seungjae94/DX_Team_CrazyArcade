@@ -27,24 +27,42 @@ void AMoveBox::StateInit()
 	Super::StateInit();
 	 
 	// State Create
-	State.CreateState(MoveBoxState::move);
+	State.CreateState(BlockState::move);
+	State.CreateState(BlockState::destroy);
 
 	// State Start
-	State.SetStartFunction(MoveBoxState::move, [=]
+	State.SetStartFunction(BlockState::move, [=]
 		{
 			MoveOneBlockCheck();
 		}
 	);
 
+	State.SetStartFunction(BlockState::destroy, [=] 
+		{
+			GetBody()->ChangeAnimation(MapAnim::block_destroy);
+		}
+	);
+
 	// State Update
-	State.SetUpdateFunction(MoveBoxState::move, [=](float _DeltaTime)
+	State.SetUpdateFunction(BlockState::move, [=](float _DeltaTime)
 		{
 			MoveUpdate(_DeltaTime);
 		}
 	);
 
+	State.SetUpdateFunction(BlockState::destroy, [=](float _DeltaTime)
+		{
+			if (true == GetBody()->IsCurAnimationEnd())
+			{
+				FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
+				PlayLevel->GetMap()->SetMapBlock(CurPoint, nullptr);
+				Destroy();
+			}
+		}
+	);
+
 	// State End
-	State.SetEndFunction(MoveBoxState::move, [=]
+	State.SetEndFunction(BlockState::move, [=]
 		{
 			FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
 			FPoint PrevPoint = CurPoint;
@@ -116,7 +134,7 @@ void AMoveBox::MoveUpdate(float _DeltaTime)
 		{
 			MoveTime = 0.0f;
 			IsMoveValue = false;
-			State.ChangeState(BlockBaseState::idle);
+			State.ChangeState(BlockState::idle);
 			return;
 		}
 	}
