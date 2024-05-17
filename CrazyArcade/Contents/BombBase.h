@@ -28,10 +28,9 @@ public:
 	void SetPlayer(APlayer* _Player);
 	void SetCurPoint(FPoint _Point);
 
-	//
 	inline void ReduceCurExplosionTime(float _ReduceTime)
 	{
-		CurExplosionTime -= _ReduceTime;
+		ExplosionTimeCount -= _ReduceTime;
 	}
 
 protected:
@@ -47,15 +46,17 @@ private:
 	APlayer* Player = nullptr;
 
 	USpriteRenderer* Body;
-	USpriteRenderer* Effect_Center;
-	USpriteRenderer* Effect_Left;
-	USpriteRenderer* Effect_Right;
-	USpriteRenderer* Effect_Up;
-	USpriteRenderer* Effect_Down;
+
+	////
+	//USpriteRenderer* Effect_Left;
+	//USpriteRenderer* Effect_Right;
+	//USpriteRenderer* Effect_Up;
+	//USpriteRenderer* Effect_Down;
+	////
 
 	FPoint CurPoint;
-	float ExplosionTime = 2.0f;
-	float CurExplosionTime = 0.0f;
+	const float ExplosionTime = 2.8f;
+	float ExplosionTimeCount = 0.0f;
 
 // FSM
 private:
