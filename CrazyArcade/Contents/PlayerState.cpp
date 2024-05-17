@@ -205,3 +205,8 @@ void APlayer::KeyMove(float _DeltaTime, FVector _Dir, float _Speed)
 		AddActorLocation(_Dir * _DeltaTime * _Speed);
 	}
 }
+
+void APlayer::SetTrapState()
+{
+	State.ChangeState("TrapStart");
+}

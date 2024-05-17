@@ -51,6 +51,8 @@ public:
 	void SetPlayerColor(ECharacterColor _Color);
 	void PlayerInfoUpdate();
 
+	void SetTrapState();
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
