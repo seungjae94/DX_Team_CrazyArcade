@@ -111,4 +111,5 @@ protected:
 	void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
 
 	bool IsDead = false;
+	bool IsTraped = false;
 };

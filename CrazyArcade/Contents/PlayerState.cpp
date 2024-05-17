@@ -49,6 +49,7 @@ void APlayer::StateInit()
 	State.SetUpdateFunction("TrapStart", std::bind(&APlayer::TrapStart, this, std::placeholders::_1));
 	State.SetStartFunction("TrapStart", [=]()
 		{
+			IsTraped = true;
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_TrapStart");
 		});
 
@@ -208,5 +209,12 @@ void APlayer::KeyMove(float _DeltaTime, FVector _Dir, float _Speed)
 
 void APlayer::SetTrapState()
 {
-	State.ChangeState("TrapStart");
+	if (false == IsTraped)
+	{
+		State.ChangeState("TrapStart");
+	}
+	else
+	{
+		return;
+	}
 }
