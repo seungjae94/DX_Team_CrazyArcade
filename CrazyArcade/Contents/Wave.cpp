@@ -102,13 +102,6 @@ void AWave::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	ServerTestPlayer* Player = PlayLevel->GetPlayer().get();
-	FPoint PlayerPoint = AMapBase::ConvertLocationToPoint(Player->GetActorLocation());
-	if (PlayerPoint == CurPoint)
-	{
-		Player->SetTrapState();
-	}
-
 	switch (WaveType)
 	{
 	case EWaveType::UnderBlock:
@@ -118,10 +111,19 @@ void AWave::Tick(float _DeltaTime)
 	}
 		break;
 	default:
+	{
+		ServerTestPlayer* Player = PlayLevel->GetPlayer().get();
+		FPoint PlayerPoint = AMapBase::ConvertLocationToPoint(Player->GetActorLocation());
+		if (8 > Body->GetCurAnimationFrame() && PlayerPoint == CurPoint)
+		{
+			Player->SetTrapState();
+		}
+
 		if (true == Body->IsCurAnimationEnd())
 		{
 			Destroy();
 		}
+	}
 		break;
 	}
 }

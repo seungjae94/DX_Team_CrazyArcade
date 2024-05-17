@@ -3,6 +3,7 @@
 
 #include "Player.h"
 #include "VillageMap.h"
+#include "ForestMap.h"
 #include "ServerTestPlayer.h"
 //UI
 #include "TimerUI.h"
