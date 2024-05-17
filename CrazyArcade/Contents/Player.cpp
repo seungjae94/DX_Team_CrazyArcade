@@ -134,7 +134,7 @@ void APlayer::Tick(float _DeltaTime)
 
 	PlayerPos = GetActorLocation();
 
-	PickUpItem(_DeltaTime);
+	PickUpItem();
 }
 
 void APlayer::PlayerCreateCuttingBazzi(std::string _Color)
@@ -186,7 +186,7 @@ void APlayer::PlayerCreateAnimation(std::string _CharacterType_Color)
 
 	Renderer->CreateAnimation(_CharacterType_Color + "_Win", _CharacterType_Color + "_1.png", 0.1f, true, 29, 36);
 	Renderer->CreateAnimation(_CharacterType_Color + "_TrapStart", _CharacterType_Color + "_5.png", 0.07f, false, 0, 4); // 0.2   0.25
-	Renderer->CreateAnimation(_CharacterType_Color + "_Trap", _CharacterType_Color + "_5.png", 0.2f, true, 5, 18); // 0.2   0.25
+	Renderer->CreateAnimation(_CharacterType_Color + "_Traped", _CharacterType_Color + "_5.png", 0.2f, true, 5, 18); // 0.2   0.25
 	Renderer->CreateAnimation(_CharacterType_Color + "_TrapEnd", _CharacterType_Color + "_5.png", 0.25f, false, 19, 25);
 	Renderer->CreateAnimation(_CharacterType_Color + "_Die", _CharacterType_Color + "_2.png", 0.15f, false, 0, 5);
 	Renderer->CreateAnimation(_CharacterType_Color + "_Revival", _CharacterType_Color + "_2.png", 0.15f, false, 6, 9);
@@ -217,7 +217,7 @@ void APlayer::PlayerCreateAnimation(std::string _CharacterType_Color)
 	Renderer->CreateAnimation(_CharacterType_Color + "_OnUFO_", _CharacterType_Color + "_3.png", 0.05f, true, 16, 19);
 }
 
-void APlayer::PickUpItem(float _DeltaTime)
+void APlayer::PickUpItem()
 {
 	EItemType ItemType = PlayLevel->GetMap()->IsItemTile(GetActorLocation());
 	switch (ItemType)
@@ -226,21 +226,7 @@ void APlayer::PickUpItem(float _DeltaTime)
 		++BombCount;
 		break;
 	case EItemType::Devil:
-		if (0.0f <= RenderChangeTime && RenderChangeTime < 0.5f)
-		{
-			Renderer->SetMulColor({-0.7f, 1.0f, 1.0f, 1.0f});
-		}
-		else if (0.5f <= RenderChangeTime && RenderChangeTime < 1.0f)
-		{
-			Renderer->SetMulColor(FVector::One);
-		}
-		else
-		{
-			FSpriteInfo SpriteInfo = Renderer->GetCurInfo();
-			RenderChangeTime = 0.0f;
-		}
 
-		RenderChangeTime += _DeltaTime;
 		break;
 	case EItemType::Fluid:
 		if (BombPower < MaxBombPower)
@@ -281,6 +267,29 @@ void APlayer::AddItemCount(EItemType _ItemType)
 	int Count = MPlayerItem[_ItemType];
 	++Count;
 	MPlayerItem[_ItemType] = Count;
+}
+
+void APlayer::Devil(float _DeltaTime)
+{
+	if (true == IsDevil)
+	{
+		if (0.0f <= RenderChangeTime && RenderChangeTime < 0.5f)
+		{
+			Renderer->SetMulColor({ 0.7f, 0.0f, 1.0f, 1.0f });
+		}
+		else if (0.5f <= RenderChangeTime && RenderChangeTime < 1.0f)
+		{
+			Renderer->SetMulColor(FVector::One);
+		}
+		else
+		{
+			FSpriteInfo SpriteInfo = Renderer->GetCurInfo();
+			RenderChangeTime = 0.0f;
+		}
+
+		RenderChangeTime += _DeltaTime;
+	}
+	
 }
 
 void APlayer::SetPlayerDead()
