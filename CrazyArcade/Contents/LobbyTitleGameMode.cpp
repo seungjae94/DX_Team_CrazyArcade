@@ -1,7 +1,10 @@
 #include "PreCompile.h"
 #include "LobbyTitleGameMode.h"
-#include "MainTitleGameMode.h"
+
 #include <format>
+
+#include "ServerNumber.h"
+#include "MainTitleGameMode.h"
 
 ALobbyTitleGameMode::ALobbyTitleGameMode()
 {
@@ -20,6 +23,25 @@ void ALobbyTitleGameMode::BeginPlay()
 		UEngineSprite::CreateCutting("Button_MapSelect_Hover.png", 1, 2);
 	}
 	{
+		// UserInfos
+		{
+			for (int i = 0; i < 8; i++)
+			{
+				UserInfos[i].SpaceIndex = i;
+				UserInfos[i].Name = "";
+				UserInfos[i].CharacterType = ECharacterType::Random;
+				UserInfos[i].CharacterCorlor = ECharacterColor::Red;
+			}
+		}
+
+		// PlayerInfo
+		{
+			Player.SpaceIndex = ServerNumber::GetInst().GetOrder();
+			Player.Name = ServerNumber::GetInst().GetMyName();
+			Player.CharacterType = ECharacterType::Random;
+			Player.CharacterCorlor = ECharacterColor::Red;
+		}
+
 		// BackGround
 		{
 			LobbyBackGround = CreateWidget<UImage>(GetWorld(), "LobbyBackGround");
@@ -225,7 +247,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					}
 					});
 
-				SpaceOff(i);
+				SpaceOn(i);
 			}
 		}
 		
@@ -571,12 +593,10 @@ void ALobbyTitleGameMode::BeginPlay()
 	}
 	{
 		// Initialize
-		Space_Available[SpaceIndex_Player] = true;
-		Btns_Space[SpaceIndex_Player]->ChangeAnimation("Space_UnHover");
-		SpaceOn(SpaceIndex_Player);
-		Usernames_Space[SpaceIndex_Player]->SetText(Name_Player);
-		ChangeCharacter(CharacterType_Player);
-		ChangeColor(CharacterCorlor_Player);
+		Space_Available[Player.SpaceIndex] = true;
+		Usernames_Space[Player.SpaceIndex]->SetText(Player.Name);
+		ChangeCharacter(Player.CharacterType);
+		ChangeColor(Player.CharacterCorlor);
 	}
 }
 
@@ -613,7 +633,7 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 	}
 
 	// UserInfo Update
-	UserInfoUpdate(SpaceIndex_Player);
+	UserInfosUpdate();
 
 	// Debug
 	{
@@ -629,11 +649,14 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 	}
 }
 
-void ALobbyTitleGameMode::UserInfoUpdate(int _Index)
+void ALobbyTitleGameMode::UserInfosUpdate()
 {
-	if (Usernames_Space[_Index]->GetText() != Name_Player)
+	std::map<int, std::string> ServerUserInfos = ServerNumber::GetInst().GetUserInfos();
+
+	for (int i = 0; i < 8; i++)
 	{
-		Usernames_Space[_Index]->SetText(Name_Player);
+		UserInfos[i].SpaceIndex = i;
+		UserInfos[i].Name = ServerUserInfos[i];
 	}
 }
 
@@ -868,7 +891,7 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 		return;
 	}
 
-	CharacterType_Player = _CharacterType;
+	Player.CharacterType = _CharacterType;
 	int Index_CharacterType = int(_CharacterType);
 
 	CharacterSelect_Pick[Index_CharacterType] = true;
@@ -887,31 +910,31 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 	{
 	case ECharacterType::Random:
 	{
-		Characters_Space[SpaceIndex_Player]->SetSprite("Charcater_Space_Random.png");
+		Characters_Space[Player.SpaceIndex]->SetSprite("Charcater_Space_Random.png");
 		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Random.png");
 		break;
 	}
 	case ECharacterType::Dao:
 	{
-		Characters_Space[SpaceIndex_Player]->SetSprite("Charcater_Space_Dao.png");
+		Characters_Space[Player.SpaceIndex]->SetSprite("Charcater_Space_Dao.png");
 		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Dao.png");
 		break;
 	}
 	case ECharacterType::Marid:
 	{
-		Characters_Space[SpaceIndex_Player]->SetSprite("Charcater_Space_Marid.png");
+		Characters_Space[Player.SpaceIndex]->SetSprite("Charcater_Space_Marid.png");
 		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Marid.png");
 		break;
 	}
 	case ECharacterType::Bazzi:
 	{
-		Characters_Space[SpaceIndex_Player]->SetSprite("Charcater_Space_Bazzi.png");
+		Characters_Space[Player.SpaceIndex]->SetSprite("Charcater_Space_Bazzi.png");
 		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Bazzi.png");
 		break;
 	}
 	case ECharacterType::Kephi:
 	{
-		Characters_Space[SpaceIndex_Player]->SetSprite("Charcater_Space_Kephi.png");
+		Characters_Space[Player.SpaceIndex]->SetSprite("Charcater_Space_Kephi.png");
 		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Kephi.png");
 		break;
 	}
@@ -924,7 +947,7 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 
 void ALobbyTitleGameMode::ChangeColor(ECharacterColor _CharacterColor)
 {
-	CharacterCorlor_Player = _CharacterColor;
+	Player.CharacterCorlor = _CharacterColor;
 	int Index_CharacterColor = int(_CharacterColor);
 
 	ColorSelect_Pick[Index_CharacterColor] = true;
