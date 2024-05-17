@@ -50,6 +50,7 @@ void APlayer::StateInit()
 	State.SetStartFunction("TrapStart", [=]()
 		{
 			IsTraped = true;
+			CurSpeed = 30.0f;
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_TrapStart");
 		});
 
@@ -75,6 +76,7 @@ void APlayer::StateInit()
 	State.SetUpdateFunction("Revival", std::bind(&APlayer::Revival, this, std::placeholders::_1));
 	State.SetStartFunction("Revival", [=]()
 		{
+			CurSpeed = BaseSpeed + Speed;
 		});
 
 	State.ChangeState("Idle");
@@ -171,6 +173,25 @@ void APlayer::TrapStart(float _DeltaTime)
 	{
 		State.ChangeState("Traped");
 	}
+
+	// ÀÌµ¿
+	
+	if (true == IsPress(VK_LEFT))
+	{
+		KeyMove(_DeltaTime, FVector::Left, CurSpeed);
+	}
+	else if (true == IsPress(VK_RIGHT))
+	{
+		KeyMove(_DeltaTime, FVector::Right, CurSpeed);
+	}
+	else if (true == IsPress(VK_UP))
+	{
+		KeyMove(_DeltaTime, FVector::Up, CurSpeed);
+	}
+	else if (true == IsPress(VK_DOWN))
+	{
+		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
+	}
 }
 
 void APlayer::Traped(float _DeltaTime)
@@ -179,6 +200,22 @@ void APlayer::Traped(float _DeltaTime)
 	{
 		State.ChangeState("TrapEnd");
 	}
+	if (true == IsPress(VK_LEFT))
+	{
+		KeyMove(_DeltaTime, FVector::Left, CurSpeed);
+	}
+	else if (true == IsPress(VK_RIGHT))
+	{
+		KeyMove(_DeltaTime, FVector::Right, CurSpeed);
+	}
+	else if (true == IsPress(VK_UP))
+	{
+		KeyMove(_DeltaTime, FVector::Up, CurSpeed);
+	}
+	else if (true == IsPress(VK_DOWN))
+	{
+		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
+	}
 }
 
 void APlayer::TrapEnd(float _DeltaTime)
@@ -186,6 +223,22 @@ void APlayer::TrapEnd(float _DeltaTime)
 	if (Renderer->IsCurAnimationEnd())
 	{
 		State.ChangeState("Die");
+	}
+	if (true == IsPress(VK_LEFT))
+	{
+		KeyMove(_DeltaTime, FVector::Left, CurSpeed);
+	}
+	else if (true == IsPress(VK_RIGHT))
+	{
+		KeyMove(_DeltaTime, FVector::Right, CurSpeed);
+	}
+	else if (true == IsPress(VK_UP))
+	{
+		KeyMove(_DeltaTime, FVector::Up, CurSpeed);
+	}
+	else if (true == IsPress(VK_DOWN))
+	{
+		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
 	}
 }
 
