@@ -180,7 +180,7 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 	// MoveBox üũ
 	if (EBlockType::MoveBox == BlockType)
 	{
-		std::shared_ptr<AMoveBox> MoveBox = std::dynamic_pointer_cast<AMoveBox>(TileInfo[NextPoint.Y][NextPoint.X].Block);
+		AMoveBox* MoveBox = dynamic_cast<AMoveBox*>(TileInfo[NextPoint.Y][NextPoint.X].Block);
 		MoveBox->SetMoveDir(_Dir);
 		FPoint TwoStepPoint = NextPoint;
 
@@ -257,12 +257,12 @@ ABombBase* AMapBase::SpawnBomb(const FVector& _Pos, APlayer* _Player)
 	{
 		FVector TargetPos = ConvertPointToLocation(CurPoint);
 		TargetPos.Y += BombAdjustPosY;
-		TileInfo[CurPoint.Y][CurPoint.X].Bomb = GetWorld()->SpawnActor<ABombBase>("Bomb");
+		TileInfo[CurPoint.Y][CurPoint.X].Bomb = GetWorld()->SpawnActor<ABombBase>("Bomb").get();
 		TileInfo[CurPoint.Y][CurPoint.X].Bomb->SetActorLocation(TargetPos);
 		TileInfo[CurPoint.Y][CurPoint.X].Bomb->SetPlayer(_Player);
 		TileInfo[CurPoint.Y][CurPoint.X].Bomb->SetCurPoint(CurPoint);
 		TileInfo[CurPoint.Y][CurPoint.X].Bomb->SetIdle();
-		return TileInfo[CurPoint.Y][CurPoint.X].Bomb.get();
+		return TileInfo[CurPoint.Y][CurPoint.X].Bomb;
 	}
 	else
 	{
