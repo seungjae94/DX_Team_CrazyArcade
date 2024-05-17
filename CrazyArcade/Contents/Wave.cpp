@@ -82,6 +82,9 @@ void AWave::SetWaveType(EWaveType _WaveType)
 	case EWaveType::DownEnd:
 		Body->ChangeAnimation(MapAnim::bomb_effect_down_end);
 		break;
+	case EWaveType::UnderBlock:
+		Body->SetActive(false);
+		break;
 	}
 
 	Body->SetOrder(AMapBase::GetRenderOrder(GetActorLocation()));
@@ -91,7 +94,11 @@ void AWave::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	if (true == Body->IsCurAnimationEnd())
+	if (true == Body->IsActive() && true == Body->IsCurAnimationEnd())
+	{
+		Destroy();
+	}
+	else if(false == Body->IsActive())
 	{
 		Destroy();
 	}

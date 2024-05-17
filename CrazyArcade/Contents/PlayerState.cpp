@@ -24,16 +24,16 @@ void APlayer::StateInit()
 			switch (PlayerDir)
 			{
 			case EPlayerDir::Left:
-				Renderer->ChangeAnimation("Idle_Left");
+				Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Left");
 				break;
 			case EPlayerDir::Right:
-				Renderer->ChangeAnimation("Idle_Right");
+				Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Right");
 				break;
 			case EPlayerDir::Up:
-				Renderer->ChangeAnimation("Idle_Up");
+				Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Up");
 				break;
 			case EPlayerDir::Down:
-				Renderer->ChangeAnimation("Idle_Down");
+				Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Down");
 				break;
 			default:
 				break;
@@ -49,25 +49,26 @@ void APlayer::StateInit()
 	State.SetUpdateFunction("TrapStart", std::bind(&APlayer::TrapStart, this, std::placeholders::_1));
 	State.SetStartFunction("TrapStart", [=]()
 		{
-			Renderer->ChangeAnimation("TrapStart");
+			Renderer->ChangeAnimation(Type + PlayerColorText + "_TrapStart");
 		});
 
 	State.SetUpdateFunction("Traped", std::bind(&APlayer::Traped, this, std::placeholders::_1));
 	State.SetStartFunction("Traped", [=]()
 		{
-			Renderer->ChangeAnimation("Traped");
+			Renderer->ChangeAnimation(Type + PlayerColorText + "_Traped");
 		});
 
 	State.SetUpdateFunction("TrapEnd", std::bind(&APlayer::TrapEnd, this, std::placeholders::_1));
 	State.SetStartFunction("TrapEnd", [=]()
 		{
-			Renderer->ChangeAnimation("TrapEnd");
+			Renderer->ChangeAnimation(Type + PlayerColorText + "_TrapEnd");
 		});
 
 	State.SetUpdateFunction("Die", std::bind(&APlayer::Die, this, std::placeholders::_1));
 	State.SetStartFunction("Die", [=]()
 		{
-			Renderer->ChangeAnimation("Die");
+			Renderer->ChangeAnimation(Type + PlayerColorText + "_Die");
+			SetPlayerDead();
 		});
 
 	State.SetUpdateFunction("Revival", std::bind(&APlayer::Revival, this, std::placeholders::_1));
@@ -133,25 +134,25 @@ void APlayer::Run(float _DeltaTime)
 
 	if (true == IsPress(VK_LEFT))
 	{
-		Renderer->ChangeAnimation("Run_Left");
+		Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Left");
 		KeyMove(_DeltaTime, FVector::Left, CurSpeed);
 		PlayerDir = EPlayerDir::Left;
 	}
 	else if (true == IsPress(VK_RIGHT))
 	{
-		Renderer->ChangeAnimation("Run_Right");
+		Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Right");
 		KeyMove(_DeltaTime, FVector::Right, CurSpeed);
 		PlayerDir = EPlayerDir::Right;
 	}
 	else if (true == IsPress(VK_UP))
 	{
-		Renderer->ChangeAnimation("Run_Up");
+		Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Up");
 		KeyMove(_DeltaTime, FVector::Up, CurSpeed);
 		PlayerDir = EPlayerDir::Up;
 	}
 	else if (true == IsPress(VK_DOWN))
 	{
-		Renderer->ChangeAnimation("Run_Down");
+		Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Down");
 		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
 		PlayerDir = EPlayerDir::Down;
 	}

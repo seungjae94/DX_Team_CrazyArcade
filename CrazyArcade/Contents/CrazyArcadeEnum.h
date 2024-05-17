@@ -15,7 +15,8 @@ enum class EWaveType
 	Up,
 	UpEnd,
 	Down,
-	DownEnd
+	DownEnd,
+	UnderBlock
 };
 
 // 0 ~ 999 (캐릭터 타입)
