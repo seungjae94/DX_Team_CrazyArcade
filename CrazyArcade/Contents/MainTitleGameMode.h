@@ -28,22 +28,17 @@ protected:
 private:
 	void StringToText();
 	
+	// UI
 	UImage* TitleBackGround = nullptr;
-	
 	UImage* LoginUI = nullptr;
-
 	UImage* StartButton = nullptr;
-
 	UImage* PlayerNameBox = nullptr;
-
 	UImage* VoidBox = nullptr;
-
 	UTextWidget* TextWidget = nullptr;
+	UImage* Button_1P = nullptr;
+	UImage* Button_2P = nullptr;
 
 	std::string PlayerName;
-
-	
-	
 
 	bool IsNameBoxAct = false;
 };
