@@ -114,7 +114,7 @@ void APlayer::Tick(float _DeltaTime)
 
 	PlayerPos = GetActorLocation();
 
-	PickUpItem();
+	PickUpItem(_DeltaTime);
 }
 
 void APlayer::PlayerCreateAnimation(std::string _CharacterType_Color)
@@ -136,13 +136,30 @@ void APlayer::PlayerCreateAnimation(std::string _CharacterType_Color)
 	//Renderer->CreateAnimation(_CharacterType_Color + "_Revival", "Bazzi_2.png", 0.15f, false, 6, 9);
 }
 
-void APlayer::PickUpItem()
+void APlayer::PickUpItem(float _DeltaTime)
 {
 	EItemType ItemType = PlayLevel->GetMap()->IsItemTile(GetActorLocation());
 	switch (ItemType)
 	{
 	case EItemType::Bubble:
 		++BombCount;
+		break;
+	case EItemType::Devil:
+	/*	if (0.0f <= RenderChangeTime && RenderChangeTime < 0.5f)
+		{
+			Renderer->SetMulColor({0.7f, 1.0f, 1.0f, 1.0f});
+		}
+		else if (0.5f <= RenderChangeTime && RenderChangeTime < 1.0f)
+		{
+			Renderer->SetMulColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+		}
+		else
+		{
+			FSpriteInfo SpriteInfo = Renderer->GetCurInfo();
+			RenderChangeTime = 0.0f;
+		}
+
+		RenderChangeTime += _DeltaTime;*/
 		break;
 	case EItemType::Fluid:
 		if (BombPower < MaxBombPower)
@@ -252,8 +269,19 @@ void APlayer::PlayerInfoUpdate()
 {
 	if (nullptr != UCrazyArcadeCore::Net)
 	{
-		int MySessionToken = UCrazyArcadeCore::Net->GetSessionToken();
-		FPlayerInfo::IsDeads[MySessionToken] = IsDead;
+		// 0번 세션
+		// 스폰을 할 때 0~999
+		// 플레이어 액터도 오브젝트 토큰이 0~999 사이고
+		// 오브젝트 토큰 / 1000 => 0
+
+		// 1번 세션
+		// 스폰을 할 때 1000~1999
+		// 플레이어 액터도 오브젝트 토큰이 1000~1999 사이
+		// 오브젝트 토큰 / 1000 => 1
+
+		int ObjectToken = GetObjectToken();
+		int SessionToken = ObjectToken / 1000;
+		FPlayerInfo::IsDeads[SessionToken] = IsDead;
 	}
 	else
 	{
