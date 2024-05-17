@@ -1,6 +1,6 @@
 #include "PreCompile.h"
 #include "ServerManager.h"
-#include <Contents/ServerNumber.h>
+#include <Contents/ConnectionInfo.h>
 #include <Contents/CrazyArcadeCore.h>
 #include <Contents/Packets.h>
 #include <EngineBase/EngineServer.h>
@@ -24,12 +24,12 @@ void ServerManager::ServerOpen()
 		{
 			GEngine->GetCurLevel()->PushFunction([=]()
 				{
-					ServerNumber::GetInst().SetSessionCount(_Packet->ConnectNum);
+					ConnectionInfo::GetInst().SetSessionCount(_Packet->ConnectNum);
 
-					ServerNumber::GetInst().SetOrder(_Packet->ConnectNum);
-					ServerNumber::GetInst().SetMyName(_Packet->UserName);
+					ConnectionInfo::GetInst().SetOrder(_Packet->ConnectNum);
+					ConnectionInfo::GetInst().SetMyName(_Packet->UserName);
 
-					ServerNumber::GetInst().SetUserInfos(_Packet->Infos);
+					ConnectionInfo::GetInst().SetUserInfos(_Packet->Infos);
 				});
 		});
 
@@ -51,12 +51,12 @@ void ServerManager::ClientOpen(std::string_view _Ip, int _Port)
 		{
 			GEngine->GetCurLevel()->PushFunction([=]()
 				{
-					ServerNumber::GetInst().SetSessionCount(_Packet->ConnectNum);
+					ConnectionInfo::GetInst().SetSessionCount(_Packet->ConnectNum);
 
-					ServerNumber::GetInst().SetOrder(_Packet->ConnectNum);
-					ServerNumber::GetInst().SetMyName(_Packet->UserName);
+					ConnectionInfo::GetInst().SetOrder(_Packet->ConnectNum);
+					ConnectionInfo::GetInst().SetMyName(_Packet->UserName);
 
-					ServerNumber::GetInst().SetUserInfos(_Packet->Infos);
+					ConnectionInfo::GetInst().SetUserInfos(_Packet->Infos);
 				});
 		});
 
@@ -79,7 +79,7 @@ void ServerManager::Update(float _DeltaTime)
 		{
 			return;
 		}
-		int ServerSessionCount = ServerNumber::GetInst().GetCurSessionCount();
+		int ServerSessionCount = ConnectionInfo::GetInst().GetCurSessionCount();
 		bool Isinit = true;
 		for (int i = 0; i <= ServerSessionCount; ++i) {
 			Isinit = Isinit || SessionInitVec[i];
@@ -90,18 +90,18 @@ void ServerManager::Update(float _DeltaTime)
 		int CurSessionToken = Server->GetCurSessionToken();
 		if (ServerSessionCount != CurSessionToken)
 		{
-			ServerNumber::GetInst().SetSessionCount(Server->GetCurSessionToken());
+			ConnectionInfo::GetInst().SetSessionCount(Server->GetCurSessionToken());
 			std::shared_ptr<UConnectNumberPacket> ConnectNumPacket = std::make_shared<UConnectNumberPacket>();
 
-			int Count = ServerNumber::GetInst().GetCurSessionCount();
-			std::string Name = ServerNumber::GetInst().GetMyName();
+			int Count = ConnectionInfo::GetInst().GetCurSessionCount();
+			std::string Name = ConnectionInfo::GetInst().GetMyName();
 
-			ServerNumber::GetInst().PushUserInfos(Count, Name);
+			ConnectionInfo::GetInst().PushUserInfos(Count, Name);
 
 			ConnectNumPacket->ConnectNum = Count;
 			ConnectNumPacket->UserName = Name;
 
-			ConnectNumPacket->Infos = ServerNumber::GetInst().GetUserInfos();
+			ConnectNumPacket->Infos = ConnectionInfo::GetInst().GetUserInfos();
 			UCrazyArcadeCore::Net->Send(ConnectNumPacket);
 		}
 	}
