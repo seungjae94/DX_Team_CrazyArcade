@@ -72,9 +72,15 @@ namespace BlockBaseState
 	const std::string_view idle					= "Idle";
 }
 
+namespace BoxState
+{
+	const std::string_view destroy				= "Destroy";
+}
+
 namespace MoveBoxState
 {
 	const std::string_view move					= "Move";
+	const std::string_view destroy				= "Destroy";
 }
 
 namespace ItemState

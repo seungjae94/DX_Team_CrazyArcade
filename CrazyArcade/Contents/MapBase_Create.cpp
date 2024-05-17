@@ -10,7 +10,7 @@
 
 void AMapBase::CreateWall(FPoint _Point, std::string_view _ImgName)
 {
-	TileInfo[_Point.Y][_Point.X].Block = GetWorld()->SpawnActor<AWall>("Wall");
+	TileInfo[_Point.Y][_Point.X].Block = GetWorld()->SpawnActor<AWall>("Wall").get();
 	TileInfo[_Point.Y][_Point.X].Block->SetBlockImg(_ImgName);
 	TileInfo[_Point.Y][_Point.X].Block->GetBody()->SetOrder(Const::MaxOrder - _Point.Y);
 
@@ -22,7 +22,7 @@ void AMapBase::CreateWall(FPoint _Point, std::string_view _ImgName)
 
 void AMapBase::CreateBox(FPoint _Point, std::string_view _ImgName)
 {
-	TileInfo[_Point.Y][_Point.X].Block = GetWorld()->SpawnActor<ABox>("Box");
+	TileInfo[_Point.Y][_Point.X].Block = GetWorld()->SpawnActor<ABox>("Box").get();
 
 	TileInfo[_Point.Y][_Point.X].Block->GetBody()->CreateAnimation(MapAnim::block_idle, _ImgName, 0.1f, false, 0, 0);
 	TileInfo[_Point.Y][_Point.X].Block->GetBody()->CreateAnimation(MapAnim::block_destroy, _ImgName, 0.1f, false);
@@ -37,7 +37,7 @@ void AMapBase::CreateBox(FPoint _Point, std::string_view _ImgName)
 
 void AMapBase::CreateMoveBox(FPoint _Point, std::string_view _ImgName)
 {
-	TileInfo[_Point.Y][_Point.X].Block = GetWorld()->SpawnActor<AMoveBox>("MoveBox");
+	TileInfo[_Point.Y][_Point.X].Block = GetWorld()->SpawnActor<AMoveBox>("MoveBox").get();
 
 	TileInfo[_Point.Y][_Point.X].Block->GetBody()->CreateAnimation(MapAnim::block_idle, _ImgName, 0.1f, false, 0, 0);
 	TileInfo[_Point.Y][_Point.X].Block->GetBody()->CreateAnimation(MapAnim::block_destroy, _ImgName, 0.1f, false);
@@ -52,7 +52,7 @@ void AMapBase::CreateMoveBox(FPoint _Point, std::string_view _ImgName)
 
 void AMapBase::CreateHollowWall(FPoint _Point)
 {
-	TileInfo[_Point.Y][_Point.X].Block = GetWorld()->SpawnActor<AWall>("Hollow_Wall");
+	TileInfo[_Point.Y][_Point.X].Block = GetWorld()->SpawnActor<AWall>("Hollow_Wall").get();
 	TileInfo[_Point.Y][_Point.X].Block->GetBody()->SetActive(false);
 
 	FVector Pos = StartPos;
@@ -63,7 +63,7 @@ void AMapBase::CreateHollowWall(FPoint _Point)
 
 void AMapBase::CreateItem(FPoint _Point, EItemType _ItemType)
 {
-	TileInfo[_Point.Y][_Point.X].Item = GetWorld()->SpawnActor<AItemBase>("Item");
+	TileInfo[_Point.Y][_Point.X].Item = GetWorld()->SpawnActor<AItemBase>("Item").get();
 
 	FVector Pos = StartPos;
 	Pos.X += (_Point.X * BlockSize) + (0.5f * BlockSize);
