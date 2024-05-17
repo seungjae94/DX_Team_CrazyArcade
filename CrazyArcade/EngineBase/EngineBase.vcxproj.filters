@@ -79,9 +79,6 @@
     <ClInclude Include="EngineDispatcher.h">
       <Filter>Net\Protocol</Filter>
     </ClInclude>
-    <ClInclude Include="ServerNumber.h">
-      <Filter>Net</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineDebug.cpp">
@@ -158,9 +155,6 @@
     </ClCompile>
     <ClCompile Include="EngineDispatcher.cpp">
       <Filter>Net\Protocol</Filter>
-    </ClCompile>
-    <ClCompile Include="ServerNumber.cpp">
-      <Filter>Net</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

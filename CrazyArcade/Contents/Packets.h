@@ -100,14 +100,17 @@ public:
 	{
 		UEngineProtocol::Serialize(_Ser);
 		_Ser << ConnectNum;
+		//_Ser << UserName;
 	}
 
 	void DeSerialize(UEngineSerializer& _Ser) override
 	{
 		UEngineProtocol::DeSerialize(_Ser);
 		_Ser >> ConnectNum;
+		//_Ser >> UserName;
 	}
 
 public:
 	int ConnectNum = 0;
+	//std::vector<std::string> UserNameList;
 };

@@ -42,7 +42,7 @@ void UCrazyArcadeCore::Initialize()
 
 void UCrazyArcadeCore::Tick(float _DeltaTime)
 {
-	int Count = ServerNumber::GetInst().CurSessionCount;
+	int Count = ServerNumber::GetInst().GetCurSessionCount();
 	int a = 0;
 	if (false == IsFunctionInit)
 	{
@@ -57,7 +57,7 @@ void UCrazyArcadeCore::Tick(float _DeltaTime)
 				UCrazyArcadeCore::Net->Send(_Packet);
 				GEngine->GetCurLevel()->PushFunction([=]()
 					{
-						ServerNumber::ServerNumber::GetInst().CurSessionCount = _Packet->ConnectNum;
+						ServerNumber::ServerNumber::GetInst().SetSessionCount(_Packet->ConnectNum);
 						
 						/*UCrazyArcadeCore::Net->SetSessionCount(_Packet->ConnectNum);*/
 					});
@@ -74,13 +74,13 @@ void UCrazyArcadeCore::Tick(float _DeltaTime)
 				return;
 			}
 
-			int ServerSessionCount = ServerNumber::GetInst().CurSessionCount;
+			int ServerSessionCount = ServerNumber::GetInst().GetCurSessionCount();
 			int CurSessionToken = Server->GetCurSessionToken();
 			if (ServerSessionCount != CurSessionToken)
 			{
-				ServerNumber::GetInst().CurSessionCount = Server->GetCurSessionToken();
+				ServerNumber::GetInst().SetSessionCount(Server->GetCurSessionToken());
 				std::shared_ptr<UConnectNumberPacket> ConnectNumPacket = std::make_shared<UConnectNumberPacket>();
-				ConnectNumPacket->ConnectNum = ServerNumber::GetInst().CurSessionCount;
+				ConnectNumPacket->ConnectNum = ServerNumber::GetInst().GetCurSessionCount();
 				UCrazyArcadeCore::Net->Send(ConnectNumPacket);
 			}
 		}
