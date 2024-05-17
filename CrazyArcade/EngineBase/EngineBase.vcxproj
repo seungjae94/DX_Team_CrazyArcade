@@ -253,10 +253,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="ServerNumber.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Session.h">
       <SubType>
       </SubType>
@@ -357,10 +353,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="NetStartUpHelper.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="ServerNumber.cpp">
       <SubType>
       </SubType>
     </ClCompile>

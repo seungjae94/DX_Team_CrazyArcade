@@ -3,6 +3,7 @@
 
 #include "MainPlayLevel.h"
 #include "MapBase.h"
+#include "CrazyArcadeCore.h"
 
 APlayer::APlayer()
 {
@@ -172,6 +173,45 @@ void APlayer::AddItemCount(EItemType _ItemType)
 	MPlayerItem[_ItemType] = Count;
 }
 
+void APlayer::SetPlayerDead()
+{
+	//int MySessionToken = UCrazyArcadeCore::Net->GetSessionToken();
+	//FPlayerInfo::IsDeads[MySessionToken] = true;
+}
+
+void APlayer::SetCharacterType(ECharacterType _Character)
+{
+	switch (_Character)
+	{
+	case ECharacterType::Random:
+		break;
+	case ECharacterType::Dao:
+		break;
+	case ECharacterType::Dizni:
+		break;
+	case ECharacterType::Mos:
+		break;
+	case ECharacterType::Ethi:
+		break;
+	case ECharacterType::Marid:
+		break;
+	case ECharacterType::Bazzi:
+		break;
+	case ECharacterType::Uni:
+		break;
+	case ECharacterType::Kephi:
+		break;
+	case ECharacterType::Su:
+		break;
+	case ECharacterType::HooU:
+		break;
+	case ECharacterType::Ray:
+		break;
+	default:
+		break;
+	}
+}
+
 void APlayer::SetPlayerColor(ECharacterColor _Color)
 {
 	switch (_Color)
@@ -189,4 +229,8 @@ void APlayer::SetPlayerColor(ECharacterColor _Color)
 		PlayerColorText = "";
 		break;
 	}
+}
+
+void APlayer::PlayerInfoUpdate()
+{
 }

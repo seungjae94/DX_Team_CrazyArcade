@@ -6,6 +6,18 @@ enum class ERenderOrder
 	Shadow
 };
 
+enum class EWaveType
+{
+	Left,
+	LeftEnd,
+	Right,
+	RightEnd,
+	Up,
+	UpEnd,
+	Down,
+	DownEnd
+};
+
 // 0 ~ 999 (캐릭터 타입)
 enum class ECharacterType
 {

@@ -3,8 +3,6 @@
 class ServerNumber
 {
 public:
-	ServerNumber();
-	~ServerNumber();
 
 	ServerNumber(const ServerNumber& _Other) = delete;
 	ServerNumber(ServerNumber&& _Other) noexcept = delete;
@@ -18,10 +16,51 @@ public:
 		return Inst;
 	}
 
-	int CurSessionCount = 0;
+	void SetSessionCount(int _Count)
+	{
+		CurSessionCount = _Count;
+	}
+	int GetCurSessionCount() const
+	{
+		return CurSessionCount;
+	}
+
+	void SetOrder(int _Order)
+	{
+		MyOrder = _Order;
+	}
+	int GetOrder() const
+	{
+		return MyOrder;
+	}
+
+	void SetUserInfos(int _Order, std::string _Name)
+	{
+		UserInfos[_Order] = _Name;
+	}
+	std::map<int, std::string> GetUserInfos() const
+	{
+		return UserInfos;
+	}
+	
+	void SetMyName(std::string _Name)
+	{
+		MyName = _Name;
+	}
+	std::string GetMyName() const
+	{
+		return MyName;
+	}
+
 
 protected:
 
 private:
+	ServerNumber();
+	~ServerNumber();
 
+	int CurSessionCount = 0;
+	int MyOrder = 0;
+	std::string MyName = "";
+	std::map<int, std::string> UserInfos;
 };

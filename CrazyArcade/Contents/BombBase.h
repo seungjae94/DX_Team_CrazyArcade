@@ -40,6 +40,8 @@ protected:
 private:
 	void SetImgCutting();
 	void RendererInit();
+	
+	void CreateWave();
 
 private:
 	AMainPlayLevel* PlayLevel = nullptr;
@@ -47,16 +49,10 @@ private:
 
 	USpriteRenderer* Body;
 
-	////
-	//USpriteRenderer* Effect_Left;
-	//USpriteRenderer* Effect_Right;
-	//USpriteRenderer* Effect_Up;
-	//USpriteRenderer* Effect_Down;
-	////
-
 	FPoint CurPoint;
 	const float ExplosionTime = 2.8f;
 	float ExplosionTimeCount = 0.0f;
+	int Power = 5;
 
 // FSM
 private:
