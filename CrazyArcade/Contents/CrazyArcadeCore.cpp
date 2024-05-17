@@ -57,8 +57,12 @@ void UCrazyArcadeCore::Tick(float _DeltaTime)
 				UCrazyArcadeCore::Net->Send(_Packet);
 				GEngine->GetCurLevel()->PushFunction([=]()
 					{
-						ServerNumber::ServerNumber::GetInst().SetSessionCount(_Packet->ConnectNum);
-						
+						int Order = _Packet->ConnectNum;
+						std::string Name = _Packet->UserName;
+						ServerNumber::GetInst().SetSessionCount(Order);
+						ServerNumber::GetInst().SetOrder(Order);
+						ServerNumber::GetInst().SetMyName(Name);
+						ServerNumber::GetInst().SetInfo(Order, Name);
 						/*UCrazyArcadeCore::Net->SetSessionCount(_Packet->ConnectNum);*/
 					});
 			});
@@ -80,7 +84,15 @@ void UCrazyArcadeCore::Tick(float _DeltaTime)
 			{
 				ServerNumber::GetInst().SetSessionCount(Server->GetCurSessionToken());
 				std::shared_ptr<UConnectNumberPacket> ConnectNumPacket = std::make_shared<UConnectNumberPacket>();
-				ConnectNumPacket->ConnectNum = ServerNumber::GetInst().GetCurSessionCount();
+
+
+				int Count = ServerNumber::GetInst().GetCurSessionCount();
+				std::string Name = ServerNumber::GetInst().GetMyName();
+				ConnectNumPacket->ConnectNum = Count;
+				ServerNumber::GetInst().SetOrder(Count);
+				ServerNumber::GetInst().SetInfo(Count, Name);
+				ConnectNumPacket->UserName = Name;
+
 				UCrazyArcadeCore::Net->Send(ConnectNumPacket);
 			}
 		}
