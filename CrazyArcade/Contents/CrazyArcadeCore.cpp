@@ -62,7 +62,7 @@ void UCrazyArcadeCore::Tick(float _DeltaTime)
 						ServerNumber::GetInst().SetSessionCount(Order);
 						ServerNumber::GetInst().SetOrder(Order);
 						ServerNumber::GetInst().SetMyName(Name);
-						ServerNumber::GetInst().SetInfo(Order, Name);
+						ServerNumber::GetInst().SetUserInfos(Order, Name);
 						/*UCrazyArcadeCore::Net->SetSessionCount(_Packet->ConnectNum);*/
 					});
 			});
@@ -90,7 +90,7 @@ void UCrazyArcadeCore::Tick(float _DeltaTime)
 				std::string Name = ServerNumber::GetInst().GetMyName();
 				ConnectNumPacket->ConnectNum = Count;
 				ServerNumber::GetInst().SetOrder(Count);
-				ServerNumber::GetInst().SetInfo(Count, Name);
+				ServerNumber::GetInst().SetUserInfos(Count, Name);
 				ConnectNumPacket->UserName = Name;
 
 				UCrazyArcadeCore::Net->Send(ConnectNumPacket);
