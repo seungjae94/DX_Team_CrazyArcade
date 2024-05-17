@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "BlockBase.h"
 
+#include "MainPlayLevel.h"
 #include "MapConstant.h"
 
 ABlockBase::ABlockBase()
@@ -24,19 +25,20 @@ void ABlockBase::BeginPlay()
 	Super::BeginPlay();
 
 	StateInit();
-	State.ChangeState(BlockBaseState::idle);
+	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
+	State.ChangeState(BlockState::idle);
 }
 
 void ABlockBase::StateInit()
 {
 	// State Create
-	State.CreateState(BlockBaseState::idle);
+	State.CreateState(BlockState::idle);
 
 	// State Start
-	State.SetStartFunction(BlockBaseState::idle, [=] {});
+	State.SetStartFunction(BlockState::idle, [=] {});
 
 	// State Update
-	State.SetUpdateFunction(BlockBaseState::idle, [=](float _DeltaTime) {});
+	State.SetUpdateFunction(BlockState::idle, [=](float _DeltaTime) {});
 
 }
 

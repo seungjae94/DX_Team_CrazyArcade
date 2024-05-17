@@ -69,6 +69,19 @@ public:
 		}
 	}
 
+	template<typename KeyType, typename DataType>
+	void operator<<(const std::map<KeyType, DataType>& _Data)
+	{
+		int Size = static_cast<int>(_Data.size());
+		operator<<(Size);
+		
+		for (std::pair<KeyType, DataType> Iterator : _Data)
+		{
+			operator << (Iterator.first);
+			operator << (Iterator.second);
+		}
+	}
+
 
 	void Read(void* _Data, size_t _Size);
 
@@ -125,6 +138,27 @@ public:
 		for (size_t i = 0; i < Size; i++)
 		{
 			operator>>(_Data[i]);
+		}
+	}
+
+	template<typename KeyType, typename DataType>
+	void operator>>(std::map<KeyType, DataType>& _Data)
+	{
+		int Size = 0;
+		operator>>(Size);
+
+		if (Size == 0)
+		{
+			return;
+		}
+
+		for (size_t i = 0; i < Size; i++)
+		{
+			KeyType Key;
+			DataType Data;
+			operator>>(Key);
+			operator>>(Data);
+			_Data[Key] = Data;
 		}
 	}
 

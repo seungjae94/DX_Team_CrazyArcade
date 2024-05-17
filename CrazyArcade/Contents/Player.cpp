@@ -287,8 +287,19 @@ void APlayer::PlayerInfoUpdate()
 {
 	if (nullptr != UCrazyArcadeCore::Net)
 	{
-		int MySessionToken = UCrazyArcadeCore::Net->GetSessionToken();
-		FPlayerInfo::IsDeads[MySessionToken] = IsDead;
+		// 0번 세션
+		// 스폰을 할 때 0~999
+		// 플레이어 액터도 오브젝트 토큰이 0~999 사이고
+		// 오브젝트 토큰 / 1000 => 0
+
+		// 1번 세션
+		// 스폰을 할 때 1000~1999
+		// 플레이어 액터도 오브젝트 토큰이 1000~1999 사이
+		// 오브젝트 토큰 / 1000 => 1
+
+		int ObjectToken = GetObjectToken();
+		int SessionToken = ObjectToken / 1000;
+		FPlayerInfo::IsDeads[SessionToken] = IsDead;
 	}
 	else
 	{

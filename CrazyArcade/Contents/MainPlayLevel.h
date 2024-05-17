@@ -29,11 +29,26 @@ public:
 		return TileMap;
 	}
 
+	inline void SetMapType(EMapType _MapType)
+	{
+		MapType = _MapType;
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	void LevelEnd(ULevel* _NextLevel) override;
+	void LevelStart(ULevel* _PrevLevel) override;
+
+protected:
+	void CreateMap();
+
+
+protected:
 	std::shared_ptr<AMapBase> TileMap = nullptr;
+	EMapType MapType = EMapType::None;
+
 	std::shared_ptr<ServerTestPlayer> Player = nullptr;
 	std::shared_ptr<ATimerUI> Timer = nullptr;
 	std::shared_ptr<AInGameUI> CancelBtn = nullptr;

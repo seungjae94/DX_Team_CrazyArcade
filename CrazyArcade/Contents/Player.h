@@ -49,7 +49,7 @@ public:
 	void SetPlayerDead();
 	void SetCharacterType(ECharacterType _Character);
 	void SetPlayerColor(ECharacterColor _Color);
-	virtual void PlayerInfoUpdate();
+	void PlayerInfoUpdate();
 
 protected:
 	void BeginPlay() override;

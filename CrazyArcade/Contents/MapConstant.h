@@ -5,6 +5,7 @@ namespace MapImgRes
 	// BackGround
 	const std::string_view play_ui_background	= "spr_play_ui_background.png";
 	const std::string_view village_background	= "spr_village1_background.png";
+	const std::string_view Forest_background = "spr_forest_background.png";
 	
 	// Block
 	const std::string_view block_vil_house_0	= "spr_vil_house_0.png";
@@ -67,18 +68,9 @@ namespace Const
 	const int MaxOrder = 1000;
 }
 
-namespace BlockBaseState
+namespace BlockState
 {
 	const std::string_view idle					= "Idle";
-}
-
-namespace BoxState
-{
-	const std::string_view destroy				= "Destroy";
-}
-
-namespace MoveBoxState
-{
 	const std::string_view move					= "Move";
 	const std::string_view destroy				= "Destroy";
 }

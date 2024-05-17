@@ -6,6 +6,13 @@ enum class ERenderOrder
 	Shadow
 };
 
+enum class EMapType
+{
+	None,
+	Village,
+	Forest
+};
+
 enum class EWaveType
 {
 	Left,
