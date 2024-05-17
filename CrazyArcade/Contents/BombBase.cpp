@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Wave.h"
 
+#include "ServerTestPlayer.h"
 #include "BlockBase.h"
 #include "MoveBox.h"
 #include "Wall.h"
@@ -103,7 +104,16 @@ void ABombBase::StateInit()
 		}
 	);
 
-	State.SetUpdateFunction(BombState::explosion, [=](float _DeltaTime)	{});
+	State.SetUpdateFunction(BombState::explosion, [=](float _DeltaTime)	
+		{
+			ServerTestPlayer* Player = PlayLevel->GetPlayer().get();
+			FPoint PlayerPoint = AMapBase::ConvertLocationToPoint(Player->GetActorLocation());
+			if (PlayerPoint == CurPoint)
+			{
+				Player->SetTrapState();
+			}
+		}
+	);
 
 }
 

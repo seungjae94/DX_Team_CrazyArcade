@@ -39,8 +39,8 @@ void ALobbyTitleGameMode::BeginPlay()
 
 		// PlayerInfo
 		{
-			Player.SpaceIndex = ServerNumber::GetInst().GetOrder();
-			Player.Name = ServerNumber::GetInst().GetMyName();
+			Player.SpaceIndex = 0;
+			Player.Name = "";
 			Player.CharacterType = ECharacterType::Random;
 			Player.CharacterCorlor = ECharacterColor::Red;
 		}
