@@ -117,7 +117,7 @@ void AServerGameMode::ServerPacketInit(UEngineDispatcher& Dis)
 					MyBomb->PushProtocol(_Packet);
 					MyBomb->SetActorLocation(_Packet->Pos);
 
-					FPoint Point = GetMap()->ConvertLocationToPoint(_Packet->Pos);
+					FPoint Point = AMapBase::ConvertLocationToPoint(_Packet->Pos);
 					MyBomb->SetCurPoint(Point);
 
 					FEngineTimeStamp Stamp = UEngineTime::GetCurTime();

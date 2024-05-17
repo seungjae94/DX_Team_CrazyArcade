@@ -145,7 +145,7 @@ void ABombBase::CreateLeftWave()
 			break;
 		}
 
-		ABlockBase* Block = PlayLevel->GetMap()->GetTileInfo(WavePoint).Block.get();
+		ABlockBase* Block = PlayLevel->GetMap()->GetTileInfo(WavePoint).Block;
 		if (nullptr != dynamic_cast<AWall*>(Block))
 		{
 			break;
@@ -159,7 +159,7 @@ void ABombBase::CreateLeftWave()
 			break;
 		}
 
-		ABombBase* Bomb = PlayLevel->GetMap()->GetTileInfo(WavePoint).Bomb.get();
+		ABombBase* Bomb = PlayLevel->GetMap()->GetTileInfo(WavePoint).Bomb;
 		if (nullptr != Bomb && BombState::explosion != Bomb->State.GetCurStateName())
 		{
 			Bomb->PlayerBombCountUpdate();
@@ -193,7 +193,7 @@ void ABombBase::CreateRightWave()
 			break;
 		}
 
-		ABlockBase* Block = PlayLevel->GetMap()->GetTileInfo(WavePoint).Block.get();
+		ABlockBase* Block = PlayLevel->GetMap()->GetTileInfo(WavePoint).Block;
 		if (nullptr != dynamic_cast<AWall*>(Block))
 		{
 			break;
@@ -207,7 +207,7 @@ void ABombBase::CreateRightWave()
 			break;
 		}
 
-		ABombBase* Bomb = PlayLevel->GetMap()->GetTileInfo(WavePoint).Bomb.get();
+		ABombBase* Bomb = PlayLevel->GetMap()->GetTileInfo(WavePoint).Bomb;
 		if (nullptr != Bomb && BombState::explosion != Bomb->State.GetCurStateName())
 		{
 			Bomb->PlayerBombCountUpdate();
@@ -241,7 +241,7 @@ void ABombBase::CreateUpWave()
 			break;
 		}
 
-		ABlockBase* Block = PlayLevel->GetMap()->GetTileInfo(WavePoint).Block.get();
+		ABlockBase* Block = PlayLevel->GetMap()->GetTileInfo(WavePoint).Block;
 		if (nullptr != dynamic_cast<AWall*>(Block))
 		{
 			break;
@@ -255,7 +255,7 @@ void ABombBase::CreateUpWave()
 			break;
 		}
 
-		ABombBase* Bomb = PlayLevel->GetMap()->GetTileInfo(WavePoint).Bomb.get();
+		ABombBase* Bomb = PlayLevel->GetMap()->GetTileInfo(WavePoint).Bomb;
 		if (nullptr != Bomb && BombState::explosion != Bomb->State.GetCurStateName())
 		{
 			Bomb->PlayerBombCountUpdate();
@@ -289,7 +289,7 @@ void ABombBase::CreateDownWave()
 			break;
 		}
 
-		ABlockBase* Block = PlayLevel->GetMap()->GetTileInfo(WavePoint).Block.get();
+		ABlockBase* Block = PlayLevel->GetMap()->GetTileInfo(WavePoint).Block;
 		if (nullptr != dynamic_cast<AWall*>(Block))
 		{
 			break;
@@ -303,7 +303,7 @@ void ABombBase::CreateDownWave()
 			break;
 		}
 
-		ABombBase* Bomb = PlayLevel->GetMap()->GetTileInfo(WavePoint).Bomb.get();
+		ABombBase* Bomb = PlayLevel->GetMap()->GetTileInfo(WavePoint).Bomb;
 		if (nullptr != Bomb && BombState::explosion != Bomb->State.GetCurStateName())
 		{
 			Bomb->PlayerBombCountUpdate();

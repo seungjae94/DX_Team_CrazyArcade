@@ -34,7 +34,11 @@ public:
 		return MyOrder;
 	}
 
-	void SetUserInfos(int _Order, std::string _Name)
+	void SetUserInfos(std::map<int, std::string> _Infos)
+	{
+		UserInfos = _Infos;
+	}
+	void PushUserInfos(int _Order, std::string _Name)
 	{
 		UserInfos[_Order] = _Name;
 	}

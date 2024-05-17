@@ -15,16 +15,11 @@ public:
 	ALobbyTitleGameMode& operator=(const ALobbyTitleGameMode& _Other) = delete;
 	ALobbyTitleGameMode& operator=(ALobbyTitleGameMode&& _Other) = delete;
 
-	inline void SetUserName(std::string_view _UserName)
-	{
-		Name_Player = _UserName;
-	}
-
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	void UserInfoUpdate(int _Index);
+	void UserInfosUpdate();
 
 	void SpaceOn(int _Index);
 	void SpaceOff(int _Index);
@@ -37,11 +32,19 @@ protected:
 
 private:
 	// PlayerInfo
-	int SpaceIndex_Player = 2;
-	std::string Name_Player = "";
-	ECharacterType CharacterType_Player = ECharacterType::Random;
-	ECharacterColor CharacterCorlor_Player = ECharacterColor::Red;
-	//ability, rank, ...etc.
+	struct UserInfo
+	{
+		int SpaceIndex;
+		std::string Name;
+		ECharacterType CharacterType;
+		ECharacterColor CharacterCorlor;
+		//ability, rank, ...etc.
+	};
+
+	UserInfo Player;
+
+	// UserInfos
+	std::vector<UserInfo> UserInfos;
 
 	// TitleLevel Info
 	std::string UserName_Input = "";

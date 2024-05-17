@@ -14,8 +14,8 @@ enum class EPlayerDir
 struct FPlayerInfo
 {
 	// 키: 세션 토큰
-	static std::vector<bool> IsDeads; // IsDeads[3]: 3번 플레이어가 죽었는지
-	static std::vector<std::string> Names; // Names[3]: 3번 플레이어의 이름
+	static std::map<int, bool> IsDeads; // IsDeads[3]: 3번 플레이어가 죽었는지
+	static std::map<int, std::string> Names; // Names[3]: 3번 플레이어의 이름
 };
 
 class AMainPlayLevel;
@@ -49,7 +49,7 @@ public:
 	void SetPlayerDead();
 	void SetCharacterType(ECharacterType _Character);
 	void SetPlayerColor(ECharacterColor _Color);
-	void PlayerInfoUpdate();
+	virtual void PlayerInfoUpdate();
 
 protected:
 	void BeginPlay() override;
@@ -107,4 +107,5 @@ protected:
 
 	void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
 
+	bool IsDead = false;
 };
