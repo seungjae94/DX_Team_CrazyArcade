@@ -658,7 +658,7 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 		Player.SpaceIndex = ServerNumber::GetInst().GetOrder();
 		Player.Name = ServerNumber::GetInst().GetMyName();
 
-		ServerNumber::GetInst().SetUserInfos(Player.SpaceIndex, Player.Name);
+		ServerNumber::GetInst().PushUserInfos(Player.SpaceIndex, Player.Name);
 	}
 
 	// UserInfos Update
