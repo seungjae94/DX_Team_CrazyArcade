@@ -51,6 +51,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ServerNumber.h">
+    <ClInclude Include="ConnectionInfo.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -156,6 +157,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ServerNumber.cpp">
+    <ClCompile Include="ConnectionInfo.cpp">
       <SubType>
       </SubType>
     </ClCompile>

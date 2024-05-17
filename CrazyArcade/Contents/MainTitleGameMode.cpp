@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "LobbyTitleGameMode.h"
+#include"ConnectionInfo.h"
 #include"ServerNumber.h"
 #include "ServerGameMode.h"
 
@@ -110,9 +111,74 @@ void AMainTitleGameMode::BeginPlay()
 		});
 
 
+	{
+		Button_1P = CreateWidget<UImage>(GetWorld(), "Button_1P");
+		Button_1P->AddToViewPort(1);
+		Button_1P->SetAutoSize(1.0f, true);
+		Button_1P->SetWidgetLocation({ -210.0f, -172.0f });
 
+		Button_1P->CreateAnimation("UnHover", "Button_1P_UnHover.png", 0.1f, false, 0, 0);
+		Button_1P->CreateAnimation("Hover", "Button_1P_Hover.png", 0.1f, false, 0, 0);
+		Button_1P->CreateAnimation("Down", "Button_1P_Down.png", 0.1f, false, 0, 0);
+		Button_1P->ChangeAnimation("UnHover");
 
+		Button_1P->SetUnHover([=] {
+			Button_1P->ChangeAnimation("UnHover");
+			});
 
+		Button_1P->SetHover([=] {
+			if (Button_1P->IsCurAnimationEnd() == true)
+			{
+				Button_1P->ChangeAnimation("Hover");
+			}
+			});
+
+		Button_1P->SetDown([=] {
+			Button_1P->ChangeAnimation("Down");
+			});
+
+		Button_1P->SetPress([=] {
+
+			});
+
+		Button_1P->SetUp([=] {
+			Button_1P->ChangeAnimation("UnHover");
+			});
+	}
+	{
+		Button_2P = CreateWidget<UImage>(GetWorld(), "Button_2P");
+		Button_2P->AddToViewPort(1);
+		Button_2P->SetAutoSize(1.0f, true);
+		Button_2P->SetWidgetLocation({ 210.0f, -172.0f });
+
+		Button_2P->CreateAnimation("UnHover", "Button_2P_UnHover.png", 0.1f, false, 0, 0);
+		Button_2P->CreateAnimation("Hover", "Button_2P_Hover.png", 0.1f, false, 0, 0);
+		Button_2P->CreateAnimation("Down", "Button_2P_Down.png", 0.1f, false, 0, 0);
+		Button_2P->ChangeAnimation("UnHover");
+
+		Button_2P->SetUnHover([=] {
+			Button_2P->ChangeAnimation("UnHover");
+			});
+
+		Button_2P->SetHover([=] {
+			if (Button_2P->IsCurAnimationEnd() == true)
+			{
+				Button_2P->ChangeAnimation("Hover");
+			}
+			});
+
+		Button_2P->SetDown([=] {
+			Button_2P->ChangeAnimation("Down");
+			});
+
+		Button_2P->SetPress([=] {
+
+			});
+
+		Button_2P->SetUp([=] {
+			Button_2P->ChangeAnimation("UnHover");
+			});
+	}
 
 	if (UEngineInput::IsDown('M'))
 	{
@@ -209,7 +275,7 @@ void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
 	{
 		return;
 	}
-	ServerNumber::GetInst().SetMyName(PlayerName);
+	ConnectionInfo::GetInst().SetMyName(PlayerName);
 	//Lobby->SetUserName(PlayerName);
 	//UEngineInputRecorder::RecordEnd();
 }

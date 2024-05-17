@@ -49,6 +49,8 @@ void APlayer::StateInit()
 	State.SetUpdateFunction("TrapStart", std::bind(&APlayer::TrapStart, this, std::placeholders::_1));
 	State.SetStartFunction("TrapStart", [=]()
 		{
+			IsTraped = true;
+			CurSpeed = 30.0f;
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_TrapStart");
 		});
 
@@ -74,6 +76,15 @@ void APlayer::StateInit()
 	State.SetUpdateFunction("Revival", std::bind(&APlayer::Revival, this, std::placeholders::_1));
 	State.SetStartFunction("Revival", [=]()
 		{
+			if (IsTraped == false)
+			{
+				State.ChangeState("Idle");
+				return;
+			}
+
+			CurSpeed = BaseSpeed + Speed;
+			Renderer->ChangeAnimation(Type + PlayerColorText + "_Revival");
+			IsTraped = false;
 		});
 
 	State.ChangeState("Idle");
@@ -170,6 +181,25 @@ void APlayer::TrapStart(float _DeltaTime)
 	{
 		State.ChangeState("Traped");
 	}
+
+	// 이동
+	
+	if (true == IsPress(VK_LEFT))
+	{
+		KeyMove(_DeltaTime, FVector::Left, CurSpeed);
+	}
+	else if (true == IsPress(VK_RIGHT))
+	{
+		KeyMove(_DeltaTime, FVector::Right, CurSpeed);
+	}
+	else if (true == IsPress(VK_UP))
+	{
+		KeyMove(_DeltaTime, FVector::Up, CurSpeed);
+	}
+	else if (true == IsPress(VK_DOWN))
+	{
+		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
+	}
 }
 
 void APlayer::Traped(float _DeltaTime)
@@ -177,6 +207,29 @@ void APlayer::Traped(float _DeltaTime)
 	if (Renderer->IsCurAnimationEnd())
 	{
 		State.ChangeState("TrapEnd");
+	}
+	if (true == IsPress(VK_LEFT))
+	{
+		KeyMove(_DeltaTime, FVector::Left, CurSpeed);
+	}
+	else if (true == IsPress(VK_RIGHT))
+	{
+		KeyMove(_DeltaTime, FVector::Right, CurSpeed);
+	}
+	else if (true == IsPress(VK_UP))
+	{
+		KeyMove(_DeltaTime, FVector::Up, CurSpeed);
+	}
+	else if (true == IsPress(VK_DOWN))
+	{
+		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
+	}
+
+	// 바늘 사용하면
+	if (true == IsDown('2'))
+	{
+		State.ChangeState("Revival");
+		return;
 	}
 }
 
@@ -186,6 +239,29 @@ void APlayer::TrapEnd(float _DeltaTime)
 	{
 		State.ChangeState("Die");
 	}
+	if (true == IsPress(VK_LEFT))
+	{
+		KeyMove(_DeltaTime, FVector::Left, CurSpeed);
+	}
+	else if (true == IsPress(VK_RIGHT))
+	{
+		KeyMove(_DeltaTime, FVector::Right, CurSpeed);
+	}
+	else if (true == IsPress(VK_UP))
+	{
+		KeyMove(_DeltaTime, FVector::Up, CurSpeed);
+	}
+	else if (true == IsPress(VK_DOWN))
+	{
+		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
+	}
+
+	// 바늘 사용하면
+	if (true == IsDown('2'))
+	{
+		State.ChangeState("Revival");
+		return;
+	}
 }
 
 void APlayer::Die(float _Update)
@@ -194,6 +270,11 @@ void APlayer::Die(float _Update)
 
 void APlayer::Revival(float _DeltaTime)
 {
+	if (Renderer->IsCurAnimationEnd())
+	{
+		State.ChangeState("Idle");
+		return;
+	}
 }
 
 void APlayer::KeyMove(float _DeltaTime, FVector _Dir, float _Speed)
@@ -203,5 +284,17 @@ void APlayer::KeyMove(float _DeltaTime, FVector _Dir, float _Speed)
 	if (true == CanMove)
 	{
 		AddActorLocation(_Dir * _DeltaTime * _Speed);
+	}
+}
+
+void APlayer::SetTrapState()
+{
+	if (false == IsTraped)
+	{
+		State.ChangeState("TrapStart");
+	}
+	else
+	{
+		return;
 	}
 }

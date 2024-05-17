@@ -51,6 +51,8 @@ public:
 	void SetPlayerColor(ECharacterColor _Color);
 	void PlayerInfoUpdate();
 
+	void SetTrapState();
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -77,6 +79,9 @@ protected:
 	bool Push = false;
 	bool Throw = false;
 
+	bool IsDevil = false;
+	bool MoveDevil = false;
+
 	float RenderChangeTime = 0.0f;
 
 	std::map<EItemType, int> MPlayerItem;
@@ -85,13 +90,19 @@ protected:
 	float BlockSize = 0.0f;
 	AMainPlayLevel* PlayLevel = nullptr;
 
-	void PickUpItem(float _DeltaTime);
+	void PickUpItem();
 	void AddItemCount(EItemType _ItemType);
+
+	void Devil(float _DeltaTime);
 
 	ECharacterType PlayerType = ECharacterType::Bazzi;
 	std::string Type = "Bazzi";
 	ECharacterColor PlayerColor = ECharacterColor::Red;
 	std::string PlayerColorText = "_R";
+
+	void PlayerCreateCuttingBazzi(std::string _Color);
+	void PlayerCreateCutting(std::string _CharacterType_Color);
+
 	void PlayerCreateBazziAnimation(std::string _Color);
 	void PlayerCreateAnimation(std::string _CharacterType_Color);
 
@@ -109,4 +120,5 @@ protected:
 	void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
 
 	bool IsDead = false;
+	bool IsTraped = false;
 };

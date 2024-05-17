@@ -23,7 +23,7 @@ enum class EWaveType
 	UpEnd,
 	Down,
 	DownEnd,
-	UnderBlock
+	UnderBlock,
 };
 
 // 0 ~ 999 (캐릭터 타입)
@@ -40,7 +40,8 @@ enum class ECharacterType
 	Kephi,
 	Su,
 	HooU,
-	Ray
+	Ray,
+	None,
 };
 
 enum class ECharacterColor
@@ -52,7 +53,8 @@ enum class ECharacterColor
 	Skyblue,
 	Blue,
 	Purple,
-	Pink
+	Pink,
+	None,
 };
 
 // 1000 ~ 1999 (맵 블록 타입)
