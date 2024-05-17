@@ -34,14 +34,36 @@ void AMainPlayLevel::BeginPlay()
 	CancelBtn = GetWorld()->SpawnActor<AInGameUI>("CancelButton");
 }
 
+void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
+{
+	Super::LevelStart(_PrevLevel);
+
+	CreateMap();
+}
+
+void AMainPlayLevel::CreateMap()
+{
+	switch (MapType)
+	{
+	case EMapType::Village:
+		break;
+	case EMapType::Forest:
+		break;
+	}
+}
+
+void AMainPlayLevel::LevelEnd(ULevel* _NextLevel)
+{
+	Super::LevelEnd(_NextLevel);
+
+	TileMap->Destroy();
+	TileMap = nullptr;
+
+	Player->Destroy();
+	Player = nullptr;
+}
+
 void AMainPlayLevel::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
-
-	//FVector PlayerPos = Player->GetActorLocation();
-	//
-	//{
-	//	std::string Msg = std::format("Item : {}\n", static_cast<int>(TileMap->IsItemTile(PlayerPos)));
-	//	UEngineDebugMsgWindow::PushMsg(Msg);
-	//}
 }

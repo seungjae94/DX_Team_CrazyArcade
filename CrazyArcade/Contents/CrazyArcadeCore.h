@@ -2,6 +2,7 @@
 #include <EngineCore/EngineCore.h>
 #include <EngineBase/EngineNet.h>
 #include <EngineBase/NetObject.h>
+#include "vector"
 
 #define GetToken UCrazyArcadeCore::GetNewNetObjectTokenSet() 
 
@@ -24,6 +25,7 @@ public:
 protected:
 	void Initialize() override;
 	void Tick(float _DeltaTime) override;
+	std::vector<bool> SessionInitVec = { true, false, false, false, false, false, false, false};
 private:
 	void ResLoad();
 	bool IsFunctionInit = false;
