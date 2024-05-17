@@ -6,6 +6,7 @@ class ABombBase;
 class AItemBase;
 class UTileInfo;
 class APlayer;
+class AWave;
 class ABox;
 
 // Tile 정보
@@ -21,6 +22,9 @@ public:
 class AMapBase : public AActor
 {
 	GENERATED_BODY(AActor)
+
+	friend ABombBase;
+	friend AWave;
 public:
 	// constrcuter destructer
 	AMapBase();
@@ -32,9 +36,10 @@ public:
 	AMapBase& operator=(const AMapBase& _Other) = delete;
 	AMapBase& operator=(AMapBase&& _Other) noexcept = delete;
 
-	int GetRenderOrder(const FVector& _Pos);
-	FPoint ConvertLocationToPoint(const FVector& _Pos);
-	FVector ConvertPointToLocation(const FPoint& _Point);
+	static int GetRenderOrder(const FVector& _Pos);
+	static FPoint ConvertLocationToPoint(const FVector& _Pos);
+	static FVector ConvertPointToLocation(const FPoint& _Point);
+	
 	bool CanMovePos(const FVector& _NextPos, const FVector& _Dir);
 	EItemType IsItemTile(const FVector& _Pos);
 	ABombBase* SpawnBomb(const FVector& _Pos, APlayer* _Player);
@@ -57,12 +62,6 @@ public:
 		TileInfo[_Point.Y][_Point.X].Block = _Block;
 	}
 
-	// 해당 좌표의 Tile 정보의 참조를 반환
-	UTileInfo& GetTileInfo(FPoint _Point)
-	{
-		return TileInfo[_Point.Y][_Point.X];
-	}
-
 protected:
 	inline void SetBackGround(std::string_view _Name)
 	{
@@ -74,6 +73,13 @@ protected:
 	void CreateBox(FPoint _Point, std::string_view _ImgName);
 	void CreateMoveBox(FPoint _Point, std::string_view _ImgName);
 	void CreateItem(FPoint _Point, EItemType _ItemType);
+
+private:
+	// 해당 좌표의 Tile 정보의 참조를 반환
+	UTileInfo& GetTileInfo(FPoint _Point)
+	{
+		return TileInfo[_Point.Y][_Point.X];
+	}
 
 protected:
 	void BeginPlay() override;
@@ -87,10 +93,12 @@ private:
 
 	std::vector<std::vector<UTileInfo>> TileInfo;
 
-	FVector StartPos = { 20.0f, 40.0f, 0.0f };
+	static FVector StartPos;
 	static float BlockSize;
 	int SizeX = 0;
 	int SizeY = 0;
+
+	static float BombAdjustPosY;
 
 };
 

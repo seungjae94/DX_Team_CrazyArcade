@@ -15,6 +15,8 @@ public:
 	AWave& operator=(const AWave& _Other) = delete;
 	AWave& operator=(AWave&& _Other) noexcept = delete;
 
+	void SetWaveType(EWaveType _WaveType);
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

@@ -7,7 +7,9 @@
 #include "ItemBase.h"
 #include "MoveBox.h"
 
+FVector AMapBase::StartPos = { 20.0f, 40.0f, 0.0f };
 float AMapBase::BlockSize = 40.0f;
+float AMapBase::BombAdjustPosY = 6.0f;
 
 AMapBase::AMapBase()
 {
@@ -241,7 +243,7 @@ ABombBase* AMapBase::SpawnBomb(const FVector& _Pos, APlayer* _Player)
 	if (nullptr == TileInfo[CurPoint.Y][CurPoint.X].Bomb)
 	{
 		FVector TargetPos = ConvertPointToLocation(CurPoint);
-		TargetPos.Y += 6.0f;
+		TargetPos.Y += BombAdjustPosY;
 		TileInfo[CurPoint.Y][CurPoint.X].Bomb = GetWorld()->SpawnActor<ABombBase>("Bomb");
 		TileInfo[CurPoint.Y][CurPoint.X].Bomb->SetActorLocation(TargetPos);
 		TileInfo[CurPoint.Y][CurPoint.X].Bomb->SetPlayer(_Player);
