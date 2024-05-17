@@ -2,6 +2,7 @@
 #include "MoveBox.h"
 
 #include "MainPlayLevel.h"
+#include "MapConstant.h"
 #include "MapBase.h"
 
 AMoveBox::AMoveBox()
@@ -26,26 +27,26 @@ void AMoveBox::StateInit()
 	Super::StateInit();
 	 
 	// State Create
-	State.CreateState("Move");
+	State.CreateState(MoveBoxState::move);
 
 	// State Start
-	State.SetStartFunction("Move", [=] 
+	State.SetStartFunction(MoveBoxState::move, [=]
 		{
 			MoveOneBlockCheck();
 		}
 	);
 
 	// State Update
-	State.SetUpdateFunction("Move", [=](float _DeltaTime)
+	State.SetUpdateFunction(MoveBoxState::move, [=](float _DeltaTime)
 		{
 			MoveUpdate(_DeltaTime);
 		}
 	);
 
 	// State End
-	State.SetEndFunction("Move", [=]
+	State.SetEndFunction(MoveBoxState::move, [=]
 		{
-			FPoint CurPoint = PlayLevel->GetMap()->ConvertLocationToPoint(GetActorLocation());
+			FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
 			FPoint PrevPoint = CurPoint;
 
 			if (0.0f < MoveDir.X)
@@ -109,13 +110,13 @@ void AMoveBox::MoveUpdate(float _DeltaTime)
 		FVector NextPos = FVector::LerpClamp(StartPos, TargetPos, MoveTime);
 		SetActorLocation(NextPos);
 
-		GetBody()->SetOrder(PlayLevel->GetMap()->GetRenderOrder(GetActorLocation()));
+		GetBody()->SetOrder(AMapBase::GetRenderOrder(GetActorLocation()));
 
 		if (1.0f < MoveTime)
 		{
 			MoveTime = 0.0f;
 			IsMoveValue = false;
-			State.ChangeState("Idle");
+			State.ChangeState(BlockBaseState::idle);
 			return;
 		}
 	}
