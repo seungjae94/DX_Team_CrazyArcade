@@ -1,4 +1,5 @@
 #pragma once
+#include "CrazyArcadeEnum.h"
 
 class ServerNumber
 {
@@ -33,6 +34,34 @@ public:
 	{
 		return MyOrder;
 	}
+	
+	void SetMyName(std::string _Name)
+	{
+		MyName = _Name;
+	}
+	std::string GetMyName() const
+	{
+		return MyName;
+	}
+
+	void SetCharacterType(ECharacterType _CharacterType)
+	{
+		MyCharacterType = _CharacterType;
+	}
+	ECharacterType GetCharacterType() const
+	{
+		return MyCharacterType;
+	}
+
+	
+	void SetCharacterColor(ECharacterColor _CharacterColor)
+	{
+		MyColorType = _CharacterColor;
+	}
+	ECharacterColor GetCharacterColor() const
+	{
+		return MyColorType;
+	}
 
 	void SetUserInfos(std::map<int, std::string> _Infos)
 	{
@@ -46,17 +75,33 @@ public:
 	{
 		return UserInfos;
 	}
-	
-	void SetMyName(std::string _Name)
+
+	void SetCharacterColor(std::map<int, ECharacterColor> _ColorInfos)
 	{
-		MyName = _Name;
+		CharacterColorInfos = _ColorInfos;
 	}
-	std::string GetMyName() const
+	void PushCharacterColor(int _Order, ECharacterColor _ColorType)
 	{
-		return MyName;
+		CharacterColorInfos[_Order] = _ColorType;
+	}
+	std::map<int, ECharacterColor>& GetCharacterColorInfos()
+	{
+		return CharacterColorInfos;
 	}
 
-	
+	void SetCharacterType(std::map<int, ECharacterType> _TypeInfos)
+	{
+		CharacterTypeInfos = _TypeInfos;
+	}
+	void PushCharacterType(int _Order, ECharacterType _CharacterType)
+	{
+		CharacterTypeInfos[_Order] = _CharacterType;
+	}
+	std::map<int, ECharacterType>& GetCharacterTypeInfos()
+	{
+		return CharacterTypeInfos;
+	}
+
 
 protected:
 
@@ -65,7 +110,15 @@ private:
 	~ServerNumber();
 
 	int CurSessionCount = 0;
+
 	int MyOrder = 0;
 	std::string MyName = "";
+
+	ECharacterType MyCharacterType = ECharacterType::None;
+	ECharacterColor MyColorType = ECharacterColor::None;
+
 	std::map<int, std::string> UserInfos;
+	std::map<int, ECharacterType> CharacterTypeInfos;
+	std::map<int, ECharacterColor> CharacterColorInfos;
+
 };
