@@ -54,7 +54,6 @@ void UCrazyArcadeCore::Tick(float _DeltaTime)
 		UEngineDispatcher& Dis = UCrazyArcadeCore::Net->Dispatcher;
 		Dis.AddHandler<UConnectNumberPacket>([=](std::shared_ptr<UConnectNumberPacket> _Packet)
 			{
-				UCrazyArcadeCore::Net->Send(_Packet);
 				GEngine->GetCurLevel()->PushFunction([=]()
 					{
 						int Order = _Packet->ConnectNum;
