@@ -116,6 +116,22 @@ void APlayer::Idle(float _Update)
 			Bomb = nullptr;
 		}
 	}
+	//Devil 효과로 물풍선 제어 불가
+	if (true == IsDevil && false == MoveDevil)
+	{
+		if (0 < BombCount)
+		{
+			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+			if (nullptr != Bomb)
+			{
+				--BombCount;
+			}
+		}
+		else
+		{
+			Bomb = nullptr;
+		}
+	}
 
 	if (true == IsPress(VK_LEFT) || true == IsPress(VK_RIGHT) || true == IsPress(VK_UP) || true == IsPress(VK_DOWN))
 	{
@@ -142,30 +158,84 @@ void APlayer::Run(float _DeltaTime)
 			Bomb = nullptr;
 		}
 	}
+	//Devil 효과로 물풍선 제어 불가
+	if (true == IsDevil && false == MoveDevil)
+	{
+		if (0 < BombCount)
+		{
+			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+			if (nullptr != Bomb)
+			{
+				--BombCount;
+			}
+		}
+		else
+		{
+			Bomb = nullptr;
+		}
+	}
 
 	if (true == IsPress(VK_LEFT))
 	{
-		Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Left");
-		KeyMove(_DeltaTime, FVector::Left, CurSpeed);
-		PlayerDir = EPlayerDir::Left;
+		//Devil 효과로 이동 반전되었을 때
+		if (true == IsDevil && true == MoveDevil)
+		{
+			Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Right");
+			KeyMove(_DeltaTime, FVector::Right, CurSpeed);
+			PlayerDir = EPlayerDir::Right;
+		}
+		else //기본 이동
+		{
+			Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Left");
+			KeyMove(_DeltaTime, FVector::Left, CurSpeed);
+			PlayerDir = EPlayerDir::Left;
+		}
 	}
 	else if (true == IsPress(VK_RIGHT))
 	{
-		Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Right");
-		KeyMove(_DeltaTime, FVector::Right, CurSpeed);
-		PlayerDir = EPlayerDir::Right;
+		if (true == IsDevil && true == MoveDevil)
+		{
+			Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Left");
+			KeyMove(_DeltaTime, FVector::Left, CurSpeed);
+			PlayerDir = EPlayerDir::Left;
+		}
+		else
+		{
+			Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Right");
+			KeyMove(_DeltaTime, FVector::Right, CurSpeed);
+			PlayerDir = EPlayerDir::Right;
+
+		}
 	}
 	else if (true == IsPress(VK_UP))
 	{
-		Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Up");
-		KeyMove(_DeltaTime, FVector::Up, CurSpeed);
-		PlayerDir = EPlayerDir::Up;
+		if (true == IsDevil && true == MoveDevil)
+		{
+			Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Down");
+			KeyMove(_DeltaTime, FVector::Down, CurSpeed);
+			PlayerDir = EPlayerDir::Down;
+		}
+		else
+		{
+			Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Up");
+			KeyMove(_DeltaTime, FVector::Up, CurSpeed);
+			PlayerDir = EPlayerDir::Up;
+		}
 	}
 	else if (true == IsPress(VK_DOWN))
 	{
-		Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Down");
-		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
-		PlayerDir = EPlayerDir::Down;
+		if (true == IsDevil && true == MoveDevil)
+		{
+			Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Up");
+			KeyMove(_DeltaTime, FVector::Up, CurSpeed);
+			PlayerDir = EPlayerDir::Up;
+		}
+		else
+		{
+			Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Down");
+			KeyMove(_DeltaTime, FVector::Down, CurSpeed);
+			PlayerDir = EPlayerDir::Down;
+		}
 	}
 
 	if (true == IsFree(VK_LEFT) && true == IsFree(VK_RIGHT) && true == IsFree(VK_UP) && true == IsFree(VK_DOWN))
