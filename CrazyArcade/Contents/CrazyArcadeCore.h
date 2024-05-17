@@ -29,5 +29,7 @@ protected:
 private:
 	void ResLoad();
 	bool IsFunctionInit = false;
+	bool ClientInfoInit = false;
+	bool ServerInfoInit = false;
 };
 

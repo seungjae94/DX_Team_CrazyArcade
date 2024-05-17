@@ -1,4 +1,7 @@
 #pragma once
+#include "MapHelper.h"
+
+class AMainPlayLevel;
 
 // ¼³¸í : ¹° ÆøÅº ÆÄµµ
 class AWave : public ANetActor
@@ -23,10 +26,12 @@ protected:
 
 private:
 	void SetImgCutting();
-	void CreateAnimation();
+	void CreateAnim();
 
 private:
+	AMainPlayLevel* PlayLevel = nullptr;
 	USpriteRenderer* Body = nullptr;
-
+	EWaveType WaveType;
+	FPoint CurPoint = { -1, -1 };
 };
 

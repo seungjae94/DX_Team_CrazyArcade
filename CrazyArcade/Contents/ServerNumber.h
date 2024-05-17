@@ -42,7 +42,7 @@ public:
 	{
 		UserInfos[_Order] = _Name;
 	}
-	std::map<int, std::string> GetUserInfos() const
+	std::map<int, std::string>& GetUserInfos()
 	{
 		return UserInfos;
 	}
@@ -56,6 +56,7 @@ public:
 		return MyName;
 	}
 
+	
 
 protected:
 

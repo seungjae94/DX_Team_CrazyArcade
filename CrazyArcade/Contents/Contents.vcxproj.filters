@@ -165,6 +165,9 @@
     <ClInclude Include="Wave.h">
       <Filter>Map\Bomb</Filter>
     </ClInclude>
+    <ClInclude Include="ForestMap.h">
+      <Filter>Map\Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -258,6 +261,9 @@
     </ClCompile>
     <ClCompile Include="Wave.cpp">
       <Filter>Map\Bomb</Filter>
+    </ClCompile>
+    <ClCompile Include="ForestMap.cpp">
+      <Filter>Map\Stage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

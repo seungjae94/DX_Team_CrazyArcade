@@ -102,6 +102,16 @@ public:
 		UEngineProtocol::Serialize(_Ser);
 		_Ser << ConnectNum;
 		_Ser << UserName;
+		_Ser << Infos;
+
+		UEngineSerializer Test;
+		Test = _Ser;
+
+		std::shared_ptr<UConnectNumberPacket> asdf = std::make_shared<UConnectNumberPacket>();
+		asdf->DeSerialize(_Ser);
+
+
+		int a = 0; 
 	}
 
 	void DeSerialize(UEngineSerializer& _Ser) override
@@ -109,11 +119,13 @@ public:
 		UEngineProtocol::DeSerialize(_Ser);
 		_Ser >> ConnectNum;
 		_Ser >> UserName;
+		_Ser >> Infos;
 	}
 
 public:
 	int ConnectNum = 0;
 	std::string UserName = "";
+	std::map<int, std::string> Infos;
 };
 
 class UConnectInitPacket : public UEngineProtocol {

@@ -1,7 +1,9 @@
 #include "PreCompile.h"
 #include "Box.h"
 
+#include "MainPlayLevel.h"
 #include "MapConstant.h"
+#include "MapBase.h"
 
 ABox::ABox()
 {
@@ -28,19 +30,24 @@ void ABox::StateInit()
 	Super::StateInit();
 
 	// State Create
-	State.CreateState(BoxState::destroy);
+	State.CreateState(BlockState::destroy);
 
 	// State Start
-	State.SetStartFunction(BoxState::destroy, [=] 
+	State.SetStartFunction(BlockState::destroy, [=]
 		{
-
+			GetBody()->ChangeAnimation(MapAnim::block_destroy);
 		}
 	);
 
 	// State Update
-	State.SetUpdateFunction(BoxState::destroy, [=](float _DeltaTime) 
+	State.SetUpdateFunction(BlockState::destroy, [=](float _DeltaTime)
 		{
-
+			if (true == GetBody()->IsCurAnimationEnd())
+			{
+				FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
+				PlayLevel->GetMap()->SetMapBlock(CurPoint, nullptr);
+				Destroy();
+			}
 		}
 	);
 }
