@@ -6,6 +6,7 @@
 #include "MapBase.h"
 #include "BlockBase.h"
 #include "ServerTestPlayer.h"
+#include "ItemBase.h"
 
 AWave::AWave()
 {
@@ -117,6 +118,12 @@ void AWave::Tick(float _DeltaTime)
 		if (8 > Body->GetCurAnimationFrame() && PlayerPoint == CurPoint)
 		{
 			Player->SetTrapState();
+		}
+
+		if (nullptr != PlayLevel->GetMap()->GetTileInfo(CurPoint).Item)
+		{
+			PlayLevel->GetMap()->GetTileInfo(CurPoint).Item->Destroy();
+			PlayLevel->GetMap()->GetTileInfo(CurPoint).Item = nullptr;
 		}
 
 		if (true == Body->IsCurAnimationEnd())
