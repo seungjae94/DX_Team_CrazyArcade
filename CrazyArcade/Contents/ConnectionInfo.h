@@ -17,15 +17,6 @@ public:
 		return Inst;
 	}
 
-	void SetSessionCount(int _Count)
-	{
-		CurSessionCount = _Count;
-	}
-	int GetCurSessionCount() const
-	{
-		return CurSessionCount;
-	}
-
 	void SetOrder(int _Order)
 	{
 		MyOrder = _Order;
@@ -35,14 +26,6 @@ public:
 		return MyOrder;
 	}
 	
-	void SetMyName(std::string _Name)
-	{
-		MyName = _Name;
-	}
-	std::string GetMyName() const
-	{
-		return MyName;
-	}
 
 	void SetCharacterType(ECharacterType _CharacterType)
 	{
@@ -58,6 +41,7 @@ public:
 	{
 		MyColorType = _CharacterColor;
 	}
+
 	ECharacterColor GetCharacterColor() const
 	{
 		return MyColorType;
@@ -93,13 +77,20 @@ public:
 	{
 		CharacterTypeInfos = _TypeInfos;
 	}
+
 	void PushCharacterType(int _Order, ECharacterType _CharacterType)
 	{
 		CharacterTypeInfos[_Order] = _CharacterType;
 	}
+
 	std::map<int, ECharacterType>& GetCharacterTypeInfos()
 	{
 		return CharacterTypeInfos;
+	}
+
+	int InfoSize() const
+	{
+		return UserInfos.size();
 	}
 
 
@@ -109,10 +100,7 @@ private:
 	ConnectionInfo();
 	~ConnectionInfo();
 
-	int CurSessionCount = 0;
-
 	int MyOrder = 0;
-	std::string MyName = "";
 
 	ECharacterType MyCharacterType = ECharacterType::None;
 	ECharacterColor MyColorType = ECharacterColor::None;
