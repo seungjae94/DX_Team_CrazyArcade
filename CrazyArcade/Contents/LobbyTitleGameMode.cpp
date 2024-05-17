@@ -827,7 +827,7 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 
 	// Space Update
 	{
-		int UserCnt = ConnectionInfo::GetInst().InfoSize();
+		int UserCnt = ConnectionInfo::GetInst().GetInfoSize();
 		for (int i = 0; i < UserCnt + 1; i++)
 		{
 			SpaceOn(i);
