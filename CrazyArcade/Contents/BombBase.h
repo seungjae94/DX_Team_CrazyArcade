@@ -46,6 +46,8 @@ private:
 	void CreateUpWave();
 	void CreateDownWave();
 
+	void PlayerBombCountUpdate();
+
 private:
 	AMainPlayLevel* PlayLevel = nullptr;
 	APlayer* Player = nullptr;
