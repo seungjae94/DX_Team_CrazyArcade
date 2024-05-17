@@ -16,24 +16,40 @@ public:
 		return Inst;
 	}
 
-	int GetCurSessionCount()
-	{
-		return CurSessionCount;
-	}
-
 	void SetSessionCount(int _Count)
 	{
 		CurSessionCount = _Count;
 	}
-
-	void AddSession()
+	int GetCurSessionCount() const
 	{
-		CurSessionCount += 1;
+		return CurSessionCount;
 	}
 
-	void MinSession()
+	void SetOrder(int _Order)
 	{
-		CurSessionCount -= 1;
+		MyOrder = _Order;
+	}
+	int GetOrder() const
+	{
+		return MyOrder;
+	}
+
+	void SetUserInfos(int _Order, std::string _Name)
+	{
+		UserInfos[_Order] = _Name;
+	}
+	std::map<int, std::string> GetUserInfos() const
+	{
+		return UserInfos;
+	}
+	
+	void SetMyName(std::string _Name)
+	{
+		MyName = _Name;
+	}
+	std::string GetMyName() const
+	{
+		return MyName;
 	}
 
 
@@ -44,5 +60,7 @@ private:
 	~ServerNumber();
 
 	int CurSessionCount = 0;
-
+	int MyOrder = 0;
+	std::string MyName = "";
+	std::map<int, std::string> UserInfos;
 };
