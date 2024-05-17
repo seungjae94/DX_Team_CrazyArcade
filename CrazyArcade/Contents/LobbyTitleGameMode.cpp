@@ -31,18 +31,15 @@ void ALobbyTitleGameMode::BeginPlay()
 				User.SpaceIndex = i;
 				User.Name = "";
 				User.CharacterType = ECharacterType::Random;
-				User.CharacterCorlor = ECharacterColor::Red;
+				User.CharacterColor = ECharacterColor::Red;
 
 				UserInfos.push_back(User);
 			}
-		}
 
-		// PlayerInfo
-		{
 			Player.SpaceIndex = 0;
 			Player.Name = "";
 			Player.CharacterType = ECharacterType::Random;
-			Player.CharacterCorlor = ECharacterColor::Red;
+			Player.CharacterColor = ECharacterColor::Red;
 		}
 
 		// BackGround
@@ -284,6 +281,140 @@ void ALobbyTitleGameMode::BeginPlay()
 					}
 				}
 
+				for (int i = 0; i < 12; i++)
+				{
+					CharacterAbilityInfo Character;
+
+					switch (i)
+					{
+					case 0:
+					{
+						Character.BombMin = 0;
+						Character.BombMax = 0;
+						Character.BombWaterMin = 0;
+						Character.BombWaterMax = 0;
+						Character.SpeedMin = 0;
+						Character.SpeedMax = 0;
+						break;
+					}
+					case 1:
+					{
+						Character.BombMin = 1;
+						Character.BombMax = 10;
+						Character.BombWaterMin = 1;
+						Character.BombWaterMax = 7;
+						Character.SpeedMin = 5;
+						Character.SpeedMax = 7;
+						break;
+					}
+					case 2:
+					{
+						Character.BombMin = 2;
+						Character.BombMax = 7;
+						Character.BombWaterMin = 1;
+						Character.BombWaterMax = 9;
+						Character.SpeedMin = 4;
+						Character.SpeedMax = 8;
+						break;
+					}
+					case 3:
+					{
+						Character.BombMin = 1;
+						Character.BombMax = 8;
+						Character.BombWaterMin = 1;
+						Character.BombWaterMax = 5;
+						Character.SpeedMin = 5;
+						Character.SpeedMax = 8;
+						break;
+					}
+					case 4:
+					{
+						Character.BombMin = 1;
+						Character.BombMax = 10;
+						Character.BombWaterMin = 1;
+						Character.BombWaterMax = 8;
+						Character.SpeedMin = 4;
+						Character.SpeedMax = 8;
+						break;
+					}
+					case 5:
+					{
+						Character.BombMin = 2;
+						Character.BombMax = 9;
+						Character.BombWaterMin = 1;
+						Character.BombWaterMax = 6;
+						Character.SpeedMin = 4;
+						Character.SpeedMax = 8;
+						break;
+					}
+					case 6:
+					{
+						Character.BombMin = 1;
+						Character.BombMax = 6;
+						Character.BombWaterMin = 1;
+						Character.BombWaterMax = 7;
+						Character.SpeedMin = 5;
+						Character.SpeedMax = 9;
+						break;
+					}
+					case 7:
+					{
+						Character.BombMin = 1;
+						Character.BombMax = 6;
+						Character.BombWaterMin = 2;
+						Character.BombWaterMax = 7;
+						Character.SpeedMin = 5;
+						Character.SpeedMax = 8;
+						break;
+					}
+					case 8:
+					{
+						Character.BombMin = 1;
+						Character.BombMax = 9;
+						Character.BombWaterMin = 2;
+						Character.BombWaterMax = 8;
+						Character.SpeedMin = 4;
+						Character.SpeedMax = 8;
+						break;
+					}
+					case 9:
+					{
+						Character.BombMin = 2;
+						Character.BombMax = 9;
+						Character.BombWaterMin = 1;
+						Character.BombWaterMax = 7;
+						Character.SpeedMin = 6;
+						Character.SpeedMax = 10;
+						break;
+					}
+					case 10:
+					{
+						Character.BombMin = 3;
+						Character.BombMax = 9;
+						Character.BombWaterMin = 1;
+						Character.BombWaterMax = 7;
+						Character.SpeedMin = 5;
+						Character.SpeedMax = 10;
+						break;
+					}
+					case 11:
+					{
+						Character.BombMin = 2;
+						Character.BombMax = 9;
+						Character.BombWaterMin = 1;
+						Character.BombWaterMax = 7;
+						Character.SpeedMin = 6;
+						Character.SpeedMax = 10;
+						break;
+					}
+					default:
+						break;
+					}
+					
+					CharacterAbilityInfos.push_back(Character);
+				}
+
+				SettingPanel(ECharacterType(0));
 				PanelOff();
 			}
 
@@ -444,7 +575,8 @@ void ALobbyTitleGameMode::BeginPlay()
 					});
 
 				Btns_CharacterSelect[i]->SetUp([=] {
-					ChangeCharacter(ECharacterType(i));
+					Player.CharacterType = ECharacterType(i);
+					//ChangeCharacter(ECharacterType(i));
 					});
 			}
 
@@ -580,7 +712,8 @@ void ALobbyTitleGameMode::BeginPlay()
 					});
 
 				Btns_ColorSelect[i]->SetUp([=] {
-					ChangeColor(ECharacterColor(i));
+					Player.CharacterColor = ECharacterColor(i);
+					//ChangeColor(ECharacterColor(i));
 					});
 			}
 
@@ -598,7 +731,7 @@ void ALobbyTitleGameMode::BeginPlay()
 		Space_Available[Player.SpaceIndex] = true;
 		Usernames_Space[Player.SpaceIndex]->SetText(Player.Name);
 		ChangeCharacter(Player.CharacterType);
-		ChangeColor(Player.CharacterCorlor);
+		ChangeColor(Player.CharacterColor);
 	}
 }
 
@@ -656,24 +789,45 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 	// PlayerInfo Update
 	{
 		Player.SpaceIndex = ConnectionInfo::GetInst().GetOrder();
-		Player.Name = ConnectionInfo::GetInst().GetMyName();
+		//Player.Name = ConnectionInfo::GetInst().GetMyName();
 
+		// temp
 		ConnectionInfo::GetInst().PushUserInfos(Player.SpaceIndex, Player.Name);
+		ConnectionInfo::GetInst().PushCharacterType(Player.SpaceIndex, Player.CharacterType);
+		ConnectionInfo::GetInst().PushCharacterColor(Player.SpaceIndex, Player.CharacterColor);
 	}
 
 	// UserInfos Update
 	{
-		std::map<int, std::string> ServerUserInfos = ConnectionInfo::GetInst().GetUserInfos();
-
-		for (int i = 0; i < 8; i++)
 		{
-			UserInfos[i].Name = ServerUserInfos[i];
+			std::map<int, std::string> ServerUserInfos = ConnectionInfo::GetInst().GetUserInfos();
+
+			for (int i = 0; i < 8; i++)
+			{
+				UserInfos[i].Name = ServerUserInfos[i];
+			}
+		}
+		{
+			std::map<int, ECharacterType> ServerCharacterTypeInfos = ConnectionInfo::GetInst().GetCharacterTypeInfos();
+
+			for (int i = 0; i < 8; i++)
+			{
+				UserInfos[i].CharacterType = ServerCharacterTypeInfos[i];
+			}
+		}
+		{
+			std::map<int, ECharacterColor> ServerCharacterColorInfos = ConnectionInfo::GetInst().GetCharacterColorInfos();
+
+			for (int i = 0; i < 8; i++)
+			{
+				UserInfos[i].CharacterColor = ServerCharacterColorInfos[i];
+			}
 		}
 	}
 
 	// Space Update
 	{
-		int UserCnt = ConnectionInfo::GetInst().GetCurSessionCount();
+		int UserCnt = ConnectionInfo::GetInst().InfoSize();
 		for (int i = 0; i < UserCnt + 1; i++)
 		{
 			SpaceOn(i);
@@ -703,15 +857,15 @@ void ALobbyTitleGameMode::PanelOn()
 	UpperPanel_CharacterSelect->SetActive(true);
 	Panel_CharacterSelect->SetActive(true);
 
-	for (int i = 0; i < BombMax_Panel; i++)
+	for (int i = 0; i < PanelInfo.BombMax; i++)
 	{
 		Traits_CharacterSelect[0][i]->SetActive(true);
 	}
-	for (int i = 0; i < BombWaterMax_Panel; i++)
+	for (int i = 0; i < PanelInfo.BombWaterMax; i++)
 	{
 		Traits_CharacterSelect[1][i]->SetActive(true);
 	}
-	for (int i = 0; i < SpeedMax_Panel; i++)
+	for (int i = 0; i < PanelInfo.SpeedMax; i++)
 	{
 		Traits_CharacterSelect[2][i]->SetActive(true);
 	}
@@ -732,167 +886,98 @@ void ALobbyTitleGameMode::PanelOff()
 
 void ALobbyTitleGameMode::SettingPanel(ECharacterType _CharacterType)
 {
+	// Sprite
 	switch (_CharacterType)
 	{
 	case ECharacterType::Random:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Random.png");
-		BombMin_Panel = 0;
-		BombMax_Panel = 0;
-		BombWaterMin_Panel = 0;
-		BombWaterMax_Panel = 0;
-		SpeedMin_Panel = 0;
-		SpeedMax_Panel = 0;
 		break;
 	}
 	case ECharacterType::Dao:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Dao.png");
-		BombMin_Panel = 1;
-		BombMax_Panel = 10;
-		BombWaterMin_Panel = 1;
-		BombWaterMax_Panel = 7;
-		SpeedMin_Panel = 5;
-		SpeedMax_Panel = 7;
 		break;
 	}
 	case ECharacterType::Dizni:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Dizni.png");
-		BombMin_Panel = 2;
-		BombMax_Panel = 7;
-		BombWaterMin_Panel = 1;
-		BombWaterMax_Panel = 9;
-		SpeedMin_Panel = 4;
-		SpeedMax_Panel = 8;
 		break;
 	}
 	case ECharacterType::Mos:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Mos.png");
-		BombMin_Panel = 1;
-		BombMax_Panel = 8;
-		BombWaterMin_Panel = 1;
-		BombWaterMax_Panel = 5;
-		SpeedMin_Panel = 5;
-		SpeedMax_Panel = 8;
 		break;
 	}
 	case ECharacterType::Ethi:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Ethi.png");
-		BombMin_Panel = 1;
-		BombMax_Panel = 10;
-		BombWaterMin_Panel = 1;
-		BombWaterMax_Panel = 8;
-		SpeedMin_Panel = 4;
-		SpeedMax_Panel = 8;
 		break;
 	}
 	case ECharacterType::Marid:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Marid.png");
-		BombMin_Panel = 2;
-		BombMax_Panel = 9;
-		BombWaterMin_Panel = 1;
-		BombWaterMax_Panel = 6;
-		SpeedMin_Panel = 4;
-		SpeedMax_Panel = 8;
 		break;
 	}
 	case ECharacterType::Bazzi:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Bazzi.png");
-		BombMin_Panel = 1;
-		BombMax_Panel = 6;
-		BombWaterMin_Panel = 1;
-		BombWaterMax_Panel = 7;
-		SpeedMin_Panel = 5;
-		SpeedMax_Panel = 9;
 		break;
 	}
 	case ECharacterType::Uni:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Uni.png");
-		BombMin_Panel = 1;
-		BombMax_Panel = 6;
-		BombWaterMin_Panel = 2;
-		BombWaterMax_Panel = 7;
-		SpeedMin_Panel = 5;
-		SpeedMax_Panel = 8;
 		break;
 	}
 	case ECharacterType::Kephi:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Kephi.png");
-		BombMin_Panel = 1;
-		BombMax_Panel = 9;
-		BombWaterMin_Panel = 2;
-		BombWaterMax_Panel = 8;
-		SpeedMin_Panel = 4;
-		SpeedMax_Panel = 8;
 		break;
 	}
 	case ECharacterType::Su:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Su.png");
-		BombMin_Panel = 2;
-		BombMax_Panel = 9;
-		BombWaterMin_Panel = 1;
-		BombWaterMax_Panel = 7;
-		SpeedMin_Panel = 6;
-		SpeedMax_Panel = 10;
 		break;
 	}
 	case ECharacterType::HooU:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_HooU.png");
-		BombMin_Panel = 3;
-		BombMax_Panel = 9;
-		BombWaterMin_Panel = 1;
-		BombWaterMax_Panel = 7;
-		SpeedMin_Panel = 5;
-		SpeedMax_Panel = 10;
 		break;
 	}
 	case ECharacterType::Ray:
 	{
 		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Ray.png");
-		BombMin_Panel = 2;
-		BombMax_Panel = 9;
-		BombWaterMin_Panel = 1;
-		BombWaterMax_Panel = 7;
-		SpeedMin_Panel = 6;
-		SpeedMax_Panel = 10;
 		break;
 	}
 	default:
 		break;
 	}
 
-	for (int i = 0; i < BombMin_Panel; i++)
+	// PanelInfo
+	PanelInfo = CharacterAbilityInfos[int(_CharacterType)];
+
+	// TraitBar
+	for (int i = 0; i < PanelInfo.BombMin; i++)
 	{
 		Traits_CharacterSelect[0][i]->SetSprite("TraitBar_CharatorSelect_Min.png");
 	}
-	for (int i = BombMin_Panel; i < BombMax_Panel; i++)
+	for (int i = PanelInfo.BombMin; i < PanelInfo.BombMax; i++)
 	{
 		Traits_CharacterSelect[0][i]->SetSprite("TraitBar_CharatorSelect_Max.png");
 	}
-
-	for (int i = 0; i < BombWaterMin_Panel; i++)
+	for (int i = 0; i < PanelInfo.BombWaterMin; i++)
 	{
 		Traits_CharacterSelect[1][i]->SetSprite("TraitBar_CharatorSelect_Min.png");
 	}
-	for (int i = BombWaterMin_Panel; i < BombWaterMax_Panel; i++)
+	for (int i = PanelInfo.BombWaterMin; i < PanelInfo.BombWaterMax; i++)
 	{
 		Traits_CharacterSelect[1][i]->SetSprite("TraitBar_CharatorSelect_Max.png");
 	}
-
-	for (int i = 0; i < SpeedMin_Panel; i++)
+	for (int i = 0; i < PanelInfo.SpeedMin; i++)
 	{
 		Traits_CharacterSelect[2][i]->SetSprite("TraitBar_CharatorSelect_Min.png");
 	}
-	for (int i = SpeedMin_Panel; i < SpeedMax_Panel; i++)
+	for (int i = PanelInfo.SpeedMin; i < PanelInfo.SpeedMax; i++)
 	{
 		Traits_CharacterSelect[2][i]->SetSprite("TraitBar_CharatorSelect_Max.png");
 	}
@@ -913,7 +998,7 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 		return;
 	}
 
-	Player.CharacterType = _CharacterType;
+	//Player.CharacterType = _CharacterType;
 	int Index_CharacterType = int(_CharacterType);
 
 	CharacterSelect_Pick[Index_CharacterType] = true;
@@ -969,7 +1054,7 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 
 void ALobbyTitleGameMode::ChangeColor(ECharacterColor _CharacterColor)
 {
-	Player.CharacterCorlor = _CharacterColor;
+	//Player.CharacterColor = _CharacterColor;
 	int Index_CharacterColor = int(_CharacterColor);
 
 	ColorSelect_Pick[Index_CharacterColor] = true;

@@ -22,7 +22,7 @@ public:
 
 	inline ECharacterColor GetPlayerCharacterColor()
 	{
-		return Player.CharacterCorlor;
+		return Player.CharacterColor;
 	}
 
 protected:
@@ -41,23 +41,17 @@ protected:
 	void FadeOut(float _DeltaTime);
 
 private:
-	// PlayerInfo
+	// UserInfos
 	struct UserInfo
 	{
 		int SpaceIndex;
 		std::string Name;
 		ECharacterType CharacterType;
-		ECharacterColor CharacterCorlor;
+		ECharacterColor CharacterColor;
 		//ability, rank, ...etc.
 	};
-
-	UserInfo Player;
-
-	// UserInfos
 	std::vector<UserInfo> UserInfos;
-
-	// TitleLevel Info
-	std::string UserName_Input = "";
+	UserInfo Player;
 
 	// BackGround
 	UImage* LobbyBackGround = nullptr;
@@ -86,16 +80,23 @@ private:
 	UImage* UpperPanel_CharacterSelect = nullptr;
 	UImage* Panel_CharacterSelect = nullptr;
 	std::map<int, std::vector<UImage*>> Traits_CharacterSelect;
+
+	struct CharacterAbilityInfo
+	{
+		int BombMin = 0;
+		int BombMax = 0;
+		int BombWaterMin = 0;
+		int BombWaterMax = 0;
+		int SpeedMin = 0;
+		int SpeedMax = 0;
+	};
+	std::vector<CharacterAbilityInfo> CharacterAbilityInfos;
+	CharacterAbilityInfo PanelInfo;
+
 	std::vector<UImage*> Btns_CharacterSelect;
 	std::vector<bool> CharacterSelect_Pick;
 	UImage* Outline_CharacterSelect = nullptr;
 	UImage* Checker_CharacterSelect = nullptr;
-	int BombMin_Panel = 0;
-	int BombMax_Panel = 0;
-	int BombWaterMin_Panel = 0;
-	int BombWaterMax_Panel = 0;
-	int SpeedMin_Panel = 0;
-	int SpeedMax_Panel = 0;
 
 	// ColorSelect
 	std::vector<UImage*> Btns_ColorSelect;
