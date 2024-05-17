@@ -3,6 +3,7 @@
 
 #include "Player.h"
 #include "VillageMap.h"
+#include "ForestMap.h"
 #include "ServerTestPlayer.h"
 //UI
 #include "TimerUI.h"
@@ -22,9 +23,9 @@ void AMainPlayLevel::BeginPlay()
 {
 	Super::BeginPlay();
 
-	TileMap = GetWorld()->SpawnActor<AVillageMap>("TileMap");
+	TileMap = GetWorld()->SpawnActor<AForestMap>("TileMap");
 
-	Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
+	Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");	
 	Player->SetActorLocation({ 398.0f, 344.0f, 0.0f });
 
 	//UI

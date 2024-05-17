@@ -7,15 +7,26 @@ namespace MapImgRes
 	const std::string_view village_background	= "spr_village1_background.png";
 	const std::string_view Forest_background = "spr_forest_background.png";
 	
-	// Block
+	// Wall
 	const std::string_view block_vil_house_0	= "spr_vil_house_0.png";
 	const std::string_view block_vil_house_1	= "spr_vil_house_1.png";
 	const std::string_view block_vil_house_2	= "spr_vil_house_2.png";
 	const std::string_view block_vil_tree_0		= "spr_vil_tree_0.png";
 
+	const std::string_view block_forest_pool = "spr_forest_pool.png";
+	const std::string_view block_forest_rock = "spr_forest_rock.png";
+
+	//box
 	const std::string_view block_vil_box0		= "spr_vil_Box0";
 	const std::string_view block_vil_box1		= "spr_vil_Box1";
 	const std::string_view block_vil_box2		= "spr_vil_Box2";
+
+	const std::string_view block_forest_leef1	= "spr_forest_leef1.png";
+	const std::string_view block_forest_leef2	= "spr_forest_leef2.png";
+	const std::string_view block_forest_bush1 = "spr_forest_bush1.png";
+	const std::string_view block_forest_bush2 = "spr_forest_bush2.png";
+	const std::string_view block_forest_bush3 = "spr_forest_bush3.png";
+	const std::string_view block_forest_basket = "spr_forest_basket.png";
 
 	// Item
 	const std::string_view item_shadow			= "spr_item_shadow";
