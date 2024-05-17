@@ -104,6 +104,8 @@ private:
 	UImage* Checker_ColorSelect = nullptr;
 
 	void SettingPanel(ECharacterType _CharacterType);
+	void SettingName(int _SpaceIndex);
+	void SettingCharacter(int _SpaceIndex);
 	void ChangeCharacter(ECharacterType _CharacterType);
 	void ChangeColor(ECharacterColor _CharacterColor);
 };

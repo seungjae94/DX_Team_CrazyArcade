@@ -575,8 +575,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					});
 
 				Btns_CharacterSelect[i]->SetUp([=] {
-					Player.CharacterType = ECharacterType(i);
-					//ChangeCharacter(ECharacterType(i));
+					ChangeCharacter(ECharacterType(i));
 					});
 			}
 
@@ -712,8 +711,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					});
 
 				Btns_ColorSelect[i]->SetUp([=] {
-					Player.CharacterColor = ECharacterColor(i);
-					//ChangeColor(ECharacterColor(i));
+					ChangeColor(ECharacterColor(i));
 					});
 			}
 
@@ -828,10 +826,11 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 	// Space Update
 	{
 		int UserCnt = ConnectionInfo::GetInst().GetInfoSize();
-		for (int i = 0; i < UserCnt + 1; i++)
+		for (int i = 0; i < UserCnt; i++)
 		{
 			SpaceOn(i);
-			Usernames_Space[i]->SetText(UserInfos[i].Name);
+			SettingName(i);
+			SettingCharacter(i);
 		}
 	}
 }
@@ -983,6 +982,50 @@ void ALobbyTitleGameMode::SettingPanel(ECharacterType _CharacterType)
 	}
 }
 
+void ALobbyTitleGameMode::SettingName(int _SpaceIndex)
+{
+	Usernames_Space[_SpaceIndex]->SetText(UserInfos[_SpaceIndex].Name);
+}
+
+void ALobbyTitleGameMode::SettingCharacter(int _SpaceIndex)
+{
+	ECharacterType Type = UserInfos[_SpaceIndex].CharacterType;
+	ECharacterColor Color = UserInfos[_SpaceIndex].CharacterColor;
+
+	switch (Type)
+	{
+	case ECharacterType::Random:
+	{
+		Characters_Space[_SpaceIndex]->SetSprite("Charcater_Space_Random.png");
+		break;
+	}
+	case ECharacterType::Dao:
+	{
+		Characters_Space[_SpaceIndex]->SetSprite("Charcater_Space_Dao.png");
+		break;
+	}
+	case ECharacterType::Marid:
+	{
+		Characters_Space[_SpaceIndex]->SetSprite("Charcater_Space_Marid.png");
+		break;
+	}
+	case ECharacterType::Bazzi:
+	{
+		Characters_Space[_SpaceIndex]->SetSprite("Charcater_Space_Bazzi.png");
+		break;
+	}
+	case ECharacterType::Kephi:
+	{
+		Characters_Space[_SpaceIndex]->SetSprite("Charcater_Space_Kephi.png");
+		break;
+	}
+	default:
+		break;
+	}
+
+	/* Color options to be added */
+}
+
 void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 {
 	if (
@@ -998,9 +1041,11 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 		return;
 	}
 
-	//Player.CharacterType = _CharacterType;
+	// PlayerInfo
+	Player.CharacterType = _CharacterType;
 	int Index_CharacterType = int(_CharacterType);
 
+	// Button
 	CharacterSelect_Pick[Index_CharacterType] = true;
 	Btns_CharacterSelect[Index_CharacterType]->ChangeAnimation("Pick");
 
@@ -1013,35 +1058,31 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 		}
 	}
 
+	// Outline
 	switch (_CharacterType)
 	{
 	case ECharacterType::Random:
 	{
-		Characters_Space[Player.SpaceIndex]->SetSprite("Charcater_Space_Random.png");
 		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Random.png");
 		break;
 	}
 	case ECharacterType::Dao:
 	{
-		Characters_Space[Player.SpaceIndex]->SetSprite("Charcater_Space_Dao.png");
 		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Dao.png");
 		break;
 	}
 	case ECharacterType::Marid:
 	{
-		Characters_Space[Player.SpaceIndex]->SetSprite("Charcater_Space_Marid.png");
 		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Marid.png");
 		break;
 	}
 	case ECharacterType::Bazzi:
 	{
-		Characters_Space[Player.SpaceIndex]->SetSprite("Charcater_Space_Bazzi.png");
 		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Bazzi.png");
 		break;
 	}
 	case ECharacterType::Kephi:
 	{
-		Characters_Space[Player.SpaceIndex]->SetSprite("Charcater_Space_Kephi.png");
 		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Kephi.png");
 		break;
 	}
@@ -1049,14 +1090,17 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 		break;
 	}
 
+	// Checker
 	Checker_CharacterSelect->SetWidgetLocation({ 150.0f + (72.0f * (Index_CharacterType % 4)), 202.0f - (55.0f * (Index_CharacterType / 4)) });
 }
 
 void ALobbyTitleGameMode::ChangeColor(ECharacterColor _CharacterColor)
 {
-	//Player.CharacterColor = _CharacterColor;
+	// PlayerInfo
+	Player.CharacterColor = _CharacterColor;
 	int Index_CharacterColor = int(_CharacterColor);
 
+	// Button
 	ColorSelect_Pick[Index_CharacterColor] = true;
 	Btns_ColorSelect[Index_CharacterColor]->ChangeAnimation("Pick");
 
@@ -1069,8 +1113,7 @@ void ALobbyTitleGameMode::ChangeColor(ECharacterColor _CharacterColor)
 		}
 	}
 
-	/* Character image change */
-
+	// Checker
 	Checker_ColorSelect->SetWidgetLocation({ 117.0f + (36.0f * Index_CharacterColor), 17.0f });
 }
 
