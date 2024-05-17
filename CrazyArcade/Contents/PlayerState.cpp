@@ -68,6 +68,7 @@ void APlayer::StateInit()
 	State.SetStartFunction("Die", [=]()
 		{
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Die");
+			SetPlayerDead();
 		});
 
 	State.SetUpdateFunction("Revival", std::bind(&APlayer::Revival, this, std::placeholders::_1));

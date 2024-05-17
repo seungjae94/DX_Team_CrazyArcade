@@ -50,6 +50,17 @@ void AMapBase::CreateMoveBox(FPoint _Point, std::string_view _ImgName)
 	TileInfo[_Point.Y][_Point.X].Block->SetActorLocation(Pos);
 }
 
+void AMapBase::CreateHollowWall(FPoint _Point)
+{
+	TileInfo[_Point.Y][_Point.X].Block = GetWorld()->SpawnActor<AWall>("Hollow_Wall");
+	TileInfo[_Point.Y][_Point.X].Block->GetBody()->SetActive(false);
+
+	FVector Pos = StartPos;
+	Pos.X += _Point.X * BlockSize;
+	Pos.Y += _Point.Y * BlockSize;
+	TileInfo[_Point.Y][_Point.X].Block->SetActorLocation(Pos);
+}
+
 void AMapBase::CreateItem(FPoint _Point, EItemType _ItemType)
 {
 	TileInfo[_Point.Y][_Point.X].Item = GetWorld()->SpawnActor<AItemBase>("Item");
