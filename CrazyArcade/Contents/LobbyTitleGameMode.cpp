@@ -27,10 +27,13 @@ void ALobbyTitleGameMode::BeginPlay()
 		{
 			for (int i = 0; i < 8; i++)
 			{
-				UserInfos[i].SpaceIndex = i;
-				UserInfos[i].Name = "";
-				UserInfos[i].CharacterType = ECharacterType::Random;
-				UserInfos[i].CharacterCorlor = ECharacterColor::Red;
+				UserInfo User;
+				User.SpaceIndex = i;
+				User.Name = "";
+				User.CharacterType = ECharacterType::Random;
+				User.CharacterCorlor = ECharacterColor::Red;
+
+				UserInfos.push_back(User);
 			}
 		}
 

@@ -163,7 +163,7 @@ void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
 		return;
 	}
 	ServerNumber::GetInst().SetMyName(PlayerName);
-	Lobby->SetUserName(PlayerName);
+	//Lobby->SetUserName(PlayerName);
 	//UEngineInputRecorder::RecordEnd();
 }
 
