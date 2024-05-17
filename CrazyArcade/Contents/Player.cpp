@@ -144,6 +144,7 @@ void APlayer::PickUpItem()
 		}
 		break;
 	case EItemType::RedDevil:
+		Speed = MaxSpeed - BaseSpeed;
 		CurSpeed = MaxSpeed;
 		break;
 	case EItemType::Glove:
