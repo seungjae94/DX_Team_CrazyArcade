@@ -76,7 +76,7 @@ void APlayer::BeginPlay()
 
 
 
-	Renderer->ChangeAnimation("Idle_Down");
+	Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Down");
 	Renderer->SetAutoSize(0.9f, true);
 	Renderer->AddPosition({ 0.0f, BlockSize / 2.0f, 0.0f });
 
