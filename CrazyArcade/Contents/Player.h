@@ -11,12 +11,6 @@ enum class EPlayerDir
 	Down,
 };
 
-enum class EPlayerColor
-{
-	Red,
-	Yellow,
-};
-
 class AMainPlayLevel;
 class ABombBase;
 
@@ -44,6 +38,7 @@ public:
 	{
 		++BombCount;
 	}
+	void SetPlayerColor(ECharacterColor _Color);
 
 protected:
 	void BeginPlay() override;
@@ -79,8 +74,11 @@ protected:
 
 	void PickUpItem();
 	void AddItemCount(EItemType _ItemType);
-	void SetPlayerColor(EPlayerColor _Color);
-	std::string PlayerColor = "";
+
+	ECharacterColor PlayerColor = ECharacterColor::Green;
+	std::string PlayerColorText = "_G";
+
+	void CreateAnimation();
 
 	//State
 	void StateInit();
