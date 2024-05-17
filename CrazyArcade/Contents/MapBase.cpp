@@ -33,6 +33,31 @@ AMapBase::AMapBase()
 
 AMapBase::~AMapBase()
 {
+	for (size_t Y = 0; Y < TileInfo.size(); Y++)
+	{
+		for (size_t X = 0; X < TileInfo[Y].size(); X++)
+		{
+			if (nullptr != TileInfo[Y][X].Block)
+			{
+				TileInfo[Y][X].Block->Destroy();
+				TileInfo[Y][X].Block = nullptr;
+			}
+
+			if (nullptr != TileInfo[Y][X].Bomb)
+			{
+				TileInfo[Y][X].Bomb->Destroy();
+				TileInfo[Y][X].Bomb = nullptr;
+			}
+
+			if (nullptr != TileInfo[Y][X].Item)
+			{
+				TileInfo[Y][X].Item->Destroy();
+				TileInfo[Y][X].Item = nullptr;
+			}
+		}
+	}
+
+	TileInfo.clear();
 }
 
 void AMapBase::BeginPlay()
