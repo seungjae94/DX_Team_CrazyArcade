@@ -3,8 +3,6 @@
 class ServerNumber
 {
 public:
-	ServerNumber();
-	~ServerNumber();
 
 	ServerNumber(const ServerNumber& _Other) = delete;
 	ServerNumber(ServerNumber&& _Other) noexcept = delete;
@@ -18,10 +16,33 @@ public:
 		return Inst;
 	}
 
-	int CurSessionCount = 0;
+	int GetCurSessionCount()
+	{
+		return CurSessionCount;
+	}
+
+	void SetSessionCount(int _Count)
+	{
+		CurSessionCount = _Count;
+	}
+
+	void AddSession()
+	{
+		CurSessionCount += 1;
+	}
+
+	void MinSession()
+	{
+		CurSessionCount -= 1;
+	}
+
 
 protected:
 
 private:
+	ServerNumber();
+	~ServerNumber();
+
+	int CurSessionCount = 0;
 
 };
