@@ -60,16 +60,16 @@ public:
 	// 해당 좌표 Tile에 블록을 설정
 	void SetMapBlock(FPoint _Point, ABlockBase* _Block)
 	{
-		if (nullptr != TileInfo[_Point.Y][_Point.X].Block)
+		if (nullptr == TileInfo[_Point.Y][_Point.X].Block)
 		{
 			TileInfo[_Point.Y][_Point.X].Block = _Block;
 		}
 	}
-
+		
 	// 해당 좌표 Tile에 블록을 설정
 	void SetMapBomb(FPoint _Point, ABombBase* _Bomb)
 	{
-		if (nullptr != TileInfo[_Point.Y][_Point.X].Bomb)
+		if (nullptr == TileInfo[_Point.Y][_Point.X].Bomb)
 		{
 			TileInfo[_Point.Y][_Point.X].Bomb = _Bomb;
 		}
