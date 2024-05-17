@@ -656,9 +656,8 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 	// PlayerInfo Update
 	{
 		Player.SpaceIndex = ConnectionInfo::GetInst().GetOrder();
-		Player.Name = ConnectionInfo::GetInst().GetMyName();
 
-		ConnectionInfo::GetInst().PushUserInfos(Player.SpaceIndex, Player.Name);
+		//ConnectionInfo::GetInst().PushUserInfos(Player.SpaceIndex, Player.Name);
 	}
 
 	// UserInfos Update
@@ -673,7 +672,7 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 
 	// Space Update
 	{
-		int UserCnt = ConnectionInfo::GetInst().GetCurSessionCount();
+		int UserCnt = ConnectionInfo::GetInst().GetInfoSize();
 		for (int i = 0; i < UserCnt + 1; i++)
 		{
 			SpaceOn(i);
