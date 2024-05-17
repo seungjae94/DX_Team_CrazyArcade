@@ -162,6 +162,9 @@
     <ClInclude Include="ServerNumber.h">
       <Filter>Level\ServerLevel</Filter>
     </ClInclude>
+    <ClInclude Include="Wave.h">
+      <Filter>Map\Bomb</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -252,6 +255,9 @@
     </ClCompile>
     <ClCompile Include="ServerNumber.cpp">
       <Filter>Level\ServerLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Wave.cpp">
+      <Filter>Map\Bomb</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
