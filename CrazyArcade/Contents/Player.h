@@ -77,13 +77,15 @@ protected:
 	bool Push = false;
 	bool Throw = false;
 
+	float RenderChangeTime = 0.0f;
+
 	std::map<EItemType, int> MPlayerItem;
 	std::map<EItemType, int>::iterator MPlayerItemIter;
 
 	float BlockSize = 0.0f;
 	AMainPlayLevel* PlayLevel = nullptr;
 
-	void PickUpItem();
+	void PickUpItem(float _DeltaTime);
 	void AddItemCount(EItemType _ItemType);
 
 	ECharacterType PlayerType = ECharacterType::Bazzi;

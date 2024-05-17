@@ -111,7 +111,7 @@ void APlayer::Tick(float _DeltaTime)
 
 	PlayerPos = GetActorLocation();
 
-	PickUpItem();
+	PickUpItem(_DeltaTime);
 }
 
 void APlayer::PlayerCreateAnimation(std::string _CharacterType_Color)
@@ -133,13 +133,30 @@ void APlayer::PlayerCreateAnimation(std::string _CharacterType_Color)
 	//Renderer->CreateAnimation(_CharacterType_Color + "_Revival", "Bazzi_2.png", 0.15f, false, 6, 9);
 }
 
-void APlayer::PickUpItem()
+void APlayer::PickUpItem(float _DeltaTime)
 {
 	EItemType ItemType = PlayLevel->GetMap()->IsItemTile(GetActorLocation());
 	switch (ItemType)
 	{
 	case EItemType::Bubble:
 		++BombCount;
+		break;
+	case EItemType::Devil:
+	/*	if (0.0f <= RenderChangeTime && RenderChangeTime < 0.5f)
+		{
+			Renderer->SetMulColor({0.7f, 1.0f, 1.0f, 1.0f});
+		}
+		else if (0.5f <= RenderChangeTime && RenderChangeTime < 1.0f)
+		{
+			Renderer->SetMulColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+		}
+		else
+		{
+			FSpriteInfo SpriteInfo = Renderer->GetCurInfo();
+			RenderChangeTime = 0.0f;
+		}
+
+		RenderChangeTime += _DeltaTime;*/
 		break;
 	case EItemType::Fluid:
 		if (BombPower < MaxBombPower)
