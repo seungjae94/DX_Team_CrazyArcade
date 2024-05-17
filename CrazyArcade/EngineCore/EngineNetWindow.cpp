@@ -2,6 +2,7 @@
 #include "EngineNetWindow.h"
 #include <EngineBase/EngineServer.h>
 
+
 UEngineNetWindow::UEngineNetWindow() 
 {
 	IP.resize(100);
@@ -11,6 +12,23 @@ UEngineNetWindow::~UEngineNetWindow()
 {
 }
 
+void UEngineNetWindow::ServerOpen()
+{
+	if (nullptr != ServerOpenFunction)
+	{
+		NetType = ENetType::Server;
+		ServerOpenFunction();
+	}
+}
+
+void UEngineNetWindow::ClientOpen(std::string_view _Ip, int _Port)
+{
+	if (nullptr != ServerOpenFunction)
+	{
+		NetType = ENetType::Client;
+		ClientConnectFunction("127.0.0.1", 30000);
+	}
+}
 void UEngineNetWindow::OnGui(ULevel* Level, float _Delta)
 {
 	if (NetType != ENetType::None)

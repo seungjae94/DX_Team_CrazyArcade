@@ -1,6 +1,6 @@
 #include "PreCompile.h"
 #include "Player.h"
-
+#include <EngineBase/EngineRandom.h>
 #include "MainPlayLevel.h"
 #include "MapBase.h"
 #include "CrazyArcadeCore.h"
@@ -47,31 +47,27 @@ void APlayer::BeginPlay()
 	BlockSize = AMapBase::GetBlockSize();
 
 	// 이미지 컷팅
-	UEngineSprite::CreateCutting("Bazzi_R_1.png", 5, 18);
-	UEngineSprite::CreateCutting("Bazzi_2.png", 5, 2);
-	UEngineSprite::CreateCutting("Bazzi_3.png", 5, 4);
-	UEngineSprite::CreateCutting("Bazzi_4.png", 5, 7);
+	PlayerCreateCuttingBazzi("_R");
+	PlayerCreateCuttingBazzi("_B");
 
-	UEngineSprite::CreateCutting("Bazzi_Y_1.png", 5, 18);
-	//UEngineSprite::CreateCutting("Bazzi_Y_2.png", 5, 2);
-	//UEngineSprite::CreateCutting("Bazzi_Y_3.png", 5, 4);
-	//UEngineSprite::CreateCutting("Bazzi_Y_4.png", 5, 7);
+	PlayerCreateCutting("Dao_R");
+	PlayerCreateCutting("Dao_B");
 
-	UEngineSprite::CreateCutting("Bazzi_G_1.png", 5, 18);
-	UEngineSprite::CreateCutting("Bazzi_P_1.png", 5, 18);
+	PlayerCreateCutting("luxMarid_R");
+	PlayerCreateCutting("luxMarid_O");
+	PlayerCreateCutting("luxMarid_B");
 
 	// 애니메이션 생성
 	//Bazzi
-	PlayerCreateAnimation("Bazzi_R");
-	Renderer->CreateAnimation("Bazzi_R_TrapStart", "Bazzi_4.png", 0.07f, false, 6, 10);
-	Renderer->CreateAnimation("Bazzi_R_Traped", "Bazzi_4.png", 0.2f, false, 11, 23);
-	Renderer->CreateAnimation("Bazzi_R_TrapEnd", "Bazzi_4.png", 0.25f, false, 24, 31);
-	Renderer->CreateAnimation("Bazzi_R_Die", "Bazzi_2.png", 0.15f, false, 0, 5);
-	Renderer->CreateAnimation("Bazzi_R_Revival", "Bazzi_2.png", 0.15f, false, 6, 9);
+	PlayerCreateBazziAnimation("_R");
+	PlayerCreateBazziAnimation("_B");
 
-	PlayerCreateAnimation("Bazzi_Y");
-	PlayerCreateAnimation("Bazzi_G");
-	PlayerCreateAnimation("Bazzi_P");
+	PlayerCreateAnimation("Dao_R");
+	PlayerCreateAnimation("Dao_B");
+
+	PlayerCreateAnimation("luxMarid_R");
+	PlayerCreateAnimation("luxMarid_O");
+	PlayerCreateAnimation("luxMarid_B");
 
 	Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Down");
 	Renderer->SetAutoSize(0.9f, true);
@@ -107,36 +103,123 @@ void APlayer::Tick(float _DeltaTime)
 		UEngineDebugMsgWindow::PushMsg(Msg);
 	}
 	// 임의 적용 테스트
-	if (true == IsDown('Y'))
+	if (true == IsDown('C'))
 	{
-		SetPlayerColor(ECharacterColor::Yellow);
+		if (ECharacterColor::Red == PlayerColor)
+		{
+			SetPlayerColor(ECharacterColor::Blue);
+		}
+		else if (ECharacterColor::Blue == PlayerColor)
+		{
+			SetPlayerColor(ECharacterColor::Red);
+		}
+	}
+	if (true == IsDown('B'))
+	{
+		SetCharacterType(ECharacterType::Bazzi);
+	}
+	if (true == IsDown('O'))
+	{
+		SetCharacterType(ECharacterType::Dao);
+	}
+	if (true == IsDown('M'))
+	{
+		SetCharacterType(ECharacterType::Marid);
 	}
 
 	PlayerPos = GetActorLocation();
 
-	PickUpItem(_DeltaTime);
+	PickUpItem();
+
+	Devil(_DeltaTime);
+}
+
+void APlayer::PlayerCreateCuttingBazzi(std::string _Color)
+{
+	UEngineSprite::CreateCutting("Bazzi" + _Color + "_1.png", 5, 18);
+	UEngineSprite::CreateCutting("Bazzi" + _Color + "_2.png", 5, 2);
+	UEngineSprite::CreateCutting("Bazzi" + _Color + "_3.png", 5, 4);
+	UEngineSprite::CreateCutting("Bazzi" + _Color + "_4.png", 5, 7);
+}
+
+void APlayer::PlayerCreateCutting(std::string _CharacterType_Color)
+{
+	UEngineSprite::CreateCutting(_CharacterType_Color + "_1.png", 5, 12);
+	UEngineSprite::CreateCutting(_CharacterType_Color + "_2.png", 5, 2);
+	UEngineSprite::CreateCutting(_CharacterType_Color + "_3.png", 5, 4);
+	UEngineSprite::CreateCutting(_CharacterType_Color + "_4.png", 5, 4);
+	UEngineSprite::CreateCutting(_CharacterType_Color + "_5.png", 5, 6);
+}
+
+void APlayer::PlayerCreateBazziAnimation(std::string _Color)
+{
+
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Ready", "Bazzi" + _Color + "_1.png", 0.06f, false, 37, 53);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Idle_Left", "Bazzi" + _Color + "_1.png", 1.0f, false, 0, 0);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Idle_Right", "Bazzi" + _Color + "_1.png", 1.0f, false, 6, 6);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Idle_Up", "Bazzi" + _Color + "_1.png", 1.0f, false, 12, 12);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Idle_Down", "Bazzi" + _Color + "_1.png", 1.0f, false, 20, 20);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Left", "Bazzi" + _Color + "_1.png", 0.1f, true, 1, 5);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Right", "Bazzi" + _Color + "_1.png", 0.1f, true, 7, 11);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Up", "Bazzi" + _Color + "_1.png", 0.1f, true, 13, 19);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Down", "Bazzi" + _Color + "_1.png", 0.1f, true, 21, 28);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Win", "Bazzi" + _Color + "_1.png", 0.1f, true, 29, 36);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_TrapStart", "Bazzi" + _Color + "_4.png", 0.07f, false, 6, 10);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Traped", "Bazzi" + _Color + "_4.png", 0.2f, false, 11, 23);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_TrapEnd", "Bazzi" + _Color + "_4.png", 0.25f, false, 24, 31);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Die", "Bazzi" + _Color + "_2.png", 0.15f, false, 0, 5);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Revival", "Bazzi" + _Color + "_2.png", 0.15f, false, 6, 9);
 }
 
 void APlayer::PlayerCreateAnimation(std::string _CharacterType_Color)
 {
-	Renderer->CreateAnimation(_CharacterType_Color + "_Ready", _CharacterType_Color + "_1.png", 0.06f, false, 37, 53);
-	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Left", _CharacterType_Color + "_1.png", 1.0f, false, 0, 0);
-	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Right", _CharacterType_Color + "_1.png", 1.0f, false, 6, 6);
-	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Up", _CharacterType_Color + "_1.png", 1.0f, false, 12, 12);
-	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Down", _CharacterType_Color + "_1.png", 1.0f, false, 20, 20);
-	Renderer->CreateAnimation(_CharacterType_Color + "_Run_Left", _CharacterType_Color + "_1.png", 0.1f, true, 1, 5);
-	Renderer->CreateAnimation(_CharacterType_Color + "_Run_Right", _CharacterType_Color + "_1.png", 0.1f, true, 7, 11);
-	Renderer->CreateAnimation(_CharacterType_Color + "_Run_Up", _CharacterType_Color + "_1.png", 0.1f, true, 13, 19);
-	Renderer->CreateAnimation(_CharacterType_Color + "_Run_Down", _CharacterType_Color + "_1.png", 0.1f, true, 21, 28);
+	// Idle
+	Renderer->CreateAnimation(_CharacterType_Color + "_Ready", _CharacterType_Color + "_4.png", 0.06f, false, 0, 17);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Right", _CharacterType_Color + "_1.png", 1.0f, false, 0, 0 );
+	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Left", _CharacterType_Color + "_1.png", 1.f, false, 6, 6);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Up", _CharacterType_Color + "_1.png", 1.f, false, 12, 12);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Down", _CharacterType_Color + "_1.png", 1.f, false, 18, 18);
+
+	// Move
+	Renderer->CreateAnimation(_CharacterType_Color + "_Run_Right", _CharacterType_Color + "_1.png", 0.1f, true, 1, 5);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Run_Left", _CharacterType_Color + "_1.png", 0.1f, true, 7, 11);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Run_Up", _CharacterType_Color + "_1.png", 0.09f, true, 13, 17);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Run_Down", _CharacterType_Color + "_1.png", 0.09f, true, 19, 23);
+
 	Renderer->CreateAnimation(_CharacterType_Color + "_Win", _CharacterType_Color + "_1.png", 0.1f, true, 29, 36);
-	//Renderer->CreateAnimation(_CharacterType_Color + "_TrapStart", "Bazzi_4.png", 0.07f, false, 6, 10);
-	//Renderer->CreateAnimation(_CharacterType_Color + "_Traped", "Bazzi_4.png", 0.2f, false, 11, 23);
-	//Renderer->CreateAnimation(_CharacterType_Color + "_TrapEnd", "Bazzi_4.png", 0.25f, false, 24, 31);
-	//Renderer->CreateAnimation(_CharacterType_Color + "_Die", "Bazzi_2.png", 0.15f, false, 0, 5);
-	//Renderer->CreateAnimation(_CharacterType_Color + "_Revival", "Bazzi_2.png", 0.15f, false, 6, 9);
+	Renderer->CreateAnimation(_CharacterType_Color + "_TrapStart", _CharacterType_Color + "_5.png", 0.07f, false, 0, 4); // 0.2   0.25
+	Renderer->CreateAnimation(_CharacterType_Color + "_Traped", _CharacterType_Color + "_5.png", 0.2f, true, 5, 18); // 0.2   0.25
+	Renderer->CreateAnimation(_CharacterType_Color + "_TrapEnd", _CharacterType_Color + "_5.png", 0.25f, false, 19, 25);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Die", _CharacterType_Color + "_2.png", 0.15f, false, 0, 5);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Revival", _CharacterType_Color + "_2.png", 0.15f, false, 6, 9);
+
+	Renderer->CreateAnimation(_CharacterType_Color + "_IdleOwl_Left", _CharacterType_Color + "_3.png", 0.15f, false, 0, 0);
+	Renderer->CreateAnimation(_CharacterType_Color + "_IdleOwl_Right", _CharacterType_Color + "_3.png", 0.15f, false, 2, 2);
+	Renderer->CreateAnimation(_CharacterType_Color + "_IdleOwl_Up", _CharacterType_Color + "_3.png", 0.15f, false, 4, 4);
+	Renderer->CreateAnimation(_CharacterType_Color + "_IdleOwl_Down", _CharacterType_Color + "_3.png", 0.15f, false, 6, 6);
+	Renderer->CreateAnimation(_CharacterType_Color + "_IdleTurtle_Left", _CharacterType_Color + "_3.png", 0.15f, false, 8, 8);
+	Renderer->CreateAnimation(_CharacterType_Color + "_IdleTurtle_Right", _CharacterType_Color + "_3.png", 0.15f, false, 10, 10);
+	Renderer->CreateAnimation(_CharacterType_Color + "_IdleTurtle_Down", _CharacterType_Color + "_3.png", 0.15f, false, 12, 12);
+	Renderer->CreateAnimation(_CharacterType_Color + "_IdleTurtle_Up", _CharacterType_Color + "_3.png", 0.15f, false, 14, 14);
+	Renderer->CreateAnimation(_CharacterType_Color + "_RidingOwl_Left", _CharacterType_Color + "_3.png", 0.15f, true, 0, 1);
+	Renderer->CreateAnimation(_CharacterType_Color + "_RidingOwl_Right", _CharacterType_Color + "_3.png", 0.15f, true, 2, 3);
+	Renderer->CreateAnimation(_CharacterType_Color + "_RidingOwl_Up", _CharacterType_Color + "_3.png", 0.15f, true, 4, 5);
+	Renderer->CreateAnimation(_CharacterType_Color + "_RidingOwl_Down", _CharacterType_Color + "_3.png", 0.15f, true, 6, 7);
+	Renderer->CreateAnimation(_CharacterType_Color + "_RidingTurtle_Left", _CharacterType_Color + "_3.png", 0.2f, true, 8, 9);
+	Renderer->CreateAnimation(_CharacterType_Color + "_RidingTurtle_Right", _CharacterType_Color + "_3.png", 0.2f, true, 10, 11);
+	Renderer->CreateAnimation(_CharacterType_Color + "_RidingTurtle_Up", _CharacterType_Color + "_3.png", 0.2f, true, 14, 15);
+	Renderer->CreateAnimation(_CharacterType_Color + "_RidingTurtle_Down", _CharacterType_Color + "_3.png", 0.2f, true, 12, 13);
+	Renderer->CreateAnimation(_CharacterType_Color + "_RidingUFO_Left", _CharacterType_Color + "_3.png", 0.09f, true, 16, 16);
+	Renderer->CreateAnimation(_CharacterType_Color + "_RidingUFO_Right", _CharacterType_Color + "_3.png", 0.09f, true, 17, 17);
+	Renderer->CreateAnimation(_CharacterType_Color + "_RidingUFO_Up", _CharacterType_Color + "_3.png", 0.09f, true, 18, 18);
+	Renderer->CreateAnimation(_CharacterType_Color + "_RidingUFO_Down", _CharacterType_Color + "_3.png", 0.09f, true, 19, 19);
+
+	Renderer->CreateAnimation(_CharacterType_Color + "_OnOwl_", _CharacterType_Color + "_3.png", 0.035f, true, 0, 7);
+	Renderer->CreateAnimation(_CharacterType_Color + "_OnTurtle_", _CharacterType_Color + "_3.png", 0.035f, true, 8, 15);
+	Renderer->CreateAnimation(_CharacterType_Color + "_OnUFO_", _CharacterType_Color + "_3.png", 0.05f, true, 16, 19);
 }
 
-void APlayer::PickUpItem(float _DeltaTime)
+void APlayer::PickUpItem()
 {
 	EItemType ItemType = PlayLevel->GetMap()->IsItemTile(GetActorLocation());
 	switch (ItemType)
@@ -145,21 +228,8 @@ void APlayer::PickUpItem(float _DeltaTime)
 		++BombCount;
 		break;
 	case EItemType::Devil:
-	/*	if (0.0f <= RenderChangeTime && RenderChangeTime < 0.5f)
-		{
-			Renderer->SetMulColor({0.7f, 1.0f, 1.0f, 1.0f});
-		}
-		else if (0.5f <= RenderChangeTime && RenderChangeTime < 1.0f)
-		{
-			Renderer->SetMulColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-		}
-		else
-		{
-			FSpriteInfo SpriteInfo = Renderer->GetCurInfo();
-			RenderChangeTime = 0.0f;
-		}
-
-		RenderChangeTime += _DeltaTime;*/
+		IsDevil = true;
+		MoveDevil = UEngineRandom::MainRandom.RandomInt(0, 1);
 		break;
 	case EItemType::Fluid:
 		if (BombPower < MaxBombPower)
@@ -202,6 +272,33 @@ void APlayer::AddItemCount(EItemType _ItemType)
 	MPlayerItem[_ItemType] = Count;
 }
 
+void APlayer::Devil(float _DeltaTime)
+{
+	if (true == IsDevil)
+	{
+		if (0.0f <= RenderChangeTime && RenderChangeTime < 0.5f)
+		{
+			Renderer->SetMulColor({ 0.7f, 0.0f, 1.0f, 1.0f });
+		}
+		else if (0.5f <= RenderChangeTime && RenderChangeTime < 1.0f)
+		{
+			Renderer->SetMulColor(FVector::One);
+		}
+		else
+		{
+			FSpriteInfo SpriteInfo = Renderer->GetCurInfo();
+			RenderChangeTime = 0.0f;
+		}
+
+		RenderChangeTime += _DeltaTime;
+		if (false == MoveDevil)
+		{
+
+		}
+	}
+	
+}
+
 void APlayer::SetPlayerDead()
 {
 	IsDead = true;
@@ -215,6 +312,8 @@ void APlayer::SetCharacterType(ECharacterType _Character)
 	case ECharacterType::Random:
 		break;
 	case ECharacterType::Dao:
+		PlayerType = ECharacterType::Dao;
+		Type = "Dao";
 		break;
 	case ECharacterType::Dizni:
 		break;
@@ -223,6 +322,8 @@ void APlayer::SetCharacterType(ECharacterType _Character)
 	case ECharacterType::Ethi:
 		break;
 	case ECharacterType::Marid:
+		PlayerType = ECharacterType::Marid;
+		Type = "luxMarid";
 		break;
 	case ECharacterType::Bazzi:
 		PlayerType = ECharacterType::Bazzi;
@@ -258,6 +359,10 @@ void APlayer::SetPlayerColor(ECharacterColor _Color)
 	case ECharacterColor::Green:
 		PlayerColor = ECharacterColor::Green;
 		PlayerColorText = "_G";
+		break;
+	case ECharacterColor::Blue:
+		PlayerColor = ECharacterColor::Blue;
+		PlayerColorText = "_B";
 		break;
 	default:
 		PlayerColorText = "";

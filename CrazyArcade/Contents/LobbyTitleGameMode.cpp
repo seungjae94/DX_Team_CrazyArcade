@@ -3,7 +3,7 @@
 
 #include <format>
 
-#include "ServerNumber.h"
+#include "ConnectionInfo.h"
 #include "MainTitleGameMode.h"
 
 ALobbyTitleGameMode::ALobbyTitleGameMode()
@@ -39,8 +39,8 @@ void ALobbyTitleGameMode::BeginPlay()
 
 		// PlayerInfo
 		{
-			Player.SpaceIndex = ServerNumber::GetInst().GetOrder();
-			Player.Name = ServerNumber::GetInst().GetMyName();
+			Player.SpaceIndex = 0;
+			Player.Name = "";
 			Player.CharacterType = ECharacterType::Random;
 			Player.CharacterCorlor = ECharacterColor::Red;
 		}
@@ -150,10 +150,10 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_Space->CreateAnimation("UnSpace_UnHover", "Button_UnSpace_UnHover.png", 0.1f, false, 0, 0);
 					Btn_Space->CreateAnimation("UnSpace_Hover", "Button_UnSpace_Hover.png", 0.1f, false, 0, 0);
 					Btn_Space->CreateAnimation("UnSpace_Down", "Button_UnSpace_Down.png", 0.1f, false, 0, 0);
-					Btn_Space->ChangeAnimation("UnSpace_UnHover");
+					Btn_Space->ChangeAnimation("Space_UnHover");
 
 					Btns_Space.push_back(Btn_Space);
-					Space_Available.push_back(false);
+					Space_Available.push_back(true);
 				}
 				{
 					UImage* Character_Space = CreateWidget<UImage>(GetWorld(), "Character_Space");
@@ -241,7 +241,6 @@ void ALobbyTitleGameMode::BeginPlay()
 					if (Space_Available[i] == true)
 					{
 						Btns_Space[i]->ChangeAnimation("Space_Hover");
-						SpaceOn(i);
 					}
 					else
 					{
@@ -250,7 +249,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					}
 					});
 
-				SpaceOn(i);
+				SpaceOff(i);
 			}
 		}
 		
@@ -654,12 +653,32 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 
 void ALobbyTitleGameMode::UserInfosUpdate()
 {
-	std::map<int, std::string> ServerUserInfos = ServerNumber::GetInst().GetUserInfos();
-
-	for (int i = 0; i < 8; i++)
+	// PlayerInfo Update
 	{
-		UserInfos[i].SpaceIndex = i;
-		UserInfos[i].Name = ServerUserInfos[i];
+		Player.SpaceIndex = ConnectionInfo::GetInst().GetOrder();
+		Player.Name = ConnectionInfo::GetInst().GetMyName();
+
+		ConnectionInfo::GetInst().PushUserInfos(Player.SpaceIndex, Player.Name);
+	}
+
+	// UserInfos Update
+	{
+		std::map<int, std::string> ServerUserInfos = ConnectionInfo::GetInst().GetUserInfos();
+
+		for (int i = 0; i < 8; i++)
+		{
+			UserInfos[i].Name = ServerUserInfos[i];
+		}
+	}
+
+	// Space Update
+	{
+		int UserCnt = ConnectionInfo::GetInst().GetCurSessionCount();
+		for (int i = 0; i < UserCnt + 1; i++)
+		{
+			SpaceOn(i);
+			Usernames_Space[i]->SetText(UserInfos[i].Name);
+		}
 	}
 }
 

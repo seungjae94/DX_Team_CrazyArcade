@@ -3,9 +3,14 @@
 #include <vector>
 
 #include "LobbyTitleGameMode.h"
-#include"ServerNumber.h"
+#include"ConnectionInfo.h"
+#include "ServerGameMode.h"
 
-class ALobbyTitleGameMode;
+#include <EngineCore/EngineEditorGUI.h>
+#include "CrazyArcadeCore.h"
+#include "ServerManager.h"
+
+#include "Packets.h"
 
 AMainTitleGameMode::AMainTitleGameMode()
 {
@@ -100,19 +105,86 @@ void AMainTitleGameMode::BeginPlay()
 		PlayerNameBox->ChangeAnimation("ActiveAni");
 		IsNameBoxAct = true;
 		UEngineInputRecorder::RecordStart(TextWidget->GetText());
-		
+
 		GetPlayerName();
 		});
 
 
+	{
+		Button_1P = CreateWidget<UImage>(GetWorld(), "Button_1P");
+		Button_1P->AddToViewPort(1);
+		Button_1P->SetAutoSize(1.0f, true);
+		Button_1P->SetWidgetLocation({ -210.0f, -172.0f });
 
+		Button_1P->CreateAnimation("UnHover", "Button_1P_UnHover.png", 0.1f, false, 0, 0);
+		Button_1P->CreateAnimation("Hover", "Button_1P_Hover.png", 0.1f, false, 0, 0);
+		Button_1P->CreateAnimation("Down", "Button_1P_Down.png", 0.1f, false, 0, 0);
+		Button_1P->ChangeAnimation("UnHover");
 
+		Button_1P->SetUnHover([=] {
+			Button_1P->ChangeAnimation("UnHover");
+			});
 
+		Button_1P->SetHover([=] {
+			if (Button_1P->IsCurAnimationEnd() == true)
+			{
+				Button_1P->ChangeAnimation("Hover");
+			}
+			});
+
+		Button_1P->SetDown([=] {
+			Button_1P->ChangeAnimation("Down");
+			});
+
+		Button_1P->SetPress([=] {
+
+			});
+
+		Button_1P->SetUp([=] {
+			Button_1P->ChangeAnimation("UnHover");
+			});
+	}
+	{
+		Button_2P = CreateWidget<UImage>(GetWorld(), "Button_2P");
+		Button_2P->AddToViewPort(1);
+		Button_2P->SetAutoSize(1.0f, true);
+		Button_2P->SetWidgetLocation({ 210.0f, -172.0f });
+
+		Button_2P->CreateAnimation("UnHover", "Button_2P_UnHover.png", 0.1f, false, 0, 0);
+		Button_2P->CreateAnimation("Hover", "Button_2P_Hover.png", 0.1f, false, 0, 0);
+		Button_2P->CreateAnimation("Down", "Button_2P_Down.png", 0.1f, false, 0, 0);
+		Button_2P->ChangeAnimation("UnHover");
+
+		Button_2P->SetUnHover([=] {
+			Button_2P->ChangeAnimation("UnHover");
+			});
+
+		Button_2P->SetHover([=] {
+			if (Button_2P->IsCurAnimationEnd() == true)
+			{
+				Button_2P->ChangeAnimation("Hover");
+			}
+			});
+
+		Button_2P->SetDown([=] {
+			Button_2P->ChangeAnimation("Down");
+			});
+
+		Button_2P->SetPress([=] {
+
+			});
+
+		Button_2P->SetUp([=] {
+			Button_2P->ChangeAnimation("UnHover");
+			});
+	}
 
 	if (UEngineInput::IsDown('M'))
 	{
 		GetPlayerName();
 	}
+
+
 }
 
 
@@ -143,12 +215,52 @@ void AMainTitleGameMode::Tick(float _DeltaTime)
 	}*/
 	StringToText();
 
-	
+	if (UCrazyArcadeCore::Net == nullptr) {
+
+		if (UEngineInput::IsDown('S'))
+		{
+			UCrazyArcadeCore::NetWindow->ServerOpen();
+			GEngine->ChangeLevel("LobbyTitleTestLevel");
+		}
+
+		if (UEngineInput::IsDown('C'))
+		{
+			UCrazyArcadeCore::NetWindow->ClientOpen(PlayerName,3);
+			GEngine->ChangeLevel("LobbyTitleTestLevel");
+			std::shared_ptr<UConnectNumberPacket> NumberPacket = std::make_shared<UConnectNumberPacket>();
+			std::shared_ptr<UConnectInitPacket> InitPacket = std::make_shared<UConnectInitPacket>();
+			InitPacket->Session = UCrazyArcadeCore::Net->GetSessionToken();
+			
+			
+			UCrazyArcadeCore::Net->Send(InitPacket);
+		}
+
+	}
+
 }
 
 void AMainTitleGameMode::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
+
+	if (nullptr == UCrazyArcadeCore::NetWindow)
+	{
+		UCrazyArcadeCore::NetWindow = UEngineEditorGUI::CreateEditorWindow<ServerManager>("NetWindow");
+
+		UCrazyArcadeCore::NetWindow->SetServerOpenFunction([&]()
+			{
+				UCrazyArcadeCore::Net = std::make_shared<UEngineServer>();
+				UCrazyArcadeCore::Net->ServerOpen(30000, 512);
+			});
+
+		UCrazyArcadeCore::NetWindow->SetClientConnectFunction([&](std::string IP, short PORT)
+			{
+				UCrazyArcadeCore::Net = std::make_shared<UEngineClient>();
+				UCrazyArcadeCore::Net->Connect(IP, PORT);
+			});
+	}
+	UCrazyArcadeCore::NetWindow->On();
+
 	//UEngineInputRecorder::RecordStart();
 	//레벨 시작과 동시에 입력 받을 준비 
 }
@@ -156,13 +268,13 @@ void AMainTitleGameMode::LevelStart(ULevel* _PrevLevel)
 void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
 {
 	Super::LevelEnd(_NextLevel);
-	
+
 	ALobbyTitleGameMode* Lobby = dynamic_cast<ALobbyTitleGameMode*>(_NextLevel->GetGameMode().get());
 	if (nullptr == Lobby)
 	{
 		return;
 	}
-	ServerNumber::GetInst().SetMyName(PlayerName);
+	ConnectionInfo::GetInst().SetMyName(PlayerName);
 	//Lobby->SetUserName(PlayerName);
 	//UEngineInputRecorder::RecordEnd();
 }
@@ -175,7 +287,7 @@ std::string AMainTitleGameMode::GetPlayerName()
 void AMainTitleGameMode::StringToText()
 {
 	PlayerName = UEngineInputRecorder::GetText();
-	
+
 	if (PlayerName.size() > 0)
 	{
 		TextWidget->SetText(PlayerName);

@@ -24,9 +24,14 @@ public:
 	AMainPlayLevel& operator=(const AMainPlayLevel& _Other) = delete;
 	AMainPlayLevel& operator=(AMainPlayLevel&& _Other) noexcept = delete;
 		
-	std::shared_ptr<AMapBase> GetMap() const
+	inline std::shared_ptr<AMapBase> GetMap() const
 	{
 		return TileMap;
+	}
+
+	inline std::shared_ptr<ServerTestPlayer> GetPlayer() const
+	{
+		return Player;
 	}
 
 	inline void SetMapType(EMapType _MapType)
@@ -43,7 +48,6 @@ protected:
 
 protected:
 	void CreateMap();
-
 
 protected:
 	std::shared_ptr<AMapBase> TileMap = nullptr;

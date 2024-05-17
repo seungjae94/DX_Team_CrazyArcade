@@ -11,9 +11,13 @@
 #include "InputRecorderTestGameMode.h"
 
 #include "Packets.h"
-#include "ServerNumber.h"
+#include "ConnectionInfo.h"
+#include "ServerManager.h"
+
+
 
 std::shared_ptr<UEngineNet> UCrazyArcadeCore::Net = nullptr;
+std::shared_ptr<ServerManager> UCrazyArcadeCore::NetWindow = nullptr;
 
 UCrazyArcadeCore::UCrazyArcadeCore()
 {
@@ -30,6 +34,13 @@ void UCrazyArcadeCore::Initialize()
 
 	UEngineEditorGUI::CreateEditorWindow<UCrazyArcadeDebugWindow>("CrazyArcadeDebugWindow");
 
+
+	//std::shared_ptr<UEngineNetWindow> NetWindow = UEngineEditorGUI::CreateEditorWindow<UEngineNetWindow>("NetWindow");
+	//UCrazyArcadeCore::Net = NetWindow;
+
+
+
+
 	GEngine->CreateLevel<AInitTestGameMode>("InitTestLevel");
 	GEngine->CreateLevel<AMainPlayLevel>("MainPlayLevel");
 	GEngine->CreateLevel<AServerGameMode>("ServerGameMode");
@@ -42,89 +53,7 @@ void UCrazyArcadeCore::Initialize()
 
 void UCrazyArcadeCore::Tick(float _DeltaTime)
 {
-	int Count = ServerNumber::GetInst().GetCurSessionCount();
-	int Order = ServerNumber::GetInst().GetOrder();
-	std::string MyName = ServerNumber::GetInst().GetMyName();
-	std::map<int, std::string> Map = ServerNumber::GetInst().GetUserInfos(); 
-	
-	int a = 0;
-	if (false == IsFunctionInit)
-	{
-		if (nullptr == UCrazyArcadeCore::Net)
-		{
-			return;
-		}
-
-
-		IsFunctionInit = true;
-		UEngineDispatcher& Dis = UCrazyArcadeCore::Net->Dispatcher;
-		Dis.AddHandler<UConnectNumberPacket>([=](std::shared_ptr<UConnectNumberPacket> _Packet)
-			{
-				GEngine->GetCurLevel()->PushFunction([=]()
-					{
-						int Order = _Packet->ConnectNum;
-						std::string Name = _Packet->UserName;
-						ServerNumber::GetInst().SetSessionCount(Order);
-						ServerNumber::GetInst().SetOrder(Order);
-						ServerNumber::GetInst().SetMyName(Name);
-						ServerNumber::GetInst().PushUserInfos(Order, Name);
-						/*UCrazyArcadeCore::Net->SetSessionCount(_Packet->ConnectNum);*/
-					});
-			});
-
-		UEngineDispatcher& Diss = UCrazyArcadeCore::Net->Dispatcher;
-		Dis.AddHandler<UConnectInitPacket>([=](std::shared_ptr<UConnectInitPacket> _Packet)
-			{
-				GEngine->GetCurLevel()->PushFunction([=]()
-					{
-						SessionInitVec[_Packet->Session] = true;
-					});
-			});
-		std::shared_ptr<UEngineClient> Client = dynamic_pointer_cast<UEngineClient>(UCrazyArcadeCore::Net);
-		if (nullptr != Client)
-		{
-			std::shared_ptr<UConnectInitPacket> ConnectNumPacket = std::make_shared<UConnectInitPacket>();
-			ConnectNumPacket->Session = UCrazyArcadeCore::Net->GetSessionToken();
-			UCrazyArcadeCore::Net->Send(ConnectNumPacket);
-			return;
-		}
-	}
-
-	if (true == IsFunctionInit)
-	{
-		if (nullptr != UCrazyArcadeCore::Net)
-		{
-			std::shared_ptr<UEngineServer> Server = dynamic_pointer_cast<UEngineServer>(UCrazyArcadeCore::Net);
-			if (nullptr == Server)
-			{
-				return;
-			}
-			int ServerSessionCount = ServerNumber::GetInst().GetCurSessionCount();
-			bool Isinit = true;
-			for (int i = 0; i <= ServerSessionCount; ++i) {
-				Isinit = Isinit || SessionInitVec[i];
-			}
-			if (Isinit == false) {
-				return;
-			}
-			int CurSessionToken = Server->GetCurSessionToken();
-			if (ServerSessionCount != CurSessionToken)
-			{
-				ServerNumber::GetInst().SetSessionCount(Server->GetCurSessionToken());
-				std::shared_ptr<UConnectNumberPacket> ConnectNumPacket = std::make_shared<UConnectNumberPacket>();
-
-
-				int Count = ServerNumber::GetInst().GetCurSessionCount();
-				std::string Name = ServerNumber::GetInst().GetMyName();
-				ConnectNumPacket->ConnectNum = Count;
-				ServerNumber::GetInst().SetOrder(Count);
-				ServerNumber::GetInst().PushUserInfos(Count, Name);
-				ConnectNumPacket->UserName = Name;
-
-				UCrazyArcadeCore::Net->Send(ConnectNumPacket);
-			}
-		}
-	}
+	UCrazyArcadeCore::NetWindow->Update(_DeltaTime);
 }
 
 void UCrazyArcadeCore::ResLoad()

@@ -1,15 +1,18 @@
 #include "PreCompile.h"
 #include "Wave.h"
 
+#include "MainPlayLevel.h"
 #include "MapConstant.h"
 #include "MapBase.h"
+#include "BlockBase.h"
+#include "ServerTestPlayer.h"
 
 AWave::AWave()
 {
 	UDefaultSceneComponent* Root = CreateDefaultSubObject<UDefaultSceneComponent>("Root");
 
 	Body = CreateDefaultSubObject<USpriteRenderer>("Wave");
-	Body->SetScale({ AMapBase::BlockSize,  AMapBase::BlockSize, 0.0f });
+	Body->SetScale({ AMapBase::BlockSize, AMapBase::BlockSize, 0.0f });
 	Body->SetupAttachment(Root);
 
 	SetRoot(Root);
@@ -24,7 +27,9 @@ void AWave::BeginPlay()
 	Super::BeginPlay();
 
 	SetImgCutting();
-	CreateAnimation();
+	CreateAnim();
+
+	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
 }
 
 void AWave::SetImgCutting()
@@ -39,7 +44,7 @@ void AWave::SetImgCutting()
 	UEngineSprite::CreateCutting(MapImgRes::bomb_effect_down_end, 11, 1);
 }
 
-void AWave::CreateAnimation()
+void AWave::CreateAnim()
 {
 	Body->CreateAnimation(MapAnim::bomb_effect_left, MapImgRes::bomb_effect_left, 0.06f, false);
 	Body->CreateAnimation(MapAnim::bomb_effect_left_end, MapImgRes::bomb_effect_left_end, 0.06f, false);
@@ -56,7 +61,9 @@ void AWave::CreateAnimation()
 
 void AWave::SetWaveType(EWaveType _WaveType)
 {
-	switch (_WaveType)
+	WaveType = _WaveType;
+
+	switch (WaveType)
 	{
 	case EWaveType::Left:
 		Body->ChangeAnimation(MapAnim::bomb_effect_left);
@@ -88,18 +95,35 @@ void AWave::SetWaveType(EWaveType _WaveType)
 	}
 
 	Body->SetOrder(AMapBase::GetRenderOrder(GetActorLocation()));
+	CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
 }
 
 void AWave::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	if (true == Body->IsActive() && true == Body->IsCurAnimationEnd())
+	switch (WaveType)
 	{
+	case EWaveType::UnderBlock:
+	{
+		PlayLevel->GetMap()->GetTileInfo(CurPoint).Block->StateChange(BlockState::destroy);
 		Destroy();
 	}
-	else if(false == Body->IsActive())
+		break;
+	default:
 	{
-		Destroy();
+		ServerTestPlayer* Player = PlayLevel->GetPlayer().get();
+		FPoint PlayerPoint = AMapBase::ConvertLocationToPoint(Player->GetActorLocation());
+		if (8 > Body->GetCurAnimationFrame() && PlayerPoint == CurPoint)
+		{
+			Player->SetTrapState();
+		}
+
+		if (true == Body->IsCurAnimationEnd())
+		{
+			Destroy();
+		}
+	}
+		break;
 	}
 }

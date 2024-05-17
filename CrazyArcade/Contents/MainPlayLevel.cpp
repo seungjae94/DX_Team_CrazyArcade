@@ -23,11 +23,6 @@ void AMainPlayLevel::BeginPlay()
 {
 	Super::BeginPlay();
 
-	TileMap = GetWorld()->SpawnActor<AForestMap>("TileMap");
-
-	Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");	
-	Player->SetActorLocation({ 398.0f, 344.0f, 0.0f });
-
 	//UI
 	Timer = GetWorld()->SpawnActor<ATimerUI>("TimeUI");
 	Timer->SetTimer(180.0f);
@@ -38,6 +33,11 @@ void AMainPlayLevel::BeginPlay()
 void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
+
+	TileMap = GetWorld()->SpawnActor<AVillageMap>("TileMap");
+
+	Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
+	Player->SetActorLocation({ 398.0f, 344.0f, 0.0f });
 
 	CreateMap();
 }

@@ -46,7 +46,11 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ServerHelper.h" />
-    <ClInclude Include="ServerNumber.h">
+    <ClInclude Include="ServerManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ConnectionInfo.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -147,7 +151,11 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ServerHelper.cpp" />
-    <ClCompile Include="ServerNumber.cpp">
+    <ClCompile Include="ServerManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ConnectionInfo.cpp">
       <SubType>
       </SubType>
     </ClCompile>

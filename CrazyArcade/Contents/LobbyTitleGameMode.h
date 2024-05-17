@@ -15,6 +15,16 @@ public:
 	ALobbyTitleGameMode& operator=(const ALobbyTitleGameMode& _Other) = delete;
 	ALobbyTitleGameMode& operator=(ALobbyTitleGameMode&& _Other) = delete;
 
+	inline ECharacterType GetPlayerCharacterType()
+	{
+		return Player.CharacterType;
+	}
+
+	inline ECharacterColor GetPlayerCharacterColor()
+	{
+		return Player.CharacterCorlor;
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -64,6 +74,8 @@ private:
 
 	// Space
 	std::vector<bool> Space_Available;
+	//std::vector<bool>
+	//std::vector<bool>
 	std::vector<UImage*> Btns_Space;
 	std::vector<UImage*> Characters_Space;
 	std::vector<UImage*> Flags_Space;
