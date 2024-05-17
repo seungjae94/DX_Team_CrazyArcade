@@ -41,7 +41,10 @@ private:
 	void SetImgCutting();
 	void RendererInit();
 	
-	void CreateWave();
+	void CreateLeftWave();
+	void CreateRightWave();
+	void CreateUpWave();
+	void CreateDownWave();
 
 private:
 	AMainPlayLevel* PlayLevel = nullptr;
@@ -52,7 +55,7 @@ private:
 	FPoint CurPoint;
 	const float ExplosionTime = 2.8f;
 	float ExplosionTimeCount = 0.0f;
-	int Power = 5;
+	int Power = 8;
 
 // FSM
 private:

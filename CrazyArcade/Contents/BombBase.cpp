@@ -7,6 +7,11 @@
 #include "Player.h"
 #include "Wave.h"
 
+#include "BlockBase.h"
+#include "MoveBox.h"
+#include "Wall.h"
+#include "Box.h"
+
 ABombBase::ABombBase()
 {
 	UDefaultSceneComponent* Root = CreateDefaultSubObject<UDefaultSceneComponent>("Root");
@@ -69,7 +74,11 @@ void ABombBase::StateInit()
 
 	State.SetStartFunction(BombState::explosion, [=] 
 		{
-			CreateWave();
+			CreateLeftWave();
+			CreateRightWave();
+			CreateUpWave();
+			CreateDownWave();
+
 			AddActorLocation({ 0.0f, -AMapBase::BombAdjustPosY, 0.0f });
 			Body->ChangeAnimation(MapAnim::bomb_effect_center);
 			DelayCallBack(0.66f, [=] 
@@ -119,17 +128,170 @@ void ABombBase::SetCurPoint(FPoint _Point)
 	CurPoint = _Point;
 }
 
-void ABombBase::CreateWave()
+void ABombBase::CreateLeftWave()
 {
-	FPoint BombPoint = CurPoint;
-
 	// Left
 	for (int i = 1; i <= Power; i++)
 	{
-		FPoint LeftPoint = { CurPoint.X - i, CurPoint.Y };
+		FPoint WavePoint = { CurPoint.X - i, CurPoint.Y };
+		FVector WavePos = AMapBase::ConvertPointToLocation(WavePoint);
+		
+		if (false == AMapBase::MapRangeCheckByPoint(WavePoint))
+		{
+			break;
+		}
+
+		ABlockBase* Block = PlayLevel->GetMap()->GetTileInfo(WavePoint).Block.get();
+
+		if (nullptr != dynamic_cast<AWall*>(Block))
+		{
+			break;
+		}
+		
+		if (nullptr != dynamic_cast<ABox*>(Block) || nullptr != dynamic_cast<AMoveBox*>(Block))
+		{
+			AWave* LeftWave = GetWorld()->SpawnActor<AWave>("Wave").get();
+			LeftWave->SetActorLocation(WavePos);
+			LeftWave->SetWaveType(EWaveType::UnderBlock);
+			break;
+		}
+
+		if (i == Power)
+		{
+			AWave* LeftWave = GetWorld()->SpawnActor<AWave>("Wave").get();
+			LeftWave->SetActorLocation(WavePos);
+			LeftWave->SetWaveType(EWaveType::LeftEnd);
+			continue;
+		}
+	
 		AWave* LeftWave = GetWorld()->SpawnActor<AWave>("Wave").get();
-		FVector WavePos = AMapBase::ConvertPointToLocation(LeftPoint);
 		LeftWave->SetActorLocation(WavePos);
 		LeftWave->SetWaveType(EWaveType::Left);
+	}
+}
+
+void ABombBase::CreateRightWave()
+{
+	// Right
+	for (int i = 1; i <= Power; i++)
+	{
+		FPoint WavePoint = { CurPoint.X + i, CurPoint.Y };
+		FVector WavePos = AMapBase::ConvertPointToLocation(WavePoint);
+
+		if (false == AMapBase::MapRangeCheckByPoint(WavePoint))
+		{
+			break;
+		}
+
+		ABlockBase* Block = PlayLevel->GetMap()->GetTileInfo(WavePoint).Block.get();
+
+		if (nullptr != dynamic_cast<AWall*>(Block))
+		{
+			break;
+		}
+
+		if (nullptr != dynamic_cast<ABox*>(Block) || nullptr != dynamic_cast<AMoveBox*>(Block))
+		{
+			AWave* LeftWave = GetWorld()->SpawnActor<AWave>("Wave").get();
+			LeftWave->SetActorLocation(WavePos);
+			LeftWave->SetWaveType(EWaveType::UnderBlock);
+			break;
+		}
+
+		if (i == Power)
+		{
+			AWave* LeftWave = GetWorld()->SpawnActor<AWave>("Wave").get();
+			LeftWave->SetActorLocation(WavePos);
+			LeftWave->SetWaveType(EWaveType::RightEnd);
+			continue;
+		}
+
+		AWave* LeftWave = GetWorld()->SpawnActor<AWave>("Wave").get();
+		LeftWave->SetActorLocation(WavePos);
+		LeftWave->SetWaveType(EWaveType::Right);
+	}
+}
+
+void ABombBase::CreateUpWave()
+{
+	// Up
+	for (int i = 1; i <= Power; i++)
+	{
+		FPoint WavePoint = { CurPoint.X, CurPoint.Y + i };
+		FVector WavePos = AMapBase::ConvertPointToLocation(WavePoint);
+
+		if (false == AMapBase::MapRangeCheckByPoint(WavePoint))
+		{
+			break;
+		}
+
+		ABlockBase* Block = PlayLevel->GetMap()->GetTileInfo(WavePoint).Block.get();
+
+		if (nullptr != dynamic_cast<AWall*>(Block))
+		{
+			break;
+		}
+
+		if (nullptr != dynamic_cast<ABox*>(Block) || nullptr != dynamic_cast<AMoveBox*>(Block))
+		{
+			AWave* LeftWave = GetWorld()->SpawnActor<AWave>("Wave").get();
+			LeftWave->SetActorLocation(WavePos);
+			LeftWave->SetWaveType(EWaveType::UnderBlock);
+			break;
+		}
+
+		if (i == Power)
+		{
+			AWave* LeftWave = GetWorld()->SpawnActor<AWave>("Wave").get();
+			LeftWave->SetActorLocation(WavePos);
+			LeftWave->SetWaveType(EWaveType::UpEnd);
+			continue;
+		}
+
+		AWave* LeftWave = GetWorld()->SpawnActor<AWave>("Wave").get();
+		LeftWave->SetActorLocation(WavePos);
+		LeftWave->SetWaveType(EWaveType::Up);
+	}
+}
+
+void ABombBase::CreateDownWave()
+{
+	// Down
+	for (int i = 1; i <= Power; i++)
+	{
+		FPoint WavePoint = { CurPoint.X, CurPoint.Y - i };
+		FVector WavePos = AMapBase::ConvertPointToLocation(WavePoint);
+
+		if (false == AMapBase::MapRangeCheckByPoint(WavePoint))
+		{
+			break;
+		}
+
+		ABlockBase* Block = PlayLevel->GetMap()->GetTileInfo(WavePoint).Block.get();
+
+		if (nullptr != dynamic_cast<AWall*>(Block))
+		{
+			break;
+		}
+
+		if (nullptr != dynamic_cast<ABox*>(Block) || nullptr != dynamic_cast<AMoveBox*>(Block))
+		{
+			AWave* LeftWave = GetWorld()->SpawnActor<AWave>("Wave").get();
+			LeftWave->SetActorLocation(WavePos);
+			LeftWave->SetWaveType(EWaveType::UnderBlock);
+			break;
+		}
+
+		if (i == Power)
+		{
+			AWave* LeftWave = GetWorld()->SpawnActor<AWave>("Wave").get();
+			LeftWave->SetActorLocation(WavePos);
+			LeftWave->SetWaveType(EWaveType::DownEnd);
+			continue;
+		}
+
+		AWave* LeftWave = GetWorld()->SpawnActor<AWave>("Wave").get();
+		LeftWave->SetActorLocation(WavePos);
+		LeftWave->SetWaveType(EWaveType::Down);
 	}
 }

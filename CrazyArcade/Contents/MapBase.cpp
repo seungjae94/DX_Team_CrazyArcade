@@ -9,7 +9,9 @@
 
 FVector AMapBase::StartPos = { 20.0f, 40.0f, 0.0f };
 float AMapBase::BlockSize = 40.0f;
-float AMapBase::BombAdjustPosY = 6.0f;
+float AMapBase::BombAdjustPosY = 6.0f;	
+int AMapBase::SizeX = 0;
+int AMapBase::SizeY = 0;
 
 AMapBase::AMapBase()
 {
@@ -95,8 +97,19 @@ FPoint AMapBase::ConvertLocationToPoint(const FVector& _Pos)
 	return Result;
 }
 
+// 맵 범위 안의 좌표인지 체크
+bool AMapBase::MapRangeCheckByPoint(FPoint _Point)
+{
+	if (0 > _Point.X || SizeX <= _Point.X || 0 > _Point.Y || SizeY <= _Point.Y)
+	{
+		return false;
+	}
+
+	return true;
+}
+
 // 해당 좌표 Tile의 중앙 위치 정보를 반환
-FVector AMapBase::ConvertPointToLocation(const FPoint& _Point)
+FVector AMapBase::ConvertPointToLocation(FPoint _Point)
 {
 	FVector Result = StartPos;
 

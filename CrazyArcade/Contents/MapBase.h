@@ -38,7 +38,8 @@ public:
 
 	static int GetRenderOrder(const FVector& _Pos);
 	static FPoint ConvertLocationToPoint(const FVector& _Pos);
-	static FVector ConvertPointToLocation(const FPoint& _Point);
+	static FVector ConvertPointToLocation(FPoint _Point);
+	static bool MapRangeCheckByPoint(FPoint _Point);
 	
 	bool CanMovePos(const FVector& _NextPos, const FVector& _Dir);
 	EItemType IsItemTile(const FVector& _Pos);
@@ -95,8 +96,8 @@ private:
 
 	static FVector StartPos;
 	static float BlockSize;
-	int SizeX = 0;
-	int SizeY = 0;
+	static int SizeX;
+	static int SizeY;
 
 	static float BombAdjustPosY;
 
