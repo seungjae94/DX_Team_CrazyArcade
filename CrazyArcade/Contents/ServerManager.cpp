@@ -53,10 +53,23 @@ void ServerManager::ClientOpen(std::string_view _Ip, int _Port)
 					ConnectionInfo::GetInst().SetUserInfos(_Packet->Infos);
 				});
 		});
+
+	UEngineDispatcher& Diss = UCrazyArcadeCore::Net->Dispatcher;
+	Diss.AddHandler<UConnectInitPacket>([=](std::shared_ptr<UConnectInitPacket> _Packet)
+		{
+			GEngine->GetCurLevel()->PushFunction([=]()
+				{
+					ConnectionInfo::GetInst().PushUserInfos(_Packet->GetSessionToken(), _Packet->Name);
+					SessionInitVec[_Packet->Session] = true;
+				});
+		});
 }
 
 void ServerManager::Update(float _DeltaTime)
 {
+	std::map<int, std::string> UserInfo = ConnectionInfo::GetInst().GetUserInfos();
+	int a = 0;
+
 	if (nullptr != UCrazyArcadeCore::Net)
 	{
 		std::shared_ptr<UEngineServer> Server = dynamic_pointer_cast<UEngineServer>(UCrazyArcadeCore::Net);
@@ -64,7 +77,7 @@ void ServerManager::Update(float _DeltaTime)
 		{
 			return;
 		}
-		int ServerSessionCount = ConnectionInfo::GetInst().InfoSize();
+		int ServerSessionCount = ConnectionInfo::GetInst().GetInfoSize();
 		bool Isinit = true;
 		for (int i = 0; i <= ServerSessionCount; ++i) {
 			Isinit = Isinit || SessionInitVec[i];

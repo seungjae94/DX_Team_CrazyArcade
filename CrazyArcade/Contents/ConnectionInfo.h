@@ -88,9 +88,9 @@ public:
 		return CharacterTypeInfos;
 	}
 
-	int InfoSize() const
+	int GetInfoSize() const
 	{
-		return UserInfos.size();
+		return static_cast<int>(UserInfos.size());
 	}
 
 

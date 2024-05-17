@@ -116,6 +116,22 @@ void APlayer::Idle(float _Update)
 			Bomb = nullptr;
 		}
 	}
+	//Devil 효과로 물풍선 제어 불가
+	if (true == IsDevil && false == MoveDevil)
+	{
+		if (0 < BombCount)
+		{
+			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+			if (nullptr != Bomb)
+			{
+				--BombCount;
+			}
+		}
+		else
+		{
+			Bomb = nullptr;
+		}
+	}
 
 	if (true == IsPress(VK_LEFT) || true == IsPress(VK_RIGHT) || true == IsPress(VK_UP) || true == IsPress(VK_DOWN))
 	{
@@ -128,6 +144,22 @@ void APlayer::Run(float _DeltaTime)
 {
 	// Bomb 설치
 	if (true == IsDown(VK_SPACE))
+	{
+		if (0 < BombCount)
+		{
+			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+			if (nullptr != Bomb)
+			{
+				--BombCount;
+			}
+		}
+		else
+		{
+			Bomb = nullptr;
+		}
+	}
+	//Devil 효과로 물풍선 제어 불가
+	if (true == IsDevil && false == MoveDevil)
 	{
 		if (0 < BombCount)
 		{

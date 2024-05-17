@@ -46,7 +46,5 @@ private:
 	UStateManager State;
 	void StateInit();
 
-	
-
 };
 
