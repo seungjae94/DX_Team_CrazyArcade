@@ -585,6 +585,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					});
 
 				Btns_CharacterSelect[i]->SetUp([=] {
+					IsInfoChange = true;
 					ChangeCharacter(ECharacterType(i));
 					});
 			}
@@ -721,6 +722,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					});
 
 				Btns_ColorSelect[i]->SetUp([=] {
+					IsInfoChange = true;
 					ChangeColor(ECharacterColor(i));
 					});
 			}
@@ -797,12 +799,13 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 	// PlayerInfo Update
 	{
 		Player.SpaceIndex = ConnectionInfo::GetInst().GetOrder();
-		//Player.Name = ConnectionInfo::GetInst().GetMyName();
 
-		// temp
-		ConnectionInfo::GetInst().PushUserInfos(Player.SpaceIndex, Player.Name);
-		ConnectionInfo::GetInst().PushCharacterType(Player.SpaceIndex, Player.CharacterType);
-		ConnectionInfo::GetInst().PushCharacterColor(Player.SpaceIndex, Player.CharacterColor);
+		if (IsInfoChange == true)
+		{
+			/* Server */
+
+			IsInfoChange = false;
+		}
 	}
 
 	// UserInfos Update

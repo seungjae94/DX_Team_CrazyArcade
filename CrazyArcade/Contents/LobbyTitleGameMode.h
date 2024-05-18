@@ -15,6 +15,27 @@ public:
 	ALobbyTitleGameMode& operator=(const ALobbyTitleGameMode& _Other) = delete;
 	ALobbyTitleGameMode& operator=(ALobbyTitleGameMode&& _Other) = delete;
 
+private:
+	// UserInfos
+	struct UserInfo
+	{
+		int SpaceIndex;
+		std::string Name;
+		ECharacterType CharacterType;
+		ECharacterColor CharacterColor;
+		//ability, rank, ...etc.
+	};
+	std::vector<UserInfo> UserInfos;
+	UserInfo Player;
+
+	bool IsInfoChange = false;
+
+public:
+	inline UserInfo GetPlayerInfo()
+	{
+		return Player;
+	}
+
 	inline ECharacterType GetPlayerCharacterType()
 	{
 		return Player.CharacterType;
@@ -41,18 +62,6 @@ protected:
 	void FadeOut(float _DeltaTime);
 
 private:
-	// UserInfos
-	struct UserInfo
-	{
-		int SpaceIndex;
-		std::string Name;
-		ECharacterType CharacterType;
-		ECharacterColor CharacterColor;
-		//ability, rank, ...etc.
-	};
-	std::vector<UserInfo> UserInfos;
-	UserInfo Player;
-
 	// BackGround
 	UImage* LobbyBackGround = nullptr;
 
