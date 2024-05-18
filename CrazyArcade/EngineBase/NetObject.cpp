@@ -26,13 +26,7 @@ void UNetObject::Send(std::shared_ptr<UEngineProtocol> _Protocol)
 	_Protocol->SetSessionToken(Net->GetSessionToken());
 	_Protocol->ObjectToken = ObjectToken;
 
-	_Protocol->GetSessionToken();
 	Net->Send(_Protocol);
-
-	UEngineSerializer Ser;
-	_Protocol->Serialize(Ser);
-
-
 }
 
 void UNetObject::Send(std::shared_ptr<UEngineProtocol> _Protocol, int _ObjectToken)
