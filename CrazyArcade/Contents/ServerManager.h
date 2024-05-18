@@ -1,7 +1,8 @@
 #pragma once
 #include <EngineCore/EngineNetWindow.h>
+#include <EngineBase/NetObject.h>
 // Ό³Έν :
-class ServerManager : public UEngineNetWindow
+class ServerManager : public UEngineNetWindow, public UNetObject
 {
 public:
 	// constructor destructor
@@ -30,8 +31,28 @@ public:
 	}
 
 	void Update(float _DeltaTime);
+	
+	void ServerUpdate(float _DeltaTime);
+	void ClientUpdate(float _DeltaTime);
+
+	void ServerInit();
+	bool ServerBool = false;
+	void ClientInit();
+	bool ClientBool = false;
+
+	void SManagerInit();
+	void CManagerInit();
+
+	ENetType GetNetType() {
+		return ManagerType;
+	}
+
 protected:
+	std::mutex SessinInitMutex;
 	std::vector<bool> SessionInitVec = { true, false, false, false, false, false, false, false };
+	ENetType ManagerType = ENetType::None;
 private:
 
 };
+
+

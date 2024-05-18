@@ -34,6 +34,7 @@ void UEngineClient::Send(std::shared_ptr<UEngineProtocol> _Protocol)
 	{
 		return;
 	}
-
 	Session.Send(_Protocol);
+
+
 }

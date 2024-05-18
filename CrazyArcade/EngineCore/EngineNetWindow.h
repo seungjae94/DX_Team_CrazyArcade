@@ -39,7 +39,6 @@ public:
 		return NetType;
 	}
 
-
 	void ServerOpen();
 
 	void ClientOpen(std::string_view _Ip, int _Port);

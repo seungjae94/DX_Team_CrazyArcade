@@ -88,6 +88,10 @@ void UEngineServer::Send(std::shared_ptr<UEngineProtocol> _Protocol)
 			continue;
 		}
 
+		if (User->GetSessionToken() == -1) {
+			return;
+		}
+
 		if (User->GetSessionToken() == _Protocol->GetSessionToken())
 		{
 			continue;

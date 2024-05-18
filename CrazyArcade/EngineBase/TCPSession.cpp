@@ -59,5 +59,6 @@ int UTCPSession::Send(void* Data, int Size)
 int UTCPSession::Send(std::shared_ptr<UEngineProtocol> _Packet)
 {
 	UEngineSerializer Ser = _Packet->GetSerialize();
+
 	return Send(Ser);
 }

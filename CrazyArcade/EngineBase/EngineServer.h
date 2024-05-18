@@ -35,6 +35,7 @@ public:
 
 protected:
 	void ServerOpen(int _Port, int _BackLog = 512) override;
+	
 
 private:
 	int Port;

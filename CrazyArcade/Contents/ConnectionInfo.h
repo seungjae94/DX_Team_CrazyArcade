@@ -26,6 +26,13 @@ public:
 		return MyOrder;
 	}
 	
+	void SetMyName(std::string_view _Name) {
+		MyName = _Name;
+	}
+
+	std::string_view GetMyName() {
+		return MyName;
+	}
 
 	void SetCharacterType(ECharacterType _CharacterType)
 	{
@@ -47,14 +54,17 @@ public:
 		return MyColorType;
 	}
 
+
 	void SetUserInfos(std::map<int, std::string> _Infos)
 	{
 		UserInfos = _Infos;
 	}
+
 	void PushUserInfos(int _Order, std::string _Name)
 	{
 		UserInfos[_Order] = _Name;
 	}
+
 	std::map<int, std::string>& GetUserInfos()
 	{
 		return UserInfos;
@@ -101,6 +111,7 @@ private:
 	~ConnectionInfo();
 
 	int MyOrder = 0;
+	std::string MyName = "Anonymous";
 
 	ECharacterType MyCharacterType = ECharacterType::None;
 	ECharacterColor MyColorType = ECharacterColor::None;

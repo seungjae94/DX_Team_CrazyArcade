@@ -214,28 +214,18 @@ void AMainTitleGameMode::Tick(float _DeltaTime)
 	StringToText();
 
 	if (UCrazyArcadeCore::Net == nullptr) {
-
 		if (UEngineInput::IsDown('S'))
 		{
 			UCrazyArcadeCore::NetWindow->ServerOpen();
 			GEngine->ChangeLevel("LobbyTitleTestLevel");
-
-			ConnectionInfo::GetInst().PushUserInfos(UCrazyArcadeCore::Net->GetSessionToken(), PlayerName);
-			ConnectionInfo::GetInst().SetOrder(UCrazyArcadeCore::Net->GetSessionToken());
+			ConnectionInfo::GetInst().SetMyName(PlayerName);
 		}
 
 		if (UEngineInput::IsDown('C'))
 		{
-			UCrazyArcadeCore::NetWindow->ClientOpen(PlayerName,3);
+			UCrazyArcadeCore::NetWindow->ClientOpen("IP", 3);
+			ConnectionInfo::GetInst().SetMyName(PlayerName);
 			GEngine->ChangeLevel("LobbyTitleTestLevel");
-
-			std::shared_ptr<UConnectInitPacket> InitPacket = std::make_shared<UConnectInitPacket>();
-			InitPacket->Session = UCrazyArcadeCore::Net->GetSessionToken();
-			InitPacket->Name = PlayerName;
-
-			ConnectionInfo::GetInst().SetOrder(UCrazyArcadeCore::Net->GetSessionToken());
-
-			UCrazyArcadeCore::Net->Send(InitPacket);
 		}
 
 	}
@@ -250,16 +240,25 @@ void AMainTitleGameMode::LevelStart(ULevel* _PrevLevel)
 	{
 		UCrazyArcadeCore::NetWindow = UEngineEditorGUI::CreateEditorWindow<ServerManager>("NetWindow");
 
+
 		UCrazyArcadeCore::NetWindow->SetServerOpenFunction([&]()
 			{
-				UCrazyArcadeCore::Net = std::make_shared<UEngineServer>();
-				UCrazyArcadeCore::Net->ServerOpen(30000, 512);
+				if (nullptr == UCrazyArcadeCore::Net)
+				{
+					UCrazyArcadeCore::Net = std::make_shared<UEngineServer>();
+					UCrazyArcadeCore::NetWindow->SManagerInit();
+					UCrazyArcadeCore::Net->ServerOpen(30000, 512);
+				}
 			});
 
 		UCrazyArcadeCore::NetWindow->SetClientConnectFunction([&](std::string IP, short PORT)
 			{
-				UCrazyArcadeCore::Net = std::make_shared<UEngineClient>();
-				UCrazyArcadeCore::Net->Connect(IP, PORT);
+				if (nullptr == UCrazyArcadeCore::Net)
+				{
+					UCrazyArcadeCore::Net = std::make_shared<UEngineClient>();
+					UCrazyArcadeCore::NetWindow->CManagerInit();
+					UCrazyArcadeCore::Net->Connect(IP, PORT);
+				}
 			});
 	}
 	UCrazyArcadeCore::NetWindow->On();
