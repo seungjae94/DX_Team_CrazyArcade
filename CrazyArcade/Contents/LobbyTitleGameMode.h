@@ -76,9 +76,8 @@ private:
 	UImage* Btn_MapSelect = nullptr;
 
 	// Space
-	std::vector<bool> Space_Available;
-	//std::vector<bool>
-	//std::vector<bool>
+	std::vector<bool> Space_IsAvailable;
+	std::vector<bool> Space_IsUserIn;
 	std::vector<UImage*> Btns_Space;
 	std::vector<UImage*> Characters_Space;
 	std::vector<UImage*> Flags_Space;

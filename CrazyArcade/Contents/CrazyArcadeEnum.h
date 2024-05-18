@@ -44,9 +44,10 @@ enum class ECharacterType
 	None,
 };
 
+// 3000 ~ 3999 (╩Ж е╦ют)
 enum class ECharacterColor
 {
-	Red,
+	Red = 3000,
 	Yellow,
 	Orange,
 	Green,

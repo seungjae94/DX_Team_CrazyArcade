@@ -160,7 +160,8 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_Space->ChangeAnimation("Space_UnHover");
 
 					Btns_Space.push_back(Btn_Space);
-					Space_Available.push_back(true);
+					Space_IsAvailable.push_back(true);
+					Space_IsUserIn.push_back(false);
 				}
 				{
 					UImage* Character_Space = CreateWidget<UImage>(GetWorld(), "Character_Space");
@@ -206,7 +207,7 @@ void ALobbyTitleGameMode::BeginPlay()
 			for (int i = 0; i < 8; i++)
 			{
 				Btns_Space[i]->SetUnHover([=] {
-					if (Space_Available[i] == true)
+					if (Space_IsAvailable[i] == true)
 					{
 						Btns_Space[i]->ChangeAnimation("Space_UnHover");
 					}
@@ -217,7 +218,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					});
 
 				Btns_Space[i]->SetHover([=] {
-					if (Space_Available[i] == true)
+					if (Space_IsAvailable[i] == true)
 					{
 						Btns_Space[i]->ChangeAnimation("Space_Hover");
 					}
@@ -228,15 +229,15 @@ void ALobbyTitleGameMode::BeginPlay()
 					});
 
 				Btns_Space[i]->SetDown([=] {
-					if (Space_Available[i] == true)
+					if (Space_IsAvailable[i] == true)
 					{
 						Btns_Space[i]->ChangeAnimation("Space_Down");
-						Space_Available[i] = false;
+						Space_IsAvailable[i] = false;
 					}
 					else
 					{
 						Btns_Space[i]->ChangeAnimation("UnSpace_Down");
-						Space_Available[i] = true;
+						Space_IsAvailable[i] = true;
 					}
 					});
 
@@ -245,7 +246,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					});
 
 				Btns_Space[i]->SetUp([=] {
-					if (Space_Available[i] == true)
+					if (Space_IsAvailable[i] == true)
 					{
 						Btns_Space[i]->ChangeAnimation("Space_Hover");
 					}
@@ -723,7 +724,7 @@ void ALobbyTitleGameMode::BeginPlay()
 
 				Btns_ColorSelect[i]->SetUp([=] {
 					IsInfoChange = true;
-					ChangeColor(ECharacterColor(i));
+					ChangeColor(ECharacterColor(i + 3000));
 					});
 			}
 
@@ -738,7 +739,7 @@ void ALobbyTitleGameMode::BeginPlay()
 	}
 	{
 		// Initialize
-		Space_Available[Player.SpaceIndex] = true;
+		Space_IsUserIn[Player.SpaceIndex] = true;
 		Usernames_Space[Player.SpaceIndex]->SetText(Player.Name);
 		ChangeCharacter(Player.CharacterType);
 		ChangeColor(Player.CharacterColor);
@@ -1111,7 +1112,7 @@ void ALobbyTitleGameMode::ChangeColor(ECharacterColor _CharacterColor)
 {
 	// PlayerInfo
 	Player.CharacterColor = _CharacterColor;
-	int Index_CharacterColor = int(_CharacterColor);
+	int Index_CharacterColor = int(_CharacterColor) - 3000;
 
 	// Button
 	ColorSelect_Pick[Index_CharacterColor] = true;
