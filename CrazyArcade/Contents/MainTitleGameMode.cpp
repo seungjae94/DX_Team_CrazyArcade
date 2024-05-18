@@ -90,26 +90,36 @@ void AMainTitleGameMode::BeginPlay()
 		{
 			PlayerNameBox->ChangeAnimation("NotActiveAni");
 			IsNameBoxAct = false;
-			UEngineInputRecorder::GetText();
-			UEngineInputRecorder::RecordEnd();
-
-
+		}
+		if (IsIPNumBoxActive == true)
+		{
+			IPNumBox->ChangeAnimation("InActive");
+			IsIPNumBoxActive = false;
+		}
+		if (IsPortNumBoxActive == true)
+		{
+			PortNumBox->ChangeAnimation("InActive");
+			IsPortNumBoxActive = false;
 		}
 
+		UEngineInputRecorder::GetText();
+		UEngineInputRecorder::RecordEnd();
 		});
-
-
 
 	PlayerNameBox->SetDown([=] {
 		//Å° ÀÔ·Â
 		PlayerNameBox->ChangeAnimation("ActiveAni");
 		IsNameBoxAct = true;
-		UEngineInputRecorder::RecordStart(TextWidget->GetText());
+		IPNumBox->ChangeAnimation("InActive");
+		IsIPNumBoxActive = false;
+		PortNumBox->ChangeAnimation("InActive");
+		IsPortNumBoxActive = false;
 
+		UEngineInputRecorder::RecordStart(TextWidget->GetText());
 		GetPlayerName();
 		});
 
-
+	// 1P Button
 	{
 		Button_1P = CreateWidget<UImage>(GetWorld(), "Button_1P");
 		Button_1P->AddToViewPort(1);
@@ -137,13 +147,16 @@ void AMainTitleGameMode::BeginPlay()
 			});
 
 		Button_1P->SetPress([=] {
-			ServerStart();
+
 			});
 
 		Button_1P->SetUp([=] {
 			Button_1P->ChangeAnimation("UnHover");
+			ServerStart();
 			});
 	}
+
+	// 2P Button
 	{
 		Button_2P = CreateWidget<UImage>(GetWorld(), "Button_2P");
 		Button_2P->AddToViewPort(1);
@@ -171,20 +184,101 @@ void AMainTitleGameMode::BeginPlay()
 			});
 
 		Button_2P->SetPress([=] {
-			ClientStart();
+
 			});
 
 		Button_2P->SetUp([=] {
 			Button_2P->ChangeAnimation("UnHover");
+			ClientStart();
 			});
+	}
+
+	// IP Number Box
+	{
+		IPNumBox = CreateWidget<UImage>(GetWorld(), "IPNumBox");
+		IPNumBox->AddToViewPort(3);
+		IPNumBox->SetScale({ 210.0f, 22.5f });
+		IPNumBox->SetWidgetLocation({ 275.0f, -40.0f });
+
+		IPNumBox->CreateAnimation("InActive", "NameBoxNotActive.png", 0.1f, false, 0, 0);
+		IPNumBox->CreateAnimation("Active", "NameBox.png", 0.1f, false, 0, 0);
+		IPNumBox->ChangeAnimation("InActive");
+
+		IPNumBox->SetDown([=] {
+			PlayerNameBox->ChangeAnimation("NotActiveAni");
+			IsNameBoxAct = false;
+			IPNumBox->ChangeAnimation("Active");
+			IsIPNumBoxActive = true;
+			PortNumBox->ChangeAnimation("InActive");
+			IsPortNumBoxActive = false;
+
+			UEngineInputRecorder::RecordStart(IPNumText->GetText());
+			});
+
+		IPNumText = CreateWidget<UTextWidget>(GetWorld(), "IPNumText");
+		IPNumText->AddToViewPort(4);
+		IPNumText->SetScale(20.0f);
+		IPNumText->SetWidgetLocation({ 173.0f, -28.0f });
+		IPNumText->SetFont("±¼¸²");
+		IPNumText->SetColor(Color8Bit::Black);
+		IPNumText->SetFlag(FW1_LEFT);
+		IPNumText->SetText(IPNum);
+
+		IPNumTitle = CreateWidget<UTextWidget>(GetWorld(), "IPNumTitle");
+		IPNumTitle->AddToViewPort(4);
+		IPNumTitle->SetScale(20.0f);
+		IPNumTitle->SetWidgetLocation({ 130.0f, -28.0f });
+		IPNumTitle->SetFont("±¼¸²");
+		IPNumTitle->SetColor(Color8Bit::Black);
+		IPNumTitle->SetFlag(FW1_LEFT);
+		IPNumTitle->SetText("IP : ");
+	}
+
+	// Port Number Box
+	{
+		PortNumBox = CreateWidget<UImage>(GetWorld(), "PortNumBox");
+		PortNumBox->AddToViewPort(3);
+		PortNumBox->SetScale({ 100.0f, 22.5f });
+		PortNumBox->SetWidgetLocation({ 220.0f, -70.0f });
+
+		PortNumBox->CreateAnimation("InActive", "NameBoxNotActive.png", 0.1f, false, 0, 0);
+		PortNumBox->CreateAnimation("Active", "NameBox.png", 0.1f, false, 0, 0);
+		PortNumBox->ChangeAnimation("InActive");
+
+		PortNumBox->SetDown([=] {
+			PlayerNameBox->ChangeAnimation("NotActiveAni");
+			IsNameBoxAct = false;
+			IPNumBox->ChangeAnimation("InActive");
+			IsIPNumBoxActive = false;
+			PortNumBox->ChangeAnimation("Active");
+			IsPortNumBoxActive = true;
+
+			UEngineInputRecorder::RecordStart(PortNumText->GetText());
+			});
+
+		PortNumText = CreateWidget<UTextWidget>(GetWorld(), "PortNumText");
+		PortNumText->AddToViewPort(4);
+		PortNumText->SetScale(20.0f);
+		PortNumText->SetWidgetLocation({ 173.0f, -58.0f });
+		PortNumText->SetFont("±¼¸²");
+		PortNumText->SetColor(Color8Bit::Black);
+		PortNumText->SetFlag(FW1_LEFT);
+		PortNumText->SetText(PortNum);
+
+		PortNumTitle = CreateWidget<UTextWidget>(GetWorld(), "PortNumText");
+		PortNumTitle->AddToViewPort(4);
+		PortNumTitle->SetScale(20.0f);
+		PortNumTitle->SetWidgetLocation({ 110.0f, -58.0f });
+		PortNumTitle->SetFont("±¼¸²");
+		PortNumTitle->SetColor(Color8Bit::Black);
+		PortNumTitle->SetFlag(FW1_LEFT);
+		PortNumTitle->SetText("Port : ");
 	}
 
 	if (UEngineInput::IsDown('M'))
 	{
 		GetPlayerName();
 	}
-
-
 }
 
 
@@ -211,7 +305,22 @@ void AMainTitleGameMode::Tick(float _DeltaTime)
 	std::string CurText = TextWidget->GetText();
 	ÀÓ½Ã ¹æÆí
 	}*/
+
+	// PlayerName, IPNum, PortNum Setting
 	StringToText();
+
+	// Debug
+	{
+		FVector CameraPos = GetWorld()->GetMainCamera()->GetActorLocation();
+		FVector MousePos = GEngine->EngineWindow.GetScreenMousePos();
+		FVector WindowScale = GEngine->EngineWindow.GetWindowScale();
+		FVector TargetPos = FVector(CameraPos.X, CameraPos.Y, 0.0f) + FVector(MousePos.X - WindowScale.hX(), -(MousePos.Y - WindowScale.hY()), 0.0f);
+
+		{
+			std::string Msg = std::format("MousePos : {}\n", TargetPos.ToString());
+			UEngineDebugMsgWindow::PushMsg(Msg);
+		}
+	}
 }
 
 void AMainTitleGameMode::LevelStart(ULevel* _PrevLevel)
@@ -282,14 +391,25 @@ void AMainTitleGameMode::ClientStart()
 	}
 }
 
-
 std::string AMainTitleGameMode::GetPlayerName()
 {
 	return TextWidget->GetText();
 }
+
 void AMainTitleGameMode::StringToText()
 {
-	PlayerName = UEngineInputRecorder::GetText();
+	if (IsNameBoxAct == true)
+	{
+		PlayerName = UEngineInputRecorder::GetText();
+	}
+	else if (IsIPNumBoxActive == true)
+	{
+		IPNum = UEngineInputRecorder::GetText();
+	}
+	else if (IsPortNumBoxActive == true)
+	{
+		PortNum = UEngineInputRecorder::GetText();
+	}
 
 	if (PlayerName.size() > 0)
 	{
@@ -298,5 +418,23 @@ void AMainTitleGameMode::StringToText()
 	else
 	{
 		TextWidget->SetText(" ");
+	}
+
+	if (IPNum.size() > 0)
+	{
+		IPNumText->SetText(IPNum);
+	}
+	else
+	{
+		IPNumText->SetText(" ");
+	}
+
+	if (PortNum.size() > 0)
+	{
+		PortNumText->SetText(PortNum);
+	}
+	else
+	{
+		PortNumText->SetText(" ");
 	}
 }
