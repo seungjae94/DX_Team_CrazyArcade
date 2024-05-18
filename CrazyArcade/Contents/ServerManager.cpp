@@ -24,9 +24,6 @@ void ServerManager::ServerOpen()
 		{
 			GEngine->GetCurLevel()->PushFunction([=]()
 				{
-					//ConnectionInfo::GetInst().SetSessionCount(_Packet->ConnectNum);
-					//ConnectionInfo::GetInst().SetOrder(_Packet->ConnectNum);
-					//std::string Name = ConnectionInfo::GetInst().GetMyName();
 					ConnectionInfo::GetInst().SetUserInfos(_Packet->Infos);
 				});
 		});
@@ -113,7 +110,7 @@ void ServerManager::ServerUpdate(float _DeltaTime)
 
 void ServerManager::ClientUpdate(float _DeltaTime)
 {
-
+	ClientInit();
 }
 
 

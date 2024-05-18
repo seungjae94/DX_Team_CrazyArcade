@@ -137,7 +137,7 @@ void AMainTitleGameMode::BeginPlay()
 			});
 
 		Button_1P->SetPress([=] {
-
+			ServerStart();
 			});
 
 		Button_1P->SetUp([=] {
@@ -171,7 +171,7 @@ void AMainTitleGameMode::BeginPlay()
 			});
 
 		Button_2P->SetPress([=] {
-
+			ClientStart();
 			});
 
 		Button_2P->SetUp([=] {
@@ -212,25 +212,6 @@ void AMainTitleGameMode::Tick(float _DeltaTime)
 	임시 방편
 	}*/
 	StringToText();
-
-	if (UCrazyArcadeCore::Net == nullptr) {
-		if (UEngineInput::IsDown('S'))
-		{
-			UCrazyArcadeCore::NetWindow->ServerOpen();
-			GEngine->ChangeLevel("LobbyTitleTestLevel");
-			ConnectionInfo::GetInst().SetMyName(PlayerName);
-			ConnectionInfo::GetInst().PushUserInfos(0, PlayerName);
-		}
-
-		if (UEngineInput::IsDown('C'))
-		{
-			UCrazyArcadeCore::NetWindow->ClientOpen("IP", 3);
-			ConnectionInfo::GetInst().SetMyName(PlayerName);
-			GEngine->ChangeLevel("LobbyTitleTestLevel");
-		}
-
-	}
-
 }
 
 void AMainTitleGameMode::LevelStart(ULevel* _PrevLevel)
@@ -280,6 +261,25 @@ void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
 	//ConnectionInfo::GetInst().SetMyName(PlayerName);
 	//Lobby->SetUserName(PlayerName);
 	//UEngineInputRecorder::RecordEnd();
+}
+
+void AMainTitleGameMode::ServerStart()
+{
+	if (UCrazyArcadeCore::Net == nullptr) {
+			UCrazyArcadeCore::NetWindow->ServerOpen();
+			GEngine->ChangeLevel("LobbyTitleTestLevel");
+			ConnectionInfo::GetInst().SetMyName(PlayerName);
+			ConnectionInfo::GetInst().PushUserInfos(0, PlayerName);
+	}
+}
+
+void AMainTitleGameMode::ClientStart()
+{
+	if (UCrazyArcadeCore::Net == nullptr) {
+		UCrazyArcadeCore::NetWindow->ClientOpen("IP", 3);
+		ConnectionInfo::GetInst().SetMyName(PlayerName);
+		GEngine->ChangeLevel("LobbyTitleTestLevel");
+	}
 }
 
 

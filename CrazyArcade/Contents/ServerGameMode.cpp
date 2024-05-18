@@ -16,6 +16,7 @@
 #include "CrazyArcadeEnum.h"
 #include "BombBase.h"
 #include "MapBase.h"
+#include "ServerManager.h"
 
 AServerGameMode::AServerGameMode()
 	:AMainPlayLevel()
@@ -34,7 +35,6 @@ AServerGameMode::~AServerGameMode()
 void AServerGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-
 }
 
 void AServerGameMode::Tick(float _DeltaTime)
@@ -47,39 +47,9 @@ void AServerGameMode::Tick(float _DeltaTime)
 void AServerGameMode::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
-
-	if (nullptr == NetWindow)
-	{
-		NetWindow = UEngineEditorGUI::CreateEditorWindow<UEngineNetWindow>("NetWindow");
-
-		NetWindow->SetServerOpenFunction([&]()
-			{
-				UCrazyArcadeCore::Net = std::make_shared<UEngineServer>();
-				UCrazyArcadeCore::Net->ServerOpen(30000, 512);
-
-				// 여기에서 메인 플레이어한테 번호를 하나 줄겁니다.
-
-				Player->SetObjectToken(UNetObject::GetNewObjectToken());
-
-				ServerPacketInit(UCrazyArcadeCore::Net->Dispatcher);
-			});
-
-		NetWindow->SetClientConnectFunction([&](std::string IP, short PORT)
-			{
-				UCrazyArcadeCore::Net = std::make_shared<UEngineClient>();
-				UCrazyArcadeCore::Net->Connect(IP, PORT);
-
-				UCrazyArcadeCore::Net->SetTokenPacketFunction([=](USessionTokenPacket* _Token)
-					{
-						Player->SetObjectToken(UCrazyArcadeCore::Net->GetSessionToken() * 1000 + UNetObject::GetNewObjectToken());
-					});
-
-				// 어떤 패키싱 왔을때 어떻게 처리할건지를 정하는 걸 해야한다.
-				ClientPacketInit(UCrazyArcadeCore::Net->Dispatcher);
-			});
-	}
-	NetWindow->On();
+	Player->SetObjectToken(UNetObject::GetNewObjectToken());
 }
+
 
 void AServerGameMode::ServerPacketInit(UEngineDispatcher& Dis)
 {
@@ -171,5 +141,5 @@ void AServerGameMode::LevelEnd(ULevel* _NextLevel)
 {
 	Super::LevelEnd(_NextLevel);
 
-	NetWindow->Off();
+	UCrazyArcadeCore::NetWindow->Off();
 }

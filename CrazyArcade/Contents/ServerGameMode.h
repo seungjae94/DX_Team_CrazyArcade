@@ -36,8 +36,6 @@ protected:
 	void LevelStart(ULevel* _PrevLevel) override;
 	void LevelEnd(ULevel* _NextLevel) override;
 
-	std::shared_ptr<UEngineNetWindow> NetWindow;
-
 	float BombDestoryTime = 1.0f;
 	float CurBombDestoryTime = 0.0f;
 };

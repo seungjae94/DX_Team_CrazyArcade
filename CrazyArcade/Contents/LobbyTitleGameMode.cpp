@@ -5,9 +5,19 @@
 
 #include "ConnectionInfo.h"
 #include "MainTitleGameMode.h"
+#include "ServerManager.h"
+#include "CrazyArcadeCore.h"
 
 ALobbyTitleGameMode::ALobbyTitleGameMode()
 {
+	//if (ENetType::Server == UCrazyArcadeCore::NetWindow->GetNetType()) {
+	//	ServerPacketInit(UCrazyArcadeCore::Net->Dispatcher);
+	//}
+
+	//if (ENetType::Client == UCrazyArcadeCore::NetWindow->GetNetType()) {
+	//	ClientPacketInit(UCrazyArcadeCore::Net->Dispatcher);
+	//}
+
 }
 
 ALobbyTitleGameMode::~ALobbyTitleGameMode()
