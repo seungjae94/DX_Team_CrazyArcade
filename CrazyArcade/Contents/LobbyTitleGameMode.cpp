@@ -207,37 +207,46 @@ void ALobbyTitleGameMode::BeginPlay()
 			for (int i = 0; i < 8; i++)
 			{
 				Btns_Space[i]->SetUnHover([=] {
-					if (Space_IsAvailable[i] == true)
+					if (Space_IsUserIn[i] == false)
 					{
-						Btns_Space[i]->ChangeAnimation("Space_UnHover");
-					}
-					else
-					{
-						Btns_Space[i]->ChangeAnimation("UnSpace_UnHover");
+						if (Space_IsAvailable[i] == true)
+						{
+							Btns_Space[i]->ChangeAnimation("Space_UnHover");
+						}
+						else
+						{
+							Btns_Space[i]->ChangeAnimation("UnSpace_UnHover");
+						}
 					}
 					});
 
 				Btns_Space[i]->SetHover([=] {
-					if (Space_IsAvailable[i] == true)
+					if (Space_IsUserIn[i] == false)
 					{
-						Btns_Space[i]->ChangeAnimation("Space_Hover");
-					}
-					else
-					{
-						Btns_Space[i]->ChangeAnimation("UnSpace_Hover");
+						if (Space_IsAvailable[i] == true)
+						{
+							Btns_Space[i]->ChangeAnimation("Space_Hover");
+						}
+						else
+						{
+							Btns_Space[i]->ChangeAnimation("UnSpace_Hover");
+						}
 					}
 					});
 
 				Btns_Space[i]->SetDown([=] {
-					if (Space_IsAvailable[i] == true)
+					if (Space_IsUserIn[i] == false)
 					{
-						Btns_Space[i]->ChangeAnimation("Space_Down");
-						Space_IsAvailable[i] = false;
-					}
-					else
-					{
-						Btns_Space[i]->ChangeAnimation("UnSpace_Down");
-						Space_IsAvailable[i] = true;
+						if (Space_IsAvailable[i] == true)
+						{
+							Btns_Space[i]->ChangeAnimation("Space_Down");
+							Space_IsAvailable[i] = false;
+						}
+						else
+						{
+							Btns_Space[i]->ChangeAnimation("UnSpace_Down");
+							Space_IsAvailable[i] = true;
+						}
 					}
 					});
 
@@ -246,14 +255,17 @@ void ALobbyTitleGameMode::BeginPlay()
 					});
 
 				Btns_Space[i]->SetUp([=] {
-					if (Space_IsAvailable[i] == true)
+					if (Space_IsUserIn[i] == false)
 					{
-						Btns_Space[i]->ChangeAnimation("Space_Hover");
-					}
-					else
-					{
-						Btns_Space[i]->ChangeAnimation("UnSpace_Hover");
-						SpaceOff(i);
+						if (Space_IsAvailable[i] == true)
+						{
+							Btns_Space[i]->ChangeAnimation("Space_Hover");
+						}
+						else
+						{
+							Btns_Space[i]->ChangeAnimation("UnSpace_Hover");
+							SpaceOff(i);
+						}
 					}
 					});
 
