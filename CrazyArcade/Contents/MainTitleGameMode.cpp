@@ -219,6 +219,7 @@ void AMainTitleGameMode::Tick(float _DeltaTime)
 			UCrazyArcadeCore::NetWindow->ServerOpen();
 			GEngine->ChangeLevel("LobbyTitleTestLevel");
 			ConnectionInfo::GetInst().SetMyName(PlayerName);
+			ConnectionInfo::GetInst().PushUserInfos(0, PlayerName);
 		}
 
 		if (UEngineInput::IsDown('C'))
