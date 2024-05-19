@@ -148,14 +148,10 @@ public:
 	{
 		return CurLevel;
 	}
+	void ManagerHandlerInit();
 
 protected:
 
-	void ManagerHandlerInit() {
-		for (std::pair<const std::string, std::shared_ptr<ULevel>>& Pair : Levels) {
-			Pair.second->GetGameMode()->HandlerInit();
-		}
-	}
 
 private:
 	static ULevel* CurCreateLevel;
