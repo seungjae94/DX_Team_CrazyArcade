@@ -25,6 +25,8 @@ void ALobbyTitleGameMode::BeginPlay()
 	{
 		UEngineSprite::CreateCutting("Button_GameStart_Hover.png", 1, 3);
 		UEngineSprite::CreateCutting("Button_MapSelect_Hover.png", 1, 2);
+		UEngineSprite::CreateCutting("Button_Back_Hover.png", 1, 2);
+		UEngineSprite::CreateCutting("Button_Exit_Hover.png", 1, 2);
 	}
 	{
 		// UserInfos
@@ -740,6 +742,85 @@ void ALobbyTitleGameMode::BeginPlay()
 				Checker_ColorSelect->AddToViewPort(2);
 				Checker_ColorSelect->SetAutoSize(1.0f, true);
 				Checker_ColorSelect->SetWidgetLocation({ 117.0f, 17.0f });
+			}
+		}
+
+		// UnderBar
+		{
+			{
+				Btn_Back = CreateWidget<UImage>(GetWorld(), "Button_Back");
+				Btn_Back->AddToViewPort(1);
+				Btn_Back->SetAutoSize(1.0f, true);
+				Btn_Back->SetWidgetLocation({ 316.0f, -284.0f });
+
+				Btn_Back->CreateAnimation("UnHover", "Button_Back_UnHover.png", 0.1f, false, 0, 0);
+				Btn_Back->CreateAnimation("Hover", "Button_Back_Hover.png", 0.1f, true, 0, 1);
+				Btn_Back->CreateAnimation("Down", "Button_Back_Down.png", 0.1f, false, 0, 0);
+				Btn_Back->ChangeAnimation("UnHover");
+
+				Btn_Back->SetUnHover([=] {
+					Btn_Back->ChangeAnimation("UnHover");
+					});
+
+				Btn_Back->SetHover([=] {
+					if (Btn_Back->IsCurAnimationEnd() == true)
+					{
+						Btn_Back->ChangeAnimation("Hover");
+					}
+					});
+
+				Btn_Back->SetDown([=] {
+					Btn_Back->ChangeAnimation("Down");
+					});
+
+				Btn_Back->SetPress([=] {
+
+					});
+
+				Btn_Back->SetUp([=] {
+					Btn_Back->ChangeAnimation("Hover");
+					});
+			}
+			{
+				Btn_Exit = CreateWidget<UImage>(GetWorld(), "Button_Exit");
+				Btn_Exit->AddToViewPort(1);
+				Btn_Exit->SetAutoSize(1.0f, true);
+				Btn_Exit->SetWidgetLocation({ 363.0f, -284.0f });
+
+				Btn_Exit->CreateAnimation("UnHover", "Button_Exit_UnHover.png", 0.1f, false, 0, 0);
+				Btn_Exit->CreateAnimation("Hover", "Button_Exit_Hover.png", 0.1f, true, 0, 1);
+				Btn_Exit->CreateAnimation("Down", "Button_Exit_Down.png", 0.1f, false, 0, 0);
+				Btn_Exit->ChangeAnimation("UnHover");
+
+				Btn_Exit->SetUnHover([=] {
+					Btn_Exit->ChangeAnimation("UnHover");
+					});
+
+				Btn_Exit->SetHover([=] {
+					if (Btn_Exit->IsCurAnimationEnd() == true)
+					{
+						Btn_Exit->ChangeAnimation("Hover");
+					}
+					});
+
+				Btn_Exit->SetDown([=] {
+					Btn_Exit->ChangeAnimation("Down");
+					});
+
+				Btn_Exit->SetPress([=] {
+
+					});
+
+				Btn_Exit->SetUp([=] {
+					Btn_Exit->ChangeAnimation("Hover");
+					});
+			}
+			{
+				Image_Line = CreateWidget<UImage>(GetWorld(), "Image_Line");
+				Image_Line->SetSprite("Image_UnderBar_Line.png");
+				Image_Line->AddToViewPort(1);
+				Image_Line->SetAutoSize(1.0f, true);
+				Image_Line->SetWidgetLocation({ 340.0f, -284.0f });
 			}
 		}
 	}

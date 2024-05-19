@@ -114,6 +114,14 @@ private:
 	std::vector<bool> ColorSelect_Pick;
 	UImage* Checker_ColorSelect = nullptr;
 
+	// UnderBar
+	UImage* Btn_Back = nullptr;
+	UImage* Btn_Exit = nullptr;
+	UImage* Image_Line = nullptr;
+
+	// Chat
+
+
 	void SettingPanel(ECharacterType _CharacterType);
 	void SettingName(int _SpaceIndex);
 	void SettingCharacter(int _SpaceIndex);
