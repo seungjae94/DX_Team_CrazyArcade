@@ -15,6 +15,27 @@ public:
 	ALobbyTitleGameMode& operator=(const ALobbyTitleGameMode& _Other) = delete;
 	ALobbyTitleGameMode& operator=(ALobbyTitleGameMode&& _Other) = delete;
 
+private:
+	// UserInfos
+	struct UserInfo
+	{
+		int SpaceIndex;
+		std::string Name;
+		ECharacterType CharacterType;
+		ECharacterColor CharacterColor;
+		//ability, rank, ...etc.
+	};
+	std::vector<UserInfo> UserInfos;
+	UserInfo Player;
+
+	bool IsInfoChange = false;
+
+public:
+	inline UserInfo GetPlayerInfo()
+	{
+		return Player;
+	}
+
 	inline ECharacterType GetPlayerCharacterType()
 	{
 		return Player.CharacterType;
@@ -44,18 +65,6 @@ protected:
 	void HandlerInit() override;
 
 private:
-	// UserInfos
-	struct UserInfo
-	{
-		int SpaceIndex;
-		std::string Name;
-		ECharacterType CharacterType;
-		ECharacterColor CharacterColor;
-		//ability, rank, ...etc.
-	};
-	std::vector<UserInfo> UserInfos;
-	UserInfo Player;
-
 	// BackGround
 	UImage* LobbyBackGround = nullptr;
 
@@ -70,9 +79,8 @@ private:
 	UImage* Btn_MapSelect = nullptr;
 
 	// Space
-	std::vector<bool> Space_Available;
-	//std::vector<bool>
-	//std::vector<bool>
+	std::vector<bool> Space_IsAvailable;
+	std::vector<bool> Space_IsUserIn;
 	std::vector<UImage*> Btns_Space;
 	std::vector<UImage*> Characters_Space;
 	std::vector<UImage*> Flags_Space;
