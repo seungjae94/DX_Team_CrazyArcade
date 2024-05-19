@@ -33,13 +33,12 @@ void UEngineServer::AcceptThreadFunction(UEngineServer* Server, SOCKET _AcceptSo
 		// 토큰의 생성은 가장 쉬운게 서버에요.
 		// 서버가 다 담당할 겁니다.
 		int SessionToken = USession::GetNewSessionToken();
-		int ObjectToken = UNetObject::GetNewObjectToken();
 
 		USessionTokenPacket NewPacket;
 
 		// 세션 토큰과 
 		NewPacket.SetSessionToken(SessionToken);
-		NewPacket.SetObjectToken(ObjectToken);
+		NewPacket.SetObjectToken(SessionToken * 1000);
 
 		UEngineSerializer Ser = NewPacket.GetSerialize();
 		NewSession->Send(Ser);
@@ -48,7 +47,7 @@ void UEngineServer::AcceptThreadFunction(UEngineServer* Server, SOCKET _AcceptSo
 		// 그녀석은 이제 준비가 된거다.
 		// 티키타가를 잘이해해야 한다.
 		std::shared_ptr<UEngineThread> ClientRecvThread = std::make_shared<UEngineThread>();
-		ClientRecvThread->SetName("Server Recv Thread " + std::to_string(ObjectToken));
+		ClientRecvThread->SetName("Server Recv Thread " + std::to_string(SessionToken));
 		ClientRecvThread->Start(std::bind(UEngineNet::RecvThreadFunction, NewSession.get(), Server));
 
 		Server->SessionRecvs.push_back(ClientRecvThread);

@@ -47,7 +47,9 @@ void AServerGameMode::Tick(float _DeltaTime)
 void AServerGameMode::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
-	Player->SetObjectToken(UNetObject::GetNewObjectToken());
+	if (Player->GetObjectToken() == -1) {
+	Player->SetObjectToken((UCrazyArcadeCore::Net->GetSessionToken() * 1000) +  UNetObject::GetNewObjectToken());
+	}
 }
 
 
@@ -179,7 +181,7 @@ void AServerGameMode::HandlerInit()
 						{
 							MsgBoxAssert("이거왜들어옴?");
 						}
-						GetWorld()->PushFunction([&]()
+						GetWorld()->PushFunction([=]()
 							{
 								// 여긴 주쓰레드니까.
 								ANetActor* OtherPlayer = UNetObject::GetNetObject<ANetActor>(_Packet->GetObjectToken());

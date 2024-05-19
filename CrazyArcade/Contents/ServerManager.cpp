@@ -76,6 +76,8 @@ void ServerManager::ClientOpen(std::string_view _Ip, int _Port)
 
 void ServerManager::AddHandlerFunction()
 {
+
+	GEngine->ManagerHandlerInit();
 	if (ENetType::Server == UCrazyArcadeCore::NetWindow->GetNetType())
 	{
 		if(nullptr != ServerPlayHandler)

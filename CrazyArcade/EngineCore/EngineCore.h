@@ -148,8 +148,10 @@ public:
 	{
 		return CurLevel;
 	}
+	void ManagerHandlerInit();
 
 protected:
+
 
 private:
 	static ULevel* CurCreateLevel;

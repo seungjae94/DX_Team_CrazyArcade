@@ -25,6 +25,15 @@ void ServerTestOtherPlayer::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
+	if (false == IsNetInit())
+	{
+		// 네트워크 통신준비가 아직 안된 오브젝트다.
+		if (nullptr != UCrazyArcadeCore::Net)
+		{
+			InitNet(UCrazyArcadeCore::Net);
+		}
+	}
+
 	if (nullptr == UCrazyArcadeCore::Net)
 	{
 		MsgBoxAssert("네트워크 연결이 안된상태에서 아더플레어를 만들었습니다.");

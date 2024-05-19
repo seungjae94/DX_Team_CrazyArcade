@@ -37,6 +37,9 @@ public:
 	}
 	int GetObjectToken()
 	{
+		if (ObjectToken == 1) {
+			int a = 0;
+		}
 		return ObjectToken;
 	}
 	int GetSessionToken()
