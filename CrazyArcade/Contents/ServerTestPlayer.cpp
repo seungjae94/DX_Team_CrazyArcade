@@ -54,7 +54,7 @@ void ServerTestPlayer::Tick(float _DeltaTime)
 
 		Packet->Pos = GetActorLocation();
 		Packet->SpriteName = Renderer->GetCurAnimationName();
-		Packet->SpawnSelect = static_cast<int>(ECharacterType::Bazzi);
+		Packet->SpawnSelect = static_cast<int>(ECharacterType::Random);
 		Send(Packet);
 		CurTime += FrameTime;
 		if (true == IsSpawn) {
