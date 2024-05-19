@@ -7,6 +7,7 @@
 
 #include "MainPlayLevel.h"
 #include "MapBase.h"
+#include "CrazyArcadeEnum.h"
 
 ServerTestPlayer::ServerTestPlayer()
 	:APlayer()
@@ -53,6 +54,7 @@ void ServerTestPlayer::Tick(float _DeltaTime)
 
 		Packet->Pos = GetActorLocation();
 		Packet->SpriteName = Renderer->GetCurAnimationName();
+		Packet->SpawnSelect = static_cast<int>(ECharacterType::Bazzi);
 		Send(Packet);
 		CurTime += FrameTime;
 		if (true == IsSpawn) {

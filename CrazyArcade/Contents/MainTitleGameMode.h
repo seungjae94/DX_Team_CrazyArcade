@@ -28,6 +28,9 @@ protected:
 
 	void ServerStart();
 	void ClientStart();
+
+	void HandlerInit() override;
+
 private:
 	void StringToText();
 	

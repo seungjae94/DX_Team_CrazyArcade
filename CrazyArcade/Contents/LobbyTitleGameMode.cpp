@@ -7,17 +7,11 @@
 #include "MainTitleGameMode.h"
 #include "ServerManager.h"
 #include "CrazyArcadeCore.h"
+#include "Packets.h"
+#include "ServerHelper.h"
 
 ALobbyTitleGameMode::ALobbyTitleGameMode()
 {
-	//if (ENetType::Server == UCrazyArcadeCore::NetWindow->GetNetType()) {
-	//	ServerPacketInit(UCrazyArcadeCore::Net->Dispatcher);
-	//}
-
-	//if (ENetType::Client == UCrazyArcadeCore::NetWindow->GetNetType()) {
-	//	ClientPacketInit(UCrazyArcadeCore::Net->Dispatcher);
-	//}
-
 }
 
 ALobbyTitleGameMode::~ALobbyTitleGameMode()
@@ -259,7 +253,7 @@ void ALobbyTitleGameMode::BeginPlay()
 				SpaceOff(i);
 			}
 		}
-		
+
 		// CharacterSelect
 		{
 			{
@@ -420,7 +414,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					default:
 						break;
 					}
-					
+
 					CharacterAbilityInfos.push_back(Character);
 				}
 
@@ -1137,4 +1131,9 @@ void ALobbyTitleGameMode::FadeOut(float _DeltaTime)
 {
 	FadeAlpha += _DeltaTime * 3.0f;
 	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
+}
+
+void ALobbyTitleGameMode::HandlerInit()
+{
+	
 }

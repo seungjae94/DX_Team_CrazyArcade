@@ -2,35 +2,40 @@
 #include "CrazyArcadeEnum.h"
 #include <EngineCore/Actor.h>
 #include <EngineCore/Level.h>
+#include "ServerTestOtherPlayer.h"
+#include "BombBase.h"
 
-class ABombBase;
 class UNetObject;
 
 class ServerHelper {
 public:
-	template <typename Type>
-	static std::shared_ptr<Type> EnumSpawn(ULevel* _Level, int _Enum) {
+	void static EnumSpawn(ULevel* _Level, int _Enum, int _Token) {
 		switch (_Enum) {
 		case 0:
-			break;
+		{
+			std::shared_ptr<ServerTestOtherPlayer> Player = _Level->SpawnActor<ServerTestOtherPlayer>("Player");
+			Player->SetObjectToken(_Token);
+		}
+		break;
 		case 1:
 			break;
 		case 2:
 			break;
 		case 2001:
-			return _Level->SpawnActor<ABombBase>("Bomb");
-			break;
+		{
+			std::shared_ptr<ABombBase> Bomb = _Level->SpawnActor<ABombBase>("Bomb");
+			Bomb->SetObjectToken(_Token);
+		}
+		break;
 		default:
-			return nullptr;
 			break;
 		}
-		return nullptr;
 	}
 
 	template <typename Enum>
 	static Enum EnumReturn(int _EnumNum) {
 		if (_EnumNum < 1000) {
-		return static_cast<ECharacterType>(_EnumNum);
+			return static_cast<ECharacterType>(_EnumNum);
 		}
 		else if (_EnumNum < 2000) {
 			return static_cast<EBlockType>(_EnumNum);

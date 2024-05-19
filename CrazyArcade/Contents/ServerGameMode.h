@@ -29,7 +29,7 @@ public:
 	void ServerPacketInit(UEngineDispatcher& Dis);
 	void ClientPacketInit(UEngineDispatcher& Dis);
 
-
+	void HandlerInit() override;
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

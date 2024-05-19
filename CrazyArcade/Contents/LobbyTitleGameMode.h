@@ -40,6 +40,9 @@ protected:
 	void FadeIn(float _DeltaTime);
 	void FadeOut(float _DeltaTime);
 
+
+	void HandlerInit() override;
+
 private:
 	// UserInfos
 	struct UserInfo

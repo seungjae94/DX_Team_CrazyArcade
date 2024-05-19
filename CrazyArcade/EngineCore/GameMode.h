@@ -16,7 +16,8 @@ public:
 	AGameMode& operator=(AGameMode&& _Other) noexcept = delete;
 
 protected:
-
+	virtual void HandlerInit() {};
+	bool IsHandlerInit = false;
 private:
 
 };

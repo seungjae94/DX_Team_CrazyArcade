@@ -11,6 +11,7 @@
 #include "ServerManager.h"
 
 #include "Packets.h"
+#include "ServerHelper.h"
 
 AMainTitleGameMode::AMainTitleGameMode()
 {
@@ -270,6 +271,7 @@ void AMainTitleGameMode::ServerStart()
 			GEngine->ChangeLevel("LobbyTitleTestLevel");
 			ConnectionInfo::GetInst().SetMyName(PlayerName);
 			ConnectionInfo::GetInst().PushUserInfos(0, PlayerName);
+			HandlerInit();
 	}
 }
 
@@ -279,7 +281,13 @@ void AMainTitleGameMode::ClientStart()
 		UCrazyArcadeCore::NetWindow->ClientOpen("IP", 3);
 		ConnectionInfo::GetInst().SetMyName(PlayerName);
 		GEngine->ChangeLevel("LobbyTitleTestLevel");
+		HandlerInit();
 	}
+}
+
+void AMainTitleGameMode::HandlerInit()
+{
+	//handler
 }
 
 

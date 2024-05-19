@@ -4,6 +4,11 @@
 #include <Contents/CrazyArcadeCore.h>
 #include <Contents/Packets.h>
 #include <EngineBase/EngineServer.h>
+#include "MapHelper.h"
+#include "MapBase.h"
+#include "ServerHelper.h"
+#include "BombBase.h"
+#include "ServerTestOtherPlayer.h"
 
 ServerManager::ServerManager()
 {
@@ -69,18 +74,40 @@ void ServerManager::ClientOpen(std::string_view _Ip, int _Port)
 		});
 }
 
+void ServerManager::AddHandlerFunction()
+{
+	if (ENetType::Server == UCrazyArcadeCore::NetWindow->GetNetType())
+	{
+		if(nullptr != ServerPlayHandler)
+		{
+			ServerPlayHandler();
+		}
+		if (nullptr != ServerLobbyHandler)
+		{
+			ServerLobbyHandler();
+		}
+	}
+	if (ENetType::Client == UCrazyArcadeCore::NetWindow->GetNetType())
+	{
+		if (nullptr != ServerPlayHandler)
+		{
+			ClientPlayHandler();
+		}
+		if (nullptr != ServerLobbyHandler)
+		{
+			ServerLobbyHandler();
+		}
+	}
+}
+
 void ServerManager::Update(float _DeltaTime)
 {
-	std::map<int, std::string> UserInfo = ConnectionInfo::GetInst().GetUserInfos();
-	int a = 0;
-
 	if (ManagerType == ENetType::Server) {
 		ServerUpdate(_DeltaTime);
 	}
 	else if (ManagerType == ENetType::Client) {
 		ClientUpdate(_DeltaTime);
 	}
-
 }
 
 void ServerManager::ServerUpdate(float _DeltaTime)
@@ -114,17 +141,18 @@ void ServerManager::ClientUpdate(float _DeltaTime)
 }
 
 
-void ServerManager::ServerInit()
+void ServerManager::ServerInit()  //한 번만 실행되는 함수
 {
 	if (true == ServerBool) return;
 
 	if (-1 != UCrazyArcadeCore::Net->GetSessionToken()) {
 		ConnectionInfo::GetInst().SetOrder(UCrazyArcadeCore::Net->GetSessionToken());
 		ServerBool = true;
+		AddHandlerFunction();
 	}
 }
 
-void ServerManager::ClientInit()
+void ServerManager::ClientInit()  //한 번만 실행되는 함수
 {
 	if (true == ClientBool) return;
 
@@ -134,6 +162,7 @@ void ServerManager::ClientInit()
 		InitPacket->Name = ConnectionInfo::GetInst().GetMyName();
 		Send(InitPacket);
 		ClientBool = true;
+		AddHandlerFunction();
 	}
 }
 
