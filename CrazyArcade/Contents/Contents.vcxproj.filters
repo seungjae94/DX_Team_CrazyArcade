@@ -171,6 +171,9 @@
     <ClInclude Include="ServerManager.h">
       <Filter>Level\ServerLevel</Filter>
     </ClInclude>
+    <ClInclude Include="BushBase.h">
+      <Filter>Map\Block\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -270,6 +273,9 @@
     </ClCompile>
     <ClCompile Include="ServerManager.cpp">
       <Filter>Level\ServerLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="BushBase.cpp">
+      <Filter>Map\Block\Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
