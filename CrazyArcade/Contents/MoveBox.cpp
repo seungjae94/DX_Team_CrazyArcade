@@ -3,6 +3,7 @@
 
 #include "MainPlayLevel.h"
 #include "MapConstant.h"
+#include "ItemBase.h"
 #include "MapBase.h"
 
 AMoveBox::AMoveBox()
@@ -46,6 +47,12 @@ void AMoveBox::StateInit()
 	State.SetUpdateFunction(BlockState::move, [=](float _DeltaTime)
 		{
 			MoveUpdate(_DeltaTime);
+
+			FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
+			if (nullptr == PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush)
+			{
+				GetBody()->SetActive(true);
+			}
 		}
 	);
 
@@ -54,10 +61,7 @@ void AMoveBox::StateInit()
 			if (true == GetBody()->IsCurAnimationEnd() || false == GetBody()->IsActive())
 			{
 				FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
-				if (nullptr == PlayLevel->GetMap()->GetTileInfo(CurPoint).Item)
-				{
-					PlayLevel->GetMap()->CreateItem(CurPoint, GetSpawnItemType());
-				}
+				PlayLevel->GetMap()->CreateItem(CurPoint, GetSpawnItemType());
 
 				PlayLevel->GetMap()->GetTileInfo(CurPoint).Block = nullptr;
 				Destroy();
@@ -95,9 +99,10 @@ void AMoveBox::StateInit()
 			{
 				GetBody()->SetActive(false);
 			}
-			else
+
+			if (nullptr != PlayLevel->GetMap()->GetTileInfo(CurPoint).Item)
 			{
-				GetBody()->SetActive(true);
+				PlayLevel->GetMap()->GetTileInfo(CurPoint).Item->Destroy();
 			}
 		}
 	);
