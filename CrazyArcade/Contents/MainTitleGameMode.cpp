@@ -395,30 +395,7 @@ void AMainTitleGameMode::StringToText()
 		PortNum = UEngineInputRecorder::GetText();
 	}
 
-	if (PlayerName.size() > 0)
-	{
-		TextWidget->SetText(PlayerName);
-	}
-	else
-	{
-		TextWidget->SetText(" ");
-	}
-
-	if (IPNum.size() > 0)
-	{
-		IPNumText->SetText(IPNum);
-	}
-	else
-	{
-		IPNumText->SetText(" ");
-	}
-
-	if (PortNum.size() > 0)
-	{
-		PortNumText->SetText(PortNum);
-	}
-	else
-	{
-		PortNumText->SetText(" ");
-	}
+	TextWidget->SetText(PlayerName);
+	IPNumText->SetText(IPNum);
+	PortNumText->SetText(PortNum);
 }
