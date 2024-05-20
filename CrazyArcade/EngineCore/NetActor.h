@@ -16,6 +16,24 @@ public:
 protected:
 
 
+	void ProtocolTick(std::function<void(std::shared_ptr< UEngineProtocol>)> _ProtocolFun) {
+
+		std::shared_ptr<UEngineProtocol> Protocol = nullptr;
+		do
+		{
+			Protocol = PopProtocol();
+			if (nullptr == Protocol)
+			{
+				break;
+			}
+
+
+			_ProtocolFun(Protocol);
+
+		} while (nullptr != Protocol);
+	}
+
+
 private:
 
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "NetGameMode.h"
 
 class AVillageMap;
 
@@ -10,9 +11,9 @@ class ATimerUI;
 class AInGameUI;
 
 // 설명 : Map 테스트 레벨
-class AMainPlayLevel : public AGameMode
+class AMainPlayLevel : public ANetGameMode
 {
-	GENERATED_BODY(AGameMode)
+	GENERATED_BODY(ANetGameMode)
 public:
 	// constrcuter destructer
 	AMainPlayLevel();

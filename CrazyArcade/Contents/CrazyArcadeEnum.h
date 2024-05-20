@@ -15,6 +15,7 @@ enum class EMapType
 
 enum class EWaveType
 {
+	None,
 	Left,
 	LeftEnd,
 	Right,
@@ -44,9 +45,10 @@ enum class ECharacterType
 	None,
 };
 
+// 3000 ~ 3999 (색 타입)
 enum class ECharacterColor
 {
-	Red,
+	Red = 3000,
 	Yellow,
 	Orange,
 	Green,
@@ -60,7 +62,8 @@ enum class ECharacterColor
 // 1000 ~ 1999 (맵 블록 타입)
 enum class EBlockType
 {
-	Wall = 1000,
+	None = 1000,
+	Wall,
 	Box,
 	MoveBox
 };

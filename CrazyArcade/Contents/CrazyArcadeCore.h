@@ -5,7 +5,7 @@
 #include "vector"
 
 #define GetToken UCrazyArcadeCore::GetNewNetObjectTokenSet() 
-class ServerManager;
+class UServerManager;
 class UEngineNet;
 class UEngineNetWindow;
 class UCrazyArcadeCore : public UserCore
@@ -20,7 +20,7 @@ public:
 	UCrazyArcadeCore& operator=(UCrazyArcadeCore&& _Other) noexcept = delete;
 
 	static std::shared_ptr<UEngineNet> Net;
-	static std::shared_ptr<ServerManager> NetWindow;
+	static UServerManager NetManager;
 
 	static int GetNewNetObjectTokenSet() {
 		return UCrazyArcadeCore::Net->GetSessionToken() * 1000 + UNetObject::GetNewObjectToken();

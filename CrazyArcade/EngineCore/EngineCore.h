@@ -151,6 +151,7 @@ public:
 
 protected:
 
+
 private:
 	static ULevel* CurCreateLevel;
 

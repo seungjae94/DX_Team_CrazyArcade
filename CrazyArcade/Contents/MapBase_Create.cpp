@@ -3,6 +3,7 @@
 
 #include "MapConstant.h"
 #include "BlockBase.h"
+#include "BushBase.h"
 #include "ItemBase.h"
 #include "MoveBox.h"
 #include "Wall.h"
@@ -20,9 +21,12 @@ void AMapBase::CreateWall(FPoint _Point, std::string_view _ImgName)
 	TileInfo[_Point.Y][_Point.X].Block->SetActorLocation(Pos);
 }
 
-void AMapBase::CreateBox(FPoint _Point, std::string_view _ImgName)
+void AMapBase::CreateBox(FPoint _Point, std::string_view _ImgName, EItemType _SpawnItemType)
 {
-	TileInfo[_Point.Y][_Point.X].Block = GetWorld()->SpawnActor<ABox>("Box").get();
+	ABox* NewBox = GetWorld()->SpawnActor<ABox>("Box").get();
+	NewBox->SetSpawnItemType(_SpawnItemType);
+
+	TileInfo[_Point.Y][_Point.X].Block = NewBox;
 
 	TileInfo[_Point.Y][_Point.X].Block->GetBody()->CreateAnimation(MapAnim::block_idle, _ImgName, 0.05f, false, 0, 0);
 	TileInfo[_Point.Y][_Point.X].Block->GetBody()->CreateAnimation(MapAnim::block_destroy, _ImgName, 0.05f, false);
@@ -35,9 +39,12 @@ void AMapBase::CreateBox(FPoint _Point, std::string_view _ImgName)
 	TileInfo[_Point.Y][_Point.X].Block->SetActorLocation(Pos);
 }
 
-void AMapBase::CreateMoveBox(FPoint _Point, std::string_view _ImgName)
+void AMapBase::CreateMoveBox(FPoint _Point, std::string_view _ImgName, EItemType _SpawnItemType)
 {
-	TileInfo[_Point.Y][_Point.X].Block = GetWorld()->SpawnActor<AMoveBox>("MoveBox").get();
+	AMoveBox* NewMoveBox = GetWorld()->SpawnActor<AMoveBox>("MoveBox").get();
+	NewMoveBox->SetSpawnItemType(_SpawnItemType);
+
+	TileInfo[_Point.Y][_Point.X].Block = NewMoveBox;
 
 	TileInfo[_Point.Y][_Point.X].Block->GetBody()->CreateAnimation(MapAnim::block_idle, _ImgName, 0.05f, false, 0, 0);
 	TileInfo[_Point.Y][_Point.X].Block->GetBody()->CreateAnimation(MapAnim::block_destroy, _ImgName, 0.05f, false);
@@ -48,6 +55,19 @@ void AMapBase::CreateMoveBox(FPoint _Point, std::string_view _ImgName)
 	Pos.X += _Point.X * BlockSize;
 	Pos.Y += _Point.Y * BlockSize;
 	TileInfo[_Point.Y][_Point.X].Block->SetActorLocation(Pos);
+}
+
+void AMapBase::CreateBush(FPoint _Point, std::string_view _ImgName)
+{
+	TileInfo[_Point.Y][_Point.X].Bush = GetWorld()->SpawnActor<ABushBase>("Bush").get();
+
+	TileInfo[_Point.Y][_Point.X].Bush->GetBody()->SetSprite(_ImgName);
+	TileInfo[_Point.Y][_Point.X].Bush->GetBody()->SetOrder(Const::MaxOrder - _Point.Y);
+
+	FVector Pos = StartPos;
+	Pos.X += _Point.X * BlockSize;
+	Pos.Y += _Point.Y * BlockSize;
+	TileInfo[_Point.Y][_Point.X].Bush->SetActorLocation(Pos);
 }
 
 void AMapBase::CreateHollowWall(FPoint _Point)
@@ -63,12 +83,16 @@ void AMapBase::CreateHollowWall(FPoint _Point)
 
 void AMapBase::CreateItem(FPoint _Point, EItemType _ItemType)
 {
+	if (EItemType::None == _ItemType)
+	{
+		return;
+	}
+
 	TileInfo[_Point.Y][_Point.X].Item = GetWorld()->SpawnActor<AItemBase>("Item").get();
 
 	FVector Pos = StartPos;
 	Pos.X += (_Point.X * BlockSize) + (0.5f * BlockSize);
 	Pos.Y += (_Point.Y * BlockSize) + (0.5f * BlockSize);
 	TileInfo[_Point.Y][_Point.X].Item->SetActorLocation(Pos);
-
 	TileInfo[_Point.Y][_Point.X].Item->SetItem(_ItemType);
 }

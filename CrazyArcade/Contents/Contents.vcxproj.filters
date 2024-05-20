@@ -49,9 +49,6 @@
     <Filter Include="UI">
       <UniqueIdentifier>{e3519d18-b196-4cae-85f5-09714166564e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level\InputRecorderTestLevel">
-      <UniqueIdentifier>{49136a5e-a11c-46ee-9714-f7634d7c6728}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Level\MainPlayLevel">
       <UniqueIdentifier>{1170aae8-151e-4f80-b2e5-b84e3c7d7284}</UniqueIdentifier>
     </Filter>
@@ -72,6 +69,12 @@
     </Filter>
     <Filter Include="Map\Helper">
       <UniqueIdentifier>{ffb710fc-a9c5-4508-af0f-aa58f41067ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\EngineTestGameMode">
+      <UniqueIdentifier>{49136a5e-a11c-46ee-9714-f7634d7c6728}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map\Block\Component">
+      <UniqueIdentifier>{c6af0bb4-1cbf-4b36-9fe5-70e90afead69}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -138,8 +141,8 @@
     <ClInclude Include="BombBase.h">
       <Filter>Map\Bomb</Filter>
     </ClInclude>
-    <ClInclude Include="InputRecorderTestGameMode.h">
-      <Filter>Level\InputRecorderTestLevel</Filter>
+    <ClInclude Include="EngineTestGameMode.h">
+      <Filter>Level\EngineTestGameMode</Filter>
     </ClInclude>
     <ClInclude Include="InGameUI.h">
       <Filter>UI</Filter>
@@ -170,6 +173,15 @@
     </ClInclude>
     <ClInclude Include="ServerManager.h">
       <Filter>Level\ServerLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="BushBase.h">
+      <Filter>Map\Block\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="NetGameMode.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnItemBlock.h">
+      <Filter>Map\Block\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -238,8 +250,8 @@
     <ClCompile Include="BombBase.cpp">
       <Filter>Map\Bomb</Filter>
     </ClCompile>
-    <ClCompile Include="InputRecorderTestGameMode.cpp">
-      <Filter>Level\InputRecorderTestLevel</Filter>
+    <ClCompile Include="EngineTestGameMode.cpp">
+      <Filter>Level\EngineTestGameMode</Filter>
     </ClCompile>
     <ClCompile Include="ItemBase.cpp">
       <Filter>Map\Item</Filter>
@@ -270,6 +282,18 @@
     </ClCompile>
     <ClCompile Include="ServerManager.cpp">
       <Filter>Level\ServerLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="BushBase.cpp">
+      <Filter>Map\Block\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="NetGameMode.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="SpawnItemBlock.cpp">
+      <Filter>Map\Block\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="MapBase_Check.cpp">
+      <Filter>Map\Stage\Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

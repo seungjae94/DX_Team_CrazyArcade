@@ -16,6 +16,7 @@
 #include "CrazyArcadeEnum.h"
 #include "BombBase.h"
 #include "MapBase.h"
+#include "ServerManager.h"
 
 AServerGameMode::AServerGameMode()
 	:AMainPlayLevel()
@@ -24,17 +25,12 @@ AServerGameMode::AServerGameMode()
 
 AServerGameMode::~AServerGameMode()
 {
-	if (nullptr != UCrazyArcadeCore::Net)
-	{
-		UCrazyArcadeCore::Net->End();
-		UCrazyArcadeCore::Net = nullptr;
-	}
+
 }
 
 void AServerGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-
 }
 
 void AServerGameMode::Tick(float _DeltaTime)
@@ -47,129 +43,112 @@ void AServerGameMode::Tick(float _DeltaTime)
 void AServerGameMode::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
+	if (Player->GetObjectToken() == -1) {
+		Player->SetObjectToken(GetToken);
+	}
+}
 
-	if (nullptr == NetWindow)
-	{
-		NetWindow = UEngineEditorGUI::CreateEditorWindow<UEngineNetWindow>("NetWindow");
 
-		NetWindow->SetServerOpenFunction([&]()
+void AServerGameMode::HandlerInit()
+{
+	UEngineDispatcher& Dis = UCrazyArcadeCore::Net->Dispatcher;
+	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType()) {
+		Dis.AddHandler<UActorUpdatePacket>([=](std::shared_ptr<UActorUpdatePacket> _Packet)
 			{
-				UCrazyArcadeCore::Net = std::make_shared<UEngineServer>();
-				UCrazyArcadeCore::Net->ServerOpen(30000, 512);
+				if (nullptr == UCrazyArcadeCore::Net)
+				{
+					MsgBoxAssert("이거왜들어옴?");
+				}
+				UCrazyArcadeCore::Net->Send(_Packet);
 
-				// 여기에서 메인 플레이어한테 번호를 하나 줄겁니다.
-
-				Player->SetObjectToken(UNetObject::GetNewObjectToken());
-
-				ServerPacketInit(UCrazyArcadeCore::Net->Dispatcher);
-			});
-
-		NetWindow->SetClientConnectFunction([&](std::string IP, short PORT)
-			{
-				UCrazyArcadeCore::Net = std::make_shared<UEngineClient>();
-				UCrazyArcadeCore::Net->Connect(IP, PORT);
-
-				UCrazyArcadeCore::Net->SetTokenPacketFunction([=](USessionTokenPacket* _Token)
+				GetWorld()->PushFunction([=]()
 					{
-						Player->SetObjectToken(UCrazyArcadeCore::Net->GetSessionToken() * 1000 + UNetObject::GetNewObjectToken());
+						// 여긴 주쓰레드니까.
+						ANetActor* OtherPlayer = UNetObject::GetNetObject<ANetActor>(_Packet->GetObjectToken());
+						if (nullptr == OtherPlayer)
+						{
+							ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, _Packet->GetObjectToken());
+							OtherPlayer = UNetObject::GetNetObject<ANetActor>(_Packet->GetObjectToken());
+						}
+
+						OtherPlayer->PushProtocol(_Packet);
 					});
 
-				// 어떤 패키싱 왔을때 어떻게 처리할건지를 정하는 걸 해야한다.
-				ClientPacketInit(UCrazyArcadeCore::Net->Dispatcher);
+
+			});
+
+		Dis.AddHandler<USpawnUpdatePacket>([=](std::shared_ptr<USpawnUpdatePacket> _Packet)  //엑터 스폰 테스트용
+			{
+				GetWorld()->PushFunction([=]()
+					{
+						ABombBase* Bomb = UNetObject::GetNetObject<ABombBase>(_Packet->GetObjectToken());
+						if (Bomb != nullptr) {
+							MsgBoxAssert("이거들어오면절대안됨절대안됨절대안됨절대안됨절대안됨절대안됨")   // -Test-
+						}
+
+						ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, _Packet->GetObjectToken());
+						Bomb = UNetObject::GetNetObject<ABombBase>(_Packet->GetObjectToken());
+						Bomb->SetObjectToken(_Packet->GetObjectToken());
+						Bomb->PushProtocol(_Packet);
+						//MyBomb->SetObjectToken(_Packet->GetObjectToken());
+
+						//MyBomb->SetActorLocation(_Packet->Pos);
+						
+						//FPoint Point = AMapBase::ConvertLocationToPoint(_Packet->Pos);
+						//MyBomb->SetCurPoint(Point);
+						//GetMap()->SetMapBomb(Point, MyBomb);
+						
+						//FEngineTimeStamp Stamp = UEngineTime::GetCurTime();
+						//float FloatResult = Stamp.TimeToFloat();
+						//MyBomb->ReduceCurExplosionTime(FloatResult - _Packet->SpawnTime);
+					});
 			});
 	}
-	NetWindow->On();
-}
-
-void AServerGameMode::ServerPacketInit(UEngineDispatcher& Dis)
-{
-	Dis.AddHandler<UActorUpdatePacket>([=](std::shared_ptr<UActorUpdatePacket> _Packet)
-		{
-			if (nullptr == UCrazyArcadeCore::Net)
+	if (ENetType::Client == UCrazyArcadeCore::NetManager.GetNetType()) {
+		Dis.AddHandler<UActorUpdatePacket>([=](std::shared_ptr<UActorUpdatePacket> _Packet)
 			{
-				return;
-			}
-
-			// 다른 사람들한테 이 오브젝트에 대해서 알리고
-			UCrazyArcadeCore::Net->Send(_Packet);
-
-			GetWorld()->PushFunction([=]()
+				if (nullptr == UCrazyArcadeCore::Net)
 				{
-					// 여긴 주쓰레드니까.
-					ServerTestOtherPlayer* OtherPlayer = UNetObject::GetNetObject<ServerTestOtherPlayer>(_Packet->GetObjectToken());
-					if (nullptr == OtherPlayer)
+					MsgBoxAssert("이거왜들어옴?");
+				}
+				GetWorld()->PushFunction([=]()
 					{
-						OtherPlayer = this->GetWorld()->SpawnActor<ServerTestOtherPlayer>("OtherPlayer", 0).get();
-						OtherPlayer->SetObjectToken(_Packet->GetObjectToken());
-					}
-					OtherPlayer->PushProtocol(_Packet);
-					//OtherPlayer
-				});
+						// 여긴 주쓰레드니까.
+						ANetActor* OtherPlayer = UNetObject::GetNetObject<ANetActor>(_Packet->GetObjectToken());
+						if (nullptr == OtherPlayer)
+						{
+							ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, _Packet->GetObjectToken());
+							OtherPlayer = UNetObject::GetNetObject<ANetActor>(_Packet->GetObjectToken());
+						}
 
+						OtherPlayer->PushProtocol(_Packet);
+					});
+			});
 
-		});
-
-	Dis.AddHandler<USpawnUpdatePacket>([=](std::shared_ptr<USpawnUpdatePacket> _Packet)  //엑터 스폰 테스트용
-		{
-			GetWorld()->PushFunction([=]()
-				{
-					ABombBase* MyBomb;
-					MyBomb = ServerHelper::EnumSpawn<ABombBase>(GetWorld(), _Packet->SpawnSelect).get();
-					MyBomb->SetObjectToken(_Packet->GetObjectToken());
-					MyBomb->PushProtocol(_Packet);
-					MyBomb->SetActorLocation(_Packet->Pos);
-
-					FPoint Point = AMapBase::ConvertLocationToPoint(_Packet->Pos);
-					MyBomb->SetCurPoint(Point);
-					GetMap()->SetMapBomb(Point, MyBomb);
-
-					FEngineTimeStamp Stamp = UEngineTime::GetCurTime();
-					float FloatResult = Stamp.TimeToFloat();
-					MyBomb->ReduceCurExplosionTime(FloatResult - _Packet->SpawnTime);
-				});
-		});
-}
-
-void AServerGameMode::ClientPacketInit(UEngineDispatcher& Dis)
-{
-	Dis.AddHandler<UActorUpdatePacket>([=](std::shared_ptr<UActorUpdatePacket> _Packet)
-		{
-			GetWorld()->PushFunction([=]()
-				{
-					ServerTestOtherPlayer* OtherPlayer = UNetObject::GetNetObject<ServerTestOtherPlayer>(_Packet->GetObjectToken());
-					if (nullptr == OtherPlayer)
+		Dis.AddHandler<USpawnUpdatePacket>([=](std::shared_ptr<USpawnUpdatePacket> _Packet)  //엑터 스폰 테스트용
+			{
+				GetWorld()->PushFunction([=]()
 					{
-						OtherPlayer = this->GetWorld()->SpawnActor<ServerTestOtherPlayer>("OtherPlayer", 0).get();
-						OtherPlayer->SetObjectToken(_Packet->GetObjectToken());
-					}
-					OtherPlayer->PushProtocol(_Packet);
-				});
-		});
+						/*ABombBase* MyBomb;
+						ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, 0);
+						MyBomb->SetObjectToken(_Packet->GetObjectToken());
+						MyBomb->PushProtocol(_Packet);
+						MyBomb->SetActorLocation(_Packet->Pos);
 
-	Dis.AddHandler<USpawnUpdatePacket>([=](std::shared_ptr<USpawnUpdatePacket> _Packet)  //엑터 스폰 테스트용
-		{
-			GetWorld()->PushFunction([=]()
-				{
-					ABombBase* MyBomb;
-					MyBomb = ServerHelper::EnumSpawn<ABombBase>(GetWorld(), _Packet->SpawnSelect).get();
-					MyBomb->SetObjectToken(_Packet->GetObjectToken());
-					MyBomb->PushProtocol(_Packet);
-					MyBomb->SetActorLocation(_Packet->Pos);
+						FPoint Point = AMapBase::ConvertLocationToPoint(_Packet->Pos);
+						MyBomb->SetCurPoint(Point);
+						GetMap()->SetMapBomb(Point, MyBomb);
 
-					FPoint Point = AMapBase::ConvertLocationToPoint(_Packet->Pos);
-					MyBomb->SetCurPoint(Point);
-					GetMap()->SetMapBomb(Point, MyBomb);
+						FEngineTimeStamp Stamp = UEngineTime::GetCurTime();
+						float FloatResult = Stamp.TimeToFloat();
+						MyBomb->ReduceCurExplosionTime(FloatResult - _Packet->SpawnTime);*/
+					});
+			});
 
-					FEngineTimeStamp Stamp = UEngineTime::GetCurTime();
-					float FloatResult = Stamp.TimeToFloat();
-					MyBomb->ReduceCurExplosionTime(FloatResult - _Packet->SpawnTime);
-				});
-		});
+	}
 }
 
 void AServerGameMode::LevelEnd(ULevel* _NextLevel)
 {
 	Super::LevelEnd(_NextLevel);
-
-	NetWindow->Off();
 }

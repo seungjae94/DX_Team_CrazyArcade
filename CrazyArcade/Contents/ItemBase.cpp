@@ -8,11 +8,10 @@
 AItemBase::AItemBase()
 {
 	UDefaultSceneComponent* Root = CreateDefaultSubObject<UDefaultSceneComponent>("Root");
-	SetRoot(Root);
 
 	Body = CreateDefaultSubObject<USpriteRenderer>("Renderer");
-	Body->SetAutoSize(1.0f, true);
 	Body->SetPosition({ 0.0f, 20.0f, 0.0f });
+	Body->SetAutoSize(1.0f, true);
 	Body->SetupAttachment(Root);
 
 	Shadow = CreateDefaultSubObject<USpriteRenderer>("ShadowRenderer");
@@ -22,6 +21,8 @@ AItemBase::AItemBase()
 	Shadow->SetOrder(ERenderOrder::Shadow);
 	Shadow->SetAutoSize(1.0f, true);
 	Shadow->SetupAttachment(Root);
+	
+	SetRoot(Root);
 }
 
 AItemBase::~AItemBase()
@@ -44,8 +45,8 @@ void AItemBase::StateInit()
 	// State Start
 	State.SetStartFunction(ItemState::idle, [=] 
 		{
-			int Order = PlayLevel->GetMap()->GetRenderOrder(GetActorLocation());
-			Body->SetOrder(Order - 1);
+			int Order = AMapBase::GetRenderOrder(GetActorLocation());
+			Body->SetOrder(Order);
 		}
 	);
 

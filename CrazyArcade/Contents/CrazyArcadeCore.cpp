@@ -8,7 +8,7 @@
 #include "MainTitleGameMode.h"
 #include "LobbyTitleGameMode.h"
 #include "ServerGameMode.h"
-#include "InputRecorderTestGameMode.h"
+#include "EngineTestGameMode.h"
 
 #include "Packets.h"
 #include "ConnectionInfo.h"
@@ -17,7 +17,7 @@
 
 
 std::shared_ptr<UEngineNet> UCrazyArcadeCore::Net = nullptr;
-std::shared_ptr<ServerManager> UCrazyArcadeCore::NetWindow = nullptr;
+UServerManager UCrazyArcadeCore::NetManager;
 
 UCrazyArcadeCore::UCrazyArcadeCore()
 {
@@ -35,25 +35,25 @@ void UCrazyArcadeCore::Initialize()
 	UEngineEditorGUI::CreateEditorWindow<UCrazyArcadeDebugWindow>("CrazyArcadeDebugWindow");
 
 
-	//std::shared_ptr<UEngineNetWindow> NetWindow = UEngineEditorGUI::CreateEditorWindow<UEngineNetWindow>("NetWindow");
-	//UCrazyArcadeCore::Net = NetWindow;
+	//std::shared_ptr<UEngineNetWindow> NetManager = UEngineEditorGUI::CreateEditorWindow<UEngineNetWindow>("NetManager");
+	//UCrazyArcadeCore::Net = NetManager;
 
 
 
 
 	GEngine->CreateLevel<AInitTestGameMode>("InitTestLevel");
 	GEngine->CreateLevel<AMainPlayLevel>("MainPlayLevel");
-	GEngine->CreateLevel<AServerGameMode>("ServerGameMode");
 	GEngine->CreateLevel<AMainTitleGameMode>("TitleTestLevel");
+	GEngine->CreateLevel<AServerGameMode>("ServerGameMode");
 	GEngine->CreateLevel<ALobbyTitleGameMode>("LobbyTitleTestLevel");
-	GEngine->CreateLevel<AInputRecorderTestGameMode>("InputRecorderTestLevel");
+	GEngine->CreateLevel<AEngineTestGameMode>("EngineTestLevel");
 	//GEngine->ChangeLevel("InitTestLevel");
 	GEngine->ChangeLevel("TitleTestLevel");
 }
 
 void UCrazyArcadeCore::Tick(float _DeltaTime)
 {
-	UCrazyArcadeCore::NetWindow->Update(_DeltaTime);
+	UCrazyArcadeCore::NetManager.Update(_DeltaTime);
 }
 
 void UCrazyArcadeCore::ResLoad()

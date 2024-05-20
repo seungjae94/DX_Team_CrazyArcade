@@ -1,11 +1,12 @@
 #include "PreCompile.h"
 #include "MapBase.h"
 
+#include "MainPlayLevel.h"
 #include "MapConstant.h"
-#include "BombBase.h"
 #include "BlockBase.h"
+#include "BombBase.h"
+#include "BushBase.h"
 #include "ItemBase.h"
-#include "MoveBox.h"
 
 FVector AMapBase::StartPos = { 20.0f, 40.0f, 0.0f };
 float AMapBase::BlockSize = 40.0f;
@@ -33,6 +34,26 @@ AMapBase::AMapBase()
 
 AMapBase::~AMapBase()
 {
+}
+
+void AMapBase::BeginPlay()
+{
+	Super::BeginPlay();
+
+	GetWorld()->GetMainCamera()->SetActorLocation({ 400.0f, 300.0f, -100.0f });
+	SetActorLocation({ 400.0f, 300.0f, 0.0f });
+	
+	AMainPlayLevel* NewPlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
+	if (nullptr != NewPlayLevel)
+	{
+		PlayLevel = NewPlayLevel;
+	}
+}
+
+void AMapBase::LevelEnd(ULevel* _NextLevel)
+{
+	Super::LevelEnd(_NextLevel);
+
 	for (size_t Y = 0; Y < TileInfo.size(); Y++)
 	{
 		for (size_t X = 0; X < TileInfo[Y].size(); X++)
@@ -54,41 +75,16 @@ AMapBase::~AMapBase()
 				TileInfo[Y][X].Item->Destroy();
 				TileInfo[Y][X].Item = nullptr;
 			}
+
+			if (nullptr != TileInfo[Y][X].Bush)
+			{
+				TileInfo[Y][X].Bush->Destroy();
+				TileInfo[Y][X].Bush = nullptr;
+			}
 		}
 	}
 
 	TileInfo.clear();
-}
-
-void AMapBase::BeginPlay()
-{
-	Super::BeginPlay();
-
-	GetWorld()->GetMainCamera()->SetActorLocation({ 400.0f, 300.0f, -100.0f });
-	SetActorLocation({ 400.0f, 300.0f, 0.0f });
-}
-
-void AMapBase::LevelEnd(ULevel* _NextLevel)
-{
-	Super::LevelEnd(_NextLevel);
-
-	for (size_t Y = 0; Y < TileInfo.size(); Y++)
-	{
-		for (size_t X = 0; X < TileInfo[Y].size(); X++)
-		{
-			if (nullptr != TileInfo[Y][X].Block)
-			{
-				TileInfo[Y][X].Block->Destroy();
-				TileInfo[Y][X].Block = nullptr;
-			}
-
-			if (nullptr != TileInfo[Y][X].Item)
-			{
-				TileInfo[Y][X].Item->Destroy();
-				TileInfo[Y][X].Item = nullptr;
-			}
-		}
-	}
 }
 
 void AMapBase::Tick(float _DeltaTime)
@@ -153,96 +149,32 @@ int AMapBase::GetRenderOrder(const FVector& _Pos)
 	return Const::MaxOrder - CurY;
 } 
 
-// 움직일 수 있는 위치인지를 반환
-bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
+// 물폭탄 위치면 true 반환
+bool AMapBase::IsBombPos(const FVector& _Pos)
 {
-	// MapInfo
-	FVector NextPos = _NextPos - StartPos;
+	bool Result = false;
+	FPoint Point = ConvertLocationToPoint(_Pos);
 
-	if (0.0f < _Dir.X)
+	if (nullptr != TileInfo[Point.Y][Point.X].Bomb)
 	{
-		NextPos.X += 20.0f;
-	}
-	else if (0.0f > _Dir.X)
-	{
-		NextPos.X -= 20.0f;
-	}
-	else if (0.0f < _Dir.Y)
-	{
-		NextPos.Y += 30.0f;
-	}
-	else if (0.0f > _Dir.Y)
-	{
-		NextPos.Y -= 10.0f;
+		Result = true;
 	}
 
-	float NextPlayerFX = NextPos.X / BlockSize;
-	float NextPlayerFY = NextPos.Y / BlockSize;
+	return Result;
+}
 
-	FPoint NextPoint = FPoint();
-	NextPoint.X = static_cast<int>(NextPos.X / BlockSize);
-	NextPoint.Y = static_cast<int>(NextPos.Y / BlockSize);
-	
-	// 맵 범위 밖일때
-	if (SizeX <= NextPoint.X || 0 > NextPlayerFX || SizeY <= NextPoint.Y || 0 > NextPlayerFY)
+// Bush 위치면 true 반환
+bool AMapBase::IsBushPos(const FVector& _Pos)
+{
+	bool Result = false;
+	FPoint Point = ConvertLocationToPoint(_Pos);
+
+	if (nullptr != TileInfo[Point.Y][Point.X].Bush)
 	{
-		return false;
-	}
-	
-	// 빈 공간일때
-	if (nullptr == TileInfo[NextPoint.Y][NextPoint.X].Block)
-	{
-		return true;
+		Result = true;
 	}
 
-	// 오브젝트 존재할때
-	EBlockType BlockType = TileInfo[NextPoint.Y][NextPoint.X].Block->GetBlockType();
-	if (EBlockType::Wall == BlockType || EBlockType::Box == BlockType)
-	{
-		return false;
-	}
-
-	// MoveBox 체크
-	if (EBlockType::MoveBox == BlockType)
-	{
-		AMoveBox* MoveBox = dynamic_cast<AMoveBox*>(TileInfo[NextPoint.Y][NextPoint.X].Block);
-		MoveBox->SetMoveDir(_Dir);
-		FPoint TwoStepPoint = NextPoint;
-
-		if (0.0f < _Dir.X)
-		{
-			TwoStepPoint.X += 1;
-		}
-		else if (0.0f > _Dir.X)
-		{
-			TwoStepPoint.X -= 1;
-		}
-		else if (0.0f < _Dir.Y)
-		{
-			TwoStepPoint.Y += 1;
-		}
-		else if (0.0f > _Dir.Y)
-		{
-			TwoStepPoint.Y -= 1;
-		}
-
-		if (0 > TwoStepPoint.X || SizeX <= TwoStepPoint.X 
-		||  0 > TwoStepPoint.Y || SizeY <= TwoStepPoint.Y
-		|| nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Block)
-		{
-			return false;
-		}
-		
-		if (BlockState::idle == MoveBox->GetCurState())
-		{
-			MoveBox->StateChange(BlockState::move);
-			return false;
-		}
-		
-		return false;
-	}
-
-	return true;
+	return Result;
 }
 
 // 해당 위치 Tile의 ItemType을 반환

@@ -1,9 +1,10 @@
 #pragma once
 #include <EngineCore/TextWidget.h>
+#include "NetGameMode.h"
 
-class ALobbyTitleGameMode :public AGameMode
+class ALobbyTitleGameMode :public ANetGameMode
 {
-	GENERATED_BODY(AGameMode)
+	GENERATED_BODY(ANetGameMode)
 public:
 	// constructor destructor
 	ALobbyTitleGameMode();
@@ -15,6 +16,27 @@ public:
 	ALobbyTitleGameMode& operator=(const ALobbyTitleGameMode& _Other) = delete;
 	ALobbyTitleGameMode& operator=(ALobbyTitleGameMode&& _Other) = delete;
 
+private:
+	// UserInfos
+	struct UserInfo
+	{
+		int SpaceIndex;
+		std::string Name;
+		ECharacterType CharacterType;
+		ECharacterColor CharacterColor;
+		//ability, rank, ...etc.
+	};
+	std::vector<UserInfo> UserInfos;
+	UserInfo Player;
+
+	bool IsInfoChange = false;
+
+public:
+	inline UserInfo GetPlayerInfo()
+	{
+		return Player;
+	}
+
 	inline ECharacterType GetPlayerCharacterType()
 	{
 		return Player.CharacterType;
@@ -22,7 +44,7 @@ public:
 
 	inline ECharacterColor GetPlayerCharacterColor()
 	{
-		return Player.CharacterCorlor;
+		return Player.CharacterColor;
 	}
 
 protected:
@@ -40,25 +62,10 @@ protected:
 	void FadeIn(float _DeltaTime);
 	void FadeOut(float _DeltaTime);
 
+
+	void HandlerInit() override;
+
 private:
-	// PlayerInfo
-	struct UserInfo
-	{
-		int SpaceIndex;
-		std::string Name;
-		ECharacterType CharacterType;
-		ECharacterColor CharacterCorlor;
-		//ability, rank, ...etc.
-	};
-
-	UserInfo Player;
-
-	// UserInfos
-	std::vector<UserInfo> UserInfos;
-
-	// TitleLevel Info
-	std::string UserName_Input = "";
-
 	// BackGround
 	UImage* LobbyBackGround = nullptr;
 
@@ -73,9 +80,8 @@ private:
 	UImage* Btn_MapSelect = nullptr;
 
 	// Space
-	std::vector<bool> Space_Available;
-	//std::vector<bool>
-	//std::vector<bool>
+	std::vector<bool> Space_IsAvailable;
+	std::vector<bool> Space_IsUserIn;
 	std::vector<UImage*> Btns_Space;
 	std::vector<UImage*> Characters_Space;
 	std::vector<UImage*> Flags_Space;
@@ -86,23 +92,40 @@ private:
 	UImage* UpperPanel_CharacterSelect = nullptr;
 	UImage* Panel_CharacterSelect = nullptr;
 	std::map<int, std::vector<UImage*>> Traits_CharacterSelect;
+
+	struct CharacterAbilityInfo
+	{
+		int BombMin = 0;
+		int BombMax = 0;
+		int BombWaterMin = 0;
+		int BombWaterMax = 0;
+		int SpeedMin = 0;
+		int SpeedMax = 0;
+	};
+	std::vector<CharacterAbilityInfo> CharacterAbilityInfos;
+	CharacterAbilityInfo PanelInfo;
+
 	std::vector<UImage*> Btns_CharacterSelect;
 	std::vector<bool> CharacterSelect_Pick;
 	UImage* Outline_CharacterSelect = nullptr;
 	UImage* Checker_CharacterSelect = nullptr;
-	int BombMin_Panel = 0;
-	int BombMax_Panel = 0;
-	int BombWaterMin_Panel = 0;
-	int BombWaterMax_Panel = 0;
-	int SpeedMin_Panel = 0;
-	int SpeedMax_Panel = 0;
 
 	// ColorSelect
 	std::vector<UImage*> Btns_ColorSelect;
 	std::vector<bool> ColorSelect_Pick;
 	UImage* Checker_ColorSelect = nullptr;
 
+	// UnderBar
+	UImage* Btn_Back = nullptr;
+	UImage* Btn_Exit = nullptr;
+	UImage* Image_Line = nullptr;
+
+	// Chat
+
+
 	void SettingPanel(ECharacterType _CharacterType);
+	void SettingName(int _SpaceIndex);
+	void SettingCharacter(int _SpaceIndex);
 	void ChangeCharacter(ECharacterType _CharacterType);
 	void ChangeColor(ECharacterColor _CharacterColor);
 };

@@ -9,7 +9,7 @@ class UEngineInputRecorder
 	friend UEngineWindow;
 	friend UEngineCore;
 public:
-	static void RecordStart(std::string_view _Text = "");
+	static void RecordStart(std::string_view _Text = "", int _MaxLength = 100);
 	static void RecordEnd();
 	static std::string GetText();
 
@@ -18,6 +18,7 @@ protected:
 
 private:
 	static bool Activeness;
+	static int MaxLength;
 	static bool ImeTickCalled;
 	static bool IgnoreCompositionResult;
 
@@ -26,7 +27,8 @@ private:
 	static HWND hWnd;
 	static HIMC hIMC;
 	static const std::string AllAlpha;
-	static const std::string AllNumeric;
+	static const std::string AllNumericAndSpecial;
+	static const std::vector<int> AllSpecial;
 
 	static void Init(HWND _hWnd);
 	static bool IsNative();

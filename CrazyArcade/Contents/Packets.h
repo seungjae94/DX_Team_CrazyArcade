@@ -41,8 +41,7 @@ public:
 		UEngineProtocol::Serialize(_Ser);
 		_Ser << Pos;
 		_Ser << SpriteName;
-
-		int a = 0;
+		_Ser << SpawnSelect;
 	}
 
 	void DeSerialize(UEngineSerializer& _Ser) override
@@ -50,11 +49,13 @@ public:
 		UEngineProtocol::DeSerialize(_Ser);
 		_Ser >> Pos;
 		_Ser >> SpriteName;
+		_Ser >> SpawnSelect;
 	}
 
 public:
 	float4 Pos = float4::Zero;
 	std::string SpriteName; // ?? ·£´ý
+	int SpawnSelect = 0;
 };
 
 class USpawnUpdatePacket : public UEngineProtocol {
@@ -84,15 +85,15 @@ public:
 
 public:
 	float4 Pos = float4::Zero;
-	int SpawnSelect = 0; // ?? ·£´ý
+	int SpawnSelect = 0;
 	float SpawnTime = 0.0f;
 };
 
-class UConnectNumberPacket : public UEngineProtocol {
+class UConnectPacket : public UEngineProtocol {
 public:
 	static const EContentPacket Type = EContentPacket::ConnectUpdatePacket;
 public:
-	UConnectNumberPacket()
+	UConnectPacket()
 	{
 		SetType(EContentPacket::ConnectUpdatePacket);
 	}
@@ -100,31 +101,16 @@ public:
 	void Serialize(UEngineSerializer& _Ser) override
 	{
 		UEngineProtocol::Serialize(_Ser);
-		_Ser << ConnectNum;
-		_Ser << UserName;
 		_Ser << Infos;
-
-		UEngineSerializer Test;
-		Test = _Ser;
-
-		std::shared_ptr<UConnectNumberPacket> asdf = std::make_shared<UConnectNumberPacket>();
-		asdf->DeSerialize(_Ser);
-
-
-		int a = 0; 
 	}
 
 	void DeSerialize(UEngineSerializer& _Ser) override
 	{
 		UEngineProtocol::DeSerialize(_Ser);
-		_Ser >> ConnectNum;
-		_Ser >> UserName;
 		_Ser >> Infos;
 	}
 
 public:
-	int ConnectNum = 0;
-	std::string UserName = "";
 	std::map<int, std::string> Infos;
 };
 
@@ -141,14 +127,17 @@ public:
 	{
 		UEngineProtocol::Serialize(_Ser);
 		_Ser << Session;
+		_Ser << Name;
 	}
 
 	void DeSerialize(UEngineSerializer& _Ser) override
 	{
 		UEngineProtocol::DeSerialize(_Ser);
 		_Ser >> Session;
+		_Ser >> Name;
 	}
 
 public:
 	int Session = 0;
+	std::string Name = "";
 };

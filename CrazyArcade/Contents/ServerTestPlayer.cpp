@@ -7,6 +7,7 @@
 
 #include "MainPlayLevel.h"
 #include "MapBase.h"
+#include "CrazyArcadeEnum.h"
 
 ServerTestPlayer::ServerTestPlayer()
 	:APlayer()
@@ -53,6 +54,7 @@ void ServerTestPlayer::Tick(float _DeltaTime)
 
 		Packet->Pos = GetActorLocation();
 		Packet->SpriteName = Renderer->GetCurAnimationName();
+		Packet->SpawnSelect = static_cast<int>(ECharacterType::Random);
 		Send(Packet);
 		CurTime += FrameTime;
 		if (true == IsSpawn) {
@@ -66,15 +68,14 @@ void ServerTestPlayer::Tick(float _DeltaTime)
 
 void ServerTestPlayer::SpawnBomb()
 {
+	if (Bomb == nullptr) {
+		return;
+	}
 	FEngineTimeStamp Stamp = UEngineTime::GetCurTime();
 	float FloatResult = Stamp.TimeToFloat();
 	std::shared_ptr<USpawnUpdatePacket> SpawnPacket = std::make_shared<USpawnUpdatePacket>();
 	SpawnPacket->SpawnSelect = static_cast<int>(EItemType::Bubble);
 	SpawnPacket->SpawnTime = FloatResult;
-
-	if (Bomb == nullptr) {
-		return;
-	}
 	Bomb->SetObjectToken(GetToken);
 	SpawnPacket->Pos = Bomb->GetActorLocation();
 	Send(SpawnPacket, Bomb->GetObjectToken());

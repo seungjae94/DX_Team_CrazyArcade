@@ -11,6 +11,7 @@
 #include "ServerManager.h"
 
 #include "Packets.h"
+#include "ServerHelper.h"
 
 AMainTitleGameMode::AMainTitleGameMode()
 {
@@ -90,26 +91,36 @@ void AMainTitleGameMode::BeginPlay()
 		{
 			PlayerNameBox->ChangeAnimation("NotActiveAni");
 			IsNameBoxAct = false;
-			UEngineInputRecorder::GetText();
-			UEngineInputRecorder::RecordEnd();
-
-
+		}
+		if (IsIPNumBoxActive == true)
+		{
+			IPNumBox->ChangeAnimation("InActive");
+			IsIPNumBoxActive = false;
+		}
+		if (IsPortNumBoxActive == true)
+		{
+			PortNumBox->ChangeAnimation("InActive");
+			IsPortNumBoxActive = false;
 		}
 
+		UEngineInputRecorder::GetText();
+		UEngineInputRecorder::RecordEnd();
 		});
-
-
 
 	PlayerNameBox->SetDown([=] {
 		//키 입력
 		PlayerNameBox->ChangeAnimation("ActiveAni");
 		IsNameBoxAct = true;
-		UEngineInputRecorder::RecordStart(TextWidget->GetText());
+		IPNumBox->ChangeAnimation("InActive");
+		IsIPNumBoxActive = false;
+		PortNumBox->ChangeAnimation("InActive");
+		IsPortNumBoxActive = false;
 
+		UEngineInputRecorder::RecordStart(TextWidget->GetText(), PlayerNameMaxLength);
 		GetPlayerName();
 		});
 
-
+	// 1P Button
 	{
 		Button_1P = CreateWidget<UImage>(GetWorld(), "Button_1P");
 		Button_1P->AddToViewPort(1);
@@ -142,8 +153,11 @@ void AMainTitleGameMode::BeginPlay()
 
 		Button_1P->SetUp([=] {
 			Button_1P->ChangeAnimation("UnHover");
+			ServerStart();
 			});
 	}
+
+	// 2P Button
 	{
 		Button_2P = CreateWidget<UImage>(GetWorld(), "Button_2P");
 		Button_2P->AddToViewPort(1);
@@ -176,93 +190,123 @@ void AMainTitleGameMode::BeginPlay()
 
 		Button_2P->SetUp([=] {
 			Button_2P->ChangeAnimation("UnHover");
+			ClientStart();
 			});
+	}
+
+	// IP Number Box
+	{
+		IPNumBox = CreateWidget<UImage>(GetWorld(), "IPNumBox");
+		IPNumBox->AddToViewPort(3);
+		IPNumBox->SetScale({ 210.0f, 22.5f });
+		IPNumBox->SetWidgetLocation({ 275.0f, -40.0f });
+
+		IPNumBox->CreateAnimation("InActive", "NameBoxNotActive.png", 0.1f, false, 0, 0);
+		IPNumBox->CreateAnimation("Active", "NameBox.png", 0.1f, false, 0, 0);
+		IPNumBox->ChangeAnimation("InActive");
+
+		IPNumBox->SetDown([=] {
+			PlayerNameBox->ChangeAnimation("NotActiveAni");
+			IsNameBoxAct = false;
+			IPNumBox->ChangeAnimation("Active");
+			IsIPNumBoxActive = true;
+			PortNumBox->ChangeAnimation("InActive");
+			IsPortNumBoxActive = false;
+
+			UEngineInputRecorder::RecordStart(IPNumText->GetText(), 15);
+			});
+
+		IPNumText = CreateWidget<UTextWidget>(GetWorld(), "IPNumText");
+		IPNumText->AddToViewPort(4);
+		IPNumText->SetScale(20.0f);
+		IPNumText->SetWidgetLocation({ 173.0f, -28.0f });
+		IPNumText->SetFont("굴림");
+		IPNumText->SetColor(Color8Bit::Black);
+		IPNumText->SetFlag(FW1_LEFT);
+		IPNumText->SetText(IPNum);
+
+		IPNumTitle = CreateWidget<UTextWidget>(GetWorld(), "IPNumTitle");
+		IPNumTitle->AddToViewPort(4);
+		IPNumTitle->SetScale(20.0f);
+		IPNumTitle->SetWidgetLocation({ 130.0f, -28.0f });
+		IPNumTitle->SetFont("굴림");
+		IPNumTitle->SetColor(Color8Bit::Black);
+		IPNumTitle->SetFlag(FW1_LEFT);
+		IPNumTitle->SetText("IP : ");
+	}
+
+	// Port Number Box
+	{
+		PortNumBox = CreateWidget<UImage>(GetWorld(), "PortNumBox");
+		PortNumBox->AddToViewPort(3);
+		PortNumBox->SetScale({ 100.0f, 22.5f });
+		PortNumBox->SetWidgetLocation({ 220.0f, -70.0f });
+
+		PortNumBox->CreateAnimation("InActive", "NameBoxNotActive.png", 0.1f, false, 0, 0);
+		PortNumBox->CreateAnimation("Active", "NameBox.png", 0.1f, false, 0, 0);
+		PortNumBox->ChangeAnimation("InActive");
+
+		PortNumBox->SetDown([=] {
+			PlayerNameBox->ChangeAnimation("NotActiveAni");
+			IsNameBoxAct = false;
+			IPNumBox->ChangeAnimation("InActive");
+			IsIPNumBoxActive = false;
+			PortNumBox->ChangeAnimation("Active");
+			IsPortNumBoxActive = true;
+
+			UEngineInputRecorder::RecordStart(PortNumText->GetText(), PortNumMaxLength);
+			});
+
+		PortNumText = CreateWidget<UTextWidget>(GetWorld(), "PortNumText");
+		PortNumText->AddToViewPort(4);
+		PortNumText->SetScale(20.0f);
+		PortNumText->SetWidgetLocation({ 173.0f, -58.0f });
+		PortNumText->SetFont("굴림");
+		PortNumText->SetColor(Color8Bit::Black);
+		PortNumText->SetFlag(FW1_LEFT);
+		PortNumText->SetText(PortNum);
+
+		PortNumTitle = CreateWidget<UTextWidget>(GetWorld(), "PortNumText");
+		PortNumTitle->AddToViewPort(4);
+		PortNumTitle->SetScale(20.0f);
+		PortNumTitle->SetWidgetLocation({ 110.0f, -58.0f });
+		PortNumTitle->SetFont("굴림");
+		PortNumTitle->SetColor(Color8Bit::Black);
+		PortNumTitle->SetFlag(FW1_LEFT);
+		PortNumTitle->SetText("Port : ");
 	}
 
 	if (UEngineInput::IsDown('M'))
 	{
 		GetPlayerName();
 	}
-
-
 }
 
 
 void AMainTitleGameMode::Tick(float _DeltaTime)
 {
-
-
 	Super::Tick(_DeltaTime);
 
-	/*if (UEngineInput::IsAnykeyDown())
-	{
-		if (PlayerName.size() > 8)
-		{
-			return;
-		}
-
-		char ch = UEngineInput::GetAnyDownKey();
-
-		if (ch != NULL)
-		{
-			PlayerName.push_back(ch);
-
-		}
-
-		TextWidget->SetText(PlayerName);
-	std::string CurText = TextWidget->GetText();
-	임시 방편
-	}*/
+	// PlayerName, IPNum, PortNum Setting
 	StringToText();
 
-	if (UCrazyArcadeCore::Net == nullptr) {
+	// Debug
+	{
+		FVector CameraPos = GetWorld()->GetMainCamera()->GetActorLocation();
+		FVector MousePos = GEngine->EngineWindow.GetScreenMousePos();
+		FVector WindowScale = GEngine->EngineWindow.GetWindowScale();
+		FVector TargetPos = FVector(CameraPos.X, CameraPos.Y, 0.0f) + FVector(MousePos.X - WindowScale.hX(), -(MousePos.Y - WindowScale.hY()), 0.0f);
 
-		if (UEngineInput::IsDown('S'))
 		{
-			UCrazyArcadeCore::NetWindow->ServerOpen();
-			GEngine->ChangeLevel("LobbyTitleTestLevel");
+			std::string Msg = std::format("MousePos : {}\n", TargetPos.ToString());
+			UEngineDebugMsgWindow::PushMsg(Msg);
 		}
-
-		if (UEngineInput::IsDown('C'))
-		{
-			UCrazyArcadeCore::NetWindow->ClientOpen(PlayerName,3);
-			GEngine->ChangeLevel("LobbyTitleTestLevel");
-			std::shared_ptr<UConnectNumberPacket> NumberPacket = std::make_shared<UConnectNumberPacket>();
-			std::shared_ptr<UConnectInitPacket> InitPacket = std::make_shared<UConnectInitPacket>();
-			InitPacket->Session = UCrazyArcadeCore::Net->GetSessionToken();
-			
-			
-			UCrazyArcadeCore::Net->Send(InitPacket);
-		}
-
 	}
-
 }
 
 void AMainTitleGameMode::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
-
-	if (nullptr == UCrazyArcadeCore::NetWindow)
-	{
-		UCrazyArcadeCore::NetWindow = UEngineEditorGUI::CreateEditorWindow<ServerManager>("NetWindow");
-
-		UCrazyArcadeCore::NetWindow->SetServerOpenFunction([&]()
-			{
-				UCrazyArcadeCore::Net = std::make_shared<UEngineServer>();
-				UCrazyArcadeCore::Net->ServerOpen(30000, 512);
-			});
-
-		UCrazyArcadeCore::NetWindow->SetClientConnectFunction([&](std::string IP, short PORT)
-			{
-				UCrazyArcadeCore::Net = std::make_shared<UEngineClient>();
-				UCrazyArcadeCore::Net->Connect(IP, PORT);
-			});
-	}
-	UCrazyArcadeCore::NetWindow->On();
-
-	//UEngineInputRecorder::RecordStart();
-	//레벨 시작과 동시에 입력 받을 준비 
 }
 
 void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
@@ -274,9 +318,32 @@ void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
 	{
 		return;
 	}
-	ConnectionInfo::GetInst().SetMyName(PlayerName);
+	//ConnectionInfo::GetInst().SetMyName(PlayerName);
 	//Lobby->SetUserName(PlayerName);
-	//UEngineInputRecorder::RecordEnd();
+}
+
+void AMainTitleGameMode::ServerStart()
+{
+	if (UCrazyArcadeCore::Net == nullptr) {
+			UCrazyArcadeCore::NetManager.ServerOpen();
+			GEngine->ChangeLevel("LobbyTitleTestLevel");
+			ConnectionInfo::GetInst().SetMyName(PlayerName);
+			ConnectionInfo::GetInst().PushUserInfos(0, PlayerName);
+	}
+}
+
+void AMainTitleGameMode::ClientStart()
+{
+	if (UCrazyArcadeCore::Net == nullptr) {
+		UCrazyArcadeCore::NetManager.ClientOpen("127.0.0.1", 30000);
+		ConnectionInfo::GetInst().SetMyName(PlayerName);
+		GEngine->ChangeLevel("LobbyTitleTestLevel");
+	}
+}
+
+void AMainTitleGameMode::HandlerInit()
+{
+	UEngineDispatcher& Dis = UCrazyArcadeCore::Net->Dispatcher;
 }
 
 
@@ -284,16 +351,23 @@ std::string AMainTitleGameMode::GetPlayerName()
 {
 	return TextWidget->GetText();
 }
+
 void AMainTitleGameMode::StringToText()
 {
-	PlayerName = UEngineInputRecorder::GetText();
+	if (IsNameBoxAct == true)
+	{
+		PlayerName = UEngineInputRecorder::GetText();
+	}
+	else if (IsIPNumBoxActive == true)
+	{
+		IPNum = UEngineInputRecorder::GetText();
+	}
+	else if (IsPortNumBoxActive == true)
+	{
+		PortNum = UEngineInputRecorder::GetText();
+	}
 
-	if (PlayerName.size() > 0)
-	{
-		TextWidget->SetText(PlayerName);
-	}
-	else
-	{
-		TextWidget->SetText(" ");
-	}
+	TextWidget->SetText(PlayerName);
+	IPNumText->SetText(IPNum);
+	PortNumText->SetText(PortNum);
 }

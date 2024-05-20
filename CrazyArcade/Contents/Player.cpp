@@ -295,8 +295,15 @@ void APlayer::Devil(float _DeltaTime)
 		{
 
 		}
+
+		DevilTime -= _DeltaTime;
+
+		if (0.0f >= DevilTime)
+		{
+			IsDevil = false;
+			DevilTime = 10.0f;
+		}
 	}
-	
 }
 
 void APlayer::SetPlayerDead()

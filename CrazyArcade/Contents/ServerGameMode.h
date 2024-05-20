@@ -26,17 +26,13 @@ public:
 	AServerGameMode& operator=(const AServerGameMode& _Other) = delete;
 	AServerGameMode& operator=(AServerGameMode&& _Other) noexcept = delete;
 
-	void ServerPacketInit(UEngineDispatcher& Dis);
-	void ClientPacketInit(UEngineDispatcher& Dis);
 
-
+	void HandlerInit() override;
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 	void LevelStart(ULevel* _PrevLevel) override;
 	void LevelEnd(ULevel* _NextLevel) override;
-
-	std::shared_ptr<UEngineNetWindow> NetWindow;
 
 	float BombDestoryTime = 1.0f;
 	float CurBombDestoryTime = 0.0f;

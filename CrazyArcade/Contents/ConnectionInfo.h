@@ -17,15 +17,6 @@ public:
 		return Inst;
 	}
 
-	void SetSessionCount(int _Count)
-	{
-		CurSessionCount = _Count;
-	}
-	int GetCurSessionCount() const
-	{
-		return CurSessionCount;
-	}
-
 	void SetOrder(int _Order)
 	{
 		MyOrder = _Order;
@@ -35,12 +26,11 @@ public:
 		return MyOrder;
 	}
 	
-	void SetMyName(std::string _Name)
-	{
+	void SetMyName(std::string_view _Name) {
 		MyName = _Name;
 	}
-	std::string GetMyName() const
-	{
+
+	std::string_view GetMyName() {
 		return MyName;
 	}
 
@@ -58,19 +48,23 @@ public:
 	{
 		MyColorType = _CharacterColor;
 	}
+
 	ECharacterColor GetCharacterColor() const
 	{
 		return MyColorType;
 	}
 
+
 	void SetUserInfos(std::map<int, std::string> _Infos)
 	{
 		UserInfos = _Infos;
 	}
+
 	void PushUserInfos(int _Order, std::string _Name)
 	{
 		UserInfos[_Order] = _Name;
 	}
+
 	std::map<int, std::string>& GetUserInfos()
 	{
 		return UserInfos;
@@ -93,13 +87,20 @@ public:
 	{
 		CharacterTypeInfos = _TypeInfos;
 	}
+
 	void PushCharacterType(int _Order, ECharacterType _CharacterType)
 	{
 		CharacterTypeInfos[_Order] = _CharacterType;
 	}
+
 	std::map<int, ECharacterType>& GetCharacterTypeInfos()
 	{
 		return CharacterTypeInfos;
+	}
+
+	int GetInfoSize() const
+	{
+		return static_cast<int>(UserInfos.size());
 	}
 
 
@@ -109,10 +110,8 @@ private:
 	ConnectionInfo();
 	~ConnectionInfo();
 
-	int CurSessionCount = 0;
-
 	int MyOrder = 0;
-	std::string MyName = "";
+	std::string MyName = "Anonymous";
 
 	ECharacterType MyCharacterType = ECharacterType::None;
 	ECharacterColor MyColorType = ECharacterColor::None;

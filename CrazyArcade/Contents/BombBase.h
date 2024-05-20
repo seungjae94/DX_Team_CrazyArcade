@@ -20,13 +20,13 @@ public:
 	ABombBase& operator=(const ABombBase& _Other) = delete;
 	ABombBase& operator=(ABombBase&& _Other) noexcept = delete;
 
-	void SetIdle()
+	void SetPlayer(APlayer* _Player);
+	void SetCurPoint(FPoint _Point);
+
+	inline void SetIdle()
 	{
 		State.ChangeState(BombState::idle);
 	}
-
-	void SetPlayer(APlayer* _Player);
-	void SetCurPoint(FPoint _Point);
 
 	inline void ReduceCurExplosionTime(float _ReduceTime)
 	{
@@ -36,6 +36,8 @@ public:
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
+	
+	void LevelStart(ULevel* _PrevLevel) override;
 
 private:
 	void SetImgCutting();
@@ -54,7 +56,7 @@ private:
 
 	USpriteRenderer* Body;
 
-	FPoint CurPoint;
+	FPoint CurPoint = { -1, -1 };
 	const float ExplosionTime = 2.8f;
 	float ExplosionTimeCount = 0.0f;
 	int Power = 8;

@@ -1,11 +1,10 @@
 #pragma once
 #include "BlockBase.h"
-#include <EngineCore/StateManager.h>
-
-class AMainPlayLevel;
+#include "SpawnItemBlock.h"
+#include "MapConstant.h"
 
 // Ό³Έν : MoveBox Block
-class AMoveBox : public ABlockBase
+class AMoveBox : public ABlockBase, public USpawnItemBlock
 {
 	GENERATED_BODY(ABlockBase)
 public:
@@ -19,10 +18,7 @@ public:
 	AMoveBox& operator=(const AMoveBox& _Other) = delete;
 	AMoveBox& operator=(AMoveBox&& _Other) noexcept = delete;
 
-	inline void SetMoveDir(const FVector& _Dir)
-	{
-		MoveDir = _Dir;
-	}
+	void SetMoveState(const FVector& _Dir);
 
 protected:
 	void BeginPlay() override;
@@ -32,14 +28,15 @@ private:
 	void MoveOneBlockCheck();
 	void MoveUpdate(float _DeltaTime);
 
+	void CheckNearDestroy(FPoint _CurPoint);
+
 private:
+	bool CanMoveValue = true;
 	bool IsMoveValue = false;
-	float MoveTime = 0.0f;
+	float MoveTimeCount = 0.0f;
 	FVector StartPos = FVector::Zero;
 	FVector TargetPos = FVector::Zero;
 	FVector MoveDir = FVector::Zero;
-
-	AMainPlayLevel* PlayLevel = nullptr;
 
 // FSM
 protected:

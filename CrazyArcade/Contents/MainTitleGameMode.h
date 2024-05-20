@@ -2,9 +2,11 @@
 #include <EngineCore/Widget.h>
 #include <EngineCore/TextWidget.h>
 #include<vector>
-class AMainTitleGameMode : public AGameMode
+#include "NetGameMode.h"
+
+class AMainTitleGameMode : public ANetGameMode
 {
-	GENERATED_BODY(AGameMode)
+	GENERATED_BODY(ANetGameMode)
 public:
 	// constructor destructor
 	AMainTitleGameMode();
@@ -25,21 +27,41 @@ protected:
 	void Tick(float _DeltaTime) override;
 	void LevelStart(ULevel* _PrevLevel) override;
 	void LevelEnd(ULevel* _NextLevel) override;
+
+	void ServerStart();
+	void ClientStart();
+
+	void HandlerInit() override;
+
 private:
 	void StringToText();
 	
 	// UI
 	UImage* TitleBackGround = nullptr;
 	UImage* LoginUI = nullptr;
+
 	UImage* StartButton = nullptr;
-	UImage* PlayerNameBox = nullptr;
-	UImage* VoidBox = nullptr;
-	UTextWidget* TextWidget = nullptr;
 	UImage* Button_1P = nullptr;
 	UImage* Button_2P = nullptr;
 
+	UImage* VoidBox = nullptr;
+	UImage* PlayerNameBox = nullptr;
+	UTextWidget* TextWidget = nullptr;
+	UImage* IPNumBox = nullptr;
+	UTextWidget* IPNumText = nullptr;
+	UTextWidget* IPNumTitle = nullptr;
+	UImage* PortNumBox = nullptr;
+	UTextWidget* PortNumText = nullptr;
+	UTextWidget* PortNumTitle = nullptr;
+
 	std::string PlayerName;
+	std::string IPNum = "127.0.0.1";
+	std::string PortNum = "30000";
 
 	bool IsNameBoxAct = false;
-};
+	bool IsIPNumBoxActive = false;
+	bool IsPortNumBoxActive = false;
 
+	const int PlayerNameMaxLength = 6;
+	const int PortNumMaxLength = 5;
+};

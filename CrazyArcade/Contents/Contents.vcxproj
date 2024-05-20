@@ -27,11 +27,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BushBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ForestMap.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="InputRecorderTestGameMode.h">
+    <ClInclude Include="EngineTestGameMode.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -45,12 +49,20 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="NetGameMode.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ServerHelper.h" />
     <ClInclude Include="ServerManager.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="ConnectionInfo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SpawnItemBlock.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -133,11 +145,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BushBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ForestMap.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="InputRecorderTestGameMode.cpp">
+    <ClCompile Include="EngineTestGameMode.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -146,7 +162,12 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MapBase_Check.cpp" />
     <ClCompile Include="MoveBox.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="NetGameMode.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -156,6 +177,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ConnectionInfo.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SpawnItemBlock.cpp">
       <SubType>
       </SubType>
     </ClCompile>

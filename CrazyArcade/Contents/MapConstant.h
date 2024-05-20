@@ -3,41 +3,42 @@
 namespace MapImgRes
 {
 	// BackGround
-	const std::string_view play_ui_background	= "spr_play_ui_background.png";
-	const std::string_view village_background	= "spr_village1_background.png";
-	const std::string_view Forest_background = "spr_forest_background.png";
+	const std::string_view play_ui_background		= "spr_play_ui_background.png";
+	const std::string_view village_background		= "spr_village1_background.png";
+	const std::string_view Forest_background		= "spr_forest_background.png";
 	
 	// Wall
-	const std::string_view block_vil_house_0	= "spr_vil_house_0.png";
-	const std::string_view block_vil_house_1	= "spr_vil_house_1.png";
-	const std::string_view block_vil_house_2	= "spr_vil_house_2.png";
-	const std::string_view block_vil_tree_0		= "spr_vil_tree_0.png";
+	const std::string_view block_vil_house_0		= "spr_vil_house_0.png";
+	const std::string_view block_vil_house_1		= "spr_vil_house_1.png";
+	const std::string_view block_vil_house_2		= "spr_vil_house_2.png";
+	const std::string_view block_vil_tree_0			= "spr_vil_tree_0.png";
 
-	const std::string_view block_forest_pool = "spr_forest_pool.png";
-	const std::string_view block_forest_rock = "spr_forest_rock.png";
+	const std::string_view block_forest_pool		= "spr_forest_pool.png";
+	const std::string_view block_forest_rock		= "spr_forest_rock.png";
 
-	//box
-	const std::string_view block_vil_box0		= "spr_vil_Box0";
-	const std::string_view block_vil_box1		= "spr_vil_Box1";
-	const std::string_view block_vil_box2		= "spr_vil_Box2";
+	// Box
+	const std::string_view block_vil_box0			= "spr_vil_Box0";
+	const std::string_view block_vil_box1			= "spr_vil_Box1";
+	const std::string_view block_vil_box2			= "spr_vil_Box2";
+	const std::string_view block_vil_bush			= "spr_village_bush.png";
 
-	const std::string_view block_forest_leef1	= "spr_forest_leef1";
-	const std::string_view block_forest_leef2	= "spr_forest_leef2";
-	const std::string_view block_forest_bush1 = "spr_forest_bush1";
-	const std::string_view block_forest_bush2 = "spr_forest_bush2";
-	const std::string_view block_forest_bush3 = "spr_forest_bush3";
-	const std::string_view block_forest_basket = "spr_forest_basket";
+	const std::string_view block_forest_leef1		= "spr_forest_leef1.png";
+	const std::string_view block_forest_leef2		= "spr_forest_leef2.png";
+	const std::string_view block_forest_bush1		= "spr_forest_bush1.png";
+	const std::string_view block_forest_bush2		= "spr_forest_bush2.png";
+	const std::string_view block_forest_bush3		= "spr_forest_bush3.png";
+	const std::string_view block_forest_basket		= "spr_forest_basket.png";
 
 	// Item
-	const std::string_view item_shadow			= "spr_item_shadow";
-	const std::string_view item_bubble			= "spr_item_bubble.png";
-	const std::string_view item_devil			= "spr_item_devil.png";
-	const std::string_view item_fluid			= "spr_item_fluid.png";
-	const std::string_view item_glove			= "spr_item_glove.png";
-	const std::string_view item_reddevil		= "spr_item_reddevil.png";
-	const std::string_view item_roller			= "spr_item_roller.png";
-	const std::string_view item_shoes			= "spr_item_shoes.png";
-	const std::string_view item_ultra			= "spr_item_ultra.png";
+	const std::string_view item_shadow				= "spr_item_shadow";
+	const std::string_view item_bubble				= "spr_item_bubble.png";
+	const std::string_view item_devil				= "spr_item_devil.png";
+	const std::string_view item_fluid				= "spr_item_fluid.png";
+	const std::string_view item_glove				= "spr_item_glove.png";
+	const std::string_view item_reddevil			= "spr_item_reddevil.png";
+	const std::string_view item_roller				= "spr_item_roller.png";
+	const std::string_view item_shoes				= "spr_item_shoes.png";
+	const std::string_view item_ultra				= "spr_item_ultra.png";
 
 	// Bomb
 	const std::string_view bomb						= "spr_bomb.png";
