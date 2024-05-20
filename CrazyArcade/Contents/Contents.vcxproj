@@ -162,6 +162,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MapBase_Check.cpp" />
     <ClCompile Include="MoveBox.cpp">
       <SubType>
       </SubType>

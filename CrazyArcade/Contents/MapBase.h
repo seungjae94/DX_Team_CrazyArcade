@@ -84,7 +84,8 @@ private:
 		return TileInfo[_Point.Y][_Point.X];
 	}
 
-	bool MoveBoxCheck(FPoint _NextPoint, const FVector& _Dir);
+	bool SubMoveBoxCheck(FPoint _NextPoint, const FVector& _Dir);
+	bool SubMoveBoxOnlyCheck(FPoint _NextPoint, const FVector& _Dir);
 
 protected:
 	void BeginPlay() override;
@@ -104,6 +105,20 @@ private:
 	static int SizeY;
 
 	static float BombAdjustPosY;
+	
+// Tile Check ฐüทร
+private:
+	void SetCheckPos(const FVector& _NextPos, const FVector& _Dir);
+
+private:
+	FVector NextPos = FVector::Zero;	// Main Pos
+	FVector NextPos1 = FVector::Zero;	// Sub Pos1
+	FVector NextPos2 = FVector::Zero;	// Sub Pos2
+
+	FPoint NextPoint = { -1, -1 };		// Main Point
+	FPoint NextPoint1 = { -1, -1 };		// Sub Point1
+	FPoint NextPoint2 = { -1, -1 };		// Sub Point2
+
 	const float BlockCheckAdjustPosX = 11.0f;
 	const float BlockCheckAdjustPosY = 8.0f;
 

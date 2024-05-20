@@ -1,0 +1,287 @@
+#include "PreCompile.h"
+#include "MapBase.h"
+
+#include "MapConstant.h"
+
+#include "BlockBase.h"
+#include "MoveBox.h"
+
+// 움직일 수 있는 위치인지를 반환
+bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
+{
+	SetCheckPos(_NextPos, _Dir);
+	float NextPosFX = NextPos.X / BlockSize;
+	float NextPosFY = NextPos.Y / BlockSize;
+
+	bool Result = false;
+
+	// 맵 범위 밖일때
+	if (SizeX <= NextPoint.X || 0.0f > NextPosFX || SizeY <= NextPoint.Y || 0.0f > NextPosFY)
+	{
+		Result = false;
+		return Result;
+	}
+
+	// 빈 공간일때
+	if (nullptr == TileInfo[NextPoint.Y][NextPoint.X].Block)
+	{
+		Result = true;
+
+		// 보조 위치1 체크
+		if (nullptr != TileInfo[NextPoint1.Y][NextPoint1.X].Block)
+		{
+			EBlockType BlockType1 = TileInfo[NextPoint1.Y][NextPoint1.X].Block->GetBlockType();
+			if (EBlockType::Wall == BlockType1 || EBlockType::Box == BlockType1)
+			{
+				Result = false;
+				return Result;
+			}
+
+			Result = SubMoveBoxCheck(NextPoint1, _Dir);
+		}
+
+		// 보조 위치2 체크
+		if (nullptr != TileInfo[NextPoint2.Y][NextPoint2.X].Block)
+		{
+			EBlockType BlockType2 = TileInfo[NextPoint2.Y][NextPoint2.X].Block->GetBlockType();
+			if (EBlockType::Wall == BlockType2 || EBlockType::Box == BlockType2)
+			{
+				Result = false;
+				return Result;
+			}
+
+			Result = SubMoveBoxCheck(NextPoint2, _Dir);
+		}
+
+		return Result;
+	}
+
+	// 오브젝트 존재할때
+	EBlockType BlockType = TileInfo[NextPoint.Y][NextPoint.X].Block->GetBlockType();
+	if (EBlockType::Wall == BlockType || EBlockType::Box == BlockType)
+	{
+		Result = false;
+		return Result;
+	}
+
+	// MoveBox 체크
+	if (EBlockType::MoveBox == BlockType)
+	{
+		// SubPos 체크
+		bool Sub1 = true;
+		if (NextPoint != NextPoint1)
+		{
+			Sub1 = SubMoveBoxOnlyCheck(NextPoint1, _Dir);
+		}
+
+		bool Sub2 = true;
+		if (NextPoint != NextPoint2)
+		{
+			Sub2 = SubMoveBoxOnlyCheck(NextPoint2, _Dir);
+		}
+
+		if (false == Sub1 || false == Sub2)
+		{
+			Result = false;
+			return Result;
+		}
+
+		AMoveBox* MoveBox = dynamic_cast<AMoveBox*>(TileInfo[NextPoint.Y][NextPoint.X].Block);
+		MoveBox->SetMoveDir(_Dir);
+		FPoint TwoStepPoint = NextPoint;
+
+		if (0.0f < _Dir.X)
+		{
+			TwoStepPoint.X += 1;
+		}
+		else if (0.0f > _Dir.X)
+		{
+			TwoStepPoint.X -= 1;
+		}
+		else if (0.0f < _Dir.Y)
+		{
+			TwoStepPoint.Y += 1;
+		}
+		else if (0.0f > _Dir.Y)
+		{
+			TwoStepPoint.Y -= 1;
+		}
+
+		if (0 > TwoStepPoint.X || SizeX <= TwoStepPoint.X
+			|| 0 > TwoStepPoint.Y || SizeY <= TwoStepPoint.Y
+			|| nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Block)
+		{
+			Result = false;
+			return Result;
+		}
+
+		if (BlockState::idle == MoveBox->GetCurState())
+		{
+			MoveBox->StateChange(BlockState::move);
+			Result = false;
+			return Result;
+		}
+
+		Result = false;
+		return Result;
+	}
+
+	return Result;
+}
+
+// MoveBox 위치 확인 움직일 수 있으면 true (MoveBox 상태 변화 포함)
+bool AMapBase::SubMoveBoxCheck(FPoint _NextPoint, const FVector& _Dir)
+{
+	if (nullptr == TileInfo[_NextPoint.Y][_NextPoint.X].Block)
+	{
+		return true;
+	}
+
+	EBlockType BlockType = TileInfo[_NextPoint.Y][_NextPoint.X].Block->GetBlockType();
+	if (EBlockType::MoveBox == BlockType)
+	{
+		AMoveBox* MoveBox = dynamic_cast<AMoveBox*>(TileInfo[_NextPoint.Y][_NextPoint.X].Block);
+		MoveBox->SetMoveDir(_Dir);
+		FPoint TwoStepPoint = _NextPoint;
+
+		if (0.0f < _Dir.X)
+		{
+			TwoStepPoint.X += 1;
+		}
+		else if (0.0f > _Dir.X)
+		{
+			TwoStepPoint.X -= 1;
+		}
+		else if (0.0f < _Dir.Y)
+		{
+			TwoStepPoint.Y += 1;
+		}
+		else if (0.0f > _Dir.Y)
+		{
+			TwoStepPoint.Y -= 1;
+		}
+
+		if (0 > TwoStepPoint.X || SizeX <= TwoStepPoint.X
+			|| 0 > TwoStepPoint.Y || SizeY <= TwoStepPoint.Y
+			|| nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Block)
+		{
+			return false;
+		}
+
+		if (BlockState::idle == MoveBox->GetCurState())
+		{
+			MoveBox->StateChange(BlockState::move);
+			return false;
+		}
+
+		return false;
+	}
+
+	return true;
+}
+
+// MoveBox 위치 확인 움직일 수 있으면 true (MoveBox 상태 변화 제외)
+bool AMapBase::SubMoveBoxOnlyCheck(FPoint _NextPoint, const FVector& _Dir)
+{
+	if (nullptr == TileInfo[_NextPoint.Y][_NextPoint.X].Block)
+	{
+		return true;
+	}
+
+	EBlockType BlockType = TileInfo[_NextPoint.Y][_NextPoint.X].Block->GetBlockType();
+	if (EBlockType::MoveBox == BlockType)
+	{
+		AMoveBox* MoveBox = dynamic_cast<AMoveBox*>(TileInfo[_NextPoint.Y][_NextPoint.X].Block);
+		MoveBox->SetMoveDir(_Dir);
+		FPoint TwoStepPoint = _NextPoint;
+
+		if (0.0f < _Dir.X)
+		{
+			TwoStepPoint.X += 1;
+		}
+		else if (0.0f > _Dir.X)
+		{
+			TwoStepPoint.X -= 1;
+		}
+		else if (0.0f < _Dir.Y)
+		{
+			TwoStepPoint.Y += 1;
+		}
+		else if (0.0f > _Dir.Y)
+		{
+			TwoStepPoint.Y -= 1;
+		}
+
+		if (0 > TwoStepPoint.X || SizeX <= TwoStepPoint.X
+			|| 0 > TwoStepPoint.Y || SizeY <= TwoStepPoint.Y
+			|| nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Block)
+		{
+			return false;
+		}
+
+		if (BlockState::idle == MoveBox->GetCurState())
+		{
+			return false;
+		}
+
+		return false;
+	}
+
+	return true;
+}
+
+// 체크 위치 세팅
+void AMapBase::SetCheckPos(const FVector& _NextPos, const FVector& _Dir)
+{
+	NextPos = _NextPos - StartPos;
+
+	if (0.0f < _Dir.X)			// 우
+	{
+		NextPos.X += 20.0f;
+
+		NextPos1 = NextPos;
+		NextPos1.Y += BlockCheckAdjustPosY;
+
+		NextPos2 = NextPos;
+		NextPos2.Y -= BlockCheckAdjustPosY;
+	}
+	else if (0.0f > _Dir.X)		// 좌
+	{
+		NextPos.X -= 20.0f;
+
+		NextPos1 = NextPos;
+		NextPos1.Y += BlockCheckAdjustPosY;
+
+		NextPos2 = NextPos;
+		NextPos2.Y -= BlockCheckAdjustPosY;
+	}
+	else if (0.0f < _Dir.Y)		// 상
+	{
+		NextPos.Y += 20.0f;
+
+		NextPos1 = NextPos;
+		NextPos1.X += BlockCheckAdjustPosX;
+
+		NextPos2 = NextPos;
+		NextPos2.X -= BlockCheckAdjustPosX;
+	}
+	else if (0.0f > _Dir.Y)		// 하
+	{
+		NextPos.Y -= 17.0f;
+
+		NextPos1 = NextPos;
+		NextPos1.X += BlockCheckAdjustPosX;
+
+		NextPos2 = NextPos;
+		NextPos2.X -= BlockCheckAdjustPosX;
+	}
+
+	NextPoint.X = static_cast<int>(NextPos.X / BlockSize);
+	NextPoint.Y = static_cast<int>(NextPos.Y / BlockSize);
+
+	NextPoint1.X = static_cast<int>(NextPos1.X / BlockSize);
+	NextPoint1.Y = static_cast<int>(NextPos1.Y / BlockSize);
+
+	NextPoint2.X = static_cast<int>(NextPos2.X / BlockSize);
+	NextPoint2.Y = static_cast<int>(NextPos2.Y / BlockSize);
+}

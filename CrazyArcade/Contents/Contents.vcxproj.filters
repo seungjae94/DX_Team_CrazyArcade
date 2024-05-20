@@ -292,5 +292,8 @@
     <ClCompile Include="SpawnItemBlock.cpp">
       <Filter>Map\Block\Component</Filter>
     </ClCompile>
+    <ClCompile Include="MapBase_Check.cpp">
+      <Filter>Map\Stage\Base</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
