@@ -29,7 +29,6 @@ void AVillageMap::LevelStart(ULevel* _PrevLevel)
 	CreateVillageBoxs();
 	CreateVillageMoveBoxs();
 	CreateItems();
-	CreateHollowWall({ 0, 7 });
 }
 
 void AVillageMap::LevelEnd(ULevel* _NextLevel)
@@ -132,7 +131,6 @@ void AVillageMap::CreateVillageBoxs()
 	CreateBox({  0,  8 }, MapImgRes::block_vil_box1);
 	CreateBox({  1,  3 }, MapImgRes::block_vil_box1);
 	CreateBox({  2,  1 }, MapImgRes::block_vil_box1);
-	CreateBox({  2,  3 }, MapImgRes::block_vil_box1);
 	CreateBox({  2,  5 }, MapImgRes::block_vil_box1);
 	CreateBox({  2,  8 }, MapImgRes::block_vil_box1);
 	CreateBox({  2, 12 }, MapImgRes::block_vil_box1);
