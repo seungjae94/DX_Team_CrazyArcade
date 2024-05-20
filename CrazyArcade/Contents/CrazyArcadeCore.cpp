@@ -8,7 +8,7 @@
 #include "MainTitleGameMode.h"
 #include "LobbyTitleGameMode.h"
 #include "ServerGameMode.h"
-#include "InputRecorderTestGameMode.h"
+#include "EngineTestGameMode.h"
 
 #include "Packets.h"
 #include "ConnectionInfo.h"
@@ -46,7 +46,7 @@ void UCrazyArcadeCore::Initialize()
 	GEngine->CreateLevel<AMainTitleGameMode>("TitleTestLevel");
 	GEngine->CreateLevel<AServerGameMode>("ServerGameMode");
 	GEngine->CreateLevel<ALobbyTitleGameMode>("LobbyTitleTestLevel");
-	GEngine->CreateLevel<AInputRecorderTestGameMode>("InputRecorderTestLevel");
+	GEngine->CreateLevel<AEngineTestGameMode>("EngineTestLevel");
 	//GEngine->ChangeLevel("InitTestLevel");
 	GEngine->ChangeLevel("TitleTestLevel");
 }

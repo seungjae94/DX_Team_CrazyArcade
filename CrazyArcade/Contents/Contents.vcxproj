@@ -35,7 +35,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="InputRecorderTestGameMode.h">
+    <ClInclude Include="EngineTestGameMode.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -149,7 +149,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="InputRecorderTestGameMode.cpp">
+    <ClCompile Include="EngineTestGameMode.cpp">
       <SubType>
       </SubType>
     </ClCompile>

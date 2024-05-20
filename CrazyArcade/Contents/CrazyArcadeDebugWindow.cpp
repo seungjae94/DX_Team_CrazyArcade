@@ -36,8 +36,8 @@ void UCrazyArcadeDebugWindow::OnGui(ULevel* Level, float _Delta)
 		GEngine->ChangeLevel("TitleTestLevel");
 	}
 
-	if (true == ImGui::Button("InputRecorderTestLevel"))
+	if (true == ImGui::Button("Engine Test Level"))
 	{
-		GEngine->ChangeLevel("InputRecorderTestLevel");
+		GEngine->ChangeLevel("EngineTestLevel");
 	}
 }
