@@ -161,6 +161,7 @@ void UEngineInput::InputInit()
 	AllKeys[VK_F24] = EngineKey(VK_F24);
 	AllKeys['-'] = EngineKey(VK_OEM_MINUS);
 	AllKeys['+'] = EngineKey(VK_OEM_PLUS);
+	AllKeys['.'] = EngineKey(VK_OEM_PERIOD);
 	AllKeys[VK_OEM_4] = EngineKey(VK_OEM_4);
 	AllKeys[VK_OEM_6] = EngineKey(VK_OEM_6);
 

@@ -55,10 +55,13 @@ private:
 	UTextWidget* PortNumTitle = nullptr;
 
 	std::string PlayerName;
-	std::string IPNum;
-	std::string PortNum;
+	std::string IPNum = "127.0.0.1";
+	std::string PortNum = "30000";
 
 	bool IsNameBoxAct = false;
 	bool IsIPNumBoxActive = false;
 	bool IsPortNumBoxActive = false;
+
+	const int PlayerNameMaxLength = 6;
+	const int PortNumMaxLength = 5;
 };

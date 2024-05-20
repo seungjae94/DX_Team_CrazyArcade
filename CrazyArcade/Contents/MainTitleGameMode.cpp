@@ -116,7 +116,7 @@ void AMainTitleGameMode::BeginPlay()
 		PortNumBox->ChangeAnimation("InActive");
 		IsPortNumBoxActive = false;
 
-		UEngineInputRecorder::RecordStart(TextWidget->GetText());
+		UEngineInputRecorder::RecordStart(TextWidget->GetText(), PlayerNameMaxLength);
 		GetPlayerName();
 		});
 
@@ -213,7 +213,7 @@ void AMainTitleGameMode::BeginPlay()
 			PortNumBox->ChangeAnimation("InActive");
 			IsPortNumBoxActive = false;
 
-			UEngineInputRecorder::RecordStart(IPNumText->GetText());
+			UEngineInputRecorder::RecordStart(IPNumText->GetText(), 15);
 			});
 
 		IPNumText = CreateWidget<UTextWidget>(GetWorld(), "IPNumText");
@@ -254,7 +254,7 @@ void AMainTitleGameMode::BeginPlay()
 			PortNumBox->ChangeAnimation("Active");
 			IsPortNumBoxActive = true;
 
-			UEngineInputRecorder::RecordStart(PortNumText->GetText());
+			UEngineInputRecorder::RecordStart(PortNumText->GetText(), PortNumMaxLength);
 			});
 
 		PortNumText = CreateWidget<UTextWidget>(GetWorld(), "PortNumText");
@@ -287,26 +287,6 @@ void AMainTitleGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	/*if (UEngineInput::IsAnykeyDown())
-	{
-		if (PlayerName.size() > 8)
-		{
-			return;
-		}
-
-		char ch = UEngineInput::GetAnyDownKey();
-
-		if (ch != NULL)
-		{
-			PlayerName.push_back(ch);
-
-		}
-
-		TextWidget->SetText(PlayerName);
-	std::string CurText = TextWidget->GetText();
-	임시 방편
-	}*/
-
 	// PlayerName, IPNum, PortNum Setting
 	StringToText();
 
@@ -327,9 +307,6 @@ void AMainTitleGameMode::Tick(float _DeltaTime)
 void AMainTitleGameMode::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
-
-	//UEngineInputRecorder::RecordStart();
-	//레벨 시작과 동시에 입력 받을 준비 
 }
 
 void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
@@ -343,7 +320,6 @@ void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
 	}
 	//ConnectionInfo::GetInst().SetMyName(PlayerName);
 	//Lobby->SetUserName(PlayerName);
-	//UEngineInputRecorder::RecordEnd();
 }
 
 void AMainTitleGameMode::ServerStart()
@@ -353,7 +329,6 @@ void AMainTitleGameMode::ServerStart()
 			GEngine->ChangeLevel("LobbyTitleTestLevel");
 			ConnectionInfo::GetInst().SetMyName(PlayerName);
 			ConnectionInfo::GetInst().PushUserInfos(0, PlayerName);
-			//HandlerInit();
 	}
 }
 
@@ -363,15 +338,12 @@ void AMainTitleGameMode::ClientStart()
 		UCrazyArcadeCore::NetWindow.ClientOpen("127.0.0.1", 30000);
 		ConnectionInfo::GetInst().SetMyName(PlayerName);
 		GEngine->ChangeLevel("LobbyTitleTestLevel");
-		//HandlerInit();
 	}
 }
 
 void AMainTitleGameMode::HandlerInit()
 {
 	UEngineDispatcher& Dis = UCrazyArcadeCore::Net->Dispatcher;
-	int a = 0;
-	//handler
 }
 
 
