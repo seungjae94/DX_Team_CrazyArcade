@@ -33,12 +33,8 @@ void AMainPlayLevel::BeginPlay()
 void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
-
-	TileMap = GetWorld()->SpawnActor<AVillageMap>("TileMap");
-
-	Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
-	Player->SetActorLocation({ 398.0f, 344.0f, 0.0f });
-
+	
+	MapType = EMapType::Forest;
 	CreateMap();
 }
 
@@ -47,8 +43,14 @@ void AMainPlayLevel::CreateMap()
 	switch (MapType)
 	{
 	case EMapType::Village:
+		TileMap = GetWorld()->SpawnActor<AVillageMap>("VillageMap");
+		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
+		Player->SetActorLocation({ 398.0f, 344.0f, 0.0f });
 		break;
 	case EMapType::Forest:
+		TileMap = GetWorld()->SpawnActor<AForestMap>("ForestMap");
+		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
+		Player->SetActorLocation({ 238.0f, 344.0f, 0.0f });
 		break;
 	}
 }
