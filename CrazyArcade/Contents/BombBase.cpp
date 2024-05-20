@@ -3,15 +3,16 @@
 
 #include "MainPlayLevel.h"
 #include "MapConstant.h"
-#include "MapBase.h"
-#include "Player.h"
-#include "Wave.h"
-
-#include "ServerTestPlayer.h"
 #include "BlockBase.h"
 #include "MoveBox.h"
+#include "BushBase.h"
+#include "MapBase.h"
+#include "Wave.h"
 #include "Wall.h"
 #include "Box.h"
+
+#include "Player.h"
+#include "ServerTestPlayer.h"
 
 ABombBase::ABombBase()
 {
@@ -36,7 +37,13 @@ void ABombBase::BeginPlay()
 	StateInit();
 
 	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());	
-	State.ChangeState(BombState::idle);
+}
+
+void ABombBase::LevelStart(ULevel* _PrevLevel)
+{
+	Super::LevelStart(_PrevLevel);
+
+	State.CreateState(BombState::idle);
 }
 
 void ABombBase::SetImgCutting()
@@ -65,9 +72,14 @@ void ABombBase::StateInit()
 	State.SetStartFunction(BombState::idle, [=] 
 		{
 			int BombOrder = AMapBase::GetRenderOrder(GetActorLocation());
-			Body->ChangeAnimation(MapAnim::bomb);
 			Body->SetOrder(BombOrder);
-			Body->SetActive(true);
+
+			CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
+			if (nullptr == PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush)
+			{
+				Body->ChangeAnimation(MapAnim::bomb);
+				Body->SetActive(true);
+			}
 
 			ExplosionTimeCount = ExplosionTime;
 		}
@@ -82,6 +94,14 @@ void ABombBase::StateInit()
 
 			AddActorLocation({ 0.0f, -AMapBase::BombAdjustPosY, 0.0f });
 			Body->ChangeAnimation(MapAnim::bomb_effect_center);
+			Body->SetActive(true);
+
+			if (nullptr != PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush)
+			{
+				PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush->Destroy();
+				PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush = nullptr;
+			}
+
 			DelayCallBack(0.66f, [=] 
 				{
 					PlayLevel->GetMap()->GetTileInfo(CurPoint).Bomb = nullptr;
