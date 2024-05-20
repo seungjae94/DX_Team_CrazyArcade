@@ -149,6 +149,34 @@ int AMapBase::GetRenderOrder(const FVector& _Pos)
 	return Const::MaxOrder - CurY;
 } 
 
+// 물폭탄 위치면 true 반환
+bool AMapBase::IsBombPos(const FVector& _Pos)
+{
+	bool Result = false;
+	FPoint Point = ConvertLocationToPoint(_Pos);
+
+	if (nullptr != TileInfo[Point.Y][Point.X].Bomb)
+	{
+		Result = true;
+	}
+
+	return Result;
+}
+
+// Bush 위치면 true 반환
+bool AMapBase::IsBushPos(const FVector& _Pos)
+{
+	bool Result = false;
+	FPoint Point = ConvertLocationToPoint(_Pos);
+
+	if (nullptr != TileInfo[Point.Y][Point.X].Bush)
+	{
+		Result = true;
+	}
+
+	return Result;
+}
+
 // 해당 위치 Tile의 ItemType을 반환
 EItemType AMapBase::IsItemTile(const FVector& _Pos)
 {

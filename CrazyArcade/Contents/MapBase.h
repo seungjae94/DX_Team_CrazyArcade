@@ -42,6 +42,7 @@ public:
 	AMapBase& operator=(const AMapBase& _Other) = delete;
 	AMapBase& operator=(AMapBase&& _Other) noexcept = delete;
 
+public:
 	static int GetRenderOrder(const FVector& _Pos);
 	static FPoint ConvertLocationToPoint(const FVector& _Pos);
 	static FVector ConvertPointToLocation(FPoint _Point);
@@ -60,6 +61,8 @@ public:
 	}
 
 	bool CanMovePos(const FVector& _NextPos, const FVector& _Dir);
+	bool IsBombPos(const FVector& _Pos);
+	bool IsBushPos(const FVector& _Pos);
 	EItemType IsItemTile(const FVector& _Pos);
 	
 	ABombBase* SpawnBomb(const FVector& _Pos, APlayer* _Player);
