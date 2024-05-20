@@ -45,7 +45,7 @@ void ABox::StateInit()
 			if (true == GetBody()->IsCurAnimationEnd())
 			{
 				FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
-				PlayLevel->GetMap()->SetMapBlock(CurPoint, nullptr);
+				PlayLevel->GetMap()->GetTileInfo(CurPoint).Block = nullptr;
 				Destroy();
 			}
 		}

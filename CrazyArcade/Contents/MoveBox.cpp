@@ -55,7 +55,7 @@ void AMoveBox::StateInit()
 			if (true == GetBody()->IsCurAnimationEnd() || false == GetBody()->IsActive())
 			{
 				FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
-				PlayLevel->GetMap()->SetMapBlock(CurPoint, nullptr);
+				PlayLevel->GetMap()->GetTileInfo(CurPoint).Block = nullptr;
 				Destroy();
 			}
 		}
@@ -84,9 +84,9 @@ void AMoveBox::StateInit()
 				PrevPoint.Y += 1;
 			}
 
-			PlayLevel->GetMap()->SetMapBlock({ CurPoint.X, CurPoint.Y }, PlayLevel->GetMap()->GetMapBlock({ PrevPoint.X, PrevPoint.Y }));
-			PlayLevel->GetMap()->SetMapBlock({ PrevPoint.X, PrevPoint.Y }, nullptr);
-
+			PlayLevel->GetMap()->GetTileInfo(CurPoint).Block = this;
+			PlayLevel->GetMap()->GetTileInfo(PrevPoint).Block = nullptr;
+			
 			if (nullptr != PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush)
 			{
 				GetBody()->SetActive(false);

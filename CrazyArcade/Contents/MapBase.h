@@ -28,6 +28,7 @@ class AMapBase : public AActor
 
 	friend ABombBase;
 	friend AMoveBox;
+	friend ABox;
 	friend AWave;
 public:
 	// constrcuter destructer
@@ -53,24 +54,6 @@ public:
 	static float GetBlockSize()
 	{
 		return BlockSize;
-	}
-
-	// 해당 좌표 Tile의 블록을 반환
-	ABlockBase* GetMapBlock(FPoint _Point) const
-	{
-		return TileInfo[_Point.Y][_Point.X].Block;
-	}
-
-	// 해당 좌표 Tile에 블록을 설정
-	void SetMapBlock(FPoint _Point, ABlockBase* _Block)
-	{
-		TileInfo[_Point.Y][_Point.X].Block = _Block;
-	}
-		
-	// 해당 좌표 Tile에 블록을 설정
-	void SetMapBomb(FPoint _Point, ABombBase* _Bomb)
-	{
-		TileInfo[_Point.Y][_Point.X].Bomb = _Bomb;
 	}
 
 protected:
