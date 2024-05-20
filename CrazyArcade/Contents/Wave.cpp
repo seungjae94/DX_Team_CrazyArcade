@@ -5,8 +5,10 @@
 #include "MapConstant.h"
 #include "MapBase.h"
 #include "BlockBase.h"
-#include "ServerTestPlayer.h"
 #include "ItemBase.h"
+#include "BushBase.h"
+
+#include "ServerTestPlayer.h"
 
 AWave::AWave()
 {
@@ -124,6 +126,12 @@ void AWave::Tick(float _DeltaTime)
 		{
 			PlayLevel->GetMap()->GetTileInfo(CurPoint).Item->Destroy();
 			PlayLevel->GetMap()->GetTileInfo(CurPoint).Item = nullptr;
+		}
+
+		if (nullptr != PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush)
+		{
+			PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush->Destroy();
+			PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush = nullptr;
 		}
 
 		if (true == Body->IsCurAnimationEnd())

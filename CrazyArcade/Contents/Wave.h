@@ -31,7 +31,7 @@ private:
 private:
 	AMainPlayLevel* PlayLevel = nullptr;
 	USpriteRenderer* Body = nullptr;
-	EWaveType WaveType;
+	EWaveType WaveType = EWaveType::None;
 	FPoint CurPoint = { -1, -1 };
 };
 

@@ -2,8 +2,9 @@
 #include "MapBase.h"
 
 #include "MapConstant.h"
-#include "BombBase.h"
 #include "BlockBase.h"
+#include "BombBase.h"
+#include "BushBase.h"
 #include "ItemBase.h"
 #include "MoveBox.h"
 
@@ -53,6 +54,12 @@ AMapBase::~AMapBase()
 			{
 				TileInfo[Y][X].Item->Destroy();
 				TileInfo[Y][X].Item = nullptr;
+			}
+
+			if (nullptr != TileInfo[Y][X].Bush)
+			{
+				TileInfo[Y][X].Bush->Destroy();
+				TileInfo[Y][X].Bush = nullptr;
 			}
 		}
 	}

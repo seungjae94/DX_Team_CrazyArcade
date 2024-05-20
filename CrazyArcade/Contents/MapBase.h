@@ -3,6 +3,7 @@
 
 class ABlockBase;
 class ABombBase;
+class AMoveBox;
 class ABushBase;
 class AItemBase;
 class UTileInfo;
@@ -26,6 +27,7 @@ class AMapBase : public AActor
 	GENERATED_BODY(AActor)
 
 	friend ABombBase;
+	friend AMoveBox;
 	friend AWave;
 public:
 	// constrcuter destructer
