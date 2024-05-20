@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "MapBase.h"
 
+#include "MainPlayLevel.h"
 #include "MapConstant.h"
 #include "BlockBase.h"
 #include "BombBase.h"
@@ -41,6 +42,12 @@ void AMapBase::BeginPlay()
 
 	GetWorld()->GetMainCamera()->SetActorLocation({ 400.0f, 300.0f, -100.0f });
 	SetActorLocation({ 400.0f, 300.0f, 0.0f });
+	
+	AMainPlayLevel* NewPlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
+	if (nullptr != NewPlayLevel)
+	{
+		PlayLevel = NewPlayLevel;
+	}
 }
 
 void AMapBase::LevelEnd(ULevel* _NextLevel)

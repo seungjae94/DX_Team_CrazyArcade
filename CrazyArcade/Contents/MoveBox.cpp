@@ -34,6 +34,28 @@ void AMoveBox::StateInit()
 	State.SetStartFunction(BlockState::move, [=]
 		{
 			MoveOneBlockCheck();
+
+			FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
+			FPoint NextPoint = CurPoint;
+
+			if (0.0f < MoveDir.X)
+			{
+				NextPoint.X += 1;
+			}
+			else if (0.0f > MoveDir.X)
+			{
+				NextPoint.X -= 1;
+			}
+			else if (0.0f < MoveDir.Y)
+			{
+				NextPoint.Y += 1;
+			}
+			else if (0.0f > MoveDir.Y)
+			{
+				NextPoint.Y -= 1;
+			}
+
+			PlayLevel->GetMap()->GetTileInfo(NextPoint).Block = this;
 		}
 	);
 
@@ -92,9 +114,6 @@ void AMoveBox::StateInit()
 				PrevPoint.Y += 1;
 			}
 
-			PlayLevel->GetMap()->GetTileInfo(CurPoint).Block = this;
-			PlayLevel->GetMap()->GetTileInfo(PrevPoint).Block = nullptr;
-			
 			if (nullptr != PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush)
 			{
 				GetBody()->SetActive(false);
@@ -104,8 +123,13 @@ void AMoveBox::StateInit()
 			{
 				PlayLevel->GetMap()->GetTileInfo(CurPoint).Item->Destroy();
 			}
+
+			PlayLevel->GetMap()->GetTileInfo(PrevPoint).Block = nullptr;
+
+			DelayCallBack(0.25f, [=] { CanMoveValue = true; });
 		}
 	);
+
 }
 
 void AMoveBox::Tick(float _DeltaTime)
@@ -135,6 +159,7 @@ void AMoveBox::MoveOneBlockCheck()
 		TargetPos.Y -= AMapBase::GetBlockSize();
 	}
 
+	CanMoveValue = false;
 	IsMoveValue = true;
 }
 
@@ -142,15 +167,20 @@ void AMoveBox::MoveUpdate(float _DeltaTime)
 {
 	if (true == IsMoveValue)
 	{
-		MoveTime += 3.5f * _DeltaTime;
-		FVector NextPos = FVector::LerpClamp(StartPos, TargetPos, MoveTime);
+		MoveTimeCount += 3.5f * _DeltaTime;
+		FVector NextPos = FVector::LerpClamp(StartPos, TargetPos, MoveTimeCount);
 		SetActorLocation(NextPos);
 
-		GetBody()->SetOrder(AMapBase::GetRenderOrder(GetActorLocation()));
-
-		if (1.0f < MoveTime)
+		if (0.0f < MoveDir.Y)
 		{
-			MoveTime = 0.0f;
+			NextPos.Y += AMapBase::GetBlockSize() * 0.5f;
+		}
+
+		GetBody()->SetOrder(AMapBase::GetRenderOrder(NextPos));
+
+		if (1.0f < MoveTimeCount)
+		{
+			MoveTimeCount = 0.0f;
 			IsMoveValue = false;
 			State.ChangeState(BlockState::idle);
 			return;

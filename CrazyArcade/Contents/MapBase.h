@@ -1,6 +1,7 @@
 #pragma once
 #include "MapHelper.h"
 
+class AMainPlayLevel;
 class ABlockBase;
 class ABombBase;
 class AMoveBox;
@@ -84,9 +85,6 @@ private:
 		return TileInfo[_Point.Y][_Point.X];
 	}
 
-	bool SubMoveBoxCheck(FPoint _NextPoint, const FVector& _Dir);
-	bool SubMoveBoxOnlyCheck(FPoint _NextPoint, const FVector& _Dir);
-
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -94,6 +92,7 @@ protected:
 	void LevelEnd(ULevel* _NextLevel) override;
 
 private:
+	AMainPlayLevel* PlayLevel = nullptr;
 	USpriteRenderer* BackGround = nullptr;
 	USpriteRenderer* PlayUI_BackGround = nullptr;
 
@@ -106,9 +105,13 @@ private:
 
 	static float BombAdjustPosY;
 	
+
 // Tile Check ฐüทร
 private:
 	void SetCheckPos(const FVector& _NextPos, const FVector& _Dir);
+
+	bool SubMoveBoxCheck(FPoint _NextPoint, const FVector& _Dir);
+	bool SubMoveBoxOnlyCheck(FPoint _NextPoint, const FVector& _Dir);
 
 private:
 	FVector NextPos = FVector::Zero;	// Main Pos
