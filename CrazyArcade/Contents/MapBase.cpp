@@ -34,6 +34,20 @@ AMapBase::AMapBase()
 
 AMapBase::~AMapBase()
 {
+}
+
+void AMapBase::BeginPlay()
+{
+	Super::BeginPlay();
+
+	GetWorld()->GetMainCamera()->SetActorLocation({ 400.0f, 300.0f, -100.0f });
+	SetActorLocation({ 400.0f, 300.0f, 0.0f });
+}
+
+void AMapBase::LevelEnd(ULevel* _NextLevel)
+{
+	Super::LevelEnd(_NextLevel);
+
 	for (size_t Y = 0; Y < TileInfo.size(); Y++)
 	{
 		for (size_t X = 0; X < TileInfo[Y].size(); X++)
@@ -65,37 +79,6 @@ AMapBase::~AMapBase()
 	}
 
 	TileInfo.clear();
-}
-
-void AMapBase::BeginPlay()
-{
-	Super::BeginPlay();
-
-	GetWorld()->GetMainCamera()->SetActorLocation({ 400.0f, 300.0f, -100.0f });
-	SetActorLocation({ 400.0f, 300.0f, 0.0f });
-}
-
-void AMapBase::LevelEnd(ULevel* _NextLevel)
-{
-	Super::LevelEnd(_NextLevel);
-
-	for (size_t Y = 0; Y < TileInfo.size(); Y++)
-	{
-		for (size_t X = 0; X < TileInfo[Y].size(); X++)
-		{
-			if (nullptr != TileInfo[Y][X].Block)
-			{
-				TileInfo[Y][X].Block->Destroy();
-				TileInfo[Y][X].Block = nullptr;
-			}
-
-			if (nullptr != TileInfo[Y][X].Item)
-			{
-				TileInfo[Y][X].Item->Destroy();
-				TileInfo[Y][X].Item = nullptr;
-			}
-		}
-	}
 }
 
 void AMapBase::Tick(float _DeltaTime)

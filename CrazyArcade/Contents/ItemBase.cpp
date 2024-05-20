@@ -46,7 +46,7 @@ void AItemBase::StateInit()
 	State.SetStartFunction(ItemState::idle, [=] 
 		{
 			int Order = AMapBase::GetRenderOrder(GetActorLocation());
-			Body->SetOrder(Order - 1);
+			Body->SetOrder(Order);
 		}
 	);
 

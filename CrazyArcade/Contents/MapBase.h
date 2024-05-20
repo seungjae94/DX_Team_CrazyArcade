@@ -46,16 +46,23 @@ public:
 	static FVector ConvertPointToLocation(FPoint _Point);
 	static bool MapRangeCheckByPoint(FPoint _Point);
 	
-	bool CanMovePos(const FVector& _NextPos, const FVector& _Dir);
-	EItemType IsItemTile(const FVector& _Pos);
-	ABombBase* SpawnBomb(const FVector& _Pos, APlayer* _Player);
-	
 	// Tile의 한변의 길이를 반환
 	static float GetBlockSize()
 	{
 		return BlockSize;
 	}
 
+	// TileMap 의 시작 위치를 반환
+	static FVector GetStartPos()
+	{
+		return StartPos;
+	}
+
+	bool CanMovePos(const FVector& _NextPos, const FVector& _Dir);
+	EItemType IsItemTile(const FVector& _Pos);
+	
+	ABombBase* SpawnBomb(const FVector& _Pos, APlayer* _Player);
+	
 protected:
 	inline void SetBackGround(std::string_view _Name)
 	{
@@ -64,8 +71,8 @@ protected:
 
 	void SetMapInfoSize(int _SizeX, int _SizeY);
 	void CreateWall(FPoint _Point, std::string_view _ImgName);
-	void CreateBox(FPoint _Point, std::string_view _ImgName);
-	void CreateMoveBox(FPoint _Point, std::string_view _ImgName);
+	void CreateBox(FPoint _Point, std::string_view _ImgName, EItemType _SpawnItemType = EItemType::None);
+	void CreateMoveBox(FPoint _Point, std::string_view _ImgName, EItemType _SpawnItemType = EItemType::None);
 	void CreateBush(FPoint _Point, std::string_view _ImgName);
 	void CreateHollowWall(FPoint _Point);
 	void CreateItem(FPoint _Point, EItemType _ItemType);

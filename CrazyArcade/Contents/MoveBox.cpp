@@ -17,8 +17,7 @@ void AMoveBox::BeginPlay()
 {
 	Super::BeginPlay();
 
-	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
-
+	USpawnItemBlock::SetBlock(this);
 	SetBlockType(EBlockType::MoveBox);
 }
 
@@ -55,6 +54,11 @@ void AMoveBox::StateInit()
 			if (true == GetBody()->IsCurAnimationEnd() || false == GetBody()->IsActive())
 			{
 				FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
+				if (nullptr == PlayLevel->GetMap()->GetTileInfo(CurPoint).Item)
+				{
+					PlayLevel->GetMap()->CreateItem(CurPoint, GetSpawnItemType());
+				}
+
 				PlayLevel->GetMap()->GetTileInfo(CurPoint).Block = nullptr;
 				Destroy();
 			}

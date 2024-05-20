@@ -73,6 +73,9 @@
     <Filter Include="Level\EngineTestGameMode">
       <UniqueIdentifier>{49136a5e-a11c-46ee-9714-f7634d7c6728}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Map\Block\Component">
+      <UniqueIdentifier>{c6af0bb4-1cbf-4b36-9fe5-70e90afead69}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -176,6 +179,9 @@
     </ClInclude>
     <ClInclude Include="NetGameMode.h">
       <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnItemBlock.h">
+      <Filter>Map\Block\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -282,6 +288,9 @@
     </ClCompile>
     <ClCompile Include="NetGameMode.cpp">
       <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="SpawnItemBlock.cpp">
+      <Filter>Map\Block\Component</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

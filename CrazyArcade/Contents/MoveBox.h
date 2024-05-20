@@ -1,11 +1,10 @@
 #pragma once
 #include "BlockBase.h"
-#include <EngineCore/StateManager.h>
+#include "SpawnItemBlock.h"
 
-class AMainPlayLevel;
 
 // Ό³Έν : MoveBox Block
-class AMoveBox : public ABlockBase
+class AMoveBox : public ABlockBase, public USpawnItemBlock
 {
 	GENERATED_BODY(ABlockBase)
 public:
@@ -38,8 +37,6 @@ private:
 	FVector StartPos = FVector::Zero;
 	FVector TargetPos = FVector::Zero;
 	FVector MoveDir = FVector::Zero;
-
-	AMainPlayLevel* PlayLevel = nullptr;
 
 // FSM
 protected:

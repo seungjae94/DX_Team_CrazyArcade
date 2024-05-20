@@ -1,8 +1,9 @@
 #pragma once
 #include "BlockBase.h"
+#include "SpawnItemBlock.h"
 
 // Ό³Έν : Box Block
-class ABox : public ABlockBase
+class ABox : public ABlockBase, public USpawnItemBlock
 {
 	GENERATED_BODY(ABlockBase)
 public:

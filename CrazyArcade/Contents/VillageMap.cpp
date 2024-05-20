@@ -24,6 +24,11 @@ void AVillageMap::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
 
+	if (true == IsDestroy())
+	{
+		return;
+	}
+
 	CreateHouses();
 	CreateTrees();
 	CreateVillageBoxs();
@@ -140,7 +145,7 @@ void AVillageMap::CreateVillageBoxs()
 	CreateBox({  3,  3 }, MapImgRes::block_vil_box1);
 	CreateBox({  3, 10 }, MapImgRes::block_vil_box1);
 	CreateBox({  4,  1 }, MapImgRes::block_vil_box1);
-	CreateBox({  4,  5 }, MapImgRes::block_vil_box1);
+	CreateBox({  4,  5 }, MapImgRes::block_vil_box1, EItemType::Bubble);
 	CreateBox({  4,  8 }, MapImgRes::block_vil_box1);
 	CreateBox({  4, 12 }, MapImgRes::block_vil_box1);
 	CreateBox({ 10,  2 }, MapImgRes::block_vil_box1);
@@ -176,9 +181,9 @@ void AVillageMap::CreateVillageMoveBoxs()
 	//CreateMoveBox({  6,  7 }, MapImgRes::block_vil_box0);
 	//CreateMoveBox({  6,  9 }, MapImgRes::block_vil_box0);
 	//CreateMoveBox({  6, 11 }, MapImgRes::block_vil_box0);
-	CreateMoveBox({  7,  1 }, MapImgRes::block_vil_box0);
-	CreateMoveBox({  7,  4 }, MapImgRes::block_vil_box0);
-	CreateMoveBox({  7,  7 }, MapImgRes::block_vil_box0);
+	CreateMoveBox({  7,  1 }, MapImgRes::block_vil_box0, EItemType::RedDevil);
+	CreateMoveBox({  7,  4 }, MapImgRes::block_vil_box0, EItemType::Shoes);
+	CreateMoveBox({  7,  7 }, MapImgRes::block_vil_box0, EItemType::Fluid);
 	//CreateMoveBox({  7, 10 }, MapImgRes::block_vil_box0);
 	//CreateMoveBox({  8,  0 }, MapImgRes::block_vil_box0);
 	//CreateMoveBox({  8,  2 }, MapImgRes::block_vil_box0);
