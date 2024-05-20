@@ -163,24 +163,50 @@ int AMapBase::GetRenderOrder(const FVector& _Pos)
 // 움직일 수 있는 위치인지를 반환
 bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 {
-	// MapInfo
-	FVector NextPos = _NextPos - StartPos;
+	//// 위치 계산 Start
+	FVector NextPos = _NextPos - StartPos;	// 중심 위치
+	FVector NextPos1 = FVector::Zero;		// 보조 위치 1
+	FVector NextPos2 = FVector::Zero;		// 보조 위치 2
 
-	if (0.0f < _Dir.X)
+	if (0.0f < _Dir.X)			// 우
 	{
 		NextPos.X += 20.0f;
+
+		NextPos1 = NextPos;
+		NextPos1.Y += BlockCheckAdjustPosY;
+
+		NextPos2 = NextPos;
+		NextPos2.Y -= BlockCheckAdjustPosY;
 	}
-	else if (0.0f > _Dir.X)
+	else if (0.0f > _Dir.X)		// 좌
 	{
 		NextPos.X -= 20.0f;
-	}
-	else if (0.0f < _Dir.Y)
+
+		NextPos1 = NextPos;
+		NextPos1.Y += BlockCheckAdjustPosY;
+
+		NextPos2 = NextPos;
+		NextPos2.Y -= BlockCheckAdjustPosY;
+	}	
+	else if (0.0f < _Dir.Y)		// 상
 	{
-		NextPos.Y += 30.0f;
+		NextPos.Y += 20.0f;
+
+		NextPos1 = NextPos;
+		NextPos1.X += BlockCheckAdjustPosX;
+
+		NextPos2 = NextPos;
+		NextPos2.X -= BlockCheckAdjustPosX;
 	}
-	else if (0.0f > _Dir.Y)
+	else if (0.0f > _Dir.Y)		// 하
 	{
-		NextPos.Y -= 10.0f;
+		NextPos.Y -= 17.0f;
+
+		NextPos1 = NextPos;
+		NextPos1.X += BlockCheckAdjustPosX;
+
+		NextPos2 = NextPos;
+		NextPos2.X -= BlockCheckAdjustPosX;
 	}
 
 	float NextPlayerFX = NextPos.X / BlockSize;
@@ -189,32 +215,86 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 	FPoint NextPoint = FPoint();
 	NextPoint.X = static_cast<int>(NextPos.X / BlockSize);
 	NextPoint.Y = static_cast<int>(NextPos.Y / BlockSize);
-	
+
+	FPoint NextPoint1 = FPoint();
+	NextPoint1.X = static_cast<int>(NextPos1.X / BlockSize);
+	NextPoint1.Y = static_cast<int>(NextPos1.Y / BlockSize);
+
+	FPoint NextPoint2 = FPoint();
+	NextPoint2.X = static_cast<int>(NextPos2.X / BlockSize);
+	NextPoint2.Y = static_cast<int>(NextPos2.Y / BlockSize);
+	//// 위치 계산 End
+
+	bool Result = false;
+
 	// 맵 범위 밖일때
-	if (SizeX <= NextPoint.X || 0 > NextPlayerFX || SizeY <= NextPoint.Y || 0 > NextPlayerFY)
+	if (SizeX <= NextPoint.X || 0.0f > NextPlayerFX || SizeY <= NextPoint.Y || 0.0f > NextPlayerFY)
 	{
-		return false;
+		Result = false;
+		return Result;
 	}
 	
 	// 빈 공간일때
 	if (nullptr == TileInfo[NextPoint.Y][NextPoint.X].Block)
 	{
-		return true;
+		Result = true;
+
+		// 보조 위치1 체크
+		if (nullptr != TileInfo[NextPoint1.Y][NextPoint1.X].Block)
+		{
+			EBlockType BlockType1 = TileInfo[NextPoint1.Y][NextPoint1.X].Block->GetBlockType();
+			if (EBlockType::Wall == BlockType1 || EBlockType::Box == BlockType1)
+			{
+				Result = false;
+				return Result;
+			}
+
+			Result = MoveBoxCheck(NextPoint1, _Dir);
+		}
+
+		// 보조 위치2 체크
+		if (nullptr != TileInfo[NextPoint2.Y][NextPoint2.X].Block)
+		{
+			EBlockType BlockType2 = TileInfo[NextPoint2.Y][NextPoint2.X].Block->GetBlockType();
+			if (EBlockType::Wall == BlockType2 || EBlockType::Box == BlockType2)
+			{
+				Result = false;
+				return Result;
+			}
+
+			Result = MoveBoxCheck(NextPoint2, _Dir);
+		}
+
+		return Result;
 	}
 
 	// 오브젝트 존재할때
 	EBlockType BlockType = TileInfo[NextPoint.Y][NextPoint.X].Block->GetBlockType();
 	if (EBlockType::Wall == BlockType || EBlockType::Box == BlockType)
 	{
+		Result = false;
+		return Result;
+	}
+	 
+	// MoveBox 체크
+	Result = MoveBoxCheck(NextPoint, _Dir);
+
+	return Result;
+}
+
+bool AMapBase::MoveBoxCheck(FPoint _NextPoint, const FVector& _Dir)
+{
+	if (nullptr == TileInfo[_NextPoint.Y][_NextPoint.X].Block)
+	{
 		return false;
 	}
 
-	// MoveBox 체크
+	EBlockType BlockType = TileInfo[_NextPoint.Y][_NextPoint.X].Block->GetBlockType();
 	if (EBlockType::MoveBox == BlockType)
 	{
-		AMoveBox* MoveBox = dynamic_cast<AMoveBox*>(TileInfo[NextPoint.Y][NextPoint.X].Block);
+		AMoveBox* MoveBox = dynamic_cast<AMoveBox*>(TileInfo[_NextPoint.Y][_NextPoint.X].Block);
 		MoveBox->SetMoveDir(_Dir);
-		FPoint TwoStepPoint = NextPoint;
+		FPoint TwoStepPoint = _NextPoint;
 
 		if (0.0f < _Dir.X)
 		{
@@ -233,19 +313,19 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 			TwoStepPoint.Y -= 1;
 		}
 
-		if (0 > TwoStepPoint.X || SizeX <= TwoStepPoint.X 
-		||  0 > TwoStepPoint.Y || SizeY <= TwoStepPoint.Y
-		|| nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Block)
+		if (0 > TwoStepPoint.X || SizeX <= TwoStepPoint.X
+			|| 0 > TwoStepPoint.Y || SizeY <= TwoStepPoint.Y
+			|| nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Block)
 		{
 			return false;
 		}
-		
+
 		if (BlockState::idle == MoveBox->GetCurState())
 		{
 			MoveBox->StateChange(BlockState::move);
 			return false;
 		}
-		
+
 		return false;
 	}
 

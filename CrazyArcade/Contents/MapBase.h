@@ -94,6 +94,8 @@ private:
 		return TileInfo[_Point.Y][_Point.X];
 	}
 
+	bool MoveBoxCheck(FPoint _NextPoint, const FVector& _Dir);
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -112,6 +114,8 @@ private:
 	static int SizeY;
 
 	static float BombAdjustPosY;
+	const float BlockCheckAdjustPosX = 11.0f;
+	const float BlockCheckAdjustPosY = 8.0f;
 
 };
 
