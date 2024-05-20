@@ -22,12 +22,12 @@ namespace MapImgRes
 	const std::string_view block_vil_box2			= "spr_vil_Box2";
 	const std::string_view block_vil_bush			= "spr_village_bush.png";
 
-	const std::string_view block_forest_leef1		= "spr_forest_leef1.png";
-	const std::string_view block_forest_leef2		= "spr_forest_leef2.png";
-	const std::string_view block_forest_bush1		= "spr_forest_bush1.png";
-	const std::string_view block_forest_bush2		= "spr_forest_bush2.png";
-	const std::string_view block_forest_bush3		= "spr_forest_bush3.png";
-	const std::string_view block_forest_basket		= "spr_forest_basket.png";
+	const std::string_view block_forest_leef1		= "spr_forest_leef1";
+	const std::string_view block_forest_leef2		= "spr_forest_leef2";
+	const std::string_view block_forest_bush1		= "spr_forest_bush1";
+	const std::string_view block_forest_bush2		= "spr_forest_bush2";
+	const std::string_view block_forest_bush3		= "spr_forest_bush3";
+	const std::string_view block_forest_basket		= "spr_forest_basket";
 
 	// Item
 	const std::string_view item_shadow				= "spr_item_shadow";
