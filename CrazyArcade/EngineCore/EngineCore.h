@@ -148,7 +148,6 @@ public:
 	{
 		return CurLevel;
 	}
-	void ManagerHandlerInit();
 
 protected:
 

@@ -14,10 +14,8 @@ public:
 	AGameMode(AGameMode&& _Other) noexcept = delete;
 	AGameMode& operator=(const AGameMode& _Other) = delete;
 	AGameMode& operator=(AGameMode&& _Other) noexcept = delete;
-	virtual void HandlerInit() {};
 
 protected:
-	bool IsHandlerInit = false;
 private:
 
 };

@@ -71,14 +71,6 @@ void UEngineCore::EngineStart(HINSTANCE _Inst)
 	UEngineEditorGUI::GUIRelease();
 }
 
-void UEngineCore::ManagerHandlerInit()
-{
-	for (std::pair<const std::string, std::shared_ptr<ULevel>>& Pair : Levels) {
-		std::shared_ptr<ULevel> Level = Pair.second;
-		Level->GetGameMode()->HandlerInit();
-	}
-}
-
 void UEngineCore::EngineOptionInit()
 {
 	UEngineDirectory Dir;

@@ -1,9 +1,10 @@
 #pragma once
 #include <EngineCore/TextWidget.h>
+#include "NetGameMode.h"
 
-class ALobbyTitleGameMode :public AGameMode
+class ALobbyTitleGameMode :public ANetGameMode
 {
-	GENERATED_BODY(AGameMode)
+	GENERATED_BODY(ANetGameMode)
 public:
 	// constructor destructor
 	ALobbyTitleGameMode();

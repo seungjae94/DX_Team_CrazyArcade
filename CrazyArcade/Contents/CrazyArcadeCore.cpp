@@ -17,7 +17,7 @@
 
 
 std::shared_ptr<UEngineNet> UCrazyArcadeCore::Net = nullptr;
-std::shared_ptr<ServerManager> UCrazyArcadeCore::NetWindow = nullptr;
+UServerManager UCrazyArcadeCore::NetWindow;
 
 UCrazyArcadeCore::UCrazyArcadeCore()
 {
@@ -53,7 +53,7 @@ void UCrazyArcadeCore::Initialize()
 
 void UCrazyArcadeCore::Tick(float _DeltaTime)
 {
-	UCrazyArcadeCore::NetWindow->Update(_DeltaTime);
+	UCrazyArcadeCore::NetWindow.Update(_DeltaTime);
 }
 
 void UCrazyArcadeCore::ResLoad()

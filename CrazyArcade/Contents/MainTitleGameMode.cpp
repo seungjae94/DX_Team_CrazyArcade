@@ -328,33 +328,6 @@ void AMainTitleGameMode::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
 
-	if (nullptr == UCrazyArcadeCore::NetWindow)
-	{
-		UCrazyArcadeCore::NetWindow = UEngineEditorGUI::CreateEditorWindow<ServerManager>("NetWindow");
-
-
-		UCrazyArcadeCore::NetWindow->SetServerOpenFunction([&]()
-			{
-				if (nullptr == UCrazyArcadeCore::Net)
-				{
-					UCrazyArcadeCore::Net = std::make_shared<UEngineServer>();
-					UCrazyArcadeCore::NetWindow->SManagerInit();
-					UCrazyArcadeCore::Net->ServerOpen(30000, 512);
-				}
-			});
-
-		UCrazyArcadeCore::NetWindow->SetClientConnectFunction([&](std::string IP, short PORT)
-			{
-				if (nullptr == UCrazyArcadeCore::Net)
-				{
-					UCrazyArcadeCore::Net = std::make_shared<UEngineClient>();
-					UCrazyArcadeCore::NetWindow->CManagerInit();
-					UCrazyArcadeCore::Net->Connect(IP, PORT);
-				}
-			});
-	}
-	UCrazyArcadeCore::NetWindow->On();
-
 	//UEngineInputRecorder::RecordStart();
 	//레벨 시작과 동시에 입력 받을 준비 
 }
@@ -376,26 +349,28 @@ void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
 void AMainTitleGameMode::ServerStart()
 {
 	if (UCrazyArcadeCore::Net == nullptr) {
-			UCrazyArcadeCore::NetWindow->ServerOpen();
+			UCrazyArcadeCore::NetWindow.ServerOpen();
 			GEngine->ChangeLevel("LobbyTitleTestLevel");
 			ConnectionInfo::GetInst().SetMyName(PlayerName);
 			ConnectionInfo::GetInst().PushUserInfos(0, PlayerName);
-			HandlerInit();
+			//HandlerInit();
 	}
 }
 
 void AMainTitleGameMode::ClientStart()
 {
 	if (UCrazyArcadeCore::Net == nullptr) {
-		UCrazyArcadeCore::NetWindow->ClientOpen("IP", 3);
+		UCrazyArcadeCore::NetWindow.ClientOpen("127.0.0.1", 30000);
 		ConnectionInfo::GetInst().SetMyName(PlayerName);
 		GEngine->ChangeLevel("LobbyTitleTestLevel");
-		HandlerInit();
+		//HandlerInit();
 	}
 }
 
 void AMainTitleGameMode::HandlerInit()
 {
+	UEngineDispatcher& Dis = UCrazyArcadeCore::Net->Dispatcher;
+	int a = 0;
 	//handler
 }
 

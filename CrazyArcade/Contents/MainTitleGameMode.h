@@ -2,9 +2,11 @@
 #include <EngineCore/Widget.h>
 #include <EngineCore/TextWidget.h>
 #include<vector>
-class AMainTitleGameMode : public AGameMode
+#include "NetGameMode.h"
+
+class AMainTitleGameMode : public ANetGameMode
 {
-	GENERATED_BODY(AGameMode)
+	GENERATED_BODY(ANetGameMode)
 public:
 	// constructor destructor
 	AMainTitleGameMode();
