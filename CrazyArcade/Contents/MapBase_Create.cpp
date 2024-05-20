@@ -3,6 +3,7 @@
 
 #include "MapConstant.h"
 #include "BlockBase.h"
+#include "BushBase.h"
 #include "ItemBase.h"
 #include "MoveBox.h"
 #include "Wall.h"
@@ -48,6 +49,19 @@ void AMapBase::CreateMoveBox(FPoint _Point, std::string_view _ImgName)
 	Pos.X += _Point.X * BlockSize;
 	Pos.Y += _Point.Y * BlockSize;
 	TileInfo[_Point.Y][_Point.X].Block->SetActorLocation(Pos);
+}
+
+void AMapBase::CreateBush(FPoint _Point, std::string_view _ImgName)
+{
+	TileInfo[_Point.Y][_Point.X].Bush = GetWorld()->SpawnActor<ABushBase>("Bush").get();
+
+	TileInfo[_Point.Y][_Point.X].Bush->GetBody()->SetSprite(_ImgName);
+	TileInfo[_Point.Y][_Point.X].Bush->GetBody()->SetOrder(Const::MaxOrder - _Point.Y);
+
+	FVector Pos = StartPos;
+	Pos.X += _Point.X * BlockSize;
+	Pos.Y += _Point.Y * BlockSize;
+	TileInfo[_Point.Y][_Point.X].Bush->SetActorLocation(Pos);
 }
 
 void AMapBase::CreateHollowWall(FPoint _Point)

@@ -52,7 +52,7 @@ void AMoveBox::StateInit()
 
 	State.SetUpdateFunction(BlockState::destroy, [=](float _DeltaTime)
 		{
-			if (true == GetBody()->IsCurAnimationEnd())
+			if (true == GetBody()->IsCurAnimationEnd() || false == GetBody()->IsActive())
 			{
 				FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
 				PlayLevel->GetMap()->SetMapBlock(CurPoint, nullptr);
@@ -86,6 +86,15 @@ void AMoveBox::StateInit()
 
 			PlayLevel->GetMap()->SetMapBlock({ CurPoint.X, CurPoint.Y }, PlayLevel->GetMap()->GetMapBlock({ PrevPoint.X, PrevPoint.Y }));
 			PlayLevel->GetMap()->SetMapBlock({ PrevPoint.X, PrevPoint.Y }, nullptr);
+
+			if (nullptr != PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush)
+			{
+				GetBody()->SetActive(false);
+			}
+			else
+			{
+				GetBody()->SetActive(true);
+			}
 		}
 	);
 }

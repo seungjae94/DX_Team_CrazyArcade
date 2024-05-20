@@ -171,6 +171,9 @@
     <ClInclude Include="ServerManager.h">
       <Filter>Level\ServerLevel</Filter>
     </ClInclude>
+    <ClInclude Include="BushBase.h">
+      <Filter>Map\Block\Base</Filter>
+    </ClInclude>
     <ClInclude Include="NetGameMode.h">
       <Filter>Level</Filter>
     </ClInclude>
@@ -273,6 +276,9 @@
     </ClCompile>
     <ClCompile Include="ServerManager.cpp">
       <Filter>Level\ServerLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="BushBase.cpp">
+      <Filter>Map\Block\Base</Filter>
     </ClCompile>
     <ClCompile Include="NetGameMode.cpp">
       <Filter>Level</Filter>

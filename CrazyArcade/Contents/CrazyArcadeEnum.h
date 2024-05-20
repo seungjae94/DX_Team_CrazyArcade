@@ -15,6 +15,7 @@ enum class EMapType
 
 enum class EWaveType
 {
+	None,
 	Left,
 	LeftEnd,
 	Right,
@@ -61,7 +62,8 @@ enum class ECharacterColor
 // 1000 ~ 1999 (∏  ∫Ì∑œ ≈∏¿‘)
 enum class EBlockType
 {
-	Wall = 1000,
+	None = 1000,
+	Wall,
 	Box,
 	MoveBox
 };

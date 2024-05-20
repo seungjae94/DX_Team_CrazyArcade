@@ -28,6 +28,8 @@ private:
 	void CreateTrees();
 	void CreateVillageBoxs();
 	void CreateVillageMoveBoxs();
+	void CreateVillageBush();
+	
 	void CreateItems();
 
 };

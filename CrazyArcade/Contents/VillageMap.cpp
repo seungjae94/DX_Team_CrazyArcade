@@ -28,8 +28,9 @@ void AVillageMap::LevelStart(ULevel* _PrevLevel)
 	CreateTrees();
 	CreateVillageBoxs();
 	CreateVillageMoveBoxs();
+	CreateVillageBush();
+
 	CreateItems();
-	CreateHollowWall({ 0, 7 });
 }
 
 void AVillageMap::LevelEnd(ULevel* _NextLevel)
@@ -132,7 +133,6 @@ void AVillageMap::CreateVillageBoxs()
 	CreateBox({  0,  8 }, MapImgRes::block_vil_box1);
 	CreateBox({  1,  3 }, MapImgRes::block_vil_box1);
 	CreateBox({  2,  1 }, MapImgRes::block_vil_box1);
-	CreateBox({  2,  3 }, MapImgRes::block_vil_box1);
 	CreateBox({  2,  5 }, MapImgRes::block_vil_box1);
 	CreateBox({  2,  8 }, MapImgRes::block_vil_box1);
 	CreateBox({  2, 12 }, MapImgRes::block_vil_box1);
@@ -196,6 +196,28 @@ void AVillageMap::CreateVillageMoveBoxs()
 	CreateMoveBox({ 13,  8 }, MapImgRes::block_vil_box0);
 	CreateMoveBox({ 13, 10 }, MapImgRes::block_vil_box0);
 	CreateMoveBox({ 14,  3 }, MapImgRes::block_vil_box0);
+}
+
+void AVillageMap::CreateVillageBush()
+{
+	CreateBush({  1,  6 }, MapImgRes::block_vil_bush);
+	CreateBush({  3,  6 }, MapImgRes::block_vil_bush);
+	CreateBush({  5,  0 }, MapImgRes::block_vil_bush);
+	CreateBush({  5,  2 }, MapImgRes::block_vil_bush);
+	CreateBush({  5,  4 }, MapImgRes::block_vil_bush);
+	CreateBush({  5,  6 }, MapImgRes::block_vil_bush);
+	CreateBush({  5,  8 }, MapImgRes::block_vil_bush);
+	CreateBush({  5, 10 }, MapImgRes::block_vil_bush);
+	CreateBush({  5, 12 }, MapImgRes::block_vil_bush);
+	CreateBush({  9,  0 }, MapImgRes::block_vil_bush);
+	CreateBush({  9,  2 }, MapImgRes::block_vil_bush);
+	CreateBush({  9,  4 }, MapImgRes::block_vil_bush);
+	CreateBush({  9,  6 }, MapImgRes::block_vil_bush);
+	CreateBush({  9,  8 }, MapImgRes::block_vil_bush);
+	CreateBush({  9, 10 }, MapImgRes::block_vil_bush);
+	CreateBush({  9, 12 }, MapImgRes::block_vil_bush);
+	CreateBush({ 11,  6 }, MapImgRes::block_vil_bush);
+	CreateBush({ 13,  6 }, MapImgRes::block_vil_bush);
 }
 
 void AVillageMap::CreateItems()

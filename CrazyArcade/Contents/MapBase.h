@@ -3,6 +3,8 @@
 
 class ABlockBase;
 class ABombBase;
+class AMoveBox;
+class ABushBase;
 class AItemBase;
 class UTileInfo;
 class APlayer;
@@ -14,6 +16,7 @@ class UTileInfo
 {
 public:
 	ABlockBase* Block = nullptr;
+	ABushBase* Bush = nullptr;
 	AItemBase* Item = nullptr;
 	ABombBase* Bomb = nullptr;
 };
@@ -24,6 +27,7 @@ class AMapBase : public AActor
 	GENERATED_BODY(AActor)
 
 	friend ABombBase;
+	friend AMoveBox;
 	friend AWave;
 public:
 	// constrcuter destructer
@@ -79,6 +83,7 @@ protected:
 	void CreateWall(FPoint _Point, std::string_view _ImgName);
 	void CreateBox(FPoint _Point, std::string_view _ImgName);
 	void CreateMoveBox(FPoint _Point, std::string_view _ImgName);
+	void CreateBush(FPoint _Point, std::string_view _ImgName);
 	void CreateHollowWall(FPoint _Point);
 	void CreateItem(FPoint _Point, EItemType _ItemType);
 

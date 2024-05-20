@@ -27,6 +27,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BushBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ForestMap.h">
       <SubType>
       </SubType>
@@ -134,6 +138,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Box.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BushBase.cpp">
       <SubType>
       </SubType>
     </ClCompile>
