@@ -20,7 +20,7 @@ public:
 	UCrazyArcadeCore& operator=(UCrazyArcadeCore&& _Other) noexcept = delete;
 
 	static std::shared_ptr<UEngineNet> Net;
-	static UServerManager NetWindow;
+	static UServerManager NetManager;
 
 	static int GetNewNetObjectTokenSet() {
 		return UCrazyArcadeCore::Net->GetSessionToken() * 1000 + UNetObject::GetNewObjectToken();

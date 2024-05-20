@@ -15,7 +15,7 @@ void ANetGameMode::BeginPlay()
 {
     Super::BeginPlay();
 
-    UCrazyArcadeCore::NetWindow.ReserveHandler([=]() {
+    UCrazyArcadeCore::NetManager.ReserveHandler([=]() {
         if (false == IsHandlerInit)
         {
             HandlerInit();

@@ -20,29 +20,8 @@ public:
 
 	void ClientOpen(std::string_view _Ip, int _Port);
 
-	
-	void SetServerPlayHandler(std::function<void()> _Function) {
-		ServerPlayHandler = _Function;
-	}
-	void SetServerLobbyHandler(std::function<void()> _Function) {
-		ServerLobbyHandler = _Function;
-	}
-
-	void SetClientPlayHandler(std::function<void()> _Function) {
-		ClientPlayHandler = _Function;
-	}
-	void SetClientLobbyHandler(std::function<void()> _Function) {
-		ClientLobbyHandler = _Function;
-	}
 
 	void AddHandlerFunction();
-
-	std::function<void()> ServerPlayHandler = nullptr;
-	std::function<void()> ServerLobbyHandler = nullptr;
-
-	std::function<void()> ClientPlayHandler = nullptr;
-	std::function<void()> ClientLobbyHandler = nullptr;
-
 
 	void Update(float _DeltaTime);
 

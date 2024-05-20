@@ -25,53 +25,11 @@ void ServerTestOtherPlayer::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	if (false == IsNetInit())
-	{
-		// 네트워크 통신준비가 아직 안된 오브젝트다.
-		if (nullptr != UCrazyArcadeCore::Net)
-		{
-			InitNet(UCrazyArcadeCore::Net);
-		}
-	}
+	ProtocolTick([=](std::shared_ptr<UEngineProtocol> _Packet){
 
-	if (nullptr == UCrazyArcadeCore::Net)
-	{
-		MsgBoxAssert("네트워크 연결이 안된상태에서 아더플레어를 만들었습니다.");
-	}
+		std::shared_ptr<UActorUpdatePacket> UpdatePacket = std::dynamic_pointer_cast<UActorUpdatePacket>(_Packet);
 
-	std::shared_ptr<UEngineProtocol> Protocol = nullptr;
+		SetActorLocation(UpdatePacket->Pos);
 
-	do
-	{
-		Protocol = PopProtocol();
-		if (nullptr == Protocol)
-		{
-			break;
-		}
-
-		EContentPacket PacketType = Protocol->GetPacketType<EContentPacket>();
-
-		switch (PacketType)
-		{
-		case EContentPacket::ActorUpdatePacket:
-		{
-			std::shared_ptr<UActorUpdatePacket> ActorUpdatePacket = std::dynamic_pointer_cast<UActorUpdatePacket>(Protocol);
-
-			SetActorLocation(ActorUpdatePacket->Pos);
-			Renderer->ChangeAnimation(ActorUpdatePacket->SpriteName);
-
-			int a = 0;
-			break;
-		}
-		case EContentPacket::SpawnUpdatePacket:
-		{
-			std::shared_ptr<USpawnUpdatePacket> SpawnUpdatePacket = std::dynamic_pointer_cast<USpawnUpdatePacket>(Protocol);
-			SetActorLocation(SpawnUpdatePacket->Pos);
-			break;
-		}
-		default:
-			break;
-		}
-
-	} while (nullptr != Protocol);
+		});
 }

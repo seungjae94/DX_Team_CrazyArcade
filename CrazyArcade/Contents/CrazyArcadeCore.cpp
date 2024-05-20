@@ -17,7 +17,7 @@
 
 
 std::shared_ptr<UEngineNet> UCrazyArcadeCore::Net = nullptr;
-UServerManager UCrazyArcadeCore::NetWindow;
+UServerManager UCrazyArcadeCore::NetManager;
 
 UCrazyArcadeCore::UCrazyArcadeCore()
 {
@@ -35,8 +35,8 @@ void UCrazyArcadeCore::Initialize()
 	UEngineEditorGUI::CreateEditorWindow<UCrazyArcadeDebugWindow>("CrazyArcadeDebugWindow");
 
 
-	//std::shared_ptr<UEngineNetWindow> NetWindow = UEngineEditorGUI::CreateEditorWindow<UEngineNetWindow>("NetWindow");
-	//UCrazyArcadeCore::Net = NetWindow;
+	//std::shared_ptr<UEngineNetWindow> NetManager = UEngineEditorGUI::CreateEditorWindow<UEngineNetWindow>("NetManager");
+	//UCrazyArcadeCore::Net = NetManager;
 
 
 
@@ -53,7 +53,7 @@ void UCrazyArcadeCore::Initialize()
 
 void UCrazyArcadeCore::Tick(float _DeltaTime)
 {
-	UCrazyArcadeCore::NetWindow.Update(_DeltaTime);
+	UCrazyArcadeCore::NetManager.Update(_DeltaTime);
 }
 
 void UCrazyArcadeCore::ResLoad()

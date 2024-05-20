@@ -349,7 +349,7 @@ void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
 void AMainTitleGameMode::ServerStart()
 {
 	if (UCrazyArcadeCore::Net == nullptr) {
-			UCrazyArcadeCore::NetWindow.ServerOpen();
+			UCrazyArcadeCore::NetManager.ServerOpen();
 			GEngine->ChangeLevel("LobbyTitleTestLevel");
 			ConnectionInfo::GetInst().SetMyName(PlayerName);
 			ConnectionInfo::GetInst().PushUserInfos(0, PlayerName);
@@ -360,7 +360,7 @@ void AMainTitleGameMode::ServerStart()
 void AMainTitleGameMode::ClientStart()
 {
 	if (UCrazyArcadeCore::Net == nullptr) {
-		UCrazyArcadeCore::NetWindow.ClientOpen("127.0.0.1", 30000);
+		UCrazyArcadeCore::NetManager.ClientOpen("127.0.0.1", 30000);
 		ConnectionInfo::GetInst().SetMyName(PlayerName);
 		GEngine->ChangeLevel("LobbyTitleTestLevel");
 		//HandlerInit();
