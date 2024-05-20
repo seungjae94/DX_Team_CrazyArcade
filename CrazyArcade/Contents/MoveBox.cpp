@@ -139,6 +139,17 @@ void AMoveBox::Tick(float _DeltaTime)
 	Super::Tick(_DeltaTime);
 }
 
+void AMoveBox::SetMoveState(const FVector& _Dir)
+{
+	if (false == CanMoveValue)
+	{
+		return;
+	}
+
+	MoveDir = _Dir;
+	State.ChangeState(BlockState::move);
+}
+
 void AMoveBox::MoveOneBlockCheck()
 {
 	StartPos = GetActorLocation();

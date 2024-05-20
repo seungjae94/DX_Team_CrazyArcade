@@ -18,21 +18,7 @@ public:
 	AMoveBox& operator=(const AMoveBox& _Other) = delete;
 	AMoveBox& operator=(AMoveBox&& _Other) noexcept = delete;
 
-	inline void SetMoveState(const FVector& _Dir)
-	{
-		if (false == CanMoveValue)
-		{
-			return;
-		}
-
-		MoveDir = _Dir;
-		State.ChangeState(BlockState::move);
-	}
-
-	inline void SetMoveDir(const FVector& _Dir)
-	{
-		MoveDir = _Dir;
-	}
+	void SetMoveState(const FVector& _Dir);
 
 protected:
 	void BeginPlay() override;

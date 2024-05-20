@@ -141,7 +141,8 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 		// MoveBox 이동 위치에 블록 있을 경우
 		if (0 > TwoStepPoint.X || SizeX <= TwoStepPoint.X
 		||  0 > TwoStepPoint.Y || SizeY <= TwoStepPoint.Y
-		||  nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Block)
+		||  nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Block
+		||  nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Bomb)
 		{
 			Result = false;
 			return Result;
@@ -221,7 +222,8 @@ bool AMapBase::SubMoveBoxCheck(FPoint _NextPoint, const FVector& _Dir)
 
 		if (0 > TwoStepPoint.X || SizeX <= TwoStepPoint.X
 		||  0 > TwoStepPoint.Y || SizeY <= TwoStepPoint.Y
-		||  nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Block)
+		||  nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Block
+		||  nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Bomb)
 		{
 			return false;
 		}
@@ -250,7 +252,6 @@ bool AMapBase::SubMoveBoxOnlyCheck(FPoint _NextPoint, const FVector& _Dir)
 	if (EBlockType::MoveBox == BlockType)
 	{
 		AMoveBox* MoveBox = dynamic_cast<AMoveBox*>(TileInfo[_NextPoint.Y][_NextPoint.X].Block);
-		MoveBox->SetMoveDir(_Dir);
 		FPoint TwoStepPoint = _NextPoint;
 
 		if (0.0f < _Dir.X)
@@ -272,7 +273,8 @@ bool AMapBase::SubMoveBoxOnlyCheck(FPoint _NextPoint, const FVector& _Dir)
 
 		if (0 > TwoStepPoint.X || SizeX <= TwoStepPoint.X
 		||  0 > TwoStepPoint.Y || SizeY <= TwoStepPoint.Y
-		||  nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Block)
+		||  nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Block
+		||  nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Bomb)
 		{
 			return false;
 		}
