@@ -1,16 +1,16 @@
 #include "PreCompile.h"
-#include "InputRecorderTestGameMode.h"
+#include "EngineTestGameMode.h"
 #include <EnginePlatform/EngineInputRecorder.h>
 
-AInputRecorderTestGameMode::AInputRecorderTestGameMode()
+AEngineTestGameMode::AEngineTestGameMode()
 {
 }
 
-AInputRecorderTestGameMode::~AInputRecorderTestGameMode()
+AEngineTestGameMode::~AEngineTestGameMode()
 {
 }
 
-void AInputRecorderTestGameMode::BeginPlay()
+void AEngineTestGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -21,7 +21,7 @@ void AInputRecorderTestGameMode::BeginPlay()
 	TextWidget->AddToViewPort(0);
 }
 
-void AInputRecorderTestGameMode::Tick(float _DeltaTime)
+void AEngineTestGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
@@ -66,14 +66,14 @@ void AInputRecorderTestGameMode::Tick(float _DeltaTime)
 	}*/
 }
 
-void AInputRecorderTestGameMode::LevelStart(ULevel* _PrevLevel)
+void AEngineTestGameMode::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
 
 	UEngineInputRecorder::RecordStart();
 }
 
-void AInputRecorderTestGameMode::LevelEnd(ULevel* _NextLevel)
+void AEngineTestGameMode::LevelEnd(ULevel* _NextLevel)
 {
 	Super::LevelEnd(_NextLevel);
 
