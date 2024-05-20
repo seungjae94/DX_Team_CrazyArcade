@@ -42,6 +42,8 @@ private:
 	void MoveOneBlockCheck();
 	void MoveUpdate(float _DeltaTime);
 
+	void CheckNearDestroy(FPoint _CurPoint);
+
 private:
 	bool CanMoveValue = true;
 	bool IsMoveValue = false;

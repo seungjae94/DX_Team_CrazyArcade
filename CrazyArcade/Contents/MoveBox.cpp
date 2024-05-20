@@ -61,6 +61,7 @@ void AMoveBox::StateInit()
 
 	State.SetStartFunction(BlockState::destroy, [=] 
 		{
+			CheckNearDestroy(AMapBase::ConvertLocationToPoint(GetActorLocation()));
 			GetBody()->ChangeAnimation(MapAnim::block_destroy);
 		}
 	);
@@ -86,6 +87,7 @@ void AMoveBox::StateInit()
 				PlayLevel->GetMap()->CreateItem(CurPoint, GetSpawnItemType());
 
 				PlayLevel->GetMap()->GetTileInfo(CurPoint).Block = nullptr;
+
 				Destroy();
 			}
 		}
@@ -188,3 +190,29 @@ void AMoveBox::MoveUpdate(float _DeltaTime)
 	}
 }
 
+void AMoveBox::CheckNearDestroy(FPoint _CurPoint)
+{
+	FPoint UpPoint = { _CurPoint.X, _CurPoint.Y + 1 };
+	if (this == PlayLevel->GetMap()->GetTileInfo(UpPoint).Block)
+	{
+		PlayLevel->GetMap()->GetTileInfo(UpPoint).Block = nullptr;
+	}
+
+	FPoint DownPoint = { _CurPoint.X, _CurPoint.Y - 1 };
+	if (this == PlayLevel->GetMap()->GetTileInfo(DownPoint).Block)
+	{
+		PlayLevel->GetMap()->GetTileInfo(DownPoint).Block = nullptr;
+	}
+
+	FPoint LeftPoint = { _CurPoint.X - 1, _CurPoint.Y };
+	if (this == PlayLevel->GetMap()->GetTileInfo(LeftPoint).Block)
+	{
+		PlayLevel->GetMap()->GetTileInfo(LeftPoint).Block = nullptr;
+	}
+
+	FPoint RightPoint = { _CurPoint.X + 1, _CurPoint.Y };
+	if (this == PlayLevel->GetMap()->GetTileInfo(RightPoint).Block)
+	{
+		PlayLevel->GetMap()->GetTileInfo(RightPoint).Block = nullptr;
+	}
+}
