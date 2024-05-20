@@ -129,6 +129,15 @@ void AServerGameMode::HandlerInit()
 			{
 				GetWorld()->PushFunction([=]()
 					{
+						ABombBase* Bomb = UNetObject::GetNetObject<ABombBase>(_Packet->GetObjectToken());
+						if (Bomb != nullptr) {
+							MsgBoxAssert("ÀÌ°Åµé¾î¿À¸éÀý´ë¾ÈµÊÀý´ë¾ÈµÊÀý´ë¾ÈµÊÀý´ë¾ÈµÊÀý´ë¾ÈµÊÀý´ë¾ÈµÊ")   // -Test-
+						}
+
+						ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, _Packet->GetObjectToken());
+						Bomb = UNetObject::GetNetObject<ABombBase>(_Packet->GetObjectToken());
+						Bomb->SetObjectToken(_Packet->GetObjectToken());
+						Bomb->PushProtocol(_Packet);
 						/*ABombBase* MyBomb;
 						ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, 0);
 						MyBomb->SetObjectToken(_Packet->GetObjectToken());
