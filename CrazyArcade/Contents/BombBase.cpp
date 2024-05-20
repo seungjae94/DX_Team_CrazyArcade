@@ -32,11 +32,11 @@ void ABombBase::BeginPlay()
 {
 	Super::BeginPlay();
 
+	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());	
 	SetImgCutting();
 	RendererInit();
 	StateInit();
 
-	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());	
 }
 
 void ABombBase::LevelStart(ULevel* _PrevLevel)
@@ -135,6 +135,7 @@ void ABombBase::StateInit()
 		}
 	);
 
+	State.ChangeState(BombState::idle);
 }
 
 void ABombBase::Tick(float _DeltaTime)
