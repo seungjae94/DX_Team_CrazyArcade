@@ -179,8 +179,8 @@ void ALobbyTitleGameMode::BeginPlay()
 					UImage* Character_Space = CreateWidget<UImage>(GetWorld(), "Character_Space");
 					Character_Space->AddToViewPort(2);
 					Character_Space->SetAutoSize(1.0f, true);
-					Character_Space->SetWidgetLocation({ -341.0f + 106.0f * (i % 4), 145.0f - 145.0f * (i / 4) });
-					Character_Space->SetSprite("Charcater_Space_Random.png");
+					Character_Space->SetWidgetLocation({ -339.0f + 106.0f * (i % 4), 148.0f - 145.0f * (i / 4) });
+					Character_Space->SetSprite("Character_Space_Dao_R.png");
 
 					Characters_Space.push_back(Character_Space);
 				}
@@ -188,7 +188,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					UImage* Flag_Space = CreateWidget<UImage>(GetWorld(), "Flag_Space");
 					Flag_Space->AddToViewPort(1);
 					Flag_Space->SetAutoSize(1.0f, true);
-					Flag_Space->SetWidgetLocation({ -298.0f + 106.0f * (i % 4), 138.0f - 145.0f * (i / 4) });
+					Flag_Space->SetWidgetLocation({ -297.0f + 106.0f * (i % 4), 138.0f - 145.0f * (i / 4) });
 					Flag_Space->SetSprite("Flag_Space.png");
 
 					Flags_Space.push_back(Flag_Space);
@@ -197,7 +197,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					UImage* Shadow_Space = CreateWidget<UImage>(GetWorld(), "Shadow_Space");
 					Shadow_Space->AddToViewPort(1);
 					Shadow_Space->SetAutoSize(1.0f, true);
-					Shadow_Space->SetWidgetLocation({ -340.0f + 106.0f * (i % 4), 120.0f - 145.0f * (i / 4) });
+					Shadow_Space->SetWidgetLocation({ -339.0f + 106.0f * (i % 4), 120.0f - 145.0f * (i / 4) });
 					Shadow_Space->SetSprite("Shadow_Space.png");
 
 					Shadows_Space.push_back(Shadow_Space);
@@ -1239,39 +1239,47 @@ void ALobbyTitleGameMode::SettingCharacter(int _SpaceIndex)
 {
 	ECharacterType Type = UserInfos[_SpaceIndex].CharacterType;
 	ECharacterColor Color = UserInfos[_SpaceIndex].CharacterColor;
+	std::string SpriteName = "Character_Space";
 
 	switch (Type)
 	{
-	case ECharacterType::Random:
-	{
-		Characters_Space[_SpaceIndex]->SetSprite("Charcater_Space_Random.png");
-		break;
-	}
 	case ECharacterType::Dao:
 	{
-		Characters_Space[_SpaceIndex]->SetSprite("Charcater_Space_Dao.png");
+		SpriteName += "_Dao";
 		break;
 	}
 	case ECharacterType::Marid:
 	{
-		Characters_Space[_SpaceIndex]->SetSprite("Charcater_Space_Marid.png");
+		SpriteName += "_Marid";
 		break;
 	}
 	case ECharacterType::Bazzi:
 	{
-		Characters_Space[_SpaceIndex]->SetSprite("Charcater_Space_Bazzi.png");
-		break;
-	}
-	case ECharacterType::Kephi:
-	{
-		Characters_Space[_SpaceIndex]->SetSprite("Charcater_Space_Kephi.png");
+		SpriteName += "_Bazzi";
 		break;
 	}
 	default:
 		break;
 	}
 
-	/* Color options to be added */
+	switch (Color)
+	{
+	case ECharacterColor::Red:
+	{
+		SpriteName += "_R";
+		break;
+	}
+	case ECharacterColor::Blue:
+	{
+		SpriteName += "_B";
+		break;
+	}
+	default:
+		break;
+	}
+
+	SpriteName += ".png";
+	Characters_Space[_SpaceIndex]->SetSprite(SpriteName);
 }
 
 void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
