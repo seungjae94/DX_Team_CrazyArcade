@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "MapBase.h"
 
+#include <EngineBase/EngineRandom.h>
+
 #include "MainPlayLevel.h"
 #include "MapConstant.h"
 #include "BlockBase.h"
@@ -247,3 +249,38 @@ std::shared_ptr<ABombBase> AMapBase::SpawnBomb(const FVector& _Pos, APlayer* _Pl
 	}
 }
 
+// 플레이어 사망시 Item 다시 소환
+void AMapBase::ReSpawnItem(EItemType _Type, int _Count)
+{
+	if (EItemType::None == _Type)
+	{
+		return;
+	}
+
+	int Count = _Count;
+
+	while (0 < Count)
+	{
+		int PointX = UEngineRandom::MainRandom.RandomInt(0, SizeX - 1);
+		int PointY = UEngineRandom::MainRandom.RandomInt(0, SizeY - 1);
+		FPoint Point = { PointX, PointY };
+
+		if (nullptr != TileInfo[Point.Y][Point.X].Block)
+		{
+			continue;
+		}
+
+		if (nullptr != TileInfo[Point.Y][Point.X].Item)
+		{
+			continue;
+		}
+
+		if (nullptr != TileInfo[Point.Y][Point.X].Bomb)
+		{
+			continue;
+		}
+
+		CreateItem(Point, _Type);
+		--Count;
+	}
+}
