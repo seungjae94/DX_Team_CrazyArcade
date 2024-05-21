@@ -997,6 +997,7 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 	// PlayerInfo Update
 	{
 		Player.SpaceIndex = ConnectionInfo::GetInst().GetOrder();
+		std::string Name = Player.Name;
 
 		if (IsInfoChange == true)
 		{
