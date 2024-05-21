@@ -27,7 +27,7 @@ void AMainPlayLevel::BeginPlay()
 	Timer = GetWorld()->SpawnActor<ATimerUI>("TimeUI");
 	Timer->SetTimer(180.0f);
 
-	CancelBtn = GetWorld()->SpawnActor<AInGameUI>("CancelButton");
+	InGameUI = GetWorld()->SpawnActor<AInGameUI>("InGameUIs");
 }
 
 void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)

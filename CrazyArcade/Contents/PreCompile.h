@@ -21,6 +21,7 @@
 #include <EngineCore/NetActor.h>
 #include <EngineCore/DefaultSceneComponent.h>
 #include <EngineCore/Image.h>
+#include <EngineCore/TextWidget.h>
 
 
 #include "CrazyArcadeEnum.h"
