@@ -91,7 +91,7 @@ void APlayer::Tick(float _DeltaTime)
 
 	State.Update(_DeltaTime);
 
-	int PlayerOrder = PlayLevel->GetMap()->GetRenderOrder(GetActorLocation());
+	int PlayerOrder = AMapBase::GetRenderOrder(GetActorLocation());
 	Renderer->SetOrder(PlayerOrder);
 
 	{
