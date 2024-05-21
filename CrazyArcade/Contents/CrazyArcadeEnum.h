@@ -79,5 +79,10 @@ enum class EItemType
 	RedDevil,
 	Roller,
 	Shoes,
-	Ultra
+	Ultra,
+	Superman,
+	Owl,
+	Turtle,
+	UFO,
+	Needle,
 };

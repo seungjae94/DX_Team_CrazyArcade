@@ -46,8 +46,15 @@ public:
 		std::lock_guard<std::mutex> Lock(UpdateLock);
 		UpdateTick.push_back(_Update);
 	}
+	
+	template<typename Type>
+	void SetCommonToken(Type _Object) {
+		_Object->SetObjectToken(CommonObjectValue++);
+	}
 
 protected:
+
+	static int CommonObjectValue;
 
 	std::mutex UpdateLock;
 	std::list<std::function<void()>> UpdateTick;

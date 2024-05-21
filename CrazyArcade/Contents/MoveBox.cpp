@@ -7,6 +7,8 @@
 #include "MapBase.h"
 
 #include "Packets.h"
+#include "CrazyArcadeCore.h"
+#include "ServerManager.h"
 
 AMoveBox::AMoveBox()
 {
@@ -19,6 +21,16 @@ AMoveBox::~AMoveBox()
 void AMoveBox::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (false == IsNetInit())
+	{
+		if (nullptr != UCrazyArcadeCore::Net)
+		{
+			InitNet(UCrazyArcadeCore::Net);
+		}
+	}
+
+	UCrazyArcadeCore::NetManager.SetCommonToken(this);
 
 	USpawnItemBlock::SetBlock(this);
 	SetBlockType(EBlockType::MoveBox);
@@ -35,8 +47,6 @@ void AMoveBox::StateInit()
 	// State Start
 	State.SetStartFunction(BlockState::move, [=]
 		{
-			MoveOneBlockCheck();
-
 			FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
 			FPoint NextPoint = CurPoint;
 
@@ -72,13 +82,6 @@ void AMoveBox::StateInit()
 	State.SetUpdateFunction(BlockState::move, [=](float _DeltaTime)
 		{
 			MoveUpdate(_DeltaTime);
-
-			//ProtocolTick([=](std::shared_ptr<UEngineProtocol> _Packet) 
-			//	{
-			//		std::shared_ptr<USpawnUpdatePacket> UpdatePacket = std::dynamic_pointer_cast<USpawnUpdatePacket>(_Packet);
-			//		SetActorLocation(UpdatePacket->Pos);
-			//	}
-			//);
 
 			FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
 			if (nullptr == PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush)
@@ -146,6 +149,18 @@ void AMoveBox::StateInit()
 void AMoveBox::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+
+	ProtocolTick([=](std::shared_ptr<UEngineProtocol> _Packet)
+		{
+			std::shared_ptr<UBlockUpdatePacket> UpdatePacket = std::dynamic_pointer_cast<UBlockUpdatePacket>(_Packet);
+			bool IsMove = UpdatePacket->IsMoveValue;
+			if (true == IsMove)
+			{
+				MoveDir = UpdatePacket->MoveDir;
+				MoveOneBlockCheckRecv();
+			}
+		}
+	);
 }
 
 void AMoveBox::SetMoveState(const FVector& _Dir)
@@ -156,10 +171,11 @@ void AMoveBox::SetMoveState(const FVector& _Dir)
 	}
 
 	MoveDir = _Dir;
+	MoveOneBlockCheckSend();
 	State.ChangeState(BlockState::move);
 }
 
-void AMoveBox::MoveOneBlockCheck()
+void AMoveBox::MoveOneBlockCheckSend()
 {
 	StartPos = GetActorLocation();
 	TargetPos = GetActorLocation();
@@ -183,6 +199,38 @@ void AMoveBox::MoveOneBlockCheck()
 
 	CanMoveValue = false;
 	IsMoveValue = true;
+
+	std::shared_ptr<UBlockUpdatePacket> Packet = std::make_shared<UBlockUpdatePacket>();
+	Packet->MoveDir = MoveDir;
+	Packet->IsMoveValue = IsMoveValue;
+	Send(Packet);
+}
+
+void AMoveBox::MoveOneBlockCheckRecv()
+{
+	StartPos = GetActorLocation();
+	TargetPos = GetActorLocation();
+
+	if (0.0f < MoveDir.X)
+	{
+		TargetPos.X += AMapBase::GetBlockSize();
+	}
+	else if (0.0f > MoveDir.X)
+	{
+		TargetPos.X -= AMapBase::GetBlockSize();
+	}
+	else if (0.0f < MoveDir.Y)
+	{
+		TargetPos.Y += AMapBase::GetBlockSize();
+	}
+	else if (0.0f > MoveDir.Y)
+	{
+		TargetPos.Y -= AMapBase::GetBlockSize();
+	}
+
+	CanMoveValue = false;
+	IsMoveValue = true;
+	State.ChangeState(BlockState::move);
 }
 
 void AMoveBox::MoveUpdate(float _DeltaTime)

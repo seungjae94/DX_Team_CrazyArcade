@@ -76,6 +76,9 @@
     <Filter Include="Map\Block\Component">
       <UniqueIdentifier>{c6af0bb4-1cbf-4b36-9fe5-70e90afead69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\IntroLevel">
+      <UniqueIdentifier>{085f233a-85b8-4850-8c8d-730bd11e8eb8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -185,6 +188,9 @@
     </ClInclude>
     <ClInclude Include="PirateMap.h">
       <Filter>Map\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroGameMode.h">
+      <Filter>Level\IntroLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -300,6 +306,9 @@
     </ClCompile>
     <ClCompile Include="PirateMap.cpp">
       <Filter>Map\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroGameMode.cpp">
+      <Filter>Level\IntroLevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

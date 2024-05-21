@@ -2,6 +2,7 @@
 #include <EngineCore/Actor.h>
 #include <EngineCore/StateManager.h>
 #include <EngineCore/SpriteRenderer.h>
+#include "MapHelper.h"
 
 enum class EPlayerDir
 {
@@ -9,6 +10,14 @@ enum class EPlayerDir
 	Right,
 	Up,
 	Down,
+};
+
+enum class ERiding
+{
+	None,
+	Owl,
+	Turtle,
+	UFO,
 };
 
 struct FPlayerInfo
@@ -60,12 +69,24 @@ public:
 		++BombCount;
 	}
 
+	void SetSupermanOff()
+	{
+		IsSuperman = false;
+		Renderer->SetMulColor(FVector::One);
+		SupermanTime = 10.0f;
+	}
+
 	void SetPlayerDead();
 	void SetCharacterType(ECharacterType _Character);
 	void SetPlayerColor(ECharacterColor _Color);
 	void PlayerInfoUpdate();
 
 	void SetTrapState();
+	
+	int GetNeedleCount()
+	{
+		return NeedleCount;
+	}
 
 protected:
 	void BeginPlay() override;
@@ -83,6 +104,7 @@ protected:
 	std::string Name = "Player";
 	EPlayerDir PlayerDir = EPlayerDir::Down;
 	ABombBase* Bomb = nullptr;
+	ERiding Riding = ERiding::None;
 
 	int BaseBombCount = 1;
 	int BombCount = 2;
@@ -103,6 +125,10 @@ protected:
 	bool IsDevil = false;
 	bool MoveDevil = false;
 
+	bool IsSuperman = false;
+
+	int NeedleCount = 1;
+
 	float RenderChangeTime = 0.0f;
 
 	std::map<EItemType, int> MPlayerItem;
@@ -116,9 +142,13 @@ protected:
 
 	float DevilTime = 10.0f;
 	void Devil(float _DeltaTime);
+	float SupermanTime = 10.0f;
+	void Superman(float _DeltaTime);
+
+	void CheckBombCount();
 
 	ECharacterType PlayerType = ECharacterType::Bazzi;
-	std::string Type = "Bazzi";
+	std::string Type = "luxMarid";
 	ECharacterColor PlayerColor = ECharacterColor::Red;
 	std::string PlayerColorText = "_R";
 
@@ -136,6 +166,8 @@ protected:
 	void Ready(float _DeltaTime);
 	void Idle(float _DeltaTime);
 	void Run(float _DeltaTime);
+	void RidingIdle(float _DeltaTime);
+	void RidingRun(float _DeltaTime);
 	void TrapStart(float _DeltaTime);
 	void Traped(float _DeltaTime);
 	void TrapEnd(float _DeltaTime);
@@ -146,4 +178,8 @@ protected:
 
 	bool IsDead = false;
 	bool IsTraped = false;
+
+	FPoint SpawnBombPoint = { -1, -1 };
+	bool IsBombOn = false;
+
 };

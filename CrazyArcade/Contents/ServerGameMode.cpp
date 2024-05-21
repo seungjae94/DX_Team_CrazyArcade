@@ -103,6 +103,19 @@ void AServerGameMode::HandlerInit()
 						//MyBomb->ReduceCurExplosionTime(FloatResult - _Packet->SpawnTime);
 					});
 			});
+
+		Dis.AddHandler<UBlockUpdatePacket>([=](std::shared_ptr<UBlockUpdatePacket> _Packet)  //엑터 스폰 테스트용
+			{
+				GetWorld()->PushFunction([=]()
+					{
+						UNetObject* Block = UNetObject::GetNetObject<UNetObject>(_Packet->GetObjectToken());
+						if (nullptr == Block) {
+							MsgBoxAssert("이거 nullptr이면 안됨");
+						}
+						Block->PushProtocol(_Packet);
+						UCrazyArcadeCore::Net->Send(_Packet);
+					});
+			});
 	}
 	if (ENetType::Client == UCrazyArcadeCore::NetManager.GetNetType()) {
 		Dis.AddHandler<UActorUpdatePacket>([=](std::shared_ptr<UActorUpdatePacket> _Packet)
@@ -153,7 +166,17 @@ void AServerGameMode::HandlerInit()
 						MyBomb->ReduceCurExplosionTime(FloatResult - _Packet->SpawnTime);*/
 					});
 			});
-
+		Dis.AddHandler<UBlockUpdatePacket>([=](std::shared_ptr<UBlockUpdatePacket> _Packet)  //엑터 스폰 테스트용
+			{
+				GetWorld()->PushFunction([=]()
+					{
+						UNetObject* Block = UNetObject::GetNetObject<UNetObject>(_Packet->GetObjectToken());
+						if (nullptr == Block) {
+							MsgBoxAssert("이거 nullptr이면 안됨");
+						}
+						Block->PushProtocol(_Packet);
+					});
+			});
 	}
 }
 

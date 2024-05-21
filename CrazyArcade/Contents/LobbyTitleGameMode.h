@@ -52,6 +52,7 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 	void UserInfosUpdate();
+	void ChatUpdate();
 
 	void SpaceOn(int _Index);
 	void SpaceOff(int _Index);
@@ -78,6 +79,7 @@ private:
 
 	// GameStart, MapSelect
 	UImage* Btn_GameStart = nullptr;
+	UImage* Btn_GameStart_InActive = nullptr;
 	UImage* Btn_MapSelect = nullptr;
 
 	// Space
@@ -107,12 +109,14 @@ private:
 	CharacterAbilityInfo PanelInfo;
 
 	std::vector<UImage*> Btns_CharacterSelect;
+	std::vector<UImage*> Btns_CharacterSelect_InActive;
 	std::vector<bool> CharacterSelect_Pick;
 	UImage* Outline_CharacterSelect = nullptr;
 	UImage* Checker_CharacterSelect = nullptr;
 
 	// ColorSelect
 	std::vector<UImage*> Btns_ColorSelect;
+	std::vector<UImage*> Btns_ColorSelect_InActive;
 	std::vector<bool> ColorSelect_Pick;
 	UImage* Checker_ColorSelect = nullptr;
 
