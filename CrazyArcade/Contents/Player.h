@@ -122,7 +122,7 @@ protected:
 	void Superman(float _DeltaTime);
 
 	ECharacterType PlayerType = ECharacterType::Bazzi;
-	std::string Type = "Bazzi";
+	std::string Type = "luxMarid";
 	ECharacterColor PlayerColor = ECharacterColor::Red;
 	std::string PlayerColorText = "_R";
 

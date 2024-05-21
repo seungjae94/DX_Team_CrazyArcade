@@ -1,7 +1,20 @@
 #pragma once
+#include"ConnectionInfo.h"
 
 class AInGameUI : public AActor
 {
+	struct PlayerState
+	{
+		int Order;
+		std::string PlayerName;
+		ECharacterColor PlayerColor;
+		ECharacterType PlayerType;
+		bool IsDead;
+
+
+
+		//지윤이랑 인터페이스 동일하게 진행 
+	};
 	GENERATED_BODY(AActor)
 public:
 	// constructor destructor
@@ -14,7 +27,7 @@ public:
 	AInGameUI& operator=(const AInGameUI& _Other) = delete;
 	AInGameUI& operator=(AInGameUI&& _Other) = delete;
 
-	
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTIme) override;
@@ -29,12 +42,30 @@ private:
 	std::string SecText;
 
 	int Min = 0;
-	
-	
+
+
 	UImage* CancelBtn = nullptr;
 	UImage* ResultBackGround = nullptr;
 	UImage* ResultSummary = nullptr;
-	std::vector<UImage*> ScoreUI = {nullptr,};
+
+	UImage* PlayerStateRender = nullptr;
+
+	int ServerToken = 0;
+	
+	std::vector<UImage*> PlayerUI; //플레이어
+	std::vector<UTextWidget*> PlayerNameUI;
+	std::vector<PlayerState> PlayerInfo;
+
+
+	void InitPlayerInfo();
+
+	void PlayerUpdate();
+
+
+	void DataToRender();
+
+
+
 
 
 };

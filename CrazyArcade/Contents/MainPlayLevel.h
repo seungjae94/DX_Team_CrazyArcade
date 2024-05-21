@@ -56,6 +56,6 @@ protected:
 
 	std::shared_ptr<ServerTestPlayer> Player = nullptr;
 	std::shared_ptr<ATimerUI> Timer = nullptr;
-	std::shared_ptr<AInGameUI> CancelBtn = nullptr;
+	std::shared_ptr<AInGameUI> InGameUI = nullptr;
 };
 
