@@ -183,6 +183,9 @@
     <ClInclude Include="SpawnItemBlock.h">
       <Filter>Map\Block\Component</Filter>
     </ClInclude>
+    <ClInclude Include="PirateMap.h">
+      <Filter>Map\Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -294,6 +297,9 @@
     </ClCompile>
     <ClCompile Include="MapBase_Check.cpp">
       <Filter>Map\Stage\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="PirateMap.cpp">
+      <Filter>Map\Stage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

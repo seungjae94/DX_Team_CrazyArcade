@@ -75,6 +75,7 @@ protected:
 
 	void SetMapInfoSize(int _SizeX, int _SizeY);
 	void CreateWall(FPoint _Point, std::string_view _ImgName);
+	void CreateAnimationWall(FPoint _Point, std::string_view _ImgName);
 	void CreateBox(FPoint _Point, std::string_view _ImgName, EItemType _SpawnItemType = EItemType::None);
 	void CreateMoveBox(FPoint _Point, std::string_view _ImgName, EItemType _SpawnItemType = EItemType::None);
 	void CreateBush(FPoint _Point, std::string_view _ImgName);

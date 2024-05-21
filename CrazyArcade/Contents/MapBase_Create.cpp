@@ -21,6 +21,20 @@ void AMapBase::CreateWall(FPoint _Point, std::string_view _ImgName)
 	TileInfo[_Point.Y][_Point.X].Block->SetActorLocation(Pos);
 }
 
+void AMapBase::CreateAnimationWall(FPoint _Point, std::string_view _ImgName)
+{
+	TileInfo[_Point.Y][_Point.X].Block = GetWorld()->SpawnActor<AWall>("Wall").get();
+	TileInfo[_Point.Y][_Point.X].Block->GetBody()->CreateAnimation(MapAnim::block_idle, _ImgName, 0.3f, true);
+	TileInfo[_Point.Y][_Point.X].Block->GetBody()->SetOrder(Const::MaxOrder - _Point.Y);
+	TileInfo[_Point.Y][_Point.X].Block->GetBody()->ChangeAnimation(MapAnim::block_idle);
+
+	FVector Pos = StartPos;
+	Pos.X += _Point.X * BlockSize;
+	Pos.Y += _Point.Y * BlockSize;
+	TileInfo[_Point.Y][_Point.X].Block->SetActorLocation(Pos);
+}
+
+
 void AMapBase::CreateBox(FPoint _Point, std::string_view _ImgName, EItemType _SpawnItemType)
 {
 	ABox* NewBox = GetWorld()->SpawnActor<ABox>("Box").get();
