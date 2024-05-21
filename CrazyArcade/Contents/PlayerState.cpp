@@ -106,7 +106,7 @@ void APlayer::StateInit()
 	State.SetUpdateFunction("TrapStart", std::bind(&APlayer::TrapStart, this, std::placeholders::_1));
 	State.SetStartFunction("TrapStart", [=]()
 		{
-			IsTraped = true;
+			NoHit = true;
 			CurSpeed = 30.0f;
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_TrapStart");
 		});
@@ -136,7 +136,7 @@ void APlayer::StateInit()
 			NeedleCount--;
 			CurSpeed = BaseSpeed + Speed;
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Revival");
-			IsTraped = false;
+			NoHit = false;
 		});
 
 	State.ChangeState("Ready");
@@ -644,37 +644,34 @@ void APlayer::KeyMove(float _DeltaTime, FVector _Dir, float _Speed)
 
 void APlayer::SetTrapState()
 {
-	if (false == IsTraped && false == NoHit)
-	{
-		if (true == IsSuperman)
-		{
-			SetSupermanOff();
-			NoHit = true;
-			DelayCallBack(0.5f, [=]
-				{
-					NoHit = false;
-				}
-			);
-			return;
-		}
-		else if (ERiding::None != Riding)
-		{
-			Riding = ERiding::None;
-			NoHit = true;
-			DelayCallBack(0.5f, [=]
-				{
-					NoHit = false;
-				}
-			);
-			return;
-		}
-		else
-		{
-			State.ChangeState("TrapStart");
-		}
-	}
-	else
+	if (true == NoHit)
 	{
 		return;
 	}
+
+	if (true == IsSuperman)
+	{
+		SetSupermanOff();
+		NoHit = true;
+		DelayCallBack(0.5f, [=]
+			{
+				NoHit = false;
+			}
+		);
+		return;
+	}
+
+	if (ERiding::None != Riding)
+	{
+		Riding = ERiding::None;
+		NoHit = true;
+		DelayCallBack(0.5f, [=]
+			{
+				NoHit = false;
+			}
+		);
+		return;
+	}
+	
+	State.ChangeState("TrapStart");
 }
