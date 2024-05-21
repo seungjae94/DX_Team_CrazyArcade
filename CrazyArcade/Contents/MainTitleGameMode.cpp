@@ -335,7 +335,7 @@ void AMainTitleGameMode::ServerStart()
 void AMainTitleGameMode::ClientStart()
 {
 	if (UCrazyArcadeCore::Net == nullptr) {
-		UCrazyArcadeCore::NetManager.ClientOpen("127.0.0.1", 30000);
+		UCrazyArcadeCore::NetManager.ClientOpen(IPNum, 30000);
 		ConnectionInfo::GetInst().SetMyName(PlayerName);
 		GEngine->ChangeLevel("LobbyTitleTestLevel");
 	}

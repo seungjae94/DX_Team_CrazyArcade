@@ -59,7 +59,7 @@ void AMapBase::CreateMoveBox(FPoint _Point, std::string_view _ImgName, EItemType
 
 void AMapBase::CreateBush(FPoint _Point, std::string_view _ImgName)
 {
-	TileInfo[_Point.Y][_Point.X].Bush = GetWorld()->SpawnActor<ABushBase>("Bush").get();
+	TileInfo[_Point.Y][_Point.X].Bush = GetWorld()->SpawnActor<ABushBase>("Bush");
 
 	TileInfo[_Point.Y][_Point.X].Bush->GetBody()->SetSprite(_ImgName);
 	TileInfo[_Point.Y][_Point.X].Bush->GetBody()->SetOrder(Const::MaxOrder - _Point.Y);
@@ -88,7 +88,7 @@ void AMapBase::CreateItem(FPoint _Point, EItemType _ItemType)
 		return;
 	}
 
-	TileInfo[_Point.Y][_Point.X].Item = GetWorld()->SpawnActor<AItemBase>("Item").get();
+	TileInfo[_Point.Y][_Point.X].Item = GetWorld()->SpawnActor<AItemBase>("Item");
 
 	FVector Pos = StartPos;
 	Pos.X += (_Point.X * BlockSize) + (0.5f * BlockSize);

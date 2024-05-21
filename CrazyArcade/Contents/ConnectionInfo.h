@@ -104,6 +104,8 @@ public:
 	}
 
 
+
+
 protected:
 
 private:
@@ -112,6 +114,8 @@ private:
 
 	int MyOrder = 0;
 	std::string MyName = "Anonymous";
+
+
 
 	ECharacterType MyCharacterType = ECharacterType::None;
 	ECharacterColor MyColorType = ECharacterColor::None;

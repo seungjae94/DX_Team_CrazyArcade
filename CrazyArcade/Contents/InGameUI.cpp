@@ -70,7 +70,8 @@ void AInGameUI::BeginPlay()
 		});
 
 
-
+	ResultBackGround->SetActive(false);
+	ResultSummary->SetActive(false);
 
 }
 void AInGameUI::Tick(float _DeltaTIme)

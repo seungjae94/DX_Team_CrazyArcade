@@ -11,10 +11,7 @@
 #include "Wall.h"
 #include "Box.h"
 
-#include "Player.h"
 #include "ServerTestPlayer.h"
-
-#include "Packets.h"
 
 ABombBase::ABombBase()
 {
@@ -142,13 +139,6 @@ void ABombBase::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	ProtocolTick([=](std::shared_ptr<UEngineProtocol> _Packet) 
-		{
-			std::shared_ptr<USpawnUpdatePacket> UpdatePacket = std::dynamic_pointer_cast<USpawnUpdatePacket>(_Packet);
-			SetActorLocation(UpdatePacket->Pos);
-		}
-	);
-
 	State.Update(_DeltaTime);
 }
 
@@ -197,7 +187,7 @@ void ABombBase::CreateLeftWave()
 			break;
 		}
 
-		ABombBase* Bomb = PlayLevel->GetMap()->GetTileInfo(WavePoint).Bomb;
+		std::shared_ptr<ABombBase> Bomb = PlayLevel->GetMap()->GetTileInfo(WavePoint).Bomb;
 		if (nullptr != Bomb && BombState::explosion != Bomb->State.GetCurStateName())
 		{
 			Bomb->PlayerBombCountUpdate();
@@ -245,7 +235,7 @@ void ABombBase::CreateRightWave()
 			break;
 		}
 
-		ABombBase* Bomb = PlayLevel->GetMap()->GetTileInfo(WavePoint).Bomb;
+		std::shared_ptr<ABombBase> Bomb = PlayLevel->GetMap()->GetTileInfo(WavePoint).Bomb;
 		if (nullptr != Bomb && BombState::explosion != Bomb->State.GetCurStateName())
 		{
 			Bomb->PlayerBombCountUpdate();
@@ -293,7 +283,7 @@ void ABombBase::CreateUpWave()
 			break;
 		}
 
-		ABombBase* Bomb = PlayLevel->GetMap()->GetTileInfo(WavePoint).Bomb;
+		std::shared_ptr<ABombBase> Bomb = PlayLevel->GetMap()->GetTileInfo(WavePoint).Bomb;
 		if (nullptr != Bomb && BombState::explosion != Bomb->State.GetCurStateName())
 		{
 			Bomb->PlayerBombCountUpdate();
@@ -341,7 +331,7 @@ void ABombBase::CreateDownWave()
 			break;
 		}
 
-		ABombBase* Bomb = PlayLevel->GetMap()->GetTileInfo(WavePoint).Bomb;
+		std::shared_ptr<ABombBase> Bomb = PlayLevel->GetMap()->GetTileInfo(WavePoint).Bomb;
 		if (nullptr != Bomb && BombState::explosion != Bomb->State.GetCurStateName())
 		{
 			Bomb->PlayerBombCountUpdate();
