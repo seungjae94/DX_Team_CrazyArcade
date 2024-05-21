@@ -188,7 +188,7 @@ void AInGameUI::Tick(float _DeltaTIme)
 		//InitPlayerInfo();
 		//DataToRender();
 		PlayerStateCheck();
-		
+
 	}
 
 
@@ -200,18 +200,19 @@ void AInGameUI::Tick(float _DeltaTIme)
 void AInGameUI::PlayerUpdate()
 {
 	std::map<int, ConnectUserInfo> UserInfos = ConnectionInfo::GetInst().GetUserInfos();
-	
+
 	for (std::pair<int, ConnectUserInfo> Iterator : UserInfos)
 	{
-	//	PlayerInfo[Iterator.first].IsDead = FPlayerInfo::IsDeads;
+		//	PlayerInfo[Iterator.first].IsDead = FPlayerInfo::IsDeads;
 	}
-	
-	
+
+
 	for (int i = 0; i < UCrazyArcadeCore::Net->GetSessionToken(); i++)
 	{
 		//PlayerInfo[i].IsDead() = FPlayerInfo::IsDeads();
 	}
 
+}
 
 
 
@@ -270,6 +271,7 @@ void AInGameUI::DataToRender()
 
 
 }
+
 std::string AInGameUI::StateToAnimName(ECharacterType _Type, ECharacterColor _Color, bool _IsDead)
 {
 	return TypeToName(_Type) + ColorToName(_Color) + (_IsDead ? "Dead" : "Normal");
@@ -283,7 +285,7 @@ void AInGameUI::PlayerStateCheck()
 {
 	//유저 들어오면 들어올수록 증가해주고 
 	//처음에 셋팅할때 디폴트로 셋팅을 해주기 때문에 전부 껐다가 켜는 기능을 추가하였다. 
-	std::map<int, std::string> UserInfos = ConnectionInfo::GetInst().GetUserInfos();
+	std::map<int, ConnectUserInfo> UserInfos = ConnectionInfo::GetInst().GetUserInfos();
 
 	int UserCount = static_cast<int>(UserInfos.size());
 
