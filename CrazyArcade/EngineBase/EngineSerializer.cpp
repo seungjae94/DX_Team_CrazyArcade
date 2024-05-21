@@ -115,9 +115,9 @@ void UEngineSerializer::DataToReadOffsetPush()
 		return;
 	}
 
+	memcpy_s(&Data[0], ReMainSize, &Data[ReadOffset], ReMainSize);
 	// 100        50
 	WriteOffset = ReMainSize;
 	ReadOffset = 0;
 	//                 50          50                  50
-	memcpy_s(&Data[0], ReMainSize, &Data[ReadOffset], ReMainSize);
 }
