@@ -86,7 +86,7 @@ void AServerGameMode::HandlerInit()
 							MsgBoxAssert("ÀÌ°Åµé¾î¿À¸éÀý´ë¾ÈµÊÀý´ë¾ÈµÊÀý´ë¾ÈµÊÀý´ë¾ÈµÊÀý´ë¾ÈµÊÀý´ë¾ÈµÊ")   // -Test-
 						}
 
-						ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, _Packet->GetObjectToken());
+						ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, _Packet->GetObjectToken(), _Packet->Pos);
 						Bomb = UNetObject::GetNetObject<ABombBase>(_Packet->GetObjectToken());
 						Bomb->SetObjectToken(_Packet->GetObjectToken());
 						Bomb->PushProtocol(_Packet);
@@ -134,7 +134,7 @@ void AServerGameMode::HandlerInit()
 							MsgBoxAssert("ÀÌ°Åµé¾î¿À¸éÀý´ë¾ÈµÊÀý´ë¾ÈµÊÀý´ë¾ÈµÊÀý´ë¾ÈµÊÀý´ë¾ÈµÊÀý´ë¾ÈµÊ")   // -Test-
 						}
 
-						ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, _Packet->GetObjectToken());
+						ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, _Packet->GetObjectToken(), _Packet->Pos);
 						Bomb = UNetObject::GetNetObject<ABombBase>(_Packet->GetObjectToken());
 						Bomb->SetObjectToken(_Packet->GetObjectToken());
 						Bomb->PushProtocol(_Packet);

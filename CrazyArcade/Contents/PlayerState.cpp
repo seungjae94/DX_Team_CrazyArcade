@@ -121,7 +121,7 @@ void APlayer::Idle(float _Update)
 	{
 		if (0 < BombCount)
 		{
-			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this).get();
 			if (nullptr != Bomb)
 			{
 				--BombCount;
@@ -137,7 +137,7 @@ void APlayer::Idle(float _Update)
 	{
 		if (0 < BombCount)
 		{
-			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this).get();
 			if (nullptr != Bomb)
 			{
 				--BombCount;
@@ -163,7 +163,7 @@ void APlayer::Run(float _DeltaTime)
 	{
 		if (0 < BombCount)
 		{
-			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this).get();
 			if (nullptr != Bomb)
 			{
 				--BombCount;
@@ -179,7 +179,7 @@ void APlayer::Run(float _DeltaTime)
 	{
 		if (0 < BombCount)
 		{
-			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this);
+			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this).get();
 			if (nullptr != Bomb)
 			{
 				--BombCount;
