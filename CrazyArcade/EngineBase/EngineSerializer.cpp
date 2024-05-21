@@ -105,16 +105,19 @@ void UEngineSerializer::DataToReadOffsetPush()
 	// 32바이트를 처리(read)했어 
 	// 18바이트를 맨 앞으로 밀어버린다.
 
+	//               100           50
 	int ReMainSize = WriteOffset - ReadOffset;
 
 	if (ReadOffset == Data.size())
 	{
-		WriteOffset = ReMainSize;
+		WriteOffset = 0;
 		ReadOffset = 0;
 		return;
 	}
 
+	// 100        50
 	WriteOffset = ReMainSize;
 	ReadOffset = 0;
+	//                 50          50                  50
 	memcpy_s(&Data[0], ReMainSize, &Data[ReadOffset], ReMainSize);
 }

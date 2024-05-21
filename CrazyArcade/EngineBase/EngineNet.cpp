@@ -108,7 +108,7 @@ void UEngineNet::RecvThreadFunction(USession* _Session, UEngineNet* _Net)
 
 			if (Ser.BufferSize() == Ser.GetReadOffset())
 			{
-				Ser.DataToReadOffsetPush();
+				Ser.Reset();
 				break;
 			}
 
