@@ -44,7 +44,7 @@ void ALobbyTitleGameMode::BeginPlay()
 
 			Player.SpaceIndex = 0;
 			Player.Name = "";
-			Player.CharacterType = ECharacterType::Random;
+			Player.CharacterType = ECharacterType::Dao;
 			Player.CharacterColor = ECharacterColor::Red;
 		}
 
@@ -444,6 +444,13 @@ void ALobbyTitleGameMode::BeginPlay()
 				Btn_CharacterSelect->SetAutoSize(1.0f, true);
 				Btn_CharacterSelect->SetWidgetLocation({ 121.0f + (72.0f * (i % 4)), 185.0f - (55.0f * (i / 4)) });
 
+				UImage* Btn_CharacterSelect_InActive = CreateWidget<UImage>(GetWorld(), "Btn_CharacterSelect_InActive");
+				Btn_CharacterSelect_InActive->SetSprite("Button_CharatorSelect_InActive.png");
+				Btn_CharacterSelect_InActive->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+				Btn_CharacterSelect_InActive->AddToViewPort(2);
+				Btn_CharacterSelect_InActive->SetAutoSize(1.0f, true);
+				Btn_CharacterSelect_InActive->SetWidgetLocation({ 121.0f + (72.0f * (i % 4)), 185.0f - (55.0f * (i / 4)) });
+
 				switch (i)
 				{
 				case 0:
@@ -460,6 +467,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_CharacterSelect->CreateAnimation("Hover", "Button_CharatorSelect_Dao_Hover.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Down", "Button_CharatorSelect_Dao_Down.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Dao_Pick.png", 0.1f, false, 0, 0);
+					Btn_CharacterSelect_InActive->SetActive(false);
 					break;
 				}
 				case 2:
@@ -495,6 +503,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_CharacterSelect->CreateAnimation("Hover", "Button_CharatorSelect_Marid_Hover.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Down", "Button_CharatorSelect_Marid_Down.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Marid_Pick.png", 0.1f, false, 0, 0);
+					Btn_CharacterSelect_InActive->SetActive(false);
 					break;
 				}
 				case 6:
@@ -503,6 +512,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_CharacterSelect->CreateAnimation("Hover", "Button_CharatorSelect_Bazzi_Hover.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Down", "Button_CharatorSelect_Bazzi_Down.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Bazzi_Pick.png", 0.1f, false, 0, 0);
+					Btn_CharacterSelect_InActive->SetActive(false);
 					break;
 				}
 				case 7:
@@ -555,6 +565,7 @@ void ALobbyTitleGameMode::BeginPlay()
 				Btn_CharacterSelect->ChangeAnimation("UnHover");
 
 				Btns_CharacterSelect.push_back(Btn_CharacterSelect);
+				Btns_CharacterSelect_InActive.push_back(Btn_CharacterSelect_InActive);
 				CharacterSelect_Pick.push_back(false);
 			}
 
@@ -585,18 +596,21 @@ void ALobbyTitleGameMode::BeginPlay()
 					PanelOn();
 					});
 
-				Btns_CharacterSelect[i]->SetDown([=] {
-					Btns_CharacterSelect[i]->ChangeAnimation("Down");
-					});
+				if (i == 1 || i == 5 || i == 6)
+				{
+					Btns_CharacterSelect[i]->SetDown([=] {
+						Btns_CharacterSelect[i]->ChangeAnimation("Down");
+						});
 
-				Btns_CharacterSelect[i]->SetPress([=] {
+					Btns_CharacterSelect[i]->SetPress([=] {
 
-					});
+						});
 
-				Btns_CharacterSelect[i]->SetUp([=] {
-					IsInfoChange = true;
-					ChangeCharacter(ECharacterType(i));
-					});
+					Btns_CharacterSelect[i]->SetUp([=] {
+						IsInfoChange = true;
+						ChangeCharacter(ECharacterType(i));
+						});
+				}
 			}
 
 			{
@@ -623,6 +637,13 @@ void ALobbyTitleGameMode::BeginPlay()
 				Btn_ColorSelect->SetAutoSize(1.0f, true);
 				Btn_ColorSelect->SetWidgetLocation({ 104.0f + (36.0f * i), 1.0f });
 
+				UImage* Btn_ColorSelect_InActive = CreateWidget<UImage>(GetWorld(), "Btn_ColorSelect_InActive");
+				Btn_ColorSelect_InActive->SetSprite("Button_ColorChoice_InActive.png");
+				Btn_ColorSelect_InActive->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+				Btn_ColorSelect_InActive->AddToViewPort(1);
+				Btn_ColorSelect_InActive->SetAutoSize(1.0f, true);
+				Btn_ColorSelect_InActive->SetWidgetLocation({ 104.0f + (36.0f * i), 1.0f });
+
 				switch (i)
 				{
 				case 0:
@@ -631,6 +652,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_ColorSelect->CreateAnimation("Hover", "Button_ColorChoice_Red_Hover.png", 0.1f, false, 0, 0);
 					Btn_ColorSelect->CreateAnimation("Down", "Button_ColorChoice_Red_Down.png", 0.1f, false, 0, 0);
 					Btn_ColorSelect->CreateAnimation("Pick", "Button_ColorChoice_Red_Pick.png", 0.1f, false, 0, 0);
+					Btn_ColorSelect_InActive->SetActive(false);
 					break;
 				}
 				case 1:
@@ -671,6 +693,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_ColorSelect->CreateAnimation("Hover", "Button_ColorChoice_Blue_Hover.png", 0.1f, false, 0, 0);
 					Btn_ColorSelect->CreateAnimation("Down", "Button_ColorChoice_Blue_Down.png", 0.1f, false, 0, 0);
 					Btn_ColorSelect->CreateAnimation("Pick", "Button_ColorChoice_Blue_Pick.png", 0.1f, false, 0, 0);
+					Btn_ColorSelect_InActive->SetActive(false);
 					break;
 				}
 				case 6:
@@ -695,6 +718,7 @@ void ALobbyTitleGameMode::BeginPlay()
 				Btn_ColorSelect->ChangeAnimation("UnHover");
 
 				Btns_ColorSelect.push_back(Btn_ColorSelect);
+				Btns_ColorSelect_InActive.push_back(Btn_ColorSelect_InActive);
 				ColorSelect_Pick.push_back(false);
 			}
 
@@ -711,29 +735,32 @@ void ALobbyTitleGameMode::BeginPlay()
 					}
 					});
 
-				Btns_ColorSelect[i]->SetHover([=] {
-					if (ColorSelect_Pick[i] == false)
-					{
-						Btns_ColorSelect[i]->ChangeAnimation("Hover");
-					}
-					else
-					{
-						Btns_ColorSelect[i]->ChangeAnimation("Pick");
-					}
-					});
+				if (i == 0 || i == 5)
+				{
+					Btns_ColorSelect[i]->SetHover([=] {
+						if (ColorSelect_Pick[i] == false)
+						{
+							Btns_ColorSelect[i]->ChangeAnimation("Hover");
+						}
+						else
+						{
+							Btns_ColorSelect[i]->ChangeAnimation("Pick");
+						}
+						});
 
-				Btns_ColorSelect[i]->SetDown([=] {
-					Btns_ColorSelect[i]->ChangeAnimation("Down");
-					});
+					Btns_ColorSelect[i]->SetDown([=] {
+						Btns_ColorSelect[i]->ChangeAnimation("Down");
+						});
 
-				Btns_ColorSelect[i]->SetPress([=] {
+					Btns_ColorSelect[i]->SetPress([=] {
 
-					});
+						});
 
-				Btns_ColorSelect[i]->SetUp([=] {
-					IsInfoChange = true;
-					ChangeColor(ECharacterColor(i + 3000));
-					});
+					Btns_ColorSelect[i]->SetUp([=] {
+						IsInfoChange = true;
+						ChangeColor(ECharacterColor(i + 3000));
+						});
+				}
 			}
 
 			{
@@ -1326,7 +1353,7 @@ void ALobbyTitleGameMode::StringToText()
 		}
 
 		ChatInput = UEngineInputRecorder::GetText();
-	}
+	} 
 
 	ChatInputText->SetText(ChatInput);
 }

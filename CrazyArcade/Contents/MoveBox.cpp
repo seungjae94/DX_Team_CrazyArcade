@@ -8,6 +8,7 @@
 
 #include "Packets.h"
 #include "CrazyArcadeCore.h"
+#include "ServerManager.h"
 
 AMoveBox::AMoveBox()
 {
@@ -23,12 +24,13 @@ void AMoveBox::BeginPlay()
 
 	if (false == IsNetInit())
 	{
-		// 네트워크 통신준비가 아직 안된 오브젝트다.
 		if (nullptr != UCrazyArcadeCore::Net)
 		{
 			InitNet(UCrazyArcadeCore::Net);
 		}
 	}
+
+	UCrazyArcadeCore::NetManager.SetCommonToken(this);
 
 	USpawnItemBlock::SetBlock(this);
 	SetBlockType(EBlockType::MoveBox);
@@ -227,6 +229,7 @@ void AMoveBox::MoveOneBlockCheckRecv()
 	}
 
 	CanMoveValue = false;
+	IsMoveValue = true;
 	State.ChangeState(BlockState::move);
 }
 

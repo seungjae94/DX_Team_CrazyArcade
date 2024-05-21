@@ -78,13 +78,18 @@ void AInGameUI::BeginPlay()
 	{
 
 		UImage* Render = CreateWidget<UImage>(GetWorld(), "PlayerRender" + i);
+		//Render->SetSprite();
+		Render->AddToViewPort(4);
 		PlayerUI.push_back(Render);
 		
 		UTextWidget* Name = CreateWidget<UTextWidget>(GetWorld(), "PlayerNameUI" + i);
 		Name->SetFont("굴림");
-		Name->SetScale(20.0f);
-		Name->SetColor(Color8Bit::Red);
+		Name->SetScale(12.0f);
+		Name->SetColor(Color8Bit::White);
 		Name->AddToViewPort(30);
+		Name->SetFlag(FW1_LEFT);
+		Name->SetPosition({ 0 * (i + 20),0 });
+		
 		PlayerNameUI.push_back(Name);
 
 		PlayerState State;
@@ -97,7 +102,7 @@ void AInGameUI::BeginPlay()
 	}
 	
 	InitPlayerInfo();
-	DataToRender();
+	//DataToRender();
 
 	ResultBackGround->SetActive(false);
 	ResultSummary->SetActive(false);
@@ -126,7 +131,7 @@ void AInGameUI::Tick(float _DeltaTIme)
 	if (this->IsActive() == true)
 	{
 	InitPlayerInfo();
-	
+	DataToRender();
 	}
 
 
@@ -169,17 +174,19 @@ void AInGameUI::InitPlayerInfo()
 	{ //이터레이터로 돌리기 
 		PlayerInfo[Iterator.first].Order = Iterator.first;
 		PlayerInfo[Iterator.first].PlayerName = Iterator.second;
-		//
-		int a = 0;
+		//PlayerInfo[Iterator.first].IsDead = UserDeadCheck[Iterator.first];
+		//임시 작업용 코드 	
+		
+		
+
 	}
 
 
 	for (std::pair<int, bool> Iterattor : UserDeadCheck)
 	{	
-
 		PlayerInfo[Iterattor.first].IsDead = Iterattor.second;
 	}
-
+	
 
 }
 
@@ -189,10 +196,9 @@ void AInGameUI::DataToRender()
 	//PlayerInfo.size()
 	for (int i = 0; i < PlayerInfo.size(); i++)
 	{
+		PlayerNameUI[i]->SetPosition({306,180-(i*43)});
+		PlayerNameUI[i]->SetText(PlayerInfo[i].PlayerName);
 		
-		PlayerNameUI[i]->SetPosition({ 100,100 });
-		PlayerNameUI[i]->SetText(PlayerInfo[i].PlayerName); //플레이어 이름 화면에 띄우기
-
 	}
 
 

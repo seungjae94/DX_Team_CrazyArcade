@@ -150,7 +150,7 @@ int AMapBase::GetRenderOrder(const FVector& _Pos)
 } 
 
 // ¹°ÆøÅº À§Ä¡¸é true ¹ÝÈ¯
-bool AMapBase::IsBombPos(const FVector& _Pos)
+bool AMapBase::IsBombPos(const FVector& _Pos, const FVector& _Dir)
 {
 	bool Result = false;
 	FPoint Point = ConvertLocationToPoint(_Pos);
