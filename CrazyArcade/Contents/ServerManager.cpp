@@ -11,6 +11,8 @@
 #include "ServerTestOtherPlayer.h"
 #include <EngineBase/EngineClient.h>
 
+int UServerManager::CommonObjectValue = 10000;
+
 UServerManager::UServerManager()
 {
 }

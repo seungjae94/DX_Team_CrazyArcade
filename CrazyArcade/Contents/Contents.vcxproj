@@ -40,6 +40,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="InGameUI.h" />
+    <ClInclude Include="IntroGameMode.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="LobbyTitleGameMode.h">
       <SubType>
       </SubType>
@@ -162,6 +166,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="InGameUI.cpp" />
+    <ClCompile Include="IntroGameMode.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="LobbyTitleGameMode.cpp">
       <SubType>
       </SubType>
