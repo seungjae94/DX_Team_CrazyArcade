@@ -625,31 +625,6 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btns_CharacterSelect[i]->SetUp([=] {
 						IsInfoChange = true;
 						ChangeCharacter(ECharacterType(i));
-						ConnectionInfo::GetInst().SetCharacterType(ECharacterType(i));
-
-						// 패킷 보내기
-						{
-							std::shared_ptr<UConnectPacket> Packet = std::make_shared<UConnectPacket>();
-							std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
-
-							std::map<int, std::string> NameInfos;
-							std::map<int, int> CharacterTypeInfos;
-							std::map<int, int> ColorInfos;
-
-							for (std::pair<const int, ConnectUserInfo> Pair : Infos)
-							{
-								int Key = Pair.first;
-								NameInfos[Key] = Pair.second.MyName;
-								CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
-								ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
-							}
-
-							Packet->NameInfos = NameInfos;
-							Packet->CharacterTypeInfos = CharacterTypeInfos;
-							Packet->ColorInfos = ColorInfos;
-
-							UCrazyArcadeCore::NetManager.Send(Packet);
-						}
 						});
 				}
 			}
@@ -800,31 +775,6 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btns_ColorSelect[i]->SetUp([=] {
 						IsInfoChange = true;
 						ChangeColor(ECharacterColor(i + 3000));
-						ConnectionInfo::GetInst().SetCharacterColor(ECharacterColor(i + 3000));
-
-						// 패킷 보내기
-						{
-							std::shared_ptr<UConnectPacket> Packet = std::make_shared<UConnectPacket>();
-							std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
-
-							std::map<int, std::string> NameInfos;
-							std::map<int, int> CharacterTypeInfos;
-							std::map<int, int> ColorInfos;
-
-							for (std::pair<const int, ConnectUserInfo> Pair : Infos)
-							{
-								int Key = Pair.first;
-								NameInfos[Key] = Pair.second.MyName;
-								CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
-								ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
-							}
-
-							Packet->NameInfos = NameInfos;
-							Packet->CharacterTypeInfos = CharacterTypeInfos;
-							Packet->ColorInfos = ColorInfos;
-
-							UCrazyArcadeCore::NetManager.Send(Packet);
-						}
 						});
 				}
 			}
@@ -1048,13 +998,15 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 	{
 		Player.SpaceIndex = ConnectionInfo::GetInst().GetOrder();
 		Player.Name = ConnectionInfo::GetInst().GetMyName();
+		Player.CharacterType = ConnectionInfo::GetInst().GetCharacterType();
+		Player.CharacterColor = ConnectionInfo::GetInst().GetCharacterColor();
 
-			if (IsInfoChange == true)
-			{
-				/* Server */
+		if (IsInfoChange == true)
+		{
+			/* Server */
 
-				IsInfoChange = false;
-			}
+			IsInfoChange = false;
+		}
 	}
 
 	// UserInfos Update
@@ -1341,6 +1293,8 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 
 	// PlayerInfo
 	Player.CharacterType = _CharacterType;
+	ConnectionInfo::GetInst().SetCharacterType(_CharacterType);
+	
 	int Index_CharacterType = int(_CharacterType);
 
 	// Button
@@ -1390,12 +1344,38 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 
 	// Checker
 	Checker_CharacterSelect->SetWidgetLocation({ 150.0f + (72.0f * (Index_CharacterType % 4)), 202.0f - (55.0f * (Index_CharacterType / 4)) });
+
+	// 패킷 보내기
+	{
+		std::shared_ptr<UConnectPacket> Packet = std::make_shared<UConnectPacket>();
+		std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
+
+		std::map<int, std::string> NameInfos;
+		std::map<int, int> CharacterTypeInfos;
+		std::map<int, int> ColorInfos;
+
+		for (std::pair<const int, ConnectUserInfo> Pair : Infos)
+		{
+			int Key = Pair.first;
+			NameInfos[Key] = Pair.second.MyName;
+			CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
+			ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
+		}
+
+		Packet->NameInfos = NameInfos;
+		Packet->CharacterTypeInfos = CharacterTypeInfos;
+		Packet->ColorInfos = ColorInfos;
+
+		UCrazyArcadeCore::NetManager.Send(Packet);
+	}
 }
 
 void ALobbyTitleGameMode::ChangeColor(ECharacterColor _CharacterColor)
 {
 	// PlayerInfo
 	Player.CharacterColor = _CharacterColor;
+	ConnectionInfo::GetInst().SetCharacterColor(_CharacterColor);
+
 	int Index_CharacterColor = int(_CharacterColor) - 3000;
 
 	// Button
@@ -1413,6 +1393,30 @@ void ALobbyTitleGameMode::ChangeColor(ECharacterColor _CharacterColor)
 
 	// Checker
 	Checker_ColorSelect->SetWidgetLocation({ 117.0f + (36.0f * Index_CharacterColor), 17.0f });
+
+	// 패킷 보내기
+	{
+		std::shared_ptr<UConnectPacket> Packet = std::make_shared<UConnectPacket>();
+		std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
+
+		std::map<int, std::string> NameInfos;
+		std::map<int, int> CharacterTypeInfos;
+		std::map<int, int> ColorInfos;
+
+		for (std::pair<const int, ConnectUserInfo> Pair : Infos)
+		{
+			int Key = Pair.first;
+			NameInfos[Key] = Pair.second.MyName;
+			CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
+			ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
+		}
+
+		Packet->NameInfos = NameInfos;
+		Packet->CharacterTypeInfos = CharacterTypeInfos;
+		Packet->ColorInfos = ColorInfos;
+
+		UCrazyArcadeCore::NetManager.Send(Packet);
+	}
 }
 
 void ALobbyTitleGameMode::FadeIn(float _DeltaTime)
