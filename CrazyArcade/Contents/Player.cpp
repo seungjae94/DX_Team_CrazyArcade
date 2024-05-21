@@ -390,9 +390,7 @@ void APlayer::Superman(float _DeltaTime)
 
 		if (0.0f >= SupermanTime)
 		{
-			IsSuperman = false;
-			Renderer->SetMulColor(FVector::One);
-			SupermanTime = 10.0f;
+			SetSupermanOff();
 
 			BombCount = BaseBombCount + MPlayerItem[EItemType::Bubble];
 			if (BombCount > MaxBombCount)

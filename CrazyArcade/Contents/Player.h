@@ -60,6 +60,13 @@ public:
 		++BombCount;
 	}
 
+	void SetSupermanOff()
+	{
+		IsSuperman = false;
+		Renderer->SetMulColor(FVector::One);
+		SupermanTime = 10.0f;
+	}
+
 	void SetPlayerDead();
 	void SetCharacterType(ECharacterType _Character);
 	void SetPlayerColor(ECharacterColor _Color);
