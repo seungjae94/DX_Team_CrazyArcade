@@ -98,6 +98,15 @@ void AItemBase::SetItem(EItemType _Type)
 	case EItemType::Superman:
 		Body->SetSprite(MapImgRes::item_superman);
 		break;
+	case EItemType::Owl:
+		Body->SetSprite(MapImgRes::item_owl);
+		break;
+	case EItemType::Turtle:
+		Body->SetSprite(MapImgRes::item_turtle);
+		break;
+	case EItemType::UFO:
+		Body->SetSprite(MapImgRes::item_ufo);
+		break;
 	case EItemType::Needle:
 		Body->SetSprite(MapImgRes::item_needle);
 		break;

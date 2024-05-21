@@ -79,6 +79,7 @@ private:
 
 	// GameStart, MapSelect
 	UImage* Btn_GameStart = nullptr;
+	UImage* Btn_GameStart_InActive = nullptr;
 	UImage* Btn_MapSelect = nullptr;
 
 	// Space
@@ -115,6 +116,7 @@ private:
 
 	// ColorSelect
 	std::vector<UImage*> Btns_ColorSelect;
+	std::vector<UImage*> Btns_ColorSelect_InActive;
 	std::vector<bool> ColorSelect_Pick;
 	UImage* Checker_ColorSelect = nullptr;
 
