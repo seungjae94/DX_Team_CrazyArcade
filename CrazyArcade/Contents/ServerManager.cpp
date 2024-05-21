@@ -38,7 +38,16 @@ void UServerManager::ServerOpen()
 		{
 			PushUpdate([=]()
 				{
-					ConnectionInfo::GetInst().SetUserInfos(_Packet->Infos);
+					std::map<int, ConnectUserInfo> Infos;
+					for (std::pair<const int, std::string> NamePair : _Packet->NameInfos)
+					{
+						int Key = NamePair.first;
+						Infos[Key].MyName = NamePair.second;
+						Infos[Key].SetMyCharacterType(_Packet->GetMyCharacterType(Key));
+						Infos[Key].SetMyColorType(_Packet->GetMyColorType(Key));
+					}
+
+					ConnectionInfo::GetInst().SetUserInfos(Infos);
 				});
 		});
 
@@ -51,7 +60,25 @@ void UServerManager::ServerOpen()
 					SessionInitVec[_Packet->Session] = true;
 
 					std::shared_ptr<UConnectPacket> ConnectNumPacket = std::make_shared<UConnectPacket>();
-					ConnectNumPacket->Infos = ConnectionInfo::GetInst().GetUserInfos();
+
+					std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
+					
+					
+					std::map<int, std::string> NameInfos;
+					std::map<int, int> CharacterTypeInfos;
+					std::map<int, int> ColorInfos;
+
+					for (std::pair<const int, ConnectUserInfo> Pair : Infos)
+					{
+						int Key = Pair.first;
+						NameInfos[Key] = Pair.second.MyName;
+						CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
+						ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
+					}
+
+					ConnectNumPacket->NameInfos = NameInfos;
+					ConnectNumPacket->CharacterTypeInfos = CharacterTypeInfos;
+					ConnectNumPacket->ColorInfos = ColorInfos;
 
 					Send(ConnectNumPacket);
 
@@ -65,6 +92,30 @@ void UServerManager::ServerOpen()
 					GEngine->ChangeLevel(_Packet->LevelName);
 				});
 		});
+
+	/*Dis.AddHandler<UCharacterTypePacket>([=](std::shared_ptr<UCharacterTypePacket> _Packet)
+		{
+			PushUpdate([=]()
+				{
+					ConnectionInfo::GetInst().SetCharacterType(_Packet->Infos);
+
+					std::shared_ptr<UCharacterTypePacket> CharacterTypePacket = std::make_shared<UCharacterTypePacket>();
+					CharacterTypePacket->Infos = ConnectionInfo::GetInst().GetCharacterTypeInfos();
+					Send(CharacterTypePacket);
+				});
+		});
+
+	Dis.AddHandler<UColorTypePacket>([=](std::shared_ptr<UColorTypePacket> _Packet)
+		{
+			PushUpdate([=]()
+				{
+					ConnectionInfo::GetInst().SetCharacterColor(_Packet->Infos);
+
+					std::shared_ptr<UColorTypePacket> ColorTypePacket = std::make_shared<UColorTypePacket>();
+					ColorTypePacket->Infos = ConnectionInfo::GetInst().GetCharacterColorInfos();
+					Send(ColorTypePacket);
+				});
+		});*/
 }
 
 void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
@@ -81,7 +132,16 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 		{
 			PushUpdate([=]()
 				{
-					ConnectionInfo::GetInst().SetUserInfos(_Packet->Infos);
+					std::map<int, ConnectUserInfo> Infos;
+					for (std::pair<const int, std::string> NamePair : _Packet->NameInfos)
+					{
+						int Key = NamePair.first;
+						Infos[Key].MyName = NamePair.second;
+						Infos[Key].SetMyCharacterType(_Packet->GetMyCharacterType(Key));
+						Infos[Key].SetMyColorType(_Packet->GetMyColorType(Key));
+					}
+
+					ConnectionInfo::GetInst().SetUserInfos(Infos);
 				});
 		});
 
@@ -101,6 +161,23 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 					GEngine->ChangeLevel(_Packet->LevelName);
 				});
 		});
+
+	/*Dis.AddHandler<UCharacterTypePacket>([=](std::shared_ptr<UCharacterTypePacket> _Packet)
+		{
+			PushUpdate([=]()
+				{
+					ConnectionInfo::GetInst().SetCharacterType(_Packet->Infos);
+				});
+		});
+
+	Dis.AddHandler<UColorTypePacket>([=](std::shared_ptr<UColorTypePacket> _Packet)
+		{
+			PushUpdate([=]()
+				{
+					ConnectionInfo::GetInst().SetCharacterColor(_Packet->Infos);
+				});
+		});*/
+
 }
 
 void UServerManager::AddHandlerFunction()
@@ -177,6 +254,7 @@ void UServerManager::ClientInit()  //한 번만 실행되는 함수
 	if (true == ClientBool) return;
 
 	if (-1 != UCrazyArcadeCore::Net->GetSessionToken()) {
+		ConnectionInfo::GetInst().SetOrder(UCrazyArcadeCore::Net->GetSessionToken());
 		std::shared_ptr<UConnectInitPacket> InitPacket = std::make_shared<UConnectInitPacket>();
 		InitPacket->Session = UCrazyArcadeCore::Net->GetSessionToken();
 		InitPacket->Name = ConnectionInfo::GetInst().GetMyName();

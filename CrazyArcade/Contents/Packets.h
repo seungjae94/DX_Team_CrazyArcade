@@ -1,6 +1,7 @@
 #pragma once
 #include <EngineBase/EngineMath.h>
 #include <EngineBase/EngineProtocol.h>
+#include "ConnectionInfo.h"
 
 // 맵은 어차피 모두 공통
 
@@ -19,6 +20,8 @@ enum EContentPacket
 	ConnectUpdatePacket,
 	ConnectInitPacket,
 	ChangeLevelPacket,
+	CharacterTypePacket,
+	ColorTypePacket,
 
 	BlockUpdatePacket = 200,
 };
@@ -104,17 +107,47 @@ public:
 	void Serialize(UEngineSerializer& _Ser) override
 	{
 		UEngineProtocol::Serialize(_Ser);
-		_Ser << Infos;
+		_Ser << NameInfos;
+		_Ser << CharacterTypeInfos;
+		_Ser << ColorInfos;
 	}
 
 	void DeSerialize(UEngineSerializer& _Ser) override
 	{
 		UEngineProtocol::DeSerialize(_Ser);
-		_Ser >> Infos;
+		_Ser >> NameInfos;
+		_Ser >> CharacterTypeInfos;
+		_Ser >> ColorInfos;
 	}
 
+	void SetMyCharacterType(int _Key, ECharacterType _Type)
+	{
+		int MyCharacterType = static_cast<int>(_Type);
+		CharacterTypeInfos[_Key] = MyCharacterType;
+	}
+
+	ECharacterType GetMyCharacterType(int _Key)
+	{
+		return static_cast<ECharacterType>(CharacterTypeInfos[_Key]);
+	}
+
+	void SetMyColorType(int _Key, ECharacterColor _Color)
+	{
+		int MyColor = static_cast<int>(_Color);
+		ColorInfos[_Key] = MyColor;
+	}
+
+	ECharacterColor GetMyColorType(int _Key)
+	{
+		return static_cast<ECharacterColor>(ColorInfos[_Key]);
+	}
+
+
 public:
-	std::map<int, std::string> Infos;
+	//std::map<int, ConnectUserInfo> Infos;
+	std::map<int, std::string> NameInfos;
+	std::map<int, int> CharacterTypeInfos;
+	std::map<int, int> ColorInfos;
 };
 
 class UConnectInitPacket : public UEngineProtocol {
@@ -197,3 +230,53 @@ public:
 	bool IsMoveValue = false;
 	FVector MoveDir = {};
 };
+
+//class UCharacterTypePacket : public UEngineProtocol {
+//public:
+//	static const EContentPacket Type = EContentPacket::CharacterTypePacket;
+//public:
+//	UCharacterTypePacket()
+//	{
+//		SetType(EContentPacket::CharacterTypePacket);
+//	}
+//
+//	void Serialize(UEngineSerializer& _Ser) override
+//	{
+//		UEngineProtocol::Serialize(_Ser);
+//		_Ser << CharacterType;
+//	}
+//
+//	void DeSerialize(UEngineSerializer& _Ser) override
+//	{
+//		UEngineProtocol::DeSerialize(_Ser);
+//		_Ser >> CharacterType;
+//	}
+//
+//public:
+//	ECharacterType CharacterType = ECharacterType::None;
+//};
+//
+//class UColorTypePacket : public UEngineProtocol {
+//public:
+//	static const EContentPacket Type = EContentPacket::ColorTypePacket;
+//public:
+//	UColorTypePacket()
+//	{
+//		SetType(EContentPacket::ColorTypePacket);
+//	}
+//
+//	void Serialize(UEngineSerializer& _Ser) override
+//	{
+//		UEngineProtocol::Serialize(_Ser);
+//		_Ser << Infos;
+//	}
+//
+//	void DeSerialize(UEngineSerializer& _Ser) override
+//	{
+//		UEngineProtocol::DeSerialize(_Ser);
+//		_Ser >> Infos;
+//	}
+//
+//public:
+//	std::map<int, int> Infos;
+//};
