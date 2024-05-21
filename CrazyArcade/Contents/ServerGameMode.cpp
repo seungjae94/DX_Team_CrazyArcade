@@ -122,7 +122,9 @@ void AServerGameMode::HandlerInit()
 			{
 				if (nullptr == UCrazyArcadeCore::Net)
 				{
+					return;
 					MsgBoxAssert("이거왜들어옴?");
+
 				}
 				GetWorld()->PushFunction([=]()
 					{

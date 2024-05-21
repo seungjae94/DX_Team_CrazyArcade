@@ -23,6 +23,15 @@ UCrazyArcadeCore::UCrazyArcadeCore()
 {
 }
 
+void UCrazyArcadeCore::End() 
+{
+	if (nullptr != Net)
+	{
+		Net->Off();
+	}
+	Net = nullptr;
+}
+
 UCrazyArcadeCore::~UCrazyArcadeCore()
 {
 }
