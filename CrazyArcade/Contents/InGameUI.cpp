@@ -1,6 +1,8 @@
 #include"PreCompile.h"
 #include "InGameUI.h"
-
+#include "Player.h"
+#include "CrazyArcadeCore.h"
+#include "ConnectionInfo.h"
 AInGameUI::AInGameUI()
 {
 
@@ -70,8 +72,39 @@ void AInGameUI::BeginPlay()
 		});
 
 
+	//게임 실행 하면 유저 정보 가져와서 표시해주기 
+	
+	for (int i = 0; i < 9; i++)
+	{
+
+		UImage* Render = CreateWidget<UImage>(GetWorld(), "PlayerRender" + i);
+		PlayerUI.push_back(Render);
+		
+		UTextWidget* Name = CreateWidget<UTextWidget>(GetWorld(), "PlayerNameUI" + i);
+		Name->SetFont("굴림");
+		Name->SetScale(20.0f);
+		Name->SetColor(Color8Bit::Red);
+		Name->AddToViewPort(30);
+		PlayerNameUI.push_back(Name);
+
+		PlayerState State;
+		State.Order = i;
+		State.PlayerName = "";
+		State.PlayerColor = ECharacterColor::Red;
+		State.PlayerType = ECharacterType::Random;
+		State.IsDead = false;
+		PlayerInfo.push_back(State);
+	}
+	
+	InitPlayerInfo();
+	DataToRender();
+
 	ResultBackGround->SetActive(false);
 	ResultSummary->SetActive(false);
+	std::vector<UImage*> PlayerUI; //플레이어
+	std::vector<UTextWidget*> PlayerNameUI ;
+	std::vector<PlayerState> PlayerInfo;
+
 
 }
 void AInGameUI::Tick(float _DeltaTIme)
@@ -79,7 +112,88 @@ void AInGameUI::Tick(float _DeltaTIme)
 
 	Super::Tick(_DeltaTIme);
 
+	for (std::pair<const int, bool>& Pair : FPlayerInfo::IsDeads)
+	{
+		//if (Pair.first == true)
+		//{
+		//	// 죽은 플레이어가 해야할 코드
+		//	//PlayerUI[Pair.first]->ChangeAnimation();
+		//	
+		//}
+	}
+	//죽었는지 살았는지 확인하는 예제 코드(승재형)
+
+	if (this->IsActive() == true)
+	{
+	InitPlayerInfo();
+	
+	}
+
+
+
 }
 
 
 
+
+void AInGameUI::PlayerUpdate()
+{
+	std::map<int, std::string> UserInfos = ConnectionInfo::GetInst().GetUserInfos();
+	
+	for (std::pair<int, std::string> Iterator : UserInfos)
+	{
+	//	PlayerInfo[Iterator.first].IsDead = FPlayerInfo::IsDeads;
+	}
+	
+	
+	for (int i = 0; i < UCrazyArcadeCore::Net->GetSessionToken(); i++)
+	{
+		//PlayerInfo[i].IsDead() = FPlayerInfo::IsDeads();
+	}
+
+	
+}
+
+
+
+void AInGameUI::InitPlayerInfo()
+{
+	//
+
+	std::map<int, std::string> UserInfos = ConnectionInfo::GetInst().GetUserInfos();
+	std::map<int, bool>UserDeadCheck = FPlayerInfo::IsDeads;
+
+
+	//오더랑 이름 가져오기
+	for (std::pair<int, std::string> Iterator : UserInfos)
+	{ //이터레이터로 돌리기 
+		PlayerInfo[Iterator.first].Order = Iterator.first;
+		PlayerInfo[Iterator.first].PlayerName = Iterator.second;
+		//
+		int a = 0;
+	}
+
+
+	for (std::pair<int, bool> Iterattor : UserDeadCheck)
+	{	
+
+		PlayerInfo[Iterattor.first].IsDead = Iterattor.second;
+	}
+
+
+}
+
+
+void AInGameUI::DataToRender()
+{
+	//PlayerInfo.size()
+	for (int i = 0; i < PlayerInfo.size(); i++)
+	{
+		
+		PlayerNameUI[i]->SetPosition({ 100,100 });
+		PlayerNameUI[i]->SetText(PlayerInfo[i].PlayerName); //플레이어 이름 화면에 띄우기
+
+	}
+
+
+}

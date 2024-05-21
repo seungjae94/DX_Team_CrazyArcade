@@ -53,6 +53,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="PirateMap.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ServerHelper.h" />
     <ClInclude Include="ServerManager.h">
       <SubType>
@@ -168,6 +172,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="NetGameMode.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PirateMap.cpp">
       <SubType>
       </SubType>
     </ClCompile>
