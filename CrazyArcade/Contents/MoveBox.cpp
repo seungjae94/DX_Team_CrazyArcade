@@ -146,6 +146,14 @@ void AMoveBox::StateInit()
 void AMoveBox::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+
+	ProtocolTick([=](std::shared_ptr<UEngineProtocol> _Packet) {
+
+		std::shared_ptr<UBlockUpdatePacket> UpdatePacket = std::dynamic_pointer_cast<UBlockUpdatePacket>(_Packet);
+		UpdatePacket->IsMoveValue;
+		UpdatePacket->MoveDir;
+
+		});
 }
 
 void AMoveBox::SetMoveState(const FVector& _Dir)
@@ -183,6 +191,12 @@ void AMoveBox::MoveOneBlockCheck()
 
 	CanMoveValue = false;
 	IsMoveValue = true;
+
+	std::shared_ptr<UBlockUpdatePacket> Packet = std::make_shared<UBlockUpdatePacket>();
+	Packet->MoveDir = MoveDir;
+	Packet->IsMoveValue = IsMoveValue;
+	Send(Packet);
+
 }
 
 void AMoveBox::MoveUpdate(float _DeltaTime)
