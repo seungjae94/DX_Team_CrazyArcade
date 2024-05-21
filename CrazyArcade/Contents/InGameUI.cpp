@@ -84,9 +84,10 @@ void AInGameUI::BeginPlay()
 		
 		UTextWidget* Name = CreateWidget<UTextWidget>(GetWorld(), "PlayerNameUI" + i);
 		Name->SetFont("±¼¸²");
-		Name->SetScale(15.0f);
+		Name->SetScale(12.0f);
 		Name->SetColor(Color8Bit::White);
 		Name->AddToViewPort(30);
+		Name->SetFlag(FW1_LEFT);
 		Name->SetPosition({ 0 * (i + 20),0 });
 		
 		PlayerNameUI.push_back(Name);
@@ -195,7 +196,7 @@ void AInGameUI::DataToRender()
 	//PlayerInfo.size()
 	for (int i = 0; i < PlayerInfo.size(); i++)
 	{
-		PlayerNameUI[i]->SetPosition({318,173-(i*43)});
+		PlayerNameUI[i]->SetPosition({306,180-(i*43)});
 		PlayerNameUI[i]->SetText(PlayerInfo[i].PlayerName);
 		
 	}
