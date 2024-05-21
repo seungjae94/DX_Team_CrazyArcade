@@ -23,6 +23,9 @@ protected:
 
 
 private:
+	UImage* IntroAnimation = nullptr;
+
+
 
 };
 
