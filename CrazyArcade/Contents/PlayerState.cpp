@@ -133,12 +133,7 @@ void APlayer::StateInit()
 	State.SetUpdateFunction("Revival", std::bind(&APlayer::Revival, this, std::placeholders::_1));
 	State.SetStartFunction("Revival", [=]()
 		{
-			if (IsTraped == false)
-			{
-				State.ChangeState("Idle");
-				return;
-			}
-
+			NeedleCount--;
 			CurSpeed = BaseSpeed + Speed;
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Revival");
 			IsTraped = false;
@@ -495,7 +490,7 @@ void APlayer::TrapStart(float _DeltaTime)
 	}
 
 	// 이동
-	
+
 	if (true == IsPress(VK_LEFT))
 	{
 		KeyMove(_DeltaTime, FVector::Left, CurSpeed);
@@ -538,7 +533,7 @@ void APlayer::Traped(float _DeltaTime)
 	}
 
 	// 바늘 사용하면
-	if (true == IsDown('2'))
+	if (true == IsDown('2') && NeedleCount > 0)
 	{
 		State.ChangeState("Revival");
 		return;
