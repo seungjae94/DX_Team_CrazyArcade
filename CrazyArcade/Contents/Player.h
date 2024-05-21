@@ -74,12 +74,7 @@ public:
 		++BombCount;
 	}
 
-	void SetSupermanOff()
-	{
-		IsSuperman = false;
-		Renderer->SetMulColor(FVector::One);
-		SupermanTime = 10.0f;
-	}
+	void SetSupermanOff();
 
 	void SetPlayerDead();
 	void SetCharacterType(ECharacterType _Character);
@@ -126,6 +121,8 @@ protected:
 
 	bool Push = false;
 	bool Throw = false;
+
+	bool NoHit = false;
 
 	bool IsDevil = false;
 	bool MoveDevil = false;
@@ -182,8 +179,6 @@ protected:
 	void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
 
 	bool IsDead = false;
-	bool IsTraped = false;
-	bool IsRiding = false;
 
 	FPoint SpawnBombPoint = { -1, -1 };
 	bool IsBombOn = false;
