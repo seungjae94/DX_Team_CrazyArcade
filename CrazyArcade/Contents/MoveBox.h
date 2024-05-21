@@ -25,7 +25,8 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private:
-	void MoveOneBlockCheck();
+	void MoveOneBlockCheckSend();
+	void MoveOneBlockCheckRecv();
 	void MoveUpdate(float _DeltaTime);
 
 	void CheckNearDestroy(FPoint _CurPoint);
