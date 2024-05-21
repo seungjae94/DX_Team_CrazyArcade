@@ -124,6 +124,8 @@ void APlayer::Idle(float _Update)
 			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this).get();
 			if (nullptr != Bomb)
 			{
+				SpawnBombPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
+				IsBombOn = true;
 				--BombCount;
 			}
 		}
@@ -166,6 +168,8 @@ void APlayer::Run(float _DeltaTime)
 			Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this).get();
 			if (nullptr != Bomb)
 			{
+				SpawnBombPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
+				IsBombOn = true;
 				--BombCount;
 			}
 		}
@@ -374,9 +378,20 @@ void APlayer::KeyMove(float _DeltaTime, FVector _Dir, float _Speed)
 {
 	FVector NextPos = GetActorLocation() + FVector(_DeltaTime * _Speed * _Dir.X, _DeltaTime * _Speed * _Dir.Y, 0.0f);
 	bool CanMove = PlayLevel->GetMap()->CanMovePos(NextPos, _Dir);
-	if (true == CanMove)
+	bool IsBombPos = false;
+	if (false == IsBombOn)
+	{
+		IsBombPos = PlayLevel->GetMap()->IsBombPos(NextPos, _Dir);
+	}
+
+	if (true == CanMove && false == IsBombPos)
 	{
 		AddActorLocation(_Dir * _DeltaTime * _Speed);
+		FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
+		if (CurPoint != SpawnBombPoint)
+		{
+			IsBombOn = false;
+		}
 	}
 }
 
