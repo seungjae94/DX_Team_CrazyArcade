@@ -17,8 +17,9 @@ namespace MapImgRes
 
 	const std::string_view block_forest_pool		= "spr_forest_pool.png";
 	const std::string_view block_forest_rock		= "spr_forest_rock.png";
-
+	
 	const std::string_view block_Pirate_flag		= "spr_pirate_flag";
+	const std::string_view block_Pirate_wall		= "spr_priate_wall.png";
 
 	// Box
 	const std::string_view block_vil_box0			= "spr_vil_Box0";
@@ -33,6 +34,11 @@ namespace MapImgRes
 	const std::string_view block_forest_bush3		= "spr_forest_bush3";
 	const std::string_view block_forest_basket		= "spr_forest_basket";
 
+
+	const std::string_view block_Pirate_box0		= "spr_pirate_box0";
+	const std::string_view block_Pirate_box1		= "spr_pirate_box1";
+	const std::string_view block_Pirate_box2		= "spr_pirate_box2";
+
 	// Item
 	const std::string_view item_shadow				= "spr_item_shadow";
 	const std::string_view item_bubble				= "spr_item_bubble.png";
@@ -44,6 +50,9 @@ namespace MapImgRes
 	const std::string_view item_shoes				= "spr_item_shoes.png";
 	const std::string_view item_ultra				= "spr_item_ultra.png";
 	const std::string_view item_superman			= "spr_item_superman.png";
+	const std::string_view item_owl					= "spr_item_owl.png";
+	const std::string_view item_turtle				= "spr_item_turtle.png";
+	const std::string_view item_ufo					= "spr_item_ufo.png";
 	const std::string_view item_needle				= "spr_item_needle.png";
 
 	// Bomb

@@ -19,6 +19,7 @@ class UserCore
 public:
 	virtual void Initialize() = 0;
 	virtual void Tick(float _DeltaTime) {};
+	virtual void End() {};
 };
 
 // Ό³Έν :

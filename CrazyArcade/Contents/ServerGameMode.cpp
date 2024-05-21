@@ -71,7 +71,7 @@ void AServerGameMode::HandlerInit()
 							OtherPlayer = UNetObject::GetNetObject<ANetActor>(_Packet->GetObjectToken());
 						}
 
-						OtherPlayer->PushProtocol(_Packet);
+						OtherPlayer->PushProtocolAsync(_Packet);
 					});
 
 
@@ -89,7 +89,8 @@ void AServerGameMode::HandlerInit()
 						ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, _Packet->GetObjectToken(), _Packet->Pos);
 						Bomb = UNetObject::GetNetObject<ABombBase>(_Packet->GetObjectToken());
 						Bomb->SetObjectToken(_Packet->GetObjectToken());
-						Bomb->PushProtocol(_Packet);
+						Bomb->PushProtocolAsync(_Packet);
+						UCrazyArcadeCore::Net->Send(_Packet);
 						//MyBomb->SetObjectToken(_Packet->GetObjectToken());
 
 						//MyBomb->SetActorLocation(_Packet->Pos);
@@ -112,7 +113,7 @@ void AServerGameMode::HandlerInit()
 						if (nullptr == Block) {
 							MsgBoxAssert("이거 nullptr이면 안됨");
 						}
-						Block->PushProtocol(_Packet);
+						Block->PushProtocolAsync(_Packet);
 						UCrazyArcadeCore::Net->Send(_Packet);
 					});
 			});
@@ -122,7 +123,9 @@ void AServerGameMode::HandlerInit()
 			{
 				if (nullptr == UCrazyArcadeCore::Net)
 				{
+					return;
 					MsgBoxAssert("이거왜들어옴?");
+
 				}
 				GetWorld()->PushFunction([=]()
 					{
@@ -134,7 +137,7 @@ void AServerGameMode::HandlerInit()
 							OtherPlayer = UNetObject::GetNetObject<ANetActor>(_Packet->GetObjectToken());
 						}
 
-						OtherPlayer->PushProtocol(_Packet);
+						OtherPlayer->PushProtocolAsync(_Packet);
 					});
 			});
 
@@ -150,7 +153,7 @@ void AServerGameMode::HandlerInit()
 						ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, _Packet->GetObjectToken(), _Packet->Pos);
 						Bomb = UNetObject::GetNetObject<ABombBase>(_Packet->GetObjectToken());
 						Bomb->SetObjectToken(_Packet->GetObjectToken());
-						Bomb->PushProtocol(_Packet);
+						Bomb->PushProtocolAsync(_Packet);
 						/*ABombBase* MyBomb;
 						ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, 0);
 						MyBomb->SetObjectToken(_Packet->GetObjectToken());
@@ -174,7 +177,7 @@ void AServerGameMode::HandlerInit()
 						if (nullptr == Block) {
 							MsgBoxAssert("이거 nullptr이면 안됨");
 						}
-						Block->PushProtocol(_Packet);
+						Block->PushProtocolAsync(_Packet);
 					});
 			});
 	}

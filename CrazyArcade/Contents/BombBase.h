@@ -59,7 +59,7 @@ private:
 	FPoint CurPoint = { -1, -1 };
 	const float ExplosionTime = 2.8f;
 	float ExplosionTimeCount = 0.0f;
-	int Power = 8;
+	int Power = -1;
 
 // FSM
 private:

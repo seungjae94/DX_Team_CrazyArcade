@@ -153,6 +153,8 @@ void ABombBase::PlayerBombCountUpdate()
 void ABombBase::SetPlayer(APlayer* _Player)
 {
 	Player = _Player;
+	
+	Power = Player->GetBombPower() + 1;
 }
 
 void ABombBase::SetCurPoint(FPoint _Point)

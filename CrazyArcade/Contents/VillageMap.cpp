@@ -230,8 +230,8 @@ void AVillageMap::CreateVillageBush()
 void AVillageMap::CreateItems()
 {
 	//CreateItem({ 6, 1 }, EItemType::Bubble);
-	CreateItem({ 6, 3 }, EItemType::Devil);
-	//CreateItem({ 6, 5 }, EItemType::Fluid);
+	CreateItem({ 6, 3 }, EItemType::Owl);
+	CreateItem({ 6, 5 }, EItemType::Superman);
 	//CreateItem({ 6, 7 }, EItemType::Glove);
 	CreateItem({ 8, 1 }, EItemType::RedDevil);
 	//CreateItem({ 8, 3 }, EItemType::Roller);

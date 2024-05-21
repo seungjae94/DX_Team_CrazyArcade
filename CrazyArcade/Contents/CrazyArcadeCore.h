@@ -30,6 +30,8 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 	std::vector<bool> SessionInitVec = { true, false, false, false, false, false, false, false};
+
+	void End() override;
 private:
 	void ResLoad();
 	bool IsFunctionInit = false;

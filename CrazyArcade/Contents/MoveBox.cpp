@@ -229,6 +229,7 @@ void AMoveBox::MoveOneBlockCheckRecv()
 	}
 
 	CanMoveValue = false;
+	IsMoveValue = true;
 	State.ChangeState(BlockState::move);
 }
 

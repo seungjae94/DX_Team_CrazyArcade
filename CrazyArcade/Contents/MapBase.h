@@ -61,7 +61,7 @@ public:
 	}
 
 	bool CanMovePos(const FVector& _NextPos, const FVector& _Dir);
-	bool IsBombPos(const FVector& _Pos);
+	bool IsBombPos(const FVector& _Pos, const FVector& _Dir);
 	bool IsBushPos(const FVector& _Pos);
 	EItemType IsItemTile(const FVector& _Pos);
 	
@@ -126,8 +126,12 @@ private:
 	FPoint NextPoint1 = { -1, -1 };		// Sub Point1
 	FPoint NextPoint2 = { -1, -1 };		// Sub Point2
 
-	const float BlockCheckAdjustPosX = 11.0f;
-	const float BlockCheckAdjustPosY = 8.0f;
+	const float BlockCheckAdjPosX = 20.0f;
+	const float BlockCheckAdjUpPos = 20.0f;
+	const float BlockCheckAdjDownPos = 17.0f;
+
+	const float BlockCheckSubPosX = 11.0f;
+	const float BlockCheckSubPosY = 8.0f;
 
 };
 

@@ -10,7 +10,8 @@ enum class EMapType
 {
 	None,
 	Village,
-	Forest
+	Forest,
+	Pirate
 };
 
 enum class EWaveType
@@ -81,5 +82,8 @@ enum class EItemType
 	Shoes,
 	Ultra,
 	Superman,
+	Owl,
+	Turtle,
+	UFO,
 	Needle,
 };
