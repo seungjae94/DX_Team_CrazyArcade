@@ -29,11 +29,13 @@ public:
 
 	static bool IsNetObject(int _ObjectToken)
 	{
+		std::lock_guard<std::mutex> Lock(AllNetObjectLock);
 		return AllNetObject.contains(_ObjectToken);
 	}
 
 	static UNetObject* GetNetObject(int _ObjectToken)
 	{
+		std::lock_guard<std::mutex> Lock(AllNetObjectLock);
 		return AllNetObject[_ObjectToken];
 	}
 
@@ -55,6 +57,7 @@ public:
 
 		if (false == IsNetObject(_ObjectToken))
 		{
+			std::lock_guard<std::mutex> Lock(AllNetObjectLock);
 			AllNetObject[_ObjectToken] = this;
 		}
 	}
@@ -88,6 +91,8 @@ public:
 
 protected:
 	static std::atomic<int> CurObjectToken;
+
+	static std::mutex AllNetObjectLock;
 	static std::map<int, UNetObject*> AllNetObject;
 
 private:
