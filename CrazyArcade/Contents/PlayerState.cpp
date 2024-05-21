@@ -252,6 +252,13 @@ void APlayer::TrapStart(float _DeltaTime)
 		State.ChangeState("Traped");
 	}
 
+	if (true == IsDevil)
+	{
+		IsDevil = false;
+		Renderer->SetMulColor(FVector::One);
+		DevilTime = 10.0f;
+	}
+
 	// ¿Ãµø
 	
 	if (true == IsPress(VK_LEFT))

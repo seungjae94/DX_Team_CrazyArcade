@@ -68,12 +68,13 @@ protected:
 	std::string Name = "Player";
 	EPlayerDir PlayerDir = EPlayerDir::Down;
 	ABombBase* Bomb = nullptr;
-	int BombCount = 10;
-	int MaxBombPower = 5;
+	int MaxBombCount = 6;
+	int BombCount = 2;
+	int MaxBombPower = 6;
 	int BombPower = 0;
-	float BaseSpeed = 200.0f;
+	float BaseSpeed = 40.0f * 5.0f;
 	float Speed = 0.0f;
-	float MaxSpeed = 400.0f;
+	float MaxSpeed = 40.0f * 9.0f;
 	float CurSpeed = BaseSpeed + Speed;
 
 	bool Push = false;
