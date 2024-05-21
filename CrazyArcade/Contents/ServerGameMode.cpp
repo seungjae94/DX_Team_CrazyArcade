@@ -90,7 +90,7 @@ void AServerGameMode::HandlerInit()
 						Bomb = UNetObject::GetNetObject<ABombBase>(_Packet->GetObjectToken());
 						Bomb->SetObjectToken(_Packet->GetObjectToken());
 						Bomb->PushProtocolAsync(_Packet);
-						Send(_Packet);
+						UCrazyArcadeCore::Net->Send(_Packet);
 						//MyBomb->SetObjectToken(_Packet->GetObjectToken());
 
 						//MyBomb->SetActorLocation(_Packet->Pos);
