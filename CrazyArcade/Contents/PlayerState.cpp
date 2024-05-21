@@ -619,24 +619,31 @@ void APlayer::KeyMove(float _DeltaTime, FVector _Dir, float _Speed)
 
 void APlayer::SetTrapState()
 {
-	if (false == IsTraped)
+	if (false == IsTraped && false == NoHit)
 	{
 		if (true == IsSuperman)
 		{
 			SetSupermanOff();
+			NoHit = true;
+			DelayCallBack(0.5f, [=]
+				{
+					NoHit = false;
+				}
+			);
 			return;
 		}
 		else if (ERiding::None != Riding)
 		{
 			Riding = ERiding::None;
+			NoHit = true;
 			DelayCallBack(0.5f, [=]
 				{
-					IsRiding = false;
+					NoHit = false;
 				}
 			);
 			return;
 		}
-		else if(false == IsRiding)
+		else
 		{
 			State.ChangeState("TrapStart");
 		}

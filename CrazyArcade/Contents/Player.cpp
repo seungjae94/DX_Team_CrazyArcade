@@ -366,15 +366,12 @@ void APlayer::PickUpItem()
 		CurSpeed = MaxSpeed;
 		break;
 	case EItemType::Owl:
-		IsRiding = true;
 		Riding = ERiding::Owl;
 		break;
 	case EItemType::Turtle:
-		IsRiding = true;
 		Riding = ERiding::Turtle;
 		break;
 	case EItemType::UFO:
-		IsRiding = true;
 		Riding = ERiding::UFO;
 		break;
 	case EItemType::Needle:
@@ -452,41 +449,48 @@ void APlayer::Superman(float _DeltaTime)
 		if (0.0f >= SupermanTime)
 		{
 			SetSupermanOff();
-
-			BombCount = BaseBombCount + MPlayerItem[EItemType::Bubble];
-			if (BombCount > MaxBombCount)
-			{
-				BombCount = MaxBombCount;
-			}
-
-			if (0 != MPlayerItem[EItemType::Ultra])
-			{
-				BombPower = BaseBombPower + MPlayerItem[EItemType::Fluid];
-				if (BombPower > MaxBombPower)
-				{
-					BombPower = MaxBombPower;
-				}
-			}
-			else
-			{
-				BombPower = MaxBombPower;
-			}
-
-			if (0 != MPlayerItem[EItemType::RedDevil])
-			{
-				Speed = 40.0f * static_cast<float>(MPlayerItem[EItemType::Roller]);
-				if (Speed > (MaxSpeed - BaseSpeed))
-				{
-					Speed = MaxSpeed - BaseSpeed;
-				}
-				CurSpeed = BaseSpeed + Speed;
-			}
-			else
-			{
-				Speed = MaxSpeed - BaseSpeed;
-				CurSpeed = MaxSpeed;
-			}
 		}
+	}
+}
+
+void APlayer::SetSupermanOff()
+{
+	IsSuperman = false;
+	Renderer->SetMulColor(FVector::One);
+	SupermanTime = 10.0f;
+
+	BombCount = BaseBombCount + MPlayerItem[EItemType::Bubble];
+	if (BombCount > MaxBombCount)
+	{
+		BombCount = MaxBombCount;
+	}
+
+	if (0 == MPlayerItem[EItemType::Ultra])
+	{
+		BombPower = BaseBombPower + MPlayerItem[EItemType::Fluid];
+		if (BombPower > MaxBombPower)
+		{
+			BombPower = MaxBombPower;
+		}
+	}
+	else
+	{
+		BombPower = MaxBombPower;
+	}
+
+	if (0 == MPlayerItem[EItemType::RedDevil])
+	{
+		Speed = 40.0f * static_cast<float>(MPlayerItem[EItemType::Roller]);
+		if (Speed > (MaxSpeed - BaseSpeed))
+		{
+			Speed = MaxSpeed - BaseSpeed;
+		}
+		CurSpeed = BaseSpeed + Speed;
+	}
+	else
+	{
+		Speed = MaxSpeed - BaseSpeed;
+		CurSpeed = MaxSpeed;
 	}
 }
 
