@@ -18,6 +18,20 @@ struct FPlayerInfo
 	static std::map<int, std::string> Names; // Names[3]: 3번 플레이어의 이름
 };
 
+struct FCharacterTypeData
+{
+	std::string Type;
+
+	int DataBaseBombCount;
+	int DataMaxBombCount;
+
+	int DataBaseBombPower;
+	int DataMaxBombPower;
+
+	float DataBaseSpeed;
+	float DataMaxSpeed;
+};
+
 class AMainPlayLevel;
 class ABombBase;
 
@@ -64,16 +78,23 @@ protected:
 	USpriteRenderer* ShadowRenderer;
 	USpriteRenderer* DebugRenderer;
 	
+	std::map<ECharacterType, FCharacterTypeData> MCharacterTypeData;
 	FVector PlayerPos;
 	std::string Name = "Player";
 	EPlayerDir PlayerDir = EPlayerDir::Down;
 	ABombBase* Bomb = nullptr;
-	int BombCount = 10;
-	int MaxBombPower = 5;
+
+	int BaseBombCount = 1;
+	int BombCount = 2;
+	int MaxBombCount = 6;
+
+	int BaseBombPower = 0;
 	int BombPower = 0;
-	float BaseSpeed = 200.0f;
+	int MaxBombPower = 6;
+
+	float BaseSpeed = 40.0f * 5.0f;
 	float Speed = 0.0f;
-	float MaxSpeed = 400.0f;
+	float MaxSpeed = 40.0f * 9.0f;
 	float CurSpeed = BaseSpeed + Speed;
 
 	bool Push = false;
@@ -107,9 +128,12 @@ protected:
 	void PlayerCreateBazziAnimation(std::string _Color);
 	void PlayerCreateAnimation(std::string _CharacterType_Color);
 
+	void CharacterTypeDataInit();
+
 	//State
 	void StateInit();
 
+	void Ready(float _DeltaTime);
 	void Idle(float _DeltaTime);
 	void Run(float _DeltaTime);
 	void TrapStart(float _DeltaTime);

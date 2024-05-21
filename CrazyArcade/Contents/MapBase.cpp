@@ -201,7 +201,7 @@ EItemType AMapBase::IsItemTile(const FVector& _Pos)
 }
 
 // 현재 위치 Tile에 Bomb 스폰 함수 (실패시 nullptr 반환)
-ABombBase* AMapBase::SpawnBomb(const FVector& _Pos, APlayer* _Player)
+std::shared_ptr<ABombBase> AMapBase::SpawnBomb(const FVector& _Pos, APlayer* _Player)
 {
 	FPoint CurPoint = ConvertLocationToPoint(_Pos);
 
@@ -214,7 +214,7 @@ ABombBase* AMapBase::SpawnBomb(const FVector& _Pos, APlayer* _Player)
 	{
 		FVector TargetPos = ConvertPointToLocation(CurPoint);
 		TargetPos.Y += BombAdjustPosY;
-		TileInfo[CurPoint.Y][CurPoint.X].Bomb = GetWorld()->SpawnActor<ABombBase>("Bomb").get();
+		TileInfo[CurPoint.Y][CurPoint.X].Bomb = GetWorld()->SpawnActor<ABombBase>("Bomb");
 		TileInfo[CurPoint.Y][CurPoint.X].Bomb->SetActorLocation(TargetPos);
 		TileInfo[CurPoint.Y][CurPoint.X].Bomb->SetPlayer(_Player);
 		TileInfo[CurPoint.Y][CurPoint.X].Bomb->SetCurPoint(CurPoint);

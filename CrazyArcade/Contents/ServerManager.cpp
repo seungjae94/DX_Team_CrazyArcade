@@ -34,16 +34,15 @@ void UServerManager::ServerOpen()
 
 	Dis.AddHandler<UConnectPacket>([=](std::shared_ptr<UConnectPacket> _Packet)
 		{
-			GEngine->GetCurLevel()->PushFunction([=]()
+			PushUpdate([=]()
 				{
 					ConnectionInfo::GetInst().SetUserInfos(_Packet->Infos);
 				});
 		});
 
-	UEngineDispatcher& Diss = UCrazyArcadeCore::Net->Dispatcher;
-	Diss.AddHandler<UConnectInitPacket>([=](std::shared_ptr<UConnectInitPacket> _Packet)
+	Dis.AddHandler<UConnectInitPacket>([=](std::shared_ptr<UConnectInitPacket> _Packet)
 		{
-			GEngine->GetCurLevel()->PushFunction([=]()
+			PushUpdate([=]()
 				{
 					std::lock_guard<std::mutex> Lock(SessinInitMutex);
 					ConnectionInfo::GetInst().PushUserInfos(_Packet->GetSessionToken(), _Packet->Name);
@@ -54,6 +53,14 @@ void UServerManager::ServerOpen()
 
 					Send(ConnectNumPacket);
 
+				});
+		});
+
+	Dis.AddHandler<UChangeLevelPacket>([=](std::shared_ptr<UChangeLevelPacket> _Packet)
+		{
+			PushUpdate([=]()
+				{
+					GEngine->ChangeLevel(_Packet->LevelName);
 				});
 		});
 }
@@ -70,19 +77,26 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 	UEngineDispatcher& Dis = UCrazyArcadeCore::Net->Dispatcher;
 	Dis.AddHandler<UConnectPacket>([=](std::shared_ptr<UConnectPacket> _Packet)
 		{
-			GEngine->GetCurLevel()->PushFunction([=]()
+			PushUpdate([=]()
 				{
 					ConnectionInfo::GetInst().SetUserInfos(_Packet->Infos);
 				});
 		});
 
-	UEngineDispatcher& Diss = UCrazyArcadeCore::Net->Dispatcher;
-	Diss.AddHandler<UConnectInitPacket>([=](std::shared_ptr<UConnectInitPacket> _Packet)
+	Dis.AddHandler<UConnectInitPacket>([=](std::shared_ptr<UConnectInitPacket> _Packet)
 		{
-			GEngine->GetCurLevel()->PushFunction([=]()
+			PushUpdate([=]()
 				{
 					ConnectionInfo::GetInst().PushUserInfos(_Packet->GetSessionToken(), _Packet->Name);
 					SessionInitVec[_Packet->Session] = true;
+				});
+		});
+
+	Dis.AddHandler<UChangeLevelPacket>([=](std::shared_ptr<UChangeLevelPacket> _Packet)
+		{
+			PushUpdate([=]()
+				{
+					GEngine->ChangeLevel(_Packet->LevelName);
 				});
 		});
 }
@@ -97,6 +111,15 @@ void UServerManager::AddHandlerFunction()
 
 void UServerManager::Update(float _DeltaTime)
 {
+	{
+		std::lock_guard<std::mutex> Lock(UpdateLock);
+		for (std::function<void()> Function : UpdateTick)
+		{
+			Function();
+		}
+		UpdateTick.clear();
+	}
+
 	if (ManagerType == ENetType::Server) {
 		ServerUpdate(_DeltaTime);
 	}

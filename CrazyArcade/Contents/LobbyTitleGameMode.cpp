@@ -823,6 +823,65 @@ void ALobbyTitleGameMode::BeginPlay()
 				Image_Line->SetWidgetLocation({ 340.0f, -284.0f });
 			}
 		}
+
+		// Chat
+		{
+			{
+				VoidBox = CreateWidget<UImage>(GetWorld(), "VoidBox");
+				VoidBox->SetSprite("VoidBox.png");
+				VoidBox->AddToViewPort(1);
+				VoidBox->SetAutoSize(1.0f, true);
+				VoidBox->SetPosition({ 0.0f, 0.0f });
+
+				VoidBox->SetDown([=] {
+					if (Chat_IsActive == true)
+					{
+						ChatBox->ChangeAnimation("InActive");
+						Chat_IsActive = false;
+					}
+
+					UEngineInputRecorder::GetText();
+					UEngineInputRecorder::RecordEnd();
+					});
+			}
+			{
+				ChatBox = CreateWidget<UImage>(GetWorld(), "ChatBox");
+				ChatBox->AddToViewPort(3);
+				ChatBox->SetScale({ 225.0f, 23.0f });
+				ChatBox->SetWidgetLocation({ -102.0f, -234.0f });
+
+				ChatBox->CreateAnimation("InActive", "NameBoxNotActive.png", 0.1f, false, 0, 0);
+				ChatBox->CreateAnimation("Active", "NameBox.png", 0.1f, false, 0, 0);
+				ChatBox->ChangeAnimation("InActive");
+
+				ChatBox->SetDown([=] {
+					ChatBox->ChangeAnimation("Active");
+					Chat_IsActive = true;
+
+					UEngineInputRecorder::RecordStart(ChatInputText->GetText(), 15);
+					});
+			}
+			{
+				ChatInputText = CreateWidget<UTextWidget>(GetWorld(), "ChatInputText");
+				ChatInputText->AddToViewPort(4);
+				ChatInputText->SetScale(15.0f);
+				ChatInputText->SetWidgetLocation({ -214.0f, -224.0f });
+				ChatInputText->SetFont("±¼¸²");
+				ChatInputText->SetColor(Color8Bit::Black);
+				ChatInputText->SetFlag(FW1_LEFT);
+				ChatInputText->SetText(ChatInput);
+			}
+			{
+				ChatText = CreateWidget<UTextWidget>(GetWorld(), "ChatText");
+				ChatText->AddToViewPort(4);
+				ChatText->SetScale(20.0f);
+				ChatText->SetWidgetLocation({ -208.0f, -221.0f });
+				ChatText->SetFont("±¼¸²");
+				ChatText->SetColor(Color8Bit::Black);
+				ChatText->SetFlag(FW1_LEFT);
+				ChatText->SetText(Chat);
+			}
+		}
 	}
 	{
 		// Initialize
@@ -857,7 +916,7 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 			{
 				IsFadeIn = true;
 				IsFadeOut = false;
-				GEngine->ChangeLevel("MainPlayLevel");
+				GameStart();
 				return;
 			}
 
@@ -867,6 +926,9 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 
 	// UserInfo Update
 	UserInfosUpdate();
+
+	// Chat Update
+	StringToText();
 
 	// Debug
 	{
@@ -1230,7 +1292,28 @@ void ALobbyTitleGameMode::FadeOut(float _DeltaTime)
 	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
 }
 
+void ALobbyTitleGameMode::GameStart()
+{
+	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType()) {
+		std::shared_ptr<UChangeLevelPacket> Packet = std::make_shared<UChangeLevelPacket>();
+		GEngine->ChangeLevel("ServerGameMode");
+		Packet->LevelName = "ServerGameMode";
+		UCrazyArcadeCore::NetManager.Send(Packet);
+		return;
+	}
+}
+
+void ALobbyTitleGameMode::StringToText()
+{
+	if (Chat_IsActive == true)
+	{
+		ChatInput = UEngineInputRecorder::GetText();
+	}
+
+	ChatInputText->SetText(ChatInput);
+}
+
 void ALobbyTitleGameMode::HandlerInit()
 {
-	
+
 }

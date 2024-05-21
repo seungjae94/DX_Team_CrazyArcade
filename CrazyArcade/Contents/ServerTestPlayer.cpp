@@ -77,7 +77,7 @@ void ServerTestPlayer::SpawnBomb()
 	SpawnPacket->SpawnSelect = static_cast<int>(EItemType::Bubble);
 	SpawnPacket->SpawnTime = FloatResult;
 	Bomb->SetObjectToken(GetToken);
-	SpawnPacket->Pos = Bomb->GetActorLocation();
+	SpawnPacket->Pos = /*Bomb->*/GetActorLocation();
 	Send(SpawnPacket, Bomb->GetObjectToken());
 	IsSpawn = false;
 	Bomb = nullptr;

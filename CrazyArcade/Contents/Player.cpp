@@ -41,8 +41,6 @@ void APlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//SetPlayerColor(ECharacterColor::Yellow);
-
 	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
 	BlockSize = AMapBase::GetBlockSize();
 
@@ -68,6 +66,8 @@ void APlayer::BeginPlay()
 	PlayerCreateAnimation("luxMarid_R");
 	PlayerCreateAnimation("luxMarid_O");
 	PlayerCreateAnimation("luxMarid_B");
+
+	CharacterTypeDataInit();
 
 	Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Down");
 	Renderer->SetAutoSize(0.9f, true);
@@ -154,7 +154,7 @@ void APlayer::PlayerCreateCutting(std::string _CharacterType_Color)
 void APlayer::PlayerCreateBazziAnimation(std::string _Color)
 {
 
-	Renderer->CreateAnimation("Bazzi" + _Color + "_Ready", "Bazzi" + _Color + "_1.png", 0.06f, false, 37, 53);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Ready", "Bazzi" + _Color + "_1.png", 0.06f, false, 36, 53);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Idle_Left", "Bazzi" + _Color + "_1.png", 1.0f, false, 0, 0);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Idle_Right", "Bazzi" + _Color + "_1.png", 1.0f, false, 6, 6);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Idle_Up", "Bazzi" + _Color + "_1.png", 1.0f, false, 12, 12);
@@ -163,7 +163,7 @@ void APlayer::PlayerCreateBazziAnimation(std::string _Color)
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Right", "Bazzi" + _Color + "_1.png", 0.1f, true, 7, 11);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Up", "Bazzi" + _Color + "_1.png", 0.1f, true, 13, 19);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Down", "Bazzi" + _Color + "_1.png", 0.1f, true, 21, 28);
-	Renderer->CreateAnimation("Bazzi" + _Color + "_Win", "Bazzi" + _Color + "_1.png", 0.1f, true, 29, 36);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Win", "Bazzi" + _Color + "_1.png", 0.1f, true, 29, 35);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_TrapStart", "Bazzi" + _Color + "_4.png", 0.07f, false, 6, 10);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Traped", "Bazzi" + _Color + "_4.png", 0.2f, false, 11, 23);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_TrapEnd", "Bazzi" + _Color + "_4.png", 0.25f, false, 24, 31);
@@ -219,13 +219,53 @@ void APlayer::PlayerCreateAnimation(std::string _CharacterType_Color)
 	Renderer->CreateAnimation(_CharacterType_Color + "_OnUFO_", _CharacterType_Color + "_3.png", 0.05f, true, 16, 19);
 }
 
+void APlayer::CharacterTypeDataInit()
+{
+	//Bazzi
+	MCharacterTypeData[ECharacterType::Bazzi].Type = "Bazzi";
+	MCharacterTypeData[ECharacterType::Bazzi].DataBaseBombCount = 1;
+	MCharacterTypeData[ECharacterType::Bazzi].DataMaxBombCount = 6;
+	MCharacterTypeData[ECharacterType::Bazzi].DataBaseBombPower = 0;
+	MCharacterTypeData[ECharacterType::Bazzi].DataMaxBombPower = 6;
+	MCharacterTypeData[ECharacterType::Bazzi].DataBaseSpeed = 40.0f * 5.0f;
+	MCharacterTypeData[ECharacterType::Bazzi].DataMaxSpeed = 40.0f * 9.0f;
+
+	//Dao
+	MCharacterTypeData[ECharacterType::Dao].Type = "Dao";
+	MCharacterTypeData[ECharacterType::Dao].DataBaseBombCount = 1;
+	MCharacterTypeData[ECharacterType::Dao].DataMaxBombCount = 10;
+	MCharacterTypeData[ECharacterType::Dao].DataBaseBombPower = 0;
+	MCharacterTypeData[ECharacterType::Dao].DataMaxBombPower = 6;
+	MCharacterTypeData[ECharacterType::Dao].DataBaseSpeed = 40.0f * 5.0f;
+	MCharacterTypeData[ECharacterType::Dao].DataMaxSpeed = 40.0f * 7.0f;
+
+	//luxMarid
+	MCharacterTypeData[ECharacterType::Marid].Type = "luxMarid";
+	MCharacterTypeData[ECharacterType::Marid].DataBaseBombCount = 2;
+	MCharacterTypeData[ECharacterType::Marid].DataMaxBombCount = 9;
+	MCharacterTypeData[ECharacterType::Marid].DataBaseBombPower = 0;
+	MCharacterTypeData[ECharacterType::Marid].DataMaxBombPower = 6;
+	MCharacterTypeData[ECharacterType::Marid].DataBaseSpeed = 40.0f * 5.0f;
+	MCharacterTypeData[ECharacterType::Marid].DataMaxSpeed = 40.0f * 9.0f;
+}
+
 void APlayer::PickUpItem()
 {
 	EItemType ItemType = PlayLevel->GetMap()->IsItemTile(GetActorLocation());
+
+	AddItemCount(ItemType);
+
 	switch (ItemType)
 	{
 	case EItemType::Bubble:
-		++BombCount;
+		if (BombCount < MaxBombCount)
+		{
+			++BombCount;
+		}
+		else
+		{
+			BombCount = MaxBombCount;
+		}
 		break;
 	case EItemType::Devil:
 		IsDevil = true;
@@ -236,12 +276,16 @@ void APlayer::PickUpItem()
 		{
 			++BombPower;
 		}
+		else
+		{
+			BombPower = MaxBombPower;
+		}
 		break;
 	case EItemType::Ultra:
 		BombPower = MaxBombPower;
 		break;
 	case EItemType::Roller:
-		Speed += 10.0f;
+		Speed += 40.0f;
 		CurSpeed = BaseSpeed + Speed;
 		if (MaxSpeed < CurSpeed)
 		{
@@ -261,8 +305,6 @@ void APlayer::PickUpItem()
 	default:
 		break;
 	}
-
-	AddItemCount(ItemType);
 }
 
 void APlayer::AddItemCount(EItemType _ItemType)
@@ -314,41 +356,18 @@ void APlayer::SetPlayerDead()
 
 void APlayer::SetCharacterType(ECharacterType _Character)
 {
-	switch (_Character)
-	{
-	case ECharacterType::Random:
-		break;
-	case ECharacterType::Dao:
-		PlayerType = ECharacterType::Dao;
-		Type = "Dao";
-		break;
-	case ECharacterType::Dizni:
-		break;
-	case ECharacterType::Mos:
-		break;
-	case ECharacterType::Ethi:
-		break;
-	case ECharacterType::Marid:
-		PlayerType = ECharacterType::Marid;
-		Type = "luxMarid";
-		break;
-	case ECharacterType::Bazzi:
-		PlayerType = ECharacterType::Bazzi;
-		Type = "Bazzi";
-		break;
-	case ECharacterType::Uni:
-		break;
-	case ECharacterType::Kephi:
-		break;
-	case ECharacterType::Su:
-		break;
-	case ECharacterType::HooU:
-		break;
-	case ECharacterType::Ray:
-		break;
-	default:
-		break;
-	}
+	PlayerType = _Character;
+	Type = MCharacterTypeData[_Character].Type;
+	BaseBombCount = MCharacterTypeData[_Character].DataBaseBombCount;
+	MaxBombCount = MCharacterTypeData[_Character].DataMaxBombCount;
+	BaseBombPower = MCharacterTypeData[_Character].DataBaseBombPower;
+	MaxBombPower = MCharacterTypeData[_Character].DataMaxBombPower;
+	BaseSpeed = MCharacterTypeData[_Character].DataBaseSpeed;
+	MaxSpeed = MCharacterTypeData[_Character].DataMaxSpeed;
+
+	BombCount = BaseBombCount;
+	BombPower = BaseBombPower;
+	CurSpeed = BaseSpeed + Speed;
 }
 
 void APlayer::SetPlayerColor(ECharacterColor _Color)

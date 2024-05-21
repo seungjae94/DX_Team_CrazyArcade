@@ -99,6 +99,8 @@ void AInGameUI::BeginPlay()
 	InitPlayerInfo();
 	DataToRender();
 
+	ResultBackGround->SetActive(false);
+	ResultSummary->SetActive(false);
 	std::vector<UImage*> PlayerUI; //플레이어
 	std::vector<UTextWidget*> PlayerNameUI ;
 	std::vector<PlayerState> PlayerInfo;
