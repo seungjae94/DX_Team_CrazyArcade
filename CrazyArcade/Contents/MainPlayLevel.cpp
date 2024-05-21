@@ -45,7 +45,7 @@ void AMainPlayLevel::CreateMap()
 	switch (MapType)
 	{
 	case EMapType::Village:
-		TileMap = GetWorld()->SpawnActor<AVillageMap>("VillageMap");
+		TileMap = GetWorld()->SpawnActor<APirateMap>("VillageMap");
 		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
 		Player->SetActorLocation({ 398.0f, 344.0f, 0.0f });
 		break;
