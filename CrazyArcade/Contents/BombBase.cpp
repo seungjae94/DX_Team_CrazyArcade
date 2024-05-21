@@ -152,8 +152,12 @@ void ABombBase::PlayerBombCountUpdate()
 
 void ABombBase::SetPlayer(APlayer* _Player)
 {
+	if (nullptr == _Player)
+	{
+		return;
+	}
+
 	Player = _Player;
-	
 	Power = Player->GetBombPower() + 1;
 }
 

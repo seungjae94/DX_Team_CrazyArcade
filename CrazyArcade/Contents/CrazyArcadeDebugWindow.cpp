@@ -11,9 +11,18 @@ UCrazyArcadeDebugWindow::~UCrazyArcadeDebugWindow()
 
 void UCrazyArcadeDebugWindow::OnGui(ULevel* Level, float _Delta)
 {
-	if (true == ImGui::Button("Main Title Level"))
+	float Fps = 1.0f / _Delta;
+	LowFps = (LowFps < Fps) ? LowFps : Fps;
+
+	std::string FpsText = std::string("FPS: ") + std::to_string(Fps);
+	std::string LowFpsText = std::string("Low FPS: ") + std::to_string(LowFps);
+
+	ImGui::Text(FpsText.c_str());
+	ImGui::Text(LowFpsText.c_str());
+
+	if (true == ImGui::Button("Reset FPS"))
 	{
-		//GEngine->ChangeLevel("MainTitleLevel");
+		LowFps = 1000000.0f;
 	}
 
 	if (true == ImGui::Button("Lobby Title Level"))
