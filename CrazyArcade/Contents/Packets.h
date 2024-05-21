@@ -19,6 +19,8 @@ enum EContentPacket
 	ConnectUpdatePacket,
 	ConnectInitPacket,
 	ChangeLevelPacket,
+
+	BlockUpdatePacket = 200,
 };
 
 // 우리는 최소 16바이트는 있어야 뭔가할수 있다.
@@ -166,4 +168,32 @@ public:
 
 public:
 	std::string LevelName = "";
+};
+
+class UBlockUpdatePacket : public UEngineProtocol {
+public:
+	static const EContentPacket Type = EContentPacket::BlockUpdatePacket;
+public:
+	UBlockUpdatePacket()
+	{
+		SetType(EContentPacket::BlockUpdatePacket);
+	}
+
+	void Serialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::Serialize(_Ser);
+		_Ser << IsMoveValue;
+		_Ser << MoveDir;
+	}
+
+	void DeSerialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::DeSerialize(_Ser);
+		_Ser >> IsMoveValue;
+		_Ser >> MoveDir;
+	}
+
+public:
+	bool IsMoveValue = false;
+	FVector MoveDir = {};
 };

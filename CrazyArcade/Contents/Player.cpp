@@ -188,7 +188,8 @@ void APlayer::PlayerCreateAnimation(std::string _CharacterType_Color)
 	Renderer->CreateAnimation(_CharacterType_Color + "_Run_Up", _CharacterType_Color + "_1.png", 0.09f, true, 13, 17);
 	Renderer->CreateAnimation(_CharacterType_Color + "_Run_Down", _CharacterType_Color + "_1.png", 0.09f, true, 19, 23);
 
-	Renderer->CreateAnimation(_CharacterType_Color + "_Win", _CharacterType_Color + "_1.png", 0.1f, true, 29, 36);
+	//Renderer->CreateAnimation(_CharacterType_Color + "_Win", _CharacterType_Color + "_1.png", 0.1f, true, 29, 36);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Win", _CharacterType_Color + "_4.png", 0.1f, true, 0, 12);
 	Renderer->CreateAnimation(_CharacterType_Color + "_TrapStart", _CharacterType_Color + "_5.png", 0.07f, false, 0, 4); // 0.2   0.25
 	Renderer->CreateAnimation(_CharacterType_Color + "_Traped", _CharacterType_Color + "_5.png", 0.2f, true, 5, 18); // 0.2   0.25
 	Renderer->CreateAnimation(_CharacterType_Color + "_TrapEnd", _CharacterType_Color + "_5.png", 0.25f, false, 19, 25);
