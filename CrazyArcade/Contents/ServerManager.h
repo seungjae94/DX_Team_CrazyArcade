@@ -47,7 +47,8 @@ public:
 		UpdateTick.push_back(_Update);
 	}
 	
-	void SetCommonToken(std::shared_ptr<UNetObject>_Object) {
+	template<typename Type>
+	void SetCommonToken(Type _Object) {
 		_Object->SetObjectToken(CommonObjectValue++);
 	}
 
