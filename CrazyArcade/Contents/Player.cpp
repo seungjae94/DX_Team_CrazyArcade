@@ -229,7 +229,8 @@ void APlayer::PickUpItem()
 		break;
 	case EItemType::Devil:
 		IsDevil = true;
-		MoveDevil = UEngineRandom::MainRandom.RandomInt(0, 1);
+		//MoveDevil = UEngineRandom::MainRandom.RandomInt(0, 1);
+		MoveDevil = true;
 		break;
 	case EItemType::Fluid:
 		if (BombPower < MaxBombPower)
