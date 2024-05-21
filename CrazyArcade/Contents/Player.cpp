@@ -132,6 +132,8 @@ void APlayer::Tick(float _DeltaTime)
 	PickUpItem();
 
 	Devil(_DeltaTime);
+
+	PlayerInfoUpdate();
 }
 
 void APlayer::PlayerCreateCuttingBazzi(std::string _Color)
