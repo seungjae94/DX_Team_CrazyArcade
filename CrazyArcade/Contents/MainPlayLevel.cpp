@@ -34,7 +34,7 @@ void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
 	
-	MapType = EMapType::Forest;
+	MapType = EMapType::Village;
 	CreateMap();
 }
 

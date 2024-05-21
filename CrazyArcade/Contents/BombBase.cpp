@@ -34,11 +34,11 @@ void ABombBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());	
 	SetImgCutting();
 	RendererInit();
 	StateInit();
 
+	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());	
 }
 
 void ABombBase::LevelStart(ULevel* _PrevLevel)
@@ -136,20 +136,18 @@ void ABombBase::StateInit()
 			}
 		}
 	);
-
-	State.ChangeState(BombState::idle);
 }
 
 void ABombBase::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	ProtocolTick([=](std::shared_ptr<UEngineProtocol> _Packet) {
-
-		std::shared_ptr<USpawnUpdatePacket> UpdatePacket = std::dynamic_pointer_cast<USpawnUpdatePacket>(_Packet);
-
-		SetActorLocation(UpdatePacket->Pos);
-		});
+	ProtocolTick([=](std::shared_ptr<UEngineProtocol> _Packet) 
+		{
+			std::shared_ptr<USpawnUpdatePacket> UpdatePacket = std::dynamic_pointer_cast<USpawnUpdatePacket>(_Packet);
+			SetActorLocation(UpdatePacket->Pos);
+		}
+	);
 
 	State.Update(_DeltaTime);
 }
