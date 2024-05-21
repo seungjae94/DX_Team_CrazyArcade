@@ -64,7 +64,7 @@ void APlayer::StateInit()
 			{
 			case ERiding::None:
 				State.ChangeState("Idle");
-				break;
+				return;
 			case ERiding::Owl:
 				RidingType = "Owl";
 				break;
@@ -367,7 +367,7 @@ void APlayer::RidingRun(float _DeltaTime)
 	{
 	case ERiding::None:
 		State.ChangeState("Run");
-		break;
+		return;
 	case ERiding::Owl:
 		RidingType = "Owl";
 		RidingSpeed = 200.0f;
@@ -629,9 +629,14 @@ void APlayer::SetTrapState()
 		else if (ERiding::None != Riding)
 		{
 			Riding = ERiding::None;
+			DelayCallBack(0.5f, [=]
+				{
+					IsRiding = false;
+				}
+			);
 			return;
 		}
-		else
+		else if(false == IsRiding)
 		{
 			State.ChangeState("TrapStart");
 		}

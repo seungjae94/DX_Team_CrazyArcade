@@ -366,12 +366,15 @@ void APlayer::PickUpItem()
 		CurSpeed = MaxSpeed;
 		break;
 	case EItemType::Owl:
+		IsRiding = true;
 		Riding = ERiding::Owl;
 		break;
 	case EItemType::Turtle:
+		IsRiding = true;
 		Riding = ERiding::Turtle;
 		break;
 	case EItemType::UFO:
+		IsRiding = true;
 		Riding = ERiding::UFO;
 		break;
 	case EItemType::Needle:

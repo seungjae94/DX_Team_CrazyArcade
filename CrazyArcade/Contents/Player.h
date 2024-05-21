@@ -64,6 +64,11 @@ public:
 		return Renderer;
 	}
 
+	inline int GetBombPower()
+	{
+		return BombPower;
+	}
+
 	inline void IncreaseBombCount()
 	{
 		++BombCount;
@@ -83,7 +88,7 @@ public:
 
 	void SetTrapState();
 	
-	int GetNeedleCount()
+	inline int GetNeedleCount()
 	{
 		return NeedleCount;
 	}
@@ -178,6 +183,7 @@ protected:
 
 	bool IsDead = false;
 	bool IsTraped = false;
+	bool IsRiding = false;
 
 	FPoint SpawnBombPoint = { -1, -1 };
 	bool IsBombOn = false;
