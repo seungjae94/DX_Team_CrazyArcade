@@ -153,9 +153,29 @@ int AMapBase::GetRenderOrder(const FVector& _Pos)
 bool AMapBase::IsBombPos(const FVector& _Pos, const FVector& _Dir)
 {
 	bool Result = false;
-	FPoint Point = ConvertLocationToPoint(_Pos);
+	FVector NextPos = _Pos;
 
-	if (nullptr != TileInfo[Point.Y][Point.X].Bomb)
+	if (0.0f < _Dir.X)			// ©Л
+	{
+		NextPos.X += BlockCheckAdjPosX;
+	}
+	else if (0.0f > _Dir.X)		// аб
+	{
+		NextPos.X -= BlockCheckAdjPosX;
+	}
+	else if (0.0f < _Dir.Y)		// ╩С
+	{
+		NextPos.Y += BlockCheckAdjUpPos;
+	}
+	else if (0.0f > _Dir.Y)		// го
+	{
+		NextPos.Y -= BlockCheckAdjDownPos;
+	}
+
+	FPoint Point = ConvertLocationToPoint(NextPos);
+
+	if (true == MapRangeCheckByPoint(Point)
+	&&	nullptr != TileInfo[Point.Y][Point.X].Bomb)
 	{
 		Result = true;
 	}
