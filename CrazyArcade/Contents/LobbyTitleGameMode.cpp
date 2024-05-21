@@ -916,7 +916,7 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 			{
 				IsFadeIn = true;
 				IsFadeOut = false;
-				GEngine->ChangeLevel("ServerGameMode");
+				GameStart();
 				return;
 			}
 
@@ -1290,6 +1290,12 @@ void ALobbyTitleGameMode::FadeOut(float _DeltaTime)
 {
 	FadeAlpha += _DeltaTime * 3.0f;
 	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
+}
+
+void ALobbyTitleGameMode::GameStart()
+{
+	GEngine->ChangeLevel("ServerGameMode");
+	return;
 }
 
 void ALobbyTitleGameMode::StringToText()
