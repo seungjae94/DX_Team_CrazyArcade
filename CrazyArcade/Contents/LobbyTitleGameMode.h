@@ -62,6 +62,8 @@ protected:
 	void FadeIn(float _DeltaTime);
 	void FadeOut(float _DeltaTime);
 
+	void GameStart();
+
 	void HandlerInit() override;
 
 private:
