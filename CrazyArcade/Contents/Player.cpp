@@ -225,12 +225,14 @@ void APlayer::PickUpItem()
 	switch (ItemType)
 	{
 	case EItemType::Bubble:
-		++BombCount;
+		if (BombCount < MaxBombCount)
+		{
+			++BombCount;
+		}
 		break;
 	case EItemType::Devil:
 		IsDevil = true;
-		//MoveDevil = UEngineRandom::MainRandom.RandomInt(0, 1);
-		MoveDevil = true;
+		MoveDevil = UEngineRandom::MainRandom.RandomInt(0, 1);
 		break;
 	case EItemType::Fluid:
 		if (BombPower < MaxBombPower)
