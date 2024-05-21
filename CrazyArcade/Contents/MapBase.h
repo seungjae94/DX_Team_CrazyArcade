@@ -17,8 +17,8 @@ class UTileInfo
 {
 public:
 	ABlockBase* Block = nullptr;
-	ABushBase* Bush = nullptr;
-	AItemBase* Item = nullptr;
+	std::shared_ptr<ABushBase> Bush = nullptr;
+	std::shared_ptr<AItemBase> Item = nullptr;
 	std::shared_ptr<ABombBase> Bomb = nullptr;
 };
 

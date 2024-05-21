@@ -1294,8 +1294,13 @@ void ALobbyTitleGameMode::FadeOut(float _DeltaTime)
 
 void ALobbyTitleGameMode::GameStart()
 {
-	GEngine->ChangeLevel("ServerGameMode");
-	return;
+	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType()) {
+		std::shared_ptr<UChangeLevelPacket> Packet = std::make_shared<UChangeLevelPacket>();
+		GEngine->ChangeLevel("ServerGameMode");
+		Packet->LevelName = "ServerGameMode";
+		UCrazyArcadeCore::NetManager.Send(Packet);
+		return;
+	}
 }
 
 void ALobbyTitleGameMode::StringToText()
@@ -1310,5 +1315,5 @@ void ALobbyTitleGameMode::StringToText()
 
 void ALobbyTitleGameMode::HandlerInit()
 {
-	
+
 }
