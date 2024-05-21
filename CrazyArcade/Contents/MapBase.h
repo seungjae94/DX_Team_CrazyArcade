@@ -66,6 +66,7 @@ public:
 	EItemType IsItemTile(const FVector& _Pos);
 	
 	std::shared_ptr<ABombBase> SpawnBomb(const FVector& _Pos, APlayer* _Player);
+	void ReSpawnItem(EItemType _Type, int _Count);
 	
 protected:
 	inline void SetBackGround(std::string_view _Name)

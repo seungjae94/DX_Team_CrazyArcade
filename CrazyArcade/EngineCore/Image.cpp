@@ -316,7 +316,7 @@ void UImage::CreateAnimation(
 void UImage::ChangeAnimation(std::string_view _AnimationName)
 {
 	if (nullptr != CurAnimation && _AnimationName == CurAnimation->GetName())
-	{
+	{ 
 		return;
 	}
 
