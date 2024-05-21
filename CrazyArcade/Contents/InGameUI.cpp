@@ -138,9 +138,9 @@ void AInGameUI::Tick(float _DeltaTIme)
 
 void AInGameUI::PlayerUpdate()
 {
-	std::map<int, std::string> UserInfos = ConnectionInfo::GetInst().GetUserInfos();
+	std::map<int, ConnectUserInfo> UserInfos = ConnectionInfo::GetInst().GetUserInfos();
 	
-	for (std::pair<int, std::string> Iterator : UserInfos)
+	for (std::pair<int, ConnectUserInfo> Iterator : UserInfos)
 	{
 	//	PlayerInfo[Iterator.first].IsDead = FPlayerInfo::IsDeads;
 	}
@@ -160,15 +160,15 @@ void AInGameUI::InitPlayerInfo()
 {
 	//
 
-	std::map<int, std::string> UserInfos = ConnectionInfo::GetInst().GetUserInfos();
+	std::map<int, ConnectUserInfo> UserInfos = ConnectionInfo::GetInst().GetUserInfos();
 	std::map<int, bool>UserDeadCheck = FPlayerInfo::IsDeads;
 
 
 	//오더랑 이름 가져오기
-	for (std::pair<int, std::string> Iterator : UserInfos)
+	for (std::pair<int, ConnectUserInfo> Iterator : UserInfos)
 	{ //이터레이터로 돌리기 
 		PlayerInfo[Iterator.first].Order = Iterator.first;
-		PlayerInfo[Iterator.first].PlayerName = Iterator.second;
+		PlayerInfo[Iterator.first].PlayerName = Iterator.second.MyName;
 		//
 		int a = 0;
 	}

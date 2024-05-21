@@ -596,6 +596,32 @@ void ALobbyTitleGameMode::BeginPlay()
 				Btns_CharacterSelect[i]->SetUp([=] {
 					IsInfoChange = true;
 					ChangeCharacter(ECharacterType(i));
+					ConnectionInfo::GetInst().SetCharacterType(ECharacterType(i));
+
+					// 패킷 보내기
+					{
+						std::shared_ptr<UConnectPacket> Packet = std::make_shared<UConnectPacket>();
+						std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
+
+						std::map<int, std::string> NameInfos;
+						std::map<int, int> CharacterTypeInfos;
+						std::map<int, int> ColorInfos;
+
+						for (std::pair<const int, ConnectUserInfo> Pair : Infos)
+						{
+							int Key = Pair.first;
+							NameInfos[Key] = Pair.second.MyName;
+							CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
+							ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
+						}
+
+						Packet->NameInfos = NameInfos;
+						Packet->CharacterTypeInfos = CharacterTypeInfos;
+						Packet->ColorInfos = ColorInfos;
+
+						UCrazyArcadeCore::NetManager.Send(Packet);
+					}
+
 					});
 			}
 
@@ -733,6 +759,31 @@ void ALobbyTitleGameMode::BeginPlay()
 				Btns_ColorSelect[i]->SetUp([=] {
 					IsInfoChange = true;
 					ChangeColor(ECharacterColor(i + 3000));
+					ConnectionInfo::GetInst().SetCharacterColor(ECharacterColor(i + 3000));
+
+					// 패킷 보내기
+					{
+						std::shared_ptr<UConnectPacket> Packet = std::make_shared<UConnectPacket>();
+						std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
+
+						std::map<int, std::string> NameInfos;
+						std::map<int, int> CharacterTypeInfos;
+						std::map<int, int> ColorInfos;
+
+						for (std::pair<const int, ConnectUserInfo> Pair : Infos)
+						{
+							int Key = Pair.first;
+							NameInfos[Key] = Pair.second.MyName;
+							CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
+							ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
+						}
+
+						Packet->NameInfos = NameInfos;
+						Packet->CharacterTypeInfos = CharacterTypeInfos;
+						Packet->ColorInfos = ColorInfos;
+
+						UCrazyArcadeCore::NetManager.Send(Packet);
+					}
 					});
 			}
 
@@ -968,14 +1019,16 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 	// UserInfos Update
 	{
 		{
-			std::map<int, std::string> ServerUserInfos = ConnectionInfo::GetInst().GetUserInfos();
+			std::map<int, ConnectUserInfo> ServerUserInfos = ConnectionInfo::GetInst().GetUserInfos();
 
 			for (int i = 0; i < 8; i++)
 			{
-				UserInfos[i].Name = ServerUserInfos[i];
+				UserInfos[i].Name = ServerUserInfos[i].MyName;
+				UserInfos[i].CharacterType = ServerUserInfos[i].GetMyCharacterType();
+				UserInfos[i].CharacterColor = ServerUserInfos[i].GetMyColorType();
 			}
 		}
-		{
+		/*{
 			std::map<int, ECharacterType> ServerCharacterTypeInfos = ConnectionInfo::GetInst().GetCharacterTypeInfos();
 
 			for (int i = 0; i < 8; i++)
@@ -990,7 +1043,7 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 			{
 				UserInfos[i].CharacterColor = ServerCharacterColorInfos[i];
 			}
-		}
+		}*/
 	}
 
 	// Space Update
