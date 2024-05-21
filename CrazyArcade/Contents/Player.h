@@ -2,6 +2,7 @@
 #include <EngineCore/Actor.h>
 #include <EngineCore/StateManager.h>
 #include <EngineCore/SpriteRenderer.h>
+#include "MapHelper.h"
 
 enum class EPlayerDir
 {
@@ -157,4 +158,8 @@ protected:
 
 	bool IsDead = false;
 	bool IsTraped = false;
+
+	FPoint SpawnBombPoint = { -1, -1 };
+	bool IsBombOn = false;
+
 };
