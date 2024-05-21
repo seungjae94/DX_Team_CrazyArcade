@@ -18,6 +18,7 @@ enum EContentPacket
 	SpawnUpdatePacket,
 	ConnectUpdatePacket,
 	ConnectInitPacket,
+	ChangeLevelPacket,
 };
 
 // 우리는 최소 16바이트는 있어야 뭔가할수 있다.
@@ -140,4 +141,29 @@ public:
 public:
 	int Session = 0;
 	std::string Name = "";
+};
+
+class UChangeLevelPacket : public UEngineProtocol {
+public:
+	static const EContentPacket Type = EContentPacket::ChangeLevelPacket;
+public:
+	UChangeLevelPacket()
+	{
+		SetType(EContentPacket::ChangeLevelPacket);
+	}
+
+	void Serialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::Serialize(_Ser);
+		_Ser << LevelName;
+	}
+
+	void DeSerialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::DeSerialize(_Ser);
+		_Ser >> LevelName;
+	}
+
+public:
+	std::string LevelName = "";
 };
