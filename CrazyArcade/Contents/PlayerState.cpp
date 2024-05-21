@@ -26,6 +26,7 @@ void APlayer::StateInit()
 	State.SetStartFunction("Ready", [=]
 		{
 			SetCharacterType(ConnectionInfo::GetInst().GetCharacterType());
+			SetPlayerColor(ConnectionInfo::GetInst().GetCharacterColor());
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Ready");
 		}
 	);
