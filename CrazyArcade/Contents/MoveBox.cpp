@@ -213,25 +213,29 @@ void AMoveBox::MoveUpdate(float _DeltaTime)
 void AMoveBox::CheckNearDestroy(FPoint _CurPoint)
 {
 	FPoint UpPoint = { _CurPoint.X, _CurPoint.Y + 1 };
-	if (this == PlayLevel->GetMap()->GetTileInfo(UpPoint).Block)
+	if (true == AMapBase::MapRangeCheckByPoint(UpPoint)
+	&&	this == PlayLevel->GetMap()->GetTileInfo(UpPoint).Block)
 	{
 		PlayLevel->GetMap()->GetTileInfo(UpPoint).Block = nullptr;
 	}
 
 	FPoint DownPoint = { _CurPoint.X, _CurPoint.Y - 1 };
-	if (this == PlayLevel->GetMap()->GetTileInfo(DownPoint).Block)
+	if (true == AMapBase::MapRangeCheckByPoint(DownPoint)
+	&&	this == PlayLevel->GetMap()->GetTileInfo(DownPoint).Block)
 	{
 		PlayLevel->GetMap()->GetTileInfo(DownPoint).Block = nullptr;
 	}
 
 	FPoint LeftPoint = { _CurPoint.X - 1, _CurPoint.Y };
-	if (this == PlayLevel->GetMap()->GetTileInfo(LeftPoint).Block)
+	if (true == AMapBase::MapRangeCheckByPoint(LeftPoint)
+	&&	this == PlayLevel->GetMap()->GetTileInfo(LeftPoint).Block)
 	{
 		PlayLevel->GetMap()->GetTileInfo(LeftPoint).Block = nullptr;
 	}
 
 	FPoint RightPoint = { _CurPoint.X + 1, _CurPoint.Y };
-	if (this == PlayLevel->GetMap()->GetTileInfo(RightPoint).Block)
+	if (true == AMapBase::MapRangeCheckByPoint(RightPoint)
+	&&	this == PlayLevel->GetMap()->GetTileInfo(RightPoint).Block)
 	{
 		PlayLevel->GetMap()->GetTileInfo(RightPoint).Block = nullptr;
 	}
