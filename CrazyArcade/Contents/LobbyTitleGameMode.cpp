@@ -998,8 +998,6 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 	{
 		Player.SpaceIndex = ConnectionInfo::GetInst().GetOrder();
 		Player.Name = ConnectionInfo::GetInst().GetMyName();
-		Player.CharacterType = ConnectionInfo::GetInst().GetCharacterType();
-		Player.CharacterColor = ConnectionInfo::GetInst().GetCharacterColor();
 
 		if (IsInfoChange == true)
 		{
@@ -1064,7 +1062,7 @@ void ALobbyTitleGameMode::ChatUpdate()
 			ChatText->SetScale(12.0f);
 			ChatText->SetWidgetLocation({ -373.0f, -198.0f });
 			ChatText->SetFont("±¼¸²");
-			ChatText->SetColor(Color8Bit::Black);
+			ChatText->SetColor(Color8Bit::White);
 			ChatText->SetFlag(FW1_LEFT);
 			ChatText->SetText(Player.Name + " : " + ChatInput);
 			ChatTexts.push_back(ChatText);

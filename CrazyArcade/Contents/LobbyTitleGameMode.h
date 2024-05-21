@@ -141,5 +141,4 @@ private:
 	void SettingCharacter(int _SpaceIndex);
 	void ChangeCharacter(ECharacterType _CharacterType);
 	void ChangeColor(ECharacterColor _CharacterColor);
-	void StringToText();
 };
