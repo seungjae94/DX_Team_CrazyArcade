@@ -62,7 +62,6 @@ protected:
 	void FadeIn(float _DeltaTime);
 	void FadeOut(float _DeltaTime);
 
-
 	void HandlerInit() override;
 
 private:
@@ -121,11 +120,18 @@ private:
 	UImage* Image_Line = nullptr;
 
 	// Chat
-
+	UImage* VoidBox = nullptr;
+	UImage* ChatBox = nullptr;
+	UTextWidget* ChatInputText = nullptr;
+	UTextWidget* ChatText = nullptr;
+	bool Chat_IsActive = false;
+	std::string ChatInput;
+	std::string Chat;
 
 	void SettingPanel(ECharacterType _CharacterType);
 	void SettingName(int _SpaceIndex);
 	void SettingCharacter(int _SpaceIndex);
 	void ChangeCharacter(ECharacterType _CharacterType);
 	void ChangeColor(ECharacterColor _CharacterColor);
+	void StringToText();
 };

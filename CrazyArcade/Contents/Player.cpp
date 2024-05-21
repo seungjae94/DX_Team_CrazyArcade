@@ -154,7 +154,7 @@ void APlayer::PlayerCreateCutting(std::string _CharacterType_Color)
 void APlayer::PlayerCreateBazziAnimation(std::string _Color)
 {
 
-	Renderer->CreateAnimation("Bazzi" + _Color + "_Ready", "Bazzi" + _Color + "_1.png", 0.06f, false, 37, 53);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Ready", "Bazzi" + _Color + "_1.png", 0.06f, false, 36, 53);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Idle_Left", "Bazzi" + _Color + "_1.png", 1.0f, false, 0, 0);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Idle_Right", "Bazzi" + _Color + "_1.png", 1.0f, false, 6, 6);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Idle_Up", "Bazzi" + _Color + "_1.png", 1.0f, false, 12, 12);
@@ -163,7 +163,7 @@ void APlayer::PlayerCreateBazziAnimation(std::string _Color)
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Right", "Bazzi" + _Color + "_1.png", 0.1f, true, 7, 11);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Up", "Bazzi" + _Color + "_1.png", 0.1f, true, 13, 19);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Down", "Bazzi" + _Color + "_1.png", 0.1f, true, 21, 28);
-	Renderer->CreateAnimation("Bazzi" + _Color + "_Win", "Bazzi" + _Color + "_1.png", 0.1f, true, 29, 36);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Win", "Bazzi" + _Color + "_1.png", 0.1f, true, 29, 35);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_TrapStart", "Bazzi" + _Color + "_4.png", 0.07f, false, 6, 10);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Traped", "Bazzi" + _Color + "_4.png", 0.2f, false, 11, 23);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_TrapEnd", "Bazzi" + _Color + "_4.png", 0.25f, false, 24, 31);
@@ -225,12 +225,14 @@ void APlayer::PickUpItem()
 	switch (ItemType)
 	{
 	case EItemType::Bubble:
-		++BombCount;
+		if (BombCount < MaxBombCount)
+		{
+			++BombCount;
+		}
 		break;
 	case EItemType::Devil:
 		IsDevil = true;
-		//MoveDevil = UEngineRandom::MainRandom.RandomInt(0, 1);
-		MoveDevil = true;
+		MoveDevil = UEngineRandom::MainRandom.RandomInt(0, 1);
 		break;
 	case EItemType::Fluid:
 		if (BombPower < MaxBombPower)
