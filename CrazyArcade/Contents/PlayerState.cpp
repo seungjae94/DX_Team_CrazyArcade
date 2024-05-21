@@ -9,6 +9,7 @@
 void APlayer::StateInit()
 {
 	// 스테이트 생성
+	State.CreateState("Ready");
 	State.CreateState("Idle");
 	State.CreateState("Run");
 	State.CreateState("TrapStart");
@@ -18,6 +19,13 @@ void APlayer::StateInit()
 	State.CreateState("Revival");
 
 	// 함수 세팅
+	State.SetUpdateFunction("Ready", std::bind(&APlayer::Ready, this, std::placeholders::_1));
+	State.SetStartFunction("Ready", [=]
+		{
+			Renderer->ChangeAnimation(Type + PlayerColorText + "_Ready");
+		}
+	);
+
 	State.SetUpdateFunction("Idle", std::bind(&APlayer::Idle, this, std::placeholders::_1));
 	State.SetStartFunction("Idle", [=]
 		{
@@ -87,7 +95,15 @@ void APlayer::StateInit()
 			IsTraped = false;
 		});
 
-	State.ChangeState("Idle");
+	State.ChangeState("Ready");
+}
+
+void APlayer::Ready(float _DeltaTime)
+{
+	if (Renderer->IsCurAnimationEnd())
+	{
+		State.ChangeState("Idle");
+	}
 }
 
 void APlayer::Idle(float _Update)

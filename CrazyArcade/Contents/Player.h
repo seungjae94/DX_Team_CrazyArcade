@@ -111,6 +111,7 @@ protected:
 	//State
 	void StateInit();
 
+	void Ready(float _DeltaTime);
 	void Idle(float _DeltaTime);
 	void Run(float _DeltaTime);
 	void TrapStart(float _DeltaTime);
