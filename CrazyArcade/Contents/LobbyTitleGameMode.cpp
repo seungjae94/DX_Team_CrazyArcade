@@ -874,8 +874,8 @@ void ALobbyTitleGameMode::BeginPlay()
 			{
 				ChatText = CreateWidget<UTextWidget>(GetWorld(), "ChatText");
 				ChatText->AddToViewPort(4);
-				ChatText->SetScale(20.0f);
-				ChatText->SetWidgetLocation({ -208.0f, -221.0f });
+				ChatText->SetScale(12.0f);
+				ChatText->SetWidgetLocation({ -310.0f, -193.0f });
 				ChatText->SetFont("±¼¸²");
 				ChatText->SetColor(Color8Bit::Black);
 				ChatText->SetFlag(FW1_LEFT);
@@ -912,7 +912,7 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 
 		if (IsFadeOut == true)
 		{
-			if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+			if (ENetType::Server != UCrazyArcadeCore::NetManager.GetNetType())
 			{
 				IsFadeOut = false;
 			}
@@ -935,7 +935,7 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 	UserInfosUpdate();
 
 	// Chat Update
-	StringToText();
+	ChatUpdate();
 
 	// Debug
 	{
@@ -1003,6 +1003,11 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 			SettingCharacter(i);
 		}
 	}
+}
+
+void ALobbyTitleGameMode::ChatUpdate()
+{
+	StringToText();
 }
 
 void ALobbyTitleGameMode::SpaceOn(int _Index)
@@ -1314,6 +1319,12 @@ void ALobbyTitleGameMode::StringToText()
 {
 	if (Chat_IsActive == true)
 	{
+		if (UEngineInput::IsDown(VK_RETURN))
+		{
+			ChatText->SetText(Player.Name + " : " + ChatInput);
+			return;
+		}
+
 		ChatInput = UEngineInputRecorder::GetText();
 	}
 
