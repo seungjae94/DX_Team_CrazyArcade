@@ -44,7 +44,7 @@ void ALobbyTitleGameMode::BeginPlay()
 
 			Player.SpaceIndex = 0;
 			Player.Name = "";
-			Player.CharacterType = ECharacterType::Random;
+			Player.CharacterType = ECharacterType::Dao;
 			Player.CharacterColor = ECharacterColor::Red;
 		}
 
@@ -444,6 +444,13 @@ void ALobbyTitleGameMode::BeginPlay()
 				Btn_CharacterSelect->SetAutoSize(1.0f, true);
 				Btn_CharacterSelect->SetWidgetLocation({ 121.0f + (72.0f * (i % 4)), 185.0f - (55.0f * (i / 4)) });
 
+				UImage* Btns_CharacterSelect_InActive = CreateWidget<UImage>(GetWorld(), "Btns_CharacterSelect_InActive");
+				Btns_CharacterSelect_InActive->SetSprite("Button_CharatorSelect_InActive.png");
+				Btns_CharacterSelect_InActive->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+				Btns_CharacterSelect_InActive->AddToViewPort(2);
+				Btns_CharacterSelect_InActive->SetAutoSize(1.0f, true);
+				Btns_CharacterSelect_InActive->SetWidgetLocation({ 121.0f + (72.0f * (i % 4)), 185.0f - (55.0f * (i / 4)) });
+
 				switch (i)
 				{
 				case 0:
@@ -460,6 +467,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_CharacterSelect->CreateAnimation("Hover", "Button_CharatorSelect_Dao_Hover.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Down", "Button_CharatorSelect_Dao_Down.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Dao_Pick.png", 0.1f, false, 0, 0);
+					Btns_CharacterSelect_InActive->SetActive(false);
 					break;
 				}
 				case 2:
@@ -495,6 +503,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_CharacterSelect->CreateAnimation("Hover", "Button_CharatorSelect_Marid_Hover.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Down", "Button_CharatorSelect_Marid_Down.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Marid_Pick.png", 0.1f, false, 0, 0);
+					Btns_CharacterSelect_InActive->SetActive(false);
 					break;
 				}
 				case 6:
@@ -503,6 +512,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_CharacterSelect->CreateAnimation("Hover", "Button_CharatorSelect_Bazzi_Hover.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Down", "Button_CharatorSelect_Bazzi_Down.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Bazzi_Pick.png", 0.1f, false, 0, 0);
+					Btns_CharacterSelect_InActive->SetActive(false);
 					break;
 				}
 				case 7:
@@ -585,18 +595,21 @@ void ALobbyTitleGameMode::BeginPlay()
 					PanelOn();
 					});
 
-				Btns_CharacterSelect[i]->SetDown([=] {
-					Btns_CharacterSelect[i]->ChangeAnimation("Down");
-					});
+				if (i == 1 || i == 5 || i == 6)
+				{
+					Btns_CharacterSelect[i]->SetDown([=] {
+						Btns_CharacterSelect[i]->ChangeAnimation("Down");
+						});
 
-				Btns_CharacterSelect[i]->SetPress([=] {
+					Btns_CharacterSelect[i]->SetPress([=] {
 
-					});
+						});
 
-				Btns_CharacterSelect[i]->SetUp([=] {
-					IsInfoChange = true;
-					ChangeCharacter(ECharacterType(i));
-					});
+					Btns_CharacterSelect[i]->SetUp([=] {
+						IsInfoChange = true;
+						ChangeCharacter(ECharacterType(i));
+						});
+				}
 			}
 
 			{
@@ -1326,7 +1339,7 @@ void ALobbyTitleGameMode::StringToText()
 		}
 
 		ChatInput = UEngineInputRecorder::GetText();
-	}
+	} 
 
 	ChatInputText->SetText(ChatInput);
 }

@@ -108,6 +108,7 @@ private:
 	CharacterAbilityInfo PanelInfo;
 
 	std::vector<UImage*> Btns_CharacterSelect;
+	std::vector<UImage*> Btns_CharacterSelect_InActive;
 	std::vector<bool> CharacterSelect_Pick;
 	UImage* Outline_CharacterSelect = nullptr;
 	UImage* Checker_CharacterSelect = nullptr;
