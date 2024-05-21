@@ -56,6 +56,15 @@ void UServerManager::ServerOpen()
 
 				});
 		});
+
+	UEngineDispatcher& Diss = UCrazyArcadeCore::Net->Dispatcher;
+	Diss.AddHandler<UChangeLevelPacket>([=](std::shared_ptr<UChangeLevelPacket> _Packet)
+		{
+			PushUpdate([=]()
+				{
+					GEngine->ChangeLevel(_Packet->LevelName);
+				});
+		});
 }
 
 void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
@@ -83,6 +92,15 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 				{
 					ConnectionInfo::GetInst().PushUserInfos(_Packet->GetSessionToken(), _Packet->Name);
 					SessionInitVec[_Packet->Session] = true;
+				});
+		});
+
+	UEngineDispatcher& Diss = UCrazyArcadeCore::Net->Dispatcher;
+	Diss.AddHandler<UChangeLevelPacket>([=](std::shared_ptr<UChangeLevelPacket> _Packet)
+		{
+			PushUpdate([=]()
+				{
+					GEngine->ChangeLevel(_Packet->LevelName);
 				});
 		});
 }
