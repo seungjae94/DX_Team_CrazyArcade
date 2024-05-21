@@ -46,8 +46,14 @@ public:
 		std::lock_guard<std::mutex> Lock(UpdateLock);
 		UpdateTick.push_back(_Update);
 	}
+	
+	void SetCommonToken(std::shared_ptr<UNetObject>_Object) {
+		_Object->SetObjectToken(CommonObjectValue++);
+	}
 
 protected:
+
+	static int CommonObjectValue;
 
 	std::mutex UpdateLock;
 	std::list<std::function<void()>> UpdateTick;
