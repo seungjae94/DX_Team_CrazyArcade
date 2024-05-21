@@ -24,11 +24,10 @@ protected:
 	void LevelEnd(ULevel* _NextLevel) override;
 
 private:
-	void CreatePool(int _y, int _x);
-	void CreatePools();
-	void Createrocks();
-	void CreateForestLeafsAndBushs();
-	void CreateForestMoveBoxs();
+	void CreateFlag(int _x, int _y);
+	void CreateWalls();
+	void CreatePirateBoxs();
+	void CreatePirateMoveBoxs();
 	void CreateItems();
 
 };

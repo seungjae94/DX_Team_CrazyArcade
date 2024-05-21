@@ -297,43 +297,43 @@ void AMapBase::SetCheckPos(const FVector& _NextPos, const FVector& _Dir)
 
 	if (0.0f < _Dir.X)			// ©Л
 	{
-		NextPos.X += 20.0f;
+		NextPos.X += BlockCheckAdjPosX;
 
 		NextPos1 = NextPos;
-		NextPos1.Y += BlockCheckAdjustPosY;
+		NextPos1.Y += BlockCheckSubPosY;
 
 		NextPos2 = NextPos;
-		NextPos2.Y -= BlockCheckAdjustPosY;
+		NextPos2.Y -= BlockCheckSubPosY;
 	}
 	else if (0.0f > _Dir.X)		// аб
 	{
-		NextPos.X -= 20.0f;
+		NextPos.X -= BlockCheckAdjPosX;
 
 		NextPos1 = NextPos;
-		NextPos1.Y += BlockCheckAdjustPosY;
+		NextPos1.Y += BlockCheckSubPosY;
 
 		NextPos2 = NextPos;
-		NextPos2.Y -= BlockCheckAdjustPosY;
+		NextPos2.Y -= BlockCheckSubPosY;
 	}
 	else if (0.0f < _Dir.Y)		// ╩С
 	{
-		NextPos.Y += 20.0f;
+		NextPos.Y += BlockCheckAdjUpPos;
 
 		NextPos1 = NextPos;
-		NextPos1.X += BlockCheckAdjustPosX;
+		NextPos1.X += BlockCheckSubPosX;
 
 		NextPos2 = NextPos;
-		NextPos2.X -= BlockCheckAdjustPosX;
+		NextPos2.X -= BlockCheckSubPosX;
 	}
 	else if (0.0f > _Dir.Y)		// го
 	{
-		NextPos.Y -= 17.0f;
+		NextPos.Y -= BlockCheckAdjDownPos;
 
 		NextPos1 = NextPos;
-		NextPos1.X += BlockCheckAdjustPosX;
+		NextPos1.X += BlockCheckSubPosX;
 
 		NextPos2 = NextPos;
-		NextPos2.X -= BlockCheckAdjustPosX;
+		NextPos2.X -= BlockCheckSubPosX;
 	}
 
 	NextPoint.X = static_cast<int>(NextPos.X / BlockSize);

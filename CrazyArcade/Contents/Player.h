@@ -82,6 +82,11 @@ public:
 	void PlayerInfoUpdate();
 
 	void SetTrapState();
+	
+	int GetNeedleCount()
+	{
+		return NeedleCount;
+	}
 
 protected:
 	void BeginPlay() override;
@@ -121,6 +126,8 @@ protected:
 	bool MoveDevil = false;
 
 	bool IsSuperman = false;
+
+	int NeedleCount = 1;
 
 	float RenderChangeTime = 0.0f;
 

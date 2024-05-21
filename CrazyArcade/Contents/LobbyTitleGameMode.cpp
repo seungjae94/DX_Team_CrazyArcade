@@ -79,19 +79,32 @@ void ALobbyTitleGameMode::BeginPlay()
 			Btn_GameStart->CreateAnimation("Down", "Button_GameStart_Down.png", 0.1f, false, 0, 0);
 			Btn_GameStart->ChangeAnimation("UnHover");
 
+			Btn_GameStart_InActive = CreateWidget<UImage>(GetWorld(), "Btn_GameStart_InActive");
+			Btn_GameStart_InActive->SetSprite("Button_GameStart_InActive.png");
+			Btn_GameStart_InActive->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+			Btn_GameStart_InActive->AddToViewPort(1);
+			Btn_GameStart_InActive->SetAutoSize(1.0f, true);
+			Btn_GameStart_InActive->SetWidgetLocation({ 231.0f, -222.0f });
+
 			Btn_GameStart->SetUnHover([=] {
 				Btn_GameStart->ChangeAnimation("UnHover");
 				});
 
 			Btn_GameStart->SetHover([=] {
-				if (Btn_GameStart->IsCurAnimationEnd() == true)
+				if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
 				{
-					Btn_GameStart->ChangeAnimation("Hover");
+					if (Btn_GameStart->IsCurAnimationEnd() == true)
+					{
+						Btn_GameStart->ChangeAnimation("Hover");
+					}
 				}
 				});
 
 			Btn_GameStart->SetDown([=] {
-				Btn_GameStart->ChangeAnimation("Down");
+				if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+				{
+					Btn_GameStart->ChangeAnimation("Down");
+				}
 				});
 
 			Btn_GameStart->SetPress([=] {
@@ -99,8 +112,11 @@ void ALobbyTitleGameMode::BeginPlay()
 				});
 
 			Btn_GameStart->SetUp([=] {
-				IsFadeOut = true;
-				Fade->SetActive(true);
+				if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+				{
+					IsFadeOut = true;
+					Fade->SetActive(true);
+				}
 				});
 		}
 
@@ -189,8 +205,8 @@ void ALobbyTitleGameMode::BeginPlay()
 				{
 					UTextWidget* Username_Space = CreateWidget<UTextWidget>(GetWorld(), "Username_Space");
 					Username_Space->AddToViewPort(1);
-					Username_Space->SetScale(15.0f);
-					Username_Space->SetPosition({ -326.0f + 106.0f * (i % 4), 103.0f - 145.0f * (i / 4) });
+					Username_Space->SetScale(13.0f);
+					Username_Space->SetPosition({ -325.0f + 106.0f * (i % 4), 102.0f - 145.0f * (i / 4) });
 					Username_Space->SetFont("±¼¸²");
 					Username_Space->SetColor(Color8Bit::Black);
 					Username_Space->SetFlag(FW1_CENTER);
@@ -923,6 +939,11 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
+	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+	{
+		Btn_GameStart_InActive->SetActive(false);
+	}
+
 	// Fade & ChangeLevel
 	{
 		if (IsFadeIn == true)
@@ -939,22 +960,15 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 
 		if (IsFadeOut == true)
 		{
-			if (ENetType::Server != UCrazyArcadeCore::NetManager.GetNetType())
+			if (FadeAlpha >= 1.0f)
 			{
+				IsFadeIn = true;
 				IsFadeOut = false;
+				GameStart();
+				return;
 			}
-			else
-			{
-				if (FadeAlpha >= 1.0f)
-				{
-					IsFadeIn = true;
-					IsFadeOut = false;
-					GameStart();
-					return;
-				}
 
-				FadeOut(_DeltaTime);
-			}
+			FadeOut(_DeltaTime);
 		}
 	}
 

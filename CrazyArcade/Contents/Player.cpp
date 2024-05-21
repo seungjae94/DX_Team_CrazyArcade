@@ -114,6 +114,10 @@ void APlayer::Tick(float _DeltaTime)
 		std::string Msg = std::format("CurSpeed : {}\n", CurSpeed);
 		UEngineDebugMsgWindow::PushMsg(Msg);
 	}
+	{
+		std::string Msg = std::format("NeedleCount : {}\n", NeedleCount);
+		UEngineDebugMsgWindow::PushMsg(Msg);
+	}
 	// 임의 적용 테스트
 	if (true == IsDown('C'))
 	{
@@ -371,6 +375,7 @@ void APlayer::PickUpItem()
 		Riding = ERiding::UFO;
 		break;
 	case EItemType::Needle:
+		NeedleCount++;
 		break;
 	default:
 		break;

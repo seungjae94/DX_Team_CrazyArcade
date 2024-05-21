@@ -79,6 +79,7 @@ private:
 
 	// GameStart, MapSelect
 	UImage* Btn_GameStart = nullptr;
+	UImage* Btn_GameStart_InActive = nullptr;
 	UImage* Btn_MapSelect = nullptr;
 
 	// Space
