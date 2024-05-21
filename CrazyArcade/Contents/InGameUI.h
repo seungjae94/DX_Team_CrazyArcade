@@ -32,6 +32,9 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTIme) override;
 
+	void LevelEnd(ULevel* _NextLevel);
+	void LevelStart(ULevel* _PrevLevel);
+
 private:
 	void CountDown(float _DeltaTime);
 	void TimerText();
@@ -64,9 +67,15 @@ private:
 
 	void DataToRender();
 
+	void PlayerStateCheck();
+	bool deadCheck;
 
-
-
+	static std::string StateToAnimName(ECharacterType _Type, ECharacterColor _Color, bool _IsDead);
+	static std::string TypeToName(ECharacterType _Type);
+	static std::string ColorToName(ECharacterColor _Color);
+	//static std::map<ECharacterType, std::string> TypeToName;
+	//static std::map<ECharacterColor, std::string> ColorToName;
+	//
 
 };
 

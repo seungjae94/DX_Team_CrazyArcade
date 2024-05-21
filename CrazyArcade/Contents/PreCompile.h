@@ -9,7 +9,7 @@
 #include <EngineCore/EngineShaderResources.h>
 #include <EngineCore/EngineCore.h>
 #include <EngineCore/StateManager.h>
-#include<EngineCore/EngineInputLayOut.h>
+#include <EngineCore/EngineInputLayOut.h>
 
 #include <EngineCore/Collision.h>
 #include <EngineCore/Renderer.h>

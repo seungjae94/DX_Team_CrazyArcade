@@ -3,6 +3,8 @@
 #include "Player.h"
 #include "CrazyArcadeCore.h"
 #include "ConnectionInfo.h"
+
+
 AInGameUI::AInGameUI()
 {
 
@@ -15,7 +17,30 @@ AInGameUI::~AInGameUI()
 
 void AInGameUI::BeginPlay()
 {
+
+
 	UEngineSprite::CreateCutting("Play_ExitButtonHover.png", 1, 2);
+
+
+	//베찌
+	UEngineSprite::CreateCutting("Play_Portrait_Bazzi_Lose_R.png", 1, 4);
+	UEngineSprite::CreateCutting("Play_Portrait_Bazzi_Normal_R.png", 1, 2);
+	UEngineSprite::CreateCutting("Play_Portrait_Bazzi_Lose_B.png", 1, 4);
+	UEngineSprite::CreateCutting("Play_Portrait_Bazzi_Normal_B.png", 1, 2);
+
+	//다오
+	UEngineSprite::CreateCutting("Play_Portrait_Dao_Normal_R.png", 1, 2);
+	UEngineSprite::CreateCutting("Play_Portrait_Dao_Lose_R.png", 1, 4);
+	UEngineSprite::CreateCutting("Play_Portrait_Dao_Lose_B.png", 1, 4);
+	UEngineSprite::CreateCutting("Play_Portrait_Dao_Normal_B.png", 1, 2);
+
+	//마리드
+	UEngineSprite::CreateCutting("Play_Portrait_Marid_Lose_B.png", 1, 4);
+	UEngineSprite::CreateCutting("Play_Portrait_Marid_Lose_R.png", 1, 4);
+	UEngineSprite::CreateCutting("Play_Portrait_Marid_Normal_B.png", 1, 2);
+	UEngineSprite::CreateCutting("Play_Portrait_Marid_Normal_R.png", 1, 2);
+
+
 
 	Super::BeginPlay();
 	CancelBtn = CreateWidget<UImage>(GetWorld(), "CancelButton");
@@ -32,14 +57,14 @@ void AInGameUI::BeginPlay()
 	ResultBackGround = CreateWidget<UImage>(GetWorld(), "ResultBackGroundUI");
 	ResultBackGround->SetSprite("ResultWindow.png");
 	ResultBackGround->SetMulColor({ 1.0f,1.0f,1.0f,0.7f });
-	ResultBackGround->AddWidgetLocation(FVector{-80.0,-30.0f });
+	ResultBackGround->AddWidgetLocation(FVector{ -80.0,-30.0f });
 	ResultBackGround->AddToViewPort(3);
 	ResultBackGround->SetScale({ 550,400 });
 
 
 	ResultSummary = CreateWidget<UImage>(GetWorld(), "ResultBackGroundUI");
 	ResultSummary->SetSprite("Result_Summary.png");
-	
+
 	ResultSummary->AddWidgetLocation(FVector{ -90.0f,140.0f });
 	ResultSummary->SetScale({ 350,20 });
 	ResultSummary->AddToViewPort(4);
@@ -73,15 +98,33 @@ void AInGameUI::BeginPlay()
 
 
 	//게임 실행 하면 유저 정보 가져와서 표시해주기 
-	
-	for (int i = 0; i < 9; i++)
+
+	for (int i = 0; i < 8; i++)
 	{
 
 		UImage* Render = CreateWidget<UImage>(GetWorld(), "PlayerRender" + i);
 		//Render->SetSprite();
-		Render->AddToViewPort(4);
+		Render->CreateAnimation("BazziRedNormal", "Play_Portrait_Bazzi_Normal_R.png", 1.5f, true, 0, 1);
+		Render->CreateAnimation("BazziRedLose", "Play_Portrait_Bazzi_Lose_R.png", 0.1f, true, 0, 3);
+		Render->CreateAnimation("BazziBlueNormal", "Play_Portrait_Bazzi_Normal_B.png", 0.1f, true, 0, 1);
+		Render->CreateAnimation("BazziBlueLose", "Play_Portrait_Bazzi_Lose_B.png", 0.1f, true, 0, 3);
+
+		Render->CreateAnimation("DaoRedNormal", "Play_Portrait_Dao_Normal_R.png", 0.1f, true, 0, 1);
+		Render->CreateAnimation("DaoRedAniLose", "Play_Portrait_Dao_Lose_R.png", 0.1f, true, 0, 3);
+		Render->CreateAnimation("DaoBlueAniNormal", "Play_Portrait_Dao_Normal_B.png", 1.5f, true, 0, 1);
+		Render->CreateAnimation("DaoBlueAniLose", "Play_Portrait_Dao_Normal_B.png", 0.1f, true, 0, 1);
+
+
+
+
+
+
+		Render->SetAutoSize(1.0f, true);
+		//Render->ChangeAnimation("BazziRedAniNormal");
+		// 랜더러 추가로 CreatAnimation만들고 추가하기 
+		Render->AddToViewPort(40);
 		PlayerUI.push_back(Render);
-		
+
 		UTextWidget* Name = CreateWidget<UTextWidget>(GetWorld(), "PlayerNameUI" + i);
 		Name->SetFont("굴림");
 		Name->SetScale(12.0f);
@@ -89,7 +132,7 @@ void AInGameUI::BeginPlay()
 		Name->AddToViewPort(30);
 		Name->SetFlag(FW1_LEFT);
 		Name->SetPosition({ 0 * (i + 20),0 });
-		
+
 		PlayerNameUI.push_back(Name);
 
 		PlayerState State;
@@ -100,21 +143,33 @@ void AInGameUI::BeginPlay()
 		State.IsDead = false;
 		PlayerInfo.push_back(State);
 	}
-	
+
 	InitPlayerInfo();
 	//DataToRender();
 
 	ResultBackGround->SetActive(false);
 	ResultSummary->SetActive(false);
 	std::vector<UImage*> PlayerUI; //플레이어
-	std::vector<UTextWidget*> PlayerNameUI ;
+	std::vector<UTextWidget*> PlayerNameUI;
 	std::vector<PlayerState> PlayerInfo;
 
 
 }
+
+void AInGameUI::LevelStart(ULevel* _PrevLevel)
+{
+	Super::LevelStart(_PrevLevel);
+	InitPlayerInfo();
+	DataToRender();
+}
+
+void AInGameUI::LevelEnd(ULevel* _NextLevel)
+{
+	Super::LevelEnd(_NextLevel);
+}
+
 void AInGameUI::Tick(float _DeltaTIme)
 {
-
 	Super::Tick(_DeltaTIme);
 
 	for (std::pair<const int, bool>& Pair : FPlayerInfo::IsDeads)
@@ -130,8 +185,10 @@ void AInGameUI::Tick(float _DeltaTIme)
 
 	if (this->IsActive() == true)
 	{
-	InitPlayerInfo();
-	DataToRender();
+		//InitPlayerInfo();
+		//DataToRender();
+		PlayerStateCheck();
+		
 	}
 
 
@@ -140,24 +197,6 @@ void AInGameUI::Tick(float _DeltaTIme)
 
 
 
-
-void AInGameUI::PlayerUpdate()
-{
-	std::map<int, std::string> UserInfos = ConnectionInfo::GetInst().GetUserInfos();
-	
-	for (std::pair<int, std::string> Iterator : UserInfos)
-	{
-	//	PlayerInfo[Iterator.first].IsDead = FPlayerInfo::IsDeads;
-	}
-	
-	
-	for (int i = 0; i < UCrazyArcadeCore::Net->GetSessionToken(); i++)
-	{
-		//PlayerInfo[i].IsDead() = FPlayerInfo::IsDeads();
-	}
-
-	
-}
 
 
 
@@ -176,30 +215,124 @@ void AInGameUI::InitPlayerInfo()
 		PlayerInfo[Iterator.first].PlayerName = Iterator.second;
 		//PlayerInfo[Iterator.first].IsDead = UserDeadCheck[Iterator.first];
 		//임시 작업용 코드 	
-		
-		
+
+
 
 	}
 
 
 	for (std::pair<int, bool> Iterattor : UserDeadCheck)
-	{	
+	{
 		PlayerInfo[Iterattor.first].IsDead = Iterattor.second;
 	}
-	
+
 
 }
 
 
 void AInGameUI::DataToRender()
 {
+
+
 	//PlayerInfo.size()
 	for (int i = 0; i < PlayerInfo.size(); i++)
 	{
-		PlayerNameUI[i]->SetPosition({306,180-(i*43)});
+		PlayerNameUI[i]->SetPosition({ 306,180 - (i * 43) });
 		PlayerNameUI[i]->SetText(PlayerInfo[i].PlayerName);
-		
+		PlayerUI[i]->SetPosition({ 282,183 - (i * 43) });
+		PlayerStateCheck();
 	}
 
 
+
+	//사진 
+
+	//ChangeAnmation()
+
+
+
+
 }
+std::string AInGameUI::StateToAnimName(ECharacterType _Type, ECharacterColor _Color, bool _IsDead)
+{
+	return TypeToName(_Type) + ColorToName(_Color) + (_IsDead ? "Dead" : "Normal");
+
+	//애니메이션 이름은 만들고 
+	//return TypeToName[_Type] + ColorToName[_Color] + (_IsDead ? "Dead" : "Normal");
+}
+
+
+void AInGameUI::PlayerStateCheck()
+{
+	//유저 들어오면 들어올수록 증가해주고 
+	//처음에 셋팅할때 디폴트로 셋팅을 해주기 때문에 전부 껐다가 켜는 기능을 추가하였다. 
+	std::map<int, std::string> UserInfos = ConnectionInfo::GetInst().GetUserInfos();
+
+	int UserCount = static_cast<int>(UserInfos.size());
+
+	for (int i = 0; i < UserCount; ++i)
+	{
+		PlayerUI[i]->SetActive(true);
+
+		std::string AnimName = StateToAnimName(PlayerInfo[i].PlayerType, PlayerInfo[i].PlayerColor, PlayerInfo[i].IsDead);
+		PlayerUI[i]->ChangeAnimation(AnimName);
+	}
+
+	for (int i = UserCount; i < 8; ++i)
+	{
+		PlayerUI[i]->SetActive(false);
+	}
+
+
+	//for (int i = 0; i < PlayerInfo.size(); i++)
+	//{
+	//	/*PlayerInfo[i].PlayerType*/
+	////ECharacterType TypeToName = ECharacterType::Bazzi;
+	////ECharacterColor ColorToName = PlayerInfo[i].PlayerColor;
+
+	////std::string name = StateToAnimName(TypeToName, ColorToName, PlayerInfo[i].IsDead);
+	////PlayerUI[i]->ChangeAnimation(StateToAnimName(TypeToName, ColorToName, PlayerInfo[i].IsDead));
+	////어떤 상태를 한번에 채크하는 방식으로 사용할 것ㅇ이다.
+
+	//	std::string AnimName = StateToAnimName(PlayerInfo[i].PlayerType,PlayerInfo[i].PlayerColor,PlayerInfo[i].IsDead);
+	//	PlayerUI[i]->ChangeAnimation(AnimName);
+	//}
+}
+
+std::string AInGameUI::TypeToName(ECharacterType _Type)
+{
+
+	switch (_Type)
+	{
+	case ECharacterType::Bazzi:
+		return "Bazzi";
+
+	case ECharacterType::Dao:
+		return "Dao";
+
+	case ECharacterType::Marid:
+		return "Marid";
+
+	default:
+		return "Bazzi";
+		break;
+	}
+}
+
+std::string AInGameUI::ColorToName(ECharacterColor _Color)
+{
+	switch (_Color)
+	{
+	case ECharacterColor::Red:
+		return "Red";
+
+	case ECharacterColor::Blue:
+		return "Blue";
+	default:
+		return "Red";
+		break;
+	}
+}
+
+
+
