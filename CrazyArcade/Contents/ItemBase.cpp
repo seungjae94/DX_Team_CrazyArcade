@@ -95,6 +95,12 @@ void AItemBase::SetItem(EItemType _Type)
 	case EItemType::Ultra:
 		Body->SetSprite(MapImgRes::item_ultra);
 		break;
+	case EItemType::Superman:
+		Body->SetSprite(MapImgRes::item_superman);
+		break;
+	case EItemType::Needle:
+		Body->SetSprite(MapImgRes::item_needle);
+		break;
 	}
 
 	State.ChangeState(ItemState::idle);

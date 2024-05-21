@@ -52,6 +52,7 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 	void UserInfosUpdate();
+	void ChatUpdate();
 
 	void SpaceOn(int _Index);
 	void SpaceOff(int _Index);
