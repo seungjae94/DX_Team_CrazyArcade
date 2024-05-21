@@ -384,7 +384,14 @@ void APlayer::SetTrapState()
 {
 	if (false == IsTraped)
 	{
-		State.ChangeState("TrapStart");
+		if (true == IsSuperman)
+		{
+			SetSupermanOff();
+		}
+		else
+		{
+			State.ChangeState("TrapStart");
+		}
 	}
 	else
 	{

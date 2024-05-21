@@ -133,6 +133,8 @@ void APlayer::Tick(float _DeltaTime)
 
 	Devil(_DeltaTime);
 
+	Superman(_DeltaTime);
+
 	PlayerInfoUpdate();
 }
 
@@ -305,6 +307,18 @@ void APlayer::PickUpItem()
 	case EItemType::Shoes:
 		Push = true;
 		break;
+	case EItemType::Superman:
+		IsSuperman = true;
+
+		BombCount = MaxBombCount;
+
+		BombPower = MaxBombPower;
+
+		Speed = MaxSpeed - BaseSpeed;
+		CurSpeed = MaxSpeed;
+		break;
+	case EItemType::Needle:
+		break;
 	default:
 		break;
 	}
@@ -331,22 +345,86 @@ void APlayer::Devil(float _DeltaTime)
 		}
 		else
 		{
-			FSpriteInfo SpriteInfo = Renderer->GetCurInfo();
+			//FSpriteInfo SpriteInfo = Renderer->GetCurInfo();
 			RenderChangeTime = 0.0f;
 		}
 
 		RenderChangeTime += _DeltaTime;
-		if (false == MoveDevil)
-		{
-
-		}
 
 		DevilTime -= _DeltaTime;
 
 		if (0.0f >= DevilTime)
 		{
 			IsDevil = false;
+			Renderer->SetMulColor(FVector::One);
 			DevilTime = 10.0f;
+		}
+	}
+}
+
+void APlayer::Superman(float _DeltaTime)
+{
+	if (true == IsSuperman)
+	{
+		if (0.0f <= RenderChangeTime && RenderChangeTime < 0.1f)
+		{
+			Renderer->SetMulColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+		}
+		else if (0.1f <= RenderChangeTime && RenderChangeTime < 0.2f)
+		{
+			Renderer->SetMulColor({ 1.0f, 1.0f, 0.0f, 1.0f });
+		}
+		else if (0.2f <= RenderChangeTime && RenderChangeTime < 0.3f)
+		{
+			Renderer->SetMulColor({ 0.0f, 0.0f, 1.0f, 1.0f });
+		}
+		else
+		{
+			//FSpriteInfo SpriteInfo = Renderer->GetCurInfo();
+			RenderChangeTime = 0.0f;
+		}
+
+		RenderChangeTime += _DeltaTime;
+
+		SupermanTime -= _DeltaTime;
+
+		if (0.0f >= SupermanTime)
+		{
+			SetSupermanOff();
+
+			BombCount = BaseBombCount + MPlayerItem[EItemType::Bubble];
+			if (BombCount > MaxBombCount)
+			{
+				BombCount = MaxBombCount;
+			}
+
+			if (0 != MPlayerItem[EItemType::Ultra])
+			{
+				BombPower = BaseBombPower + MPlayerItem[EItemType::Fluid];
+				if (BombPower > MaxBombPower)
+				{
+					BombPower = MaxBombPower;
+				}
+			}
+			else
+			{
+				BombPower = MaxBombPower;
+			}
+
+			if (0 != MPlayerItem[EItemType::RedDevil])
+			{
+				Speed = 40.0f * static_cast<float>(MPlayerItem[EItemType::Roller]);
+				if (Speed > (MaxSpeed - BaseSpeed))
+				{
+					Speed = MaxSpeed - BaseSpeed;
+				}
+				CurSpeed = BaseSpeed + Speed;
+			}
+			else
+			{
+				Speed = MaxSpeed - BaseSpeed;
+				CurSpeed = MaxSpeed;
+			}
 		}
 	}
 }

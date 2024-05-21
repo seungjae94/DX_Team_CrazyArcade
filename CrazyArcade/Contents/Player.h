@@ -60,6 +60,13 @@ public:
 		++BombCount;
 	}
 
+	void SetSupermanOff()
+	{
+		IsSuperman = false;
+		Renderer->SetMulColor(FVector::One);
+		SupermanTime = 10.0f;
+	}
+
 	void SetPlayerDead();
 	void SetCharacterType(ECharacterType _Character);
 	void SetPlayerColor(ECharacterColor _Color);
@@ -103,6 +110,8 @@ protected:
 	bool IsDevil = false;
 	bool MoveDevil = false;
 
+	bool IsSuperman = false;
+
 	float RenderChangeTime = 0.0f;
 
 	std::map<EItemType, int> MPlayerItem;
@@ -116,6 +125,8 @@ protected:
 
 	float DevilTime = 10.0f;
 	void Devil(float _DeltaTime);
+	float SupermanTime = 10.0f;
+	void Superman(float _DeltaTime);
 
 	ECharacterType PlayerType = ECharacterType::Bazzi;
 	std::string Type = "luxMarid";
