@@ -901,29 +901,29 @@ void ALobbyTitleGameMode::BeginPlay()
 					ChatBox->ChangeAnimation("Active");
 					Chat_IsActive = true;
 
-					UEngineInputRecorder::RecordStart(ChatInputText->GetText(), 15);
+					UEngineInputRecorder::RecordStart(ChatInputText->GetText(), 18);
 					});
 			}
 			{
 				ChatInputText = CreateWidget<UTextWidget>(GetWorld(), "ChatInputText");
 				ChatInputText->AddToViewPort(4);
-				ChatInputText->SetScale(15.0f);
-				ChatInputText->SetWidgetLocation({ -214.0f, -224.0f });
+				ChatInputText->SetScale(12.0f);
+				ChatInputText->SetWidgetLocation({ -213.0f, -225.0f });
 				ChatInputText->SetFont("±¼¸²");
 				ChatInputText->SetColor(Color8Bit::Black);
 				ChatInputText->SetFlag(FW1_LEFT);
 				ChatInputText->SetText(ChatInput);
 			}
-			{
+			/*{
 				ChatText = CreateWidget<UTextWidget>(GetWorld(), "ChatText");
 				ChatText->AddToViewPort(4);
 				ChatText->SetScale(12.0f);
-				ChatText->SetWidgetLocation({ -310.0f, -193.0f });
+				ChatText->SetWidgetLocation({ -373.0f, -198.0f });
 				ChatText->SetFont("±¼¸²");
 				ChatText->SetColor(Color8Bit::Black);
 				ChatText->SetFlag(FW1_LEFT);
 				ChatText->SetText(Chat);
-			}
+			}*/
 		}
 	}
 	{
@@ -997,7 +997,7 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 	// PlayerInfo Update
 	{
 		Player.SpaceIndex = ConnectionInfo::GetInst().GetOrder();
-		std::string Name = Player.Name;
+		Player.Name = ConnectionInfo::GetInst().GetMyName();
 
 		if (IsInfoChange == true)
 		{
@@ -1049,7 +1049,52 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 
 void ALobbyTitleGameMode::ChatUpdate()
 {
-	StringToText();
+	// Users Chat Update
+
+
+	// Player Chat Update
+	if (Chat_IsActive == false)
+	{
+		if (UEngineInput::IsDown(VK_RETURN) == true)
+		{
+			ChatBox->ChangeAnimation("Active");
+			Chat_IsActive = true;
+
+			UEngineInputRecorder::RecordStart(ChatInputText->GetText(), 18);
+		}
+	}
+	else if (Chat_IsActive == true)
+	{
+		if (UEngineInput::IsDown(VK_RETURN))
+		{
+			ChatBox->ChangeAnimation("InActive");
+			Chat_IsActive = false;
+			UEngineInputRecorder::RecordEnd();
+
+			UTextWidget* ChatText = CreateWidget<UTextWidget>(GetWorld(), "ChatText");
+			ChatText->AddToViewPort(4);
+			ChatText->SetScale(12.0f);
+			ChatText->SetWidgetLocation({ -373.0f, -198.0f });
+			ChatText->SetFont("±¼¸²");
+			ChatText->SetColor(Color8Bit::Black);
+			ChatText->SetFlag(FW1_LEFT);
+			ChatText->SetText(Player.Name + " : " + ChatInput);
+			ChatTexts.push_back(ChatText);
+
+			Chat_Size += 1;
+
+			for (int i = 0; i < Chat_Size; i++)
+			{
+
+			}
+
+			ChatInputText->SetText("");
+			return;
+		}
+
+		ChatInput = UEngineInputRecorder::GetText();
+		ChatInputText->SetText(ChatInput);
+	}
 }
 
 void ALobbyTitleGameMode::SpaceOn(int _Index)
@@ -1359,18 +1404,8 @@ void ALobbyTitleGameMode::GameStart()
 
 void ALobbyTitleGameMode::StringToText()
 {
-	if (Chat_IsActive == true)
-	{
-		if (UEngineInput::IsDown(VK_RETURN))
-		{
-			ChatText->SetText(Player.Name + " : " + ChatInput);
-			return;
-		}
 
-		ChatInput = UEngineInputRecorder::GetText();
-	} 
-
-	ChatInputText->SetText(ChatInput);
+	
 }
 
 void ALobbyTitleGameMode::HandlerInit()
