@@ -6,6 +6,8 @@
 #include "ItemBase.h"
 #include "MapBase.h"
 
+#include "Packets.h"
+
 AMoveBox::AMoveBox()
 {
 }
@@ -70,6 +72,13 @@ void AMoveBox::StateInit()
 	State.SetUpdateFunction(BlockState::move, [=](float _DeltaTime)
 		{
 			MoveUpdate(_DeltaTime);
+
+			//ProtocolTick([=](std::shared_ptr<UEngineProtocol> _Packet) 
+			//	{
+			//		std::shared_ptr<USpawnUpdatePacket> UpdatePacket = std::dynamic_pointer_cast<USpawnUpdatePacket>(_Packet);
+			//		SetActorLocation(UpdatePacket->Pos);
+			//	}
+			//);
 
 			FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
 			if (nullptr == PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush)

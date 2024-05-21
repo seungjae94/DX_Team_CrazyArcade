@@ -11,10 +11,7 @@
 #include "Wall.h"
 #include "Box.h"
 
-#include "Player.h"
 #include "ServerTestPlayer.h"
-
-#include "Packets.h"
 
 ABombBase::ABombBase()
 {
@@ -141,13 +138,6 @@ void ABombBase::StateInit()
 void ABombBase::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
-
-	//ProtocolTick([=](std::shared_ptr<UEngineProtocol> _Packet) 
-	//	{
-	//		std::shared_ptr<USpawnUpdatePacket> UpdatePacket = std::dynamic_pointer_cast<USpawnUpdatePacket>(_Packet);
-	//		SetActorLocation(UpdatePacket->Pos);
-	//	}
-	//);
 
 	State.Update(_DeltaTime);
 }
