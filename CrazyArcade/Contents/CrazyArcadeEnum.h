@@ -81,5 +81,8 @@ enum class EItemType
 	Shoes,
 	Ultra,
 	Superman,
+	Owl,
+	Turtle,
+	UFO,
 	Needle,
 };
