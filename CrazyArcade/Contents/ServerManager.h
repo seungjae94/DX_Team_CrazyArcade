@@ -42,7 +42,16 @@ public:
 
 	void ReserveHandler(std::function<void()> _Handler);
 
+	void PushUpdate(std::function<void()> _Update) {
+		std::lock_guard<std::mutex> Lock(UpdateLock);
+		UpdateTick.push_back(_Update);
+	}
+
 protected:
+
+	std::mutex UpdateLock;
+	std::list<std::function<void()>> UpdateTick;
+
 	std::mutex SessinInitMutex;
 	std::vector<bool> SessionInitVec = { true, false, false, false, false, false, false, false };
 	ENetType ManagerType = ENetType::None;
