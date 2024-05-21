@@ -912,15 +912,22 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 
 		if (IsFadeOut == true)
 		{
-			if (FadeAlpha >= 1.0f)
+			if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
 			{
-				IsFadeIn = true;
 				IsFadeOut = false;
-				GameStart();
-				return;
 			}
+			else
+			{
+				if (FadeAlpha >= 1.0f)
+				{
+					IsFadeIn = true;
+					IsFadeOut = false;
+					GameStart();
+					return;
+				}
 
-			FadeOut(_DeltaTime);
+				FadeOut(_DeltaTime);
+			}
 		}
 	}
 
