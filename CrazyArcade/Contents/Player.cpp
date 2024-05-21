@@ -102,6 +102,18 @@ void APlayer::Tick(float _DeltaTime)
 		std::string Msg = std::format("Bubble : {}\n", MPlayerItem[EItemType::Bubble]);
 		UEngineDebugMsgWindow::PushMsg(Msg);
 	}
+	{
+		std::string Msg = std::format("BombCount : {}\n", BombCount);
+		UEngineDebugMsgWindow::PushMsg(Msg);
+	}
+	{
+		std::string Msg = std::format("BombPower : {}\n", BombPower);
+		UEngineDebugMsgWindow::PushMsg(Msg);
+	}
+	{
+		std::string Msg = std::format("CurSpeed : {}\n", CurSpeed);
+		UEngineDebugMsgWindow::PushMsg(Msg);
+	}
 	// 임의 적용 테스트
 	if (true == IsDown('C'))
 	{
@@ -134,6 +146,7 @@ void APlayer::Tick(float _DeltaTime)
 	Devil(_DeltaTime);
 
 	Superman(_DeltaTime);
+	CheckBombCount();
 
 	PlayerInfoUpdate();
 }
@@ -163,16 +176,39 @@ void APlayer::PlayerCreateBazziAnimation(std::string _Color)
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Idle_Right", "Bazzi" + _Color + "_1.png", 1.0f, false, 6, 6);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Idle_Up", "Bazzi" + _Color + "_1.png", 1.0f, false, 12, 12);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Idle_Down", "Bazzi" + _Color + "_1.png", 1.0f, false, 20, 20);
+
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Left", "Bazzi" + _Color + "_1.png", 0.1f, true, 1, 5);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Right", "Bazzi" + _Color + "_1.png", 0.1f, true, 7, 11);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Up", "Bazzi" + _Color + "_1.png", 0.1f, true, 13, 19);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Down", "Bazzi" + _Color + "_1.png", 0.1f, true, 21, 28);
+
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Win", "Bazzi" + _Color + "_1.png", 0.1f, true, 29, 35);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_TrapStart", "Bazzi" + _Color + "_4.png", 0.07f, false, 6, 10);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Traped", "Bazzi" + _Color + "_4.png", 0.2f, false, 11, 23);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_TrapEnd", "Bazzi" + _Color + "_4.png", 0.25f, false, 24, 31);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Die", "Bazzi" + _Color + "_2.png", 0.15f, false, 0, 5);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Revival", "Bazzi" + _Color + "_2.png", 0.15f, false, 6, 9);
+
+	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleOwl_Left", "Bazzi" + _Color + "_3.png", 0.15f, false, 0, 0);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleOwl_Right", "Bazzi" + _Color + "_3.png", 0.15f, false, 2, 2);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleOwl_Up", "Bazzi" + _Color + "_3.png", 0.15f, false, 4, 4);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleOwl_Down", "Bazzi" + _Color + "_3.png", 0.15f, false, 6, 6);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleTurtle_Left", "Bazzi" + _Color + "_3.png", 0.15f, false, 8, 8);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleTurtle_Right", "Bazzi" + _Color + "_3.png", 0.15f, false, 10, 10);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleTurtle_Down", "Bazzi" + _Color + "_3.png", 0.15f, false, 12, 12);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleTurtle_Up", "Bazzi" + _Color + "_3.png", 0.15f, false, 14, 14);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingOwl_Left", "Bazzi" + _Color + "_3.png", 0.15f, true, 0, 1);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingOwl_Right", "Bazzi" + _Color + "_3.png", 0.15f, true, 2, 3);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingOwl_Up", "Bazzi" + _Color + "_3.png", 0.15f, true, 4, 5);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingOwl_Down", "Bazzi" + _Color + "_3.png", 0.15f, true, 6, 7);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingTurtle_Left", "Bazzi" + _Color + "_3.png", 0.2f, true, 8, 9);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingTurtle_Right", "Bazzi" + _Color + "_3.png", 0.2f, true, 10, 11);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingTurtle_Up", "Bazzi" + _Color + "_3.png", 0.2f, true, 14, 15);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingTurtle_Down", "Bazzi" + _Color + "_3.png", 0.2f, true, 12, 13);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingUFO_Left", "Bazzi" + _Color + "_3.png", 0.09f, true, 16, 16);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingUFO_Right", "Bazzi" + _Color + "_3.png", 0.09f, true, 17, 17);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingUFO_Up", "Bazzi" + _Color + "_3.png", 0.09f, true, 18, 18);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingUFO_Down", "Bazzi" + _Color + "_3.png", 0.09f, true, 19, 19);
 }
 
 void APlayer::PlayerCreateAnimation(std::string _CharacterType_Color)
@@ -317,6 +353,15 @@ void APlayer::PickUpItem()
 		Speed = MaxSpeed - BaseSpeed;
 		CurSpeed = MaxSpeed;
 		break;
+	case EItemType::Owl:
+		Riding = ERiding::Owl;
+		break;
+	case EItemType::Turtle:
+		Riding = ERiding::Turtle;
+		break;
+	case EItemType::UFO:
+		Riding = ERiding::UFO;
+		break;
 	case EItemType::Needle:
 		break;
 	default:
@@ -426,6 +471,14 @@ void APlayer::Superman(float _DeltaTime)
 				CurSpeed = MaxSpeed;
 			}
 		}
+	}
+}
+
+void APlayer::CheckBombCount()
+{
+	if (true != IsSuperman && BombCount > (MPlayerItem[EItemType::Bubble] + 1))
+	{
+		BombCount = MPlayerItem[EItemType::Bubble] + 1;
 	}
 }
 

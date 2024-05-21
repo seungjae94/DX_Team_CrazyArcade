@@ -2,6 +2,7 @@
 #include <EngineCore/Actor.h>
 #include <EngineCore/StateManager.h>
 #include <EngineCore/SpriteRenderer.h>
+#include "MapHelper.h"
 
 enum class EPlayerDir
 {
@@ -9,6 +10,14 @@ enum class EPlayerDir
 	Right,
 	Up,
 	Down,
+};
+
+enum class ERiding
+{
+	None,
+	Owl,
+	Turtle,
+	UFO,
 };
 
 struct FPlayerInfo
@@ -90,6 +99,7 @@ protected:
 	std::string Name = "Player";
 	EPlayerDir PlayerDir = EPlayerDir::Down;
 	ABombBase* Bomb = nullptr;
+	ERiding Riding = ERiding::None;
 
 	int BaseBombCount = 1;
 	int BombCount = 2;
@@ -128,6 +138,8 @@ protected:
 	float SupermanTime = 10.0f;
 	void Superman(float _DeltaTime);
 
+	void CheckBombCount();
+
 	ECharacterType PlayerType = ECharacterType::Bazzi;
 	std::string Type = "luxMarid";
 	ECharacterColor PlayerColor = ECharacterColor::Red;
@@ -147,6 +159,8 @@ protected:
 	void Ready(float _DeltaTime);
 	void Idle(float _DeltaTime);
 	void Run(float _DeltaTime);
+	void RidingIdle(float _DeltaTime);
+	void RidingRun(float _DeltaTime);
 	void TrapStart(float _DeltaTime);
 	void Traped(float _DeltaTime);
 	void TrapEnd(float _DeltaTime);
@@ -157,4 +171,8 @@ protected:
 
 	bool IsDead = false;
 	bool IsTraped = false;
+
+	FPoint SpawnBombPoint = { -1, -1 };
+	bool IsBombOn = false;
+
 };
