@@ -197,6 +197,10 @@ void APlayer::PlayerCreateBazziAnimation(std::string _Color)
 	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleTurtle_Right", "Bazzi" + _Color + "_3.png", 0.15f, false, 10, 10);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleTurtle_Down", "Bazzi" + _Color + "_3.png", 0.15f, false, 12, 12);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleTurtle_Up", "Bazzi" + _Color + "_3.png", 0.15f, false, 14, 14);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleUFO_Left", "Bazzi" + _Color + "_3.png", 0.09f, false, 16, 16);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleUFO_Right", "Bazzi" + _Color + "_3.png", 0.09f, false, 17, 17);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleUFO_Up", "Bazzi" + _Color + "_3.png", 0.09f, false, 18, 18);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleUFO_Down", "Bazzi" + _Color + "_3.png", 0.09f, false, 19, 19);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingOwl_Left", "Bazzi" + _Color + "_3.png", 0.15f, true, 0, 1);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingOwl_Right", "Bazzi" + _Color + "_3.png", 0.15f, true, 2, 3);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingOwl_Up", "Bazzi" + _Color + "_3.png", 0.15f, true, 4, 5);
@@ -242,6 +246,10 @@ void APlayer::PlayerCreateAnimation(std::string _CharacterType_Color)
 	Renderer->CreateAnimation(_CharacterType_Color + "_IdleTurtle_Right", _CharacterType_Color + "_3.png", 0.15f, false, 10, 10);
 	Renderer->CreateAnimation(_CharacterType_Color + "_IdleTurtle_Down", _CharacterType_Color + "_3.png", 0.15f, false, 12, 12);
 	Renderer->CreateAnimation(_CharacterType_Color + "_IdleTurtle_Up", _CharacterType_Color + "_3.png", 0.15f, false, 14, 14);
+	Renderer->CreateAnimation(_CharacterType_Color + "_IdleUFO_Left", _CharacterType_Color + "_3.png", 0.09f, false, 16, 16);
+	Renderer->CreateAnimation(_CharacterType_Color + "_IdleUFO_Right", _CharacterType_Color + "_3.png", 0.09f, false, 17, 17);
+	Renderer->CreateAnimation(_CharacterType_Color + "_IdleUFO_Up", _CharacterType_Color + "_3.png", 0.09f, false, 18, 18);
+	Renderer->CreateAnimation(_CharacterType_Color + "_IdleUFO_Down", _CharacterType_Color + "_3.png", 0.09f, false, 19, 19);
 	Renderer->CreateAnimation(_CharacterType_Color + "_RidingOwl_Left", _CharacterType_Color + "_3.png", 0.15f, true, 0, 1);
 	Renderer->CreateAnimation(_CharacterType_Color + "_RidingOwl_Right", _CharacterType_Color + "_3.png", 0.15f, true, 2, 3);
 	Renderer->CreateAnimation(_CharacterType_Color + "_RidingOwl_Up", _CharacterType_Color + "_3.png", 0.15f, true, 4, 5);

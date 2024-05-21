@@ -44,6 +44,9 @@ namespace MapImgRes
 	const std::string_view item_shoes				= "spr_item_shoes.png";
 	const std::string_view item_ultra				= "spr_item_ultra.png";
 	const std::string_view item_superman			= "spr_item_superman.png";
+	const std::string_view item_owl					= "spr_item_owl.png";
+	const std::string_view item_turtle				= "spr_item_turtle.png";
+	const std::string_view item_ufo					= "spr_item_ufo.png";
 	const std::string_view item_needle				= "spr_item_needle.png";
 
 	// Bomb

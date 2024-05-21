@@ -157,6 +157,10 @@ void APlayer::Ready(float _DeltaTime)
 
 void APlayer::Idle(float _Update)
 {
+	if (ERiding::None != Riding)
+	{
+		State.ChangeState("RidingIdle");
+	}
 	// Bomb 피격
 	//if (/*피격 당했으면*/)
 	if (true == IsDown('1'))
@@ -209,6 +213,10 @@ void APlayer::Idle(float _Update)
 
 void APlayer::Run(float _DeltaTime)
 {
+	if (ERiding::None != Riding)
+	{
+		State.ChangeState("RidingRun");
+	}
 	// Bomb 설치
 	if (true == IsDown(VK_SPACE))
 	{
@@ -359,6 +367,7 @@ void APlayer::RidingIdle(float _Update)
 void APlayer::RidingRun(float _DeltaTime)
 {
 	std::string RidingType = "";
+	float RidingSpeed = 0.0f;
 	switch (Riding)
 	{
 	case ERiding::None:
@@ -366,12 +375,15 @@ void APlayer::RidingRun(float _DeltaTime)
 		break;
 	case ERiding::Owl:
 		RidingType = "Owl";
+		RidingSpeed = 200.0f;
 		break;
 	case ERiding::Turtle:
 		RidingType = "Turtle";
+		RidingSpeed = 40.0f;
 		break;
 	case ERiding::UFO:
 		RidingType = "UFO";
+		RidingSpeed = 400.0f;
 		break;
 	default:
 		break;
@@ -416,13 +428,13 @@ void APlayer::RidingRun(float _DeltaTime)
 		if (true == IsDevil && true == MoveDevil)
 		{
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Riding" + RidingType + "_Right");
-			KeyMove(_DeltaTime, FVector::Right, CurSpeed);
+			KeyMove(_DeltaTime, FVector::Right, RidingSpeed);
 			PlayerDir = EPlayerDir::Right;
 		}
 		else //기본 이동
 		{
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Riding" + RidingType + "_Left");
-			KeyMove(_DeltaTime, FVector::Left, CurSpeed);
+			KeyMove(_DeltaTime, FVector::Left, RidingSpeed);
 			PlayerDir = EPlayerDir::Left;
 		}
 	}
@@ -431,13 +443,13 @@ void APlayer::RidingRun(float _DeltaTime)
 		if (true == IsDevil && true == MoveDevil)
 		{
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Riding" + RidingType + "_Left");
-			KeyMove(_DeltaTime, FVector::Left, CurSpeed);
+			KeyMove(_DeltaTime, FVector::Left, RidingSpeed);
 			PlayerDir = EPlayerDir::Left;
 		}
 		else
 		{
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Riding" + RidingType + "_Right");
-			KeyMove(_DeltaTime, FVector::Right, CurSpeed);
+			KeyMove(_DeltaTime, FVector::Right, RidingSpeed);
 			PlayerDir = EPlayerDir::Right;
 
 		}
@@ -447,13 +459,13 @@ void APlayer::RidingRun(float _DeltaTime)
 		if (true == IsDevil && true == MoveDevil)
 		{
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Riding" + RidingType + "_Down");
-			KeyMove(_DeltaTime, FVector::Down, CurSpeed);
+			KeyMove(_DeltaTime, FVector::Down, RidingSpeed);
 			PlayerDir = EPlayerDir::Down;
 		}
 		else
 		{
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Riding" + RidingType + "_Up");
-			KeyMove(_DeltaTime, FVector::Up, CurSpeed);
+			KeyMove(_DeltaTime, FVector::Up, RidingSpeed);
 			PlayerDir = EPlayerDir::Up;
 		}
 	}
@@ -462,13 +474,13 @@ void APlayer::RidingRun(float _DeltaTime)
 		if (true == IsDevil && true == MoveDevil)
 		{
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Riding" + RidingType + "_Up");
-			KeyMove(_DeltaTime, FVector::Up, CurSpeed);
+			KeyMove(_DeltaTime, FVector::Up, RidingSpeed);
 			PlayerDir = EPlayerDir::Up;
 		}
 		else
 		{
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Riding" + RidingType + "_Down");
-			KeyMove(_DeltaTime, FVector::Down, CurSpeed);
+			KeyMove(_DeltaTime, FVector::Down, RidingSpeed);
 			PlayerDir = EPlayerDir::Down;
 		}
 	}
@@ -617,6 +629,12 @@ void APlayer::SetTrapState()
 		if (true == IsSuperman)
 		{
 			SetSupermanOff();
+			return;
+		}
+		else if (ERiding::None != Riding)
+		{
+			Riding = ERiding::None;
+			return;
 		}
 		else
 		{
