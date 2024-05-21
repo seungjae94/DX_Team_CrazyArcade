@@ -40,8 +40,7 @@ void UServerManager::ServerOpen()
 				});
 		});
 
-	UEngineDispatcher& Diss = UCrazyArcadeCore::Net->Dispatcher;
-	Diss.AddHandler<UConnectInitPacket>([=](std::shared_ptr<UConnectInitPacket> _Packet)
+	Dis.AddHandler<UConnectInitPacket>([=](std::shared_ptr<UConnectInitPacket> _Packet)
 		{
 			PushUpdate([=]()
 				{
@@ -57,8 +56,7 @@ void UServerManager::ServerOpen()
 				});
 		});
 
-	UEngineDispatcher& Diss = UCrazyArcadeCore::Net->Dispatcher;
-	Diss.AddHandler<UChangeLevelPacket>([=](std::shared_ptr<UChangeLevelPacket> _Packet)
+	Dis.AddHandler<UChangeLevelPacket>([=](std::shared_ptr<UChangeLevelPacket> _Packet)
 		{
 			PushUpdate([=]()
 				{
@@ -85,8 +83,7 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 				});
 		});
 
-	UEngineDispatcher& Diss = UCrazyArcadeCore::Net->Dispatcher;
-	Diss.AddHandler<UConnectInitPacket>([=](std::shared_ptr<UConnectInitPacket> _Packet)
+	Dis.AddHandler<UConnectInitPacket>([=](std::shared_ptr<UConnectInitPacket> _Packet)
 		{
 			PushUpdate([=]()
 				{
@@ -95,8 +92,7 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 				});
 		});
 
-	UEngineDispatcher& Diss = UCrazyArcadeCore::Net->Dispatcher;
-	Diss.AddHandler<UChangeLevelPacket>([=](std::shared_ptr<UChangeLevelPacket> _Packet)
+	Dis.AddHandler<UChangeLevelPacket>([=](std::shared_ptr<UChangeLevelPacket> _Packet)
 		{
 			PushUpdate([=]()
 				{

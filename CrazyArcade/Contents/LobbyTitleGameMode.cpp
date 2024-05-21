@@ -1294,8 +1294,10 @@ void ALobbyTitleGameMode::FadeOut(float _DeltaTime)
 
 void ALobbyTitleGameMode::GameStart()
 {
+	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType()) {
 	GEngine->ChangeLevel("ServerGameMode");
 	return;
+	}
 }
 
 void ALobbyTitleGameMode::StringToText()
