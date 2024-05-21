@@ -19,7 +19,7 @@ public:
 	ABlockBase* Block = nullptr;
 	ABushBase* Bush = nullptr;
 	AItemBase* Item = nullptr;
-	ABombBase* Bomb = nullptr;
+	std::shared_ptr<ABombBase> Bomb = nullptr;
 };
 
 // 설명 : Map 기초 클래스
@@ -65,7 +65,7 @@ public:
 	bool IsBushPos(const FVector& _Pos);
 	EItemType IsItemTile(const FVector& _Pos);
 	
-	ABombBase* SpawnBomb(const FVector& _Pos, APlayer* _Player);
+	std::shared_ptr<ABombBase> SpawnBomb(const FVector& _Pos, APlayer* _Player);
 	
 protected:
 	inline void SetBackGround(std::string_view _Name)

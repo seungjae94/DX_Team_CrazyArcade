@@ -2,6 +2,8 @@
 #include "CrazyArcadeEnum.h"
 #include <EngineCore/Actor.h>
 #include <EngineCore/Level.h>
+#include "MainPlayLevel.h"
+#include "MapBase.h"
 #include "ServerTestOtherPlayer.h"
 #include "BombBase.h"
 
@@ -9,7 +11,7 @@ class UNetObject;
 
 class ServerHelper {
 public:
-	void static EnumSpawn(ULevel* _Level, int _Enum, int _Token) {
+	void static EnumSpawn(ULevel* _Level, int _Enum, int _Token, const FVector& _Pos = FVector::Zero) {
 		switch (_Enum) {
 		case 0:
 		{
@@ -23,7 +25,8 @@ public:
 			break;
 		case 2001:
 		{
-			std::shared_ptr<ABombBase> Bomb = _Level->SpawnActor<ABombBase>("Bomb");
+			AMainPlayLevel* PlayLevel = dynamic_cast<AMainPlayLevel*>(_Level->GetGameMode().get());
+			std::shared_ptr<ABombBase> Bomb = PlayLevel->GetMap()->SpawnBomb(_Pos, nullptr);
 			Bomb->SetObjectToken(_Token);
 		}
 		break;
