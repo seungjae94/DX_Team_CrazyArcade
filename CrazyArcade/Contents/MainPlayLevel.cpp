@@ -54,6 +54,11 @@ void AMainPlayLevel::CreateMap()
 		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
 		Player->SetActorLocation({ 238.0f, 344.0f, 0.0f });
 		break;
+	case EMapType::Pirate:
+		TileMap = GetWorld()->SpawnActor<APirateMap>("PirateMap");
+		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
+		Player->SetActorLocation({ 520.0f, 100.0f, 0.0f });
+		break;
 	}
 }
 

@@ -10,7 +10,8 @@ enum class EMapType
 {
 	None,
 	Village,
-	Forest
+	Forest,
+	Pirate
 };
 
 enum class EWaveType
