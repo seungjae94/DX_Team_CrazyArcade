@@ -51,10 +51,8 @@ public:
 	void operator<<(const std::string& _Data)
 	{
 		int Size = static_cast<int>(_Data.size());
-		operator<<(Size + 1);
+		operator<<(Size);
 		Write(_Data.c_str(), Size);
-		char Test = 0;
-		Write(&Test, 1);
 	}
 
 	template<typename DataType>

@@ -109,7 +109,7 @@ void UEngineSerializer::DataToReadOffsetPush()
 
 	if (ReadOffset == Data.size())
 	{
-		WriteOffset = ReMainSize;
+		WriteOffset = 0;
 		ReadOffset = 0;
 		return;
 	}

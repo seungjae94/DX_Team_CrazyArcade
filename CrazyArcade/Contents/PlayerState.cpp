@@ -152,10 +152,23 @@ void APlayer::Ready(float _DeltaTime)
 
 void APlayer::Idle(float _Update)
 {
+	// 탈 것 탑승
 	if (ERiding::None != Riding)
 	{
 		State.ChangeState("RidingIdle");
+		return;
 	}
+
+	// 부쉬 Hide
+	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
+	{
+		Renderer->SetActive(false);
+	}
+	else
+	{
+		Renderer->SetActive(true);
+	}
+
 	// Bomb 피격
 	//if (/*피격 당했으면*/)
 	if (true == IsDown('1'))
@@ -211,7 +224,19 @@ void APlayer::Run(float _DeltaTime)
 	if (ERiding::None != Riding)
 	{
 		State.ChangeState("RidingRun");
+
 	}
+	
+	// 부쉬 Hide
+	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
+	{
+		Renderer->SetActive(false);
+	}
+	else
+	{
+		Renderer->SetActive(true);
+	}
+
 	// Bomb 설치
 	if (true == IsDown(VK_SPACE))
 	{
@@ -636,7 +661,7 @@ void APlayer::SetTrapState()
 			);
 			return;
 		}
-		else if(false == IsRiding)
+		else if (false == IsRiding)
 		{
 			State.ChangeState("TrapStart");
 		}
