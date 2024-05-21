@@ -1057,6 +1057,11 @@ void ALobbyTitleGameMode::ChatUpdate()
 			Chat_IsActive = false;
 			UEngineInputRecorder::RecordEnd();
 
+			if (ChatInputText->GetText() == "")
+			{
+				return;
+			}
+
 			UTextWidget* ChatText = CreateWidget<UTextWidget>(GetWorld(), "ChatText");
 			ChatText->AddToViewPort(4);
 			ChatText->SetScale(12.0f);
