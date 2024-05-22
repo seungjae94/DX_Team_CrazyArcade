@@ -1264,6 +1264,7 @@ void ALobbyTitleGameMode::SettingCharacter(int _SpaceIndex)
 		break;
 	}
 	default:
+		SpriteName += "_Dao";
 		break;
 	}
 
@@ -1280,6 +1281,7 @@ void ALobbyTitleGameMode::SettingCharacter(int _SpaceIndex)
 		break;
 	}
 	default:
+		SpriteName += "_R";
 		break;
 	}
 
