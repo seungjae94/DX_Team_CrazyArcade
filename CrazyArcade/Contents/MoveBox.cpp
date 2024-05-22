@@ -193,7 +193,14 @@ void AMoveBox::SetMoveState(const FVector& _Dir)
 
 	for (size_t i = 0; i < PlayLevel->GetMap()->AllPlayer.size(); i++)
 	{
-		FVector PlayerPos = PlayLevel->GetMap()->AllPlayer[i]->GetActorLocation();
+		APlayer* Player = PlayLevel->GetMap()->AllPlayer[i];
+
+		if (nullptr == Player)
+		{
+			continue;
+		}
+
+		FVector PlayerPos = Player->GetActorLocation();
 		FPoint PlayerPoint = AMapBase::ConvertLocationToPoint(PlayerPos);
 
 		if (NextPoint == PlayerPoint)
