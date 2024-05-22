@@ -100,6 +100,7 @@ namespace BlockState
 	const std::string_view idle					= "Idle";
 	const std::string_view move					= "Move";
 	const std::string_view destroy				= "Destroy";
+	const std::string_view shaking				= "Shaking";
 }
 
 namespace ItemState
