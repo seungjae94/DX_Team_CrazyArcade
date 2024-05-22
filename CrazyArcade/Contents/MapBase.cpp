@@ -209,7 +209,7 @@ bool AMapBase::IsColOtherPlayer(const FVector& _Pos, APlayer* _Player)
 
 	for (size_t i = 0; i < AllPlayer.size(); i++)
 	{
-		if (AllPlayer[i] == _Player)
+		if (nullptr == AllPlayer[i] || _Player == AllPlayer[i])
 		{
 			continue;
 		}
@@ -310,5 +310,17 @@ void AMapBase::ReSpawnItem(EItemType _Type, int _Count)
 
 		CreateItem(Point, _Type);
 		--Count;
+	}
+}
+
+// 플레이어 종료시 삭제 시키는 함수
+void AMapBase::PlayerDelete(APlayer* _Player)
+{
+	for (size_t i = 0; i < AllPlayer.size(); i++)
+	{
+		if (AllPlayer[i] == _Player)
+		{
+			AllPlayer[i] = nullptr;
+		}
 	}
 }

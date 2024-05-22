@@ -12,6 +12,7 @@ ServerTestOtherPlayer::ServerTestOtherPlayer()
 
 ServerTestOtherPlayer::~ServerTestOtherPlayer()
 {
+	PlayLevel->GetMap()->PlayerDelete(this);
 }
 
 void ServerTestOtherPlayer::BeginPlay()

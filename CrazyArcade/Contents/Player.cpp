@@ -127,8 +127,6 @@ void APlayer::Tick(float _DeltaTime)
 
 	PlayerPos = GetActorLocation();
 
-	PickUpItem();
-
 	Devil(_DeltaTime);
 
 	Superman(_DeltaTime);
@@ -474,6 +472,41 @@ void APlayer::SetSupermanOff()
 	{
 		Speed = MaxSpeed - BaseSpeed;
 		CurSpeed = MaxSpeed;
+	}
+}
+
+void APlayer::StartBlink(float _BlinkTime)
+{
+	IsBlink = true;
+	BlinkTime = _BlinkTime;
+}
+
+void APlayer::BlinkRenderer(float _DeltaTime)
+{
+	if (true == IsBlink)
+	{
+		if (0.0f <= BlinkTerm && BlinkTerm < 0.2f)
+		{
+			Renderer->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+		}
+		else if (0.2f <= BlinkTerm && BlinkTerm < 0.4f)
+		{
+			Renderer->SetMulColor(FVector::One);
+		}
+		else
+		{
+			BlinkTerm = 0.0f;
+		}
+
+		BlinkTerm += _DeltaTime;
+
+		BlinkTime -= _DeltaTime;
+
+		if (0.0f >= BlinkTime)
+		{
+			IsBlink = false;
+			Renderer->SetMulColor(FVector::One);
+		}
 	}
 }
 
