@@ -110,17 +110,20 @@ void AInGameUI::BeginPlay()
 
 		UImage* Render = CreateWidget<UImage>(GetWorld(), "PlayerRender" + i);
 		//Render->SetSprite();
-		Render->CreateAnimation("BazziRedNormal", "Play_Portrait_Bazzi_Normal_R.png", 1.5f, true, 0, 1);
+		Render->CreateAnimation("BazziRedNormal", "Play_Portrait_Bazzi_Normal_R.png", 0.8f, true, 0, 1);
 		Render->CreateAnimation("BazziRedLose", "Play_Portrait_Bazzi_Lose_R.png", 0.1f, true, 0, 3);
-		Render->CreateAnimation("BazziBlueNormal", "Play_Portrait_Bazzi_Normal_B.png", 0.1f, true, 0, 1);
+		Render->CreateAnimation("BazziBlueNormal", "Play_Portrait_Bazzi_Normal_B.png", 0.8f, true, 0, 1);
 		Render->CreateAnimation("BazziBlueLose", "Play_Portrait_Bazzi_Lose_B.png", 0.1f, true, 0, 3);
 
-		Render->CreateAnimation("DaoRedNormal", "Play_Portrait_Dao_Normal_R.png", 0.1f, true, 0, 1);
-		Render->CreateAnimation("DaoRedAniLose", "Play_Portrait_Dao_Lose_R.png", 0.1f, true, 0, 3);
-		Render->CreateAnimation("DaoBlueAniNormal", "Play_Portrait_Dao_Normal_B.png", 1.5f, true, 0, 1);
-		Render->CreateAnimation("DaoBlueAniLose", "Play_Portrait_Dao_Normal_B.png", 0.1f, true, 0, 1);
+		Render->CreateAnimation("DaoRedNormal", "Play_Portrait_Dao_Normal_R.png", 0.8f, true, 0, 1);
+		Render->CreateAnimation("DaoRedLose", "Play_Portrait_Dao_Lose_R.png", 0.1f, true, 0, 3);
+		Render->CreateAnimation("DaoBlueNormal", "Play_Portrait_Dao_Normal_B.png", 0.8f, true, 0, 1);
+		Render->CreateAnimation("DaoBlueLose", "Play_Portrait_Dao_Lose_B.png", 0.1f, true, 0, 3);
 
-
+		Render->CreateAnimation("MaridRedNormal", "Play_Portrait_Marid_Normal_R.png", 0.8f, true, 0, 1);
+		Render->CreateAnimation("MaridRedLose", "Play_Portrait_Marid_Lose_R.png", 0.1f, true, 0, 3);
+		Render->CreateAnimation("MaridBlueNormal", "Play_Portrait_Marid_Normal_B.png", 0.8f, true, 0, 1);
+		Render->CreateAnimation("MaridBlueLose", "Play_Portrait_Marid_Lose_B.png", 0.1f, true, 0, 3);
 
 
 
@@ -193,12 +196,18 @@ void AInGameUI::Tick(float _DeltaTIme)
 	{
 		//InitPlayerInfo();
 		//DataToRender();
-		PlayerStateCheck();
+		//PlayerStateCheck();
 
 	}
 
-
-
+	for (int i = 0; i < PlayerInfo.size(); i++)
+	{
+		if (PlayerInfo[i].IsDead == true)
+		{
+			std::string AnimName = StateToAnimName(PlayerInfo[i].PlayerType, PlayerInfo[i].PlayerColor, PlayerInfo[i].IsDead);
+			PlayerUI[i]->ChangeAnimation(AnimName);
+		}
+	}
 }
 
 
@@ -217,7 +226,6 @@ void AInGameUI::PlayerUpdate()
 	{
 		//PlayerInfo[i].IsDead() = FPlayerInfo::IsDeads();
 	}
-
 }
 
 
@@ -261,9 +269,9 @@ void AInGameUI::DataToRender()
 	//PlayerInfo.size()
 	for (int i = 0; i < PlayerInfo.size(); i++)
 	{
-		PlayerNameUI[i]->SetPosition({ 306,180 - (i * 43) });
+		PlayerNameUI[i]->SetPosition({ 305, 179 - (i * 43) });
 		PlayerNameUI[i]->SetText(PlayerInfo[i].PlayerName);
-		PlayerUI[i]->SetPosition({ 282,183 - (i * 43) });
+		PlayerUI[i]->SetPosition({ 281, 181 - (i * 43) });
 		PlayerStateCheck();
 	}
 
@@ -272,9 +280,6 @@ void AInGameUI::DataToRender()
 	//»çÁø 
 
 	//ChangeAnmation()
-
-
-
 
 }
 
@@ -339,7 +344,7 @@ std::string AInGameUI::TypeToName(ECharacterType _Type)
 		return "Marid";
 
 	default:
-		return "Bazzi";
+		return "Dao";
 		break;
 	}
 }

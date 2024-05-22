@@ -952,26 +952,11 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 	{
 		if (IsFadeIn == true)
 		{
-			if (FadeAlpha <= 0.0f)
-			{
-				IsFadeIn = false;
-				Fade->SetActive(false);
-				return;
-			}
-
 			FadeIn(_DeltaTime);
 		}
 
 		if (IsFadeOut == true)
 		{
-			if (FadeAlpha >= 1.0f)
-			{
-				IsFadeIn = true;
-				IsFadeOut = false;
-				GameStart();
-				return;
-			}
-
 			FadeOut(_DeltaTime);
 		}
 	}
@@ -1440,12 +1425,27 @@ void ALobbyTitleGameMode::ChangeColor(ECharacterColor _CharacterColor)
 
 void ALobbyTitleGameMode::FadeIn(float _DeltaTime)
 {
+	if (FadeAlpha <= 0.0f)
+	{
+		IsFadeIn = false;
+		Fade->SetActive(false);
+		return;
+	}
+
 	FadeAlpha -= _DeltaTime * 3.0f;
 	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
 }
 
 void ALobbyTitleGameMode::FadeOut(float _DeltaTime)
 {
+	if (FadeAlpha >= 1.0f)
+	{
+		IsFadeIn = true;
+		IsFadeOut = false;
+		GameStart();
+		return;
+	}
+
 	FadeAlpha += _DeltaTime * 3.0f;
 	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
 }
