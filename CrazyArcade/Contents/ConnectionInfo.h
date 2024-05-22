@@ -48,7 +48,7 @@ private:
 	int MyCharacterType = 0;
 	int MyColorType = 0;
 	bool IsDead = false;
-	bool IsExist = true;
+	bool IsExist = false;
 	//ECharacterType MyCharacterType = ECharacterType::None;
 	//ECharacterColor MyColorType = ECharacterColor::None;
 };
@@ -121,6 +121,7 @@ public:
 		UserInfos[_Order].MyName = _Name;
 		UserInfos[_Order].SetMyCharacterType(ECharacterType::Random);
 		UserInfos[_Order].SetMyColorType(ECharacterColor::Red);
+		UserInfos[_Order].SetIsExist(true);
 	}
 	std::map<int, ConnectUserInfo>& GetUserInfos()
 	{
