@@ -543,6 +543,7 @@ void APlayer::SettingPlayer(int _ObjectToken)
 	int SessionToken = _ObjectToken / 1000;
 	SetCharacterType(ConnectionInfo::GetInst().GetUserInfos()[SessionToken].GetMyCharacterType());
 	SetPlayerColor(ConnectionInfo::GetInst().GetUserInfos()[SessionToken].GetMyColorType());
+	Renderer->ChangeAnimation(Type + PlayerColorText + "_Ready");
 }
 
 void APlayer::SetPlayerDead()
