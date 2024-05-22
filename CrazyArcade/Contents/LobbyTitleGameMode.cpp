@@ -925,72 +925,76 @@ void ALobbyTitleGameMode::BeginPlay()
 				ChatText->SetText(Chat);
 			}*/
 		}
-		{
-			// Initialize
-			Space_IsUserIn[Player.SpaceIndex] = true;
-			Usernames_Space[Player.SpaceIndex]->SetText(Player.Name);
-			ChangeCharacter(Player.CharacterType);
-			ChangeColor(Player.CharacterColor);
-		}
 	}
 }
 
-	void ALobbyTitleGameMode::Tick(float _DeltaTime)
+void ALobbyTitleGameMode::LevelStart(ULevel* _PrevLevel)
+{
+	Super::LevelStart(_PrevLevel);
+
+	// Initialize
+	Space_IsUserIn[Player.SpaceIndex] = true;
+	Usernames_Space[Player.SpaceIndex]->SetText(Player.Name);
+	ChangeCharacter(Player.CharacterType);
+	ChangeColor(Player.CharacterColor);
+}
+
+void ALobbyTitleGameMode::Tick(float _DeltaTime)
+{
+	Super::Tick(_DeltaTime);
+
+	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
 	{
-		Super::Tick(_DeltaTime);
+		Btn_GameStart_InActive->SetActive(false);
+	}
 
-		if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+	// Fade & ChangeLevel
+	{
+		if (IsFadeIn == true)
 		{
-			Btn_GameStart_InActive->SetActive(false);
+			if (FadeAlpha <= 0.0f)
+			{
+				IsFadeIn = false;
+				Fade->SetActive(false);
+				return;
+			}
+
+			FadeIn(_DeltaTime);
 		}
 
-		// Fade & ChangeLevel
+		if (IsFadeOut == true)
 		{
-			if (IsFadeIn == true)
+			if (FadeAlpha >= 1.0f)
 			{
-				if (FadeAlpha <= 0.0f)
-				{
-					IsFadeIn = false;
-					Fade->SetActive(false);
-					return;
-				}
-
-				FadeIn(_DeltaTime);
+				IsFadeIn = true;
+				IsFadeOut = false;
+				GameStart();
+				return;
 			}
 
-			if (IsFadeOut == true)
-			{
-				if (FadeAlpha >= 1.0f)
-				{
-					IsFadeIn = true;
-					IsFadeOut = false;
-					GameStart();
-					return;
-				}
-
-				FadeOut(_DeltaTime);
-			}
-		}
-
-		// UserInfo Update
-		UserInfosUpdate();
-
-		// Chat Update
-		ChatUpdate();
-
-		// Debug
-		{
-			FVector CameraPos = GetWorld()->GetMainCamera()->GetActorLocation();
-			FVector MousePos = GEngine->EngineWindow.GetScreenMousePos();
-			FVector WindowScale = GEngine->EngineWindow.GetWindowScale();
-			FVector TargetPos = FVector(CameraPos.X, CameraPos.Y, 0.0f) + FVector(MousePos.X - WindowScale.hX(), -(MousePos.Y - WindowScale.hY()), 0.0f);
-
-			{
-				std::string Msg = std::format("MousePos : {}\n", TargetPos.ToString());
-				UEngineDebugMsgWindow::PushMsg(Msg);
-			}
+			FadeOut(_DeltaTime);
 		}
 	}
+
+	// UserInfo Update
+	UserInfosUpdate();
+
+	// Chat Update
+	ChatUpdate();
+
+	// Debug
+	{
+		FVector CameraPos = GetWorld()->GetMainCamera()->GetActorLocation();
+		FVector MousePos = GEngine->EngineWindow.GetScreenMousePos();
+		FVector WindowScale = GEngine->EngineWindow.GetWindowScale();
+		FVector TargetPos = FVector(CameraPos.X, CameraPos.Y, 0.0f) + FVector(MousePos.X - WindowScale.hX(), -(MousePos.Y - WindowScale.hY()), 0.0f);
+
+		{
+			std::string Msg = std::format("MousePos : {}\n", TargetPos.ToString());
+			UEngineDebugMsgWindow::PushMsg(Msg);
+		}
+	}
+}
 
 void ALobbyTitleGameMode::UserInfosUpdate()
 {

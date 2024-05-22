@@ -3,6 +3,8 @@
 #include "Player.h"
 #include "CrazyArcadeCore.h"
 #include "ConnectionInfo.h"
+#include "ServerManager.h"
+#include "Packets.h"
 
 
 AInGameUI::AInGameUI()
@@ -86,13 +88,17 @@ void AInGameUI::BeginPlay()
 		});
 	CancelBtn->SetDown([=] {
 
-
+		if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType()) {
+			std::shared_ptr<UChangeLevelPacket> LevelChangePacket = std::make_shared<UChangeLevelPacket>();
+			LevelChangePacket->LevelName = "LobbyTitleTestLevel";
+			UCrazyArcadeCore::Net->Send(LevelChangePacket);
 
 		CancelBtn->ChangeAnimation("CancelButtonUnHoverAni");
 		CancelBtn->SetUp([=] {
 
 			GEngine->ChangeLevel("LobbyTitleTestLevel");
 			});
+		}
 
 		});
 

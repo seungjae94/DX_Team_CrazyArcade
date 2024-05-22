@@ -533,7 +533,6 @@ void APlayer::SetPlayerDead()
 
 void APlayer::SetCharacterType(ECharacterType _Character)
 {
-	PlayerType = _Character;
 	Type = MCharacterTypeData[_Character].Type;
 	BaseBombCount = MCharacterTypeData[_Character].DataBaseBombCount;
 	MaxBombCount = MCharacterTypeData[_Character].DataMaxBombCount;
