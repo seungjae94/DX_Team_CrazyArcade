@@ -137,6 +137,16 @@ void UServerManager::ServerOpen()
 					ConnectionInfo::GetInst().SetWins(Win);
 				});
 		});
+
+	Dis.AddHandler<UEndSession>([=](std::shared_ptr<UEndSession> _Packet)
+		{
+			PushUpdate([=]()
+				{
+					Send(_Packet);
+					int a = _Packet->GetSessionToken();
+					int b = 0;
+				});
+		});
 }
 
 void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
@@ -182,7 +192,14 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 			ConnectionInfo::GetInst().SetWins(Win);
 		});
 
-
+	Dis.AddHandler<UEndSession>([=](std::shared_ptr<UEndSession> _Packet)
+		{
+			PushUpdate([=]()
+				{
+					int a = _Packet->GetSessionToken();
+					int b = 0;
+				});
+		});
 }
 
 void UServerManager::AddHandlerFunction()

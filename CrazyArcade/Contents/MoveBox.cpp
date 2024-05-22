@@ -5,6 +5,7 @@
 #include "MapConstant.h"
 #include "ItemBase.h"
 #include "MapBase.h"
+#include "Player.h"
 
 #include "Packets.h"
 #include "CrazyArcadeCore.h"
@@ -168,6 +169,44 @@ void AMoveBox::SetMoveState(const FVector& _Dir)
 	if (false == CanMoveValue)
 	{
 		return;
+	}
+
+	FVector CurPos = GetActorLocation();
+	FPoint NextPoint = AMapBase::ConvertLocationToPoint(CurPos);
+
+	if (0.0f < _Dir.X)
+	{
+		NextPoint.X += 1;
+	}
+	else if (0.0f > _Dir.X)
+	{
+		NextPoint.X -= 1;
+	}
+	else if (0.0f < _Dir.Y)
+	{
+		NextPoint.Y += 1;
+	}
+	else if (0.0f > _Dir.Y)
+	{
+		NextPoint.Y -= 1;
+	}
+
+	for (size_t i = 0; i < PlayLevel->GetMap()->AllPlayer.size(); i++)
+	{
+		APlayer* Player = PlayLevel->GetMap()->AllPlayer[i];
+
+		if (nullptr == Player)
+		{
+			continue;
+		}
+
+		FVector PlayerPos = Player->GetActorLocation();
+		FPoint PlayerPoint = AMapBase::ConvertLocationToPoint(PlayerPos);
+
+		if (NextPoint == PlayerPoint)
+		{
+			return;
+		}
 	}
 
 	MoveDir = _Dir;
