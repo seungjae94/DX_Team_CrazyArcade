@@ -87,6 +87,7 @@ void AMapBase::LevelEnd(ULevel* _NextLevel)
 	}
 
 	TileInfo.clear();
+	OtherPlayer.clear();
 }
 
 void AMapBase::Tick(float _DeltaTime)
