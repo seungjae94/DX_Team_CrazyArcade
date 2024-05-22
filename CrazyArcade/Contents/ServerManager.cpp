@@ -19,8 +19,7 @@ UServerManager::UServerManager()
 
 UServerManager::~UServerManager()
 {
-	std::shared_ptr<UEndSession> EndPacket = std::make_shared<UEndSession>();
-	Send(EndPacket);
+
 }
 
 

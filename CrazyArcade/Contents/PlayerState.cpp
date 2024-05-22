@@ -457,14 +457,15 @@ void APlayer::RidingDown(float _DeltaTime)
 	NoHit = true;
 	if (0.0f <= JumpTime && JumpTime < 0.35f)
 	{
-		Renderer->AddPosition(FVector::Up * 200.0f * _DeltaTime);
+		Renderer->AddPosition(FVector::Up * 100.0f * _DeltaTime);
 	}
 	else if (0.35f <= JumpTime && JumpTime < 0.7f)
 	{
-		Renderer->AddPosition(FVector::Down * 200.0f * _DeltaTime);
+		Renderer->AddPosition(FVector::Down * 100.0f * _DeltaTime);
 	}
 	else
 	{
+		Renderer->SetPosition({ 0.0f, BlockSize / 2.0f, 0.0f });
 		JumpTime = 0.0f;
 		NoHit = false;
 		State.ChangeState("Idle");

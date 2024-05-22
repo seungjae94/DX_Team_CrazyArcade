@@ -15,7 +15,7 @@ enum ServerObjectType
 
 enum EContentPacket
 {
-	EndSession = -2,
+	EndSession = -3,
 	ActorUpdatePacket = 99,
 	SpawnUpdatePacket,
 	ConnectUpdatePacket,

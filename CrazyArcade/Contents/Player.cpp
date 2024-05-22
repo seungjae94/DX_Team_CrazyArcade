@@ -71,13 +71,13 @@ void APlayer::BeginPlay()
 
 	Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Down");
 	Renderer->SetAutoSize(0.9f, true);
-	Renderer->AddPosition({ 0.0f, BlockSize / 2.0f, 0.0f });
+	Renderer->SetPosition({ 0.0f, BlockSize / 2.0f, 0.0f });
 
 	ShadowRenderer->SetSprite("Shadow.png");
 	ShadowRenderer->SetAutoSize(1.0f, true);
 	ShadowRenderer->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.7f });
 	ShadowRenderer->SetOrder(ERenderOrder::Shadow);
-	ShadowRenderer->AddPosition({ 0.0f, -BlockSize / 4.0f });
+	ShadowRenderer->SetPosition({ 0.0f, -BlockSize / 4.0f });
 
 	DebugRenderer->SetScale({ 5,5,10 });
 	DebugRenderer->SetOrder(9999);
