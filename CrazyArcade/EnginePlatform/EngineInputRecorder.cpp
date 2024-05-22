@@ -136,7 +136,7 @@ void UEngineInputRecorder::Tick(float _DeltaTime)
     DeleteTimer -= _DeltaTime;
 
     bool DeleteChar = UEngineInput::IsDown(VK_BACK);
-    if (true == UEngineInput::IsPress(VK_BACK) && DeleteTimer < 0.0f)
+    if (true == UEngineInput::IsPress(VK_BACK) && DeleteTimer < 0.0f && UEngineInput::GetPressTime(VK_BACK) > 0.2f)
     {
         DeleteChar = true;
         DeleteTimer = DeleteInterval;
@@ -180,6 +180,20 @@ void UEngineInputRecorder::Tick(float _DeltaTime)
             IgnoreCompositionResult = true;
             return;
         }
+    }
+
+    if (true == UEngineInput::IsDown(VK_SPACE))
+    {
+        if (CombLetter.size() > 0)
+        {
+            WText += UEngineString::AnsiToUniCode(CombLetter);
+            CombLetter.clear();
+            ImmNotifyIME(hIMC, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
+        }
+
+        WText += UEngineString::AnsiToUniCode(" ");
+        IgnoreCompositionResult = true;
+        return;
     }
 
     if (true == IsNative())
