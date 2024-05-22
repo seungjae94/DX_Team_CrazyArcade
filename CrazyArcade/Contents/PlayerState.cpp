@@ -187,7 +187,7 @@ void APlayer::Ready(float _DeltaTime)
 	}
 }
 
-void APlayer::Idle(float _Update)
+void APlayer::Idle(float _DeltaTime)
 {
 	// 탈 것 탑승
 	if (ERiding::None != Riding)
@@ -198,6 +198,9 @@ void APlayer::Idle(float _Update)
 
 	// 부쉬 Hide
 	HideInBush();
+
+	// 아이템 습득
+	PickUpItem();
 
 	// Bomb 피격
 	//if (/*피격 당했으면*/)
@@ -236,6 +239,9 @@ void APlayer::Run(float _DeltaTime)
 
 	// 부쉬 Hide
 	HideInBush();
+
+	// 아이템 습득
+	PickUpItem();
 
 	// Bomb 설치
 	if (true == IsDown(VK_SPACE))
@@ -324,6 +330,12 @@ void APlayer::RidingIdle(float _Update)
 	// 부쉬 Hide
 	HideInBush();
 
+	if (ERiding::UFO != Riding)
+	{
+		// 아이템 습득
+		PickUpItem();
+	}
+
 	// Bomb 설치
 	if (true == IsDown(VK_SPACE))
 	{
@@ -370,6 +382,12 @@ void APlayer::RidingRun(float _DeltaTime)
 
 	// 부쉬 Hide
 	HideInBush();
+
+	if (ERiding::UFO != Riding)
+	{
+		// 아이템 습득
+		PickUpItem();
+	}
 
 	// Bomb 설치
 	if (true == IsDown(VK_SPACE))
