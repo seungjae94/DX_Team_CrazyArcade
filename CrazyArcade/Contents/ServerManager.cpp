@@ -54,7 +54,7 @@ void UServerManager::ServerOpen()
 					{
 						std::shared_ptr<UConnectPacket> ConnectNumPacket = std::make_shared<UConnectPacket>();
 						std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
-						
+
 						std::map<int, std::string> NameInfos;
 						std::map<int, int> CharacterTypeInfos;
 						std::map<int, int> ColorInfos;
@@ -144,16 +144,14 @@ void UServerManager::ServerOpen()
 				{
 					int a = _Packet->GetSessionToken();
 					UCrazyArcadeCore::Net->Send(_Packet);
-					ANetActor* Net = dynamic_cast<ANetActor*>(AllNetObject[_Packet->GetSessionToken() * 1000]);
-					if (Net != nullptr) {
-						APlayer* OtherPlayer = dynamic_cast<APlayer*>(Net);
-						if (nullptr != OtherPlayer)
+					APlayer* OtherPlayer = dynamic_cast<APlayer*>(AllNetObject[_Packet->GetSessionToken() * 1000]);
+					if (OtherPlayer != nullptr) {
 						{
 							AMainPlayLevel* PlayLevel = dynamic_cast<AMainPlayLevel*>(OtherPlayer->GetWorld()->GetGameMode().get());
 							PlayLevel->GetMap()->PlayerDelete(OtherPlayer);
 						}
 
-						Net->Destroy();
+						OtherPlayer->Destroy();
 					}
 					ConnectionInfo::GetInst().SetEmpty(_Packet->GetSessionToken());
 				});
@@ -210,9 +208,13 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 			PushUpdate([=]()
 				{
 					int a = _Packet->GetSessionToken();
-					ANetActor* Net =  dynamic_cast<ANetActor*>(AllNetObject[_Packet->GetSessionToken() * 1000]);
-					if (Net != nullptr) {
-					Net->Destroy();
+					APlayer* OtherPlayer = dynamic_cast<APlayer*>(AllNetObject[_Packet->GetSessionToken() * 1000]);
+					if (OtherPlayer != nullptr) {
+						{
+							AMainPlayLevel* PlayLevel = dynamic_cast<AMainPlayLevel*>(OtherPlayer->GetWorld()->GetGameMode().get());
+							PlayLevel->GetMap()->PlayerDelete(OtherPlayer);
+						}
+						OtherPlayer->Destroy();
 					}
 					ConnectionInfo::GetInst().SetEmpty(_Packet->GetSessionToken());
 				});
