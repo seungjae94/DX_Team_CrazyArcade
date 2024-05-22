@@ -24,8 +24,9 @@ void UCrazyArcadeDebugWindow::OnGui(ULevel* Level, float _Delta)
 	ImGui::Text(LowFpsText.c_str());
 
 	if (true == ImGui::Button("Reset FPS"))
-	
-	On();
+	{
+		LowFps = 1000000.0f;
+	}
 
 	if (true == ImGui::Button("Sunming IP"))
 	{
