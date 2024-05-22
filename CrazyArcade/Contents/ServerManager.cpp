@@ -148,7 +148,7 @@ void UServerManager::ServerOpen()
 					if (Net != nullptr) {
 						Net->Destroy();
 					}
-					int b = 0;
+					ConnectionInfo::GetInst().SetEmpty(_Packet->GetSessionToken());
 				});
 		});
 
@@ -207,8 +207,7 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 					if (Net != nullptr) {
 					Net->Destroy();
 					}
-					int b = 0;
-					//ConnectionInfo::GetInst().PushUserInfos();
+					ConnectionInfo::GetInst().SetEmpty(_Packet->GetSessionToken());
 				});
 		});
 }
