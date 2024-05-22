@@ -88,9 +88,14 @@ public:
 	
 	// 플레이어 캐릭터, 색상 설정 후 생성
 	std::shared_ptr<APlayer> SpawnPlayer(ECharacterType _Character, ECharacterColor _Color);
-	std::shared_ptr<APlayer> Player = nullptr;
-	void SetCharacterType(ECharacterType _Character);
-	void SetPlayerColor(ECharacterColor _Color);
+	inline ECharacterType GetCharacterType()
+	{
+		return CharacterType;
+	}
+	inline ECharacterColor GetPlayerColor()
+	{
+		return PlayerColor;
+	}
 
 protected:
 	void BeginPlay() override;
@@ -103,6 +108,11 @@ protected:
 	USpriteRenderer* ShadowRenderer;
 	USpriteRenderer* DebugRenderer;
 	
+	std::shared_ptr<APlayer> Player = nullptr;
+	ECharacterType CharacterType;
+	void SetCharacterType(ECharacterType _Character);
+	void SetPlayerColor(ECharacterColor _Color);
+
 	std::map<ECharacterType, FCharacterTypeData> MCharacterTypeData;
 	FVector PlayerPos;
 	std::string Name = "Player";
