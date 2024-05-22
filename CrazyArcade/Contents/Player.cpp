@@ -524,9 +524,9 @@ void APlayer::SetPlayerDead()
 void APlayer::SetCharacterType(ECharacterType _Character)
 {
 	int random = UEngineRandom::MainRandom.RandomInt(0, 2);
-	switch (_Character)
+
+	if (ECharacterType::Random == _Character)
 	{
-	case ECharacterType::Random:
 		switch (random)
 		{
 		case 0:
@@ -541,36 +541,10 @@ void APlayer::SetCharacterType(ECharacterType _Character)
 		default:
 			break;
 		}
-		break;
-	case ECharacterType::Dao:
-		CharacterType = ECharacterType::Dao;
-		break;
-	case ECharacterType::Dizni:
-		break;
-	case ECharacterType::Mos:
-		break;
-	case ECharacterType::Ethi:
-		break;
-	case ECharacterType::Marid:
-		CharacterType = ECharacterType::Marid;
-		break;
-	case ECharacterType::Bazzi:
-		CharacterType = ECharacterType::Bazzi;
-		break;
-	case ECharacterType::Uni:
-		break;
-	case ECharacterType::Kephi:
-		break;
-	case ECharacterType::Su:
-		break;
-	case ECharacterType::HooU:
-		break;
-	case ECharacterType::Ray:
-		break;
-	case ECharacterType::None:
-		break;
-	default:
-		break;
+	}
+	else
+	{
+		CharacterType = _Character;
 	}
 
 	Type = MCharacterTypeData[CharacterType].Type;
