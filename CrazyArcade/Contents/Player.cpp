@@ -71,7 +71,7 @@ void APlayer::BeginPlay()
 	CharacterTypeDataInit();
 
 	Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Down");
-	Renderer->SetAutoSize(0.9f, true);
+	Renderer->SetAutoSize(1.0f, true);
 	Renderer->SetPosition({ 0.0f, BlockSize / 2.0f, 0.0f });
 
 	ShadowRenderer->SetSprite("Shadow.png");
