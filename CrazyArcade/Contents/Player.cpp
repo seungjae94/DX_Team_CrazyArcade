@@ -4,6 +4,7 @@
 #include "MainPlayLevel.h"
 #include "MapBase.h"
 #include "CrazyArcadeCore.h"
+#include "ConnectionInfo.h"
 
 std::map<int, bool> FPlayerInfo::IsDeads;
 std::map<int, std::string> FPlayerInfo::Names;
@@ -537,13 +538,11 @@ void APlayer::CheckBombCount()
 	}
 }
 
-std::shared_ptr<APlayer> APlayer::SpawnPlayer(ECharacterType _Character, ECharacterColor _Color)
+void APlayer::SettingPlayer(int _ObjectToken)
 {
-	Player = GetWorld()->SpawnActor<APlayer>("Player");
-	Player->SetCharacterType(_Character);
-	Player->SetPlayerColor(_Color);
-
-	return Player;
+	int SessionToken = _ObjectToken / 1000;
+	SetCharacterType(ConnectionInfo::GetInst().GetUserInfos()[SessionToken].GetMyCharacterType());
+	SetPlayerColor(ConnectionInfo::GetInst().GetUserInfos()[SessionToken].GetMyColorType());
 }
 
 void APlayer::SetPlayerDead()

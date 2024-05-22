@@ -38,6 +38,8 @@ protected:
 	void LevelEnd(ULevel* _NextLevel);
 	void LevelStart(ULevel* _PrevLevel);
 
+	void GameEnd();
+
 private:
 	void CountDown(float _DeltaTime);
 	void TimerText();
@@ -80,7 +82,12 @@ private:
 	static std::string ColorToName(ECharacterColor _Color);
 	//static std::map<ECharacterType, std::string> TypeToName;
 	//static std::map<ECharacterColor, std::string> ColorToName;
-	//
-
+	
+	// Fade
+	UImage* Fade = nullptr;
+	bool IsFadeIn = true;
+	bool IsFadeOut = false;
+	float FadeAlpha = 1.0f;
+	void FadeIn(float _DeltaTime);
+	void FadeOut(float _DeltaTime);
 };
-
