@@ -73,6 +73,11 @@ void ABombBase::StateInit()
 			int BombOrder = AMapBase::GetRenderOrder(GetActorLocation());
 			Body->SetOrder(BombOrder);
 
+			if (nullptr != Player)
+			{
+				SetBombPower(Player->GetBombPower());
+			}
+
 			CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
 			if (nullptr == PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush)
 			{
@@ -158,7 +163,6 @@ void ABombBase::SetPlayer(APlayer* _Player)
 	}
 
 	Player = _Player;
-	Power = Player->GetBombPower() + 1;
 }
 
 void ABombBase::SetCurPoint(FPoint _Point)
