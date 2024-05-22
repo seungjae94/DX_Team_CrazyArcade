@@ -23,6 +23,8 @@ public:
 		return Body;
 	}
 
+	void SetShaking();
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -33,7 +35,9 @@ private:
 
 	std::vector<float> ShakingPosY;
 	int ShakingIdx = 0;
-
+	const float ShakingDelayTime = 0.03f;
+	float ShakingDelayTimeCount = 0.0f;
+	
 // FSM
 private:
 	UStateManager State;

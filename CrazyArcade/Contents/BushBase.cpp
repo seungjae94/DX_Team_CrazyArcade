@@ -26,7 +26,7 @@ void ABushBase::BeginPlay()
 
 	StateInit();
 	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
-	ShakingPosY = { 2.0f, 2.0f, 2.0f, -2.0f, -2.0f, -2.0f };
+	ShakingPosY = { 2.0f, 2.0f, -2.0f, -2.0f, -2.0f, 2.0f };
 	State.ChangeState(BlockState::idle);
 }
 
@@ -54,6 +54,7 @@ void ABushBase::StateInit()
 	State.SetStartFunction(BlockState::shaking, [=] 
 		{
 			ShakingIdx = 0;
+			ShakingDelayTimeCount = ShakingDelayTime;
 		}
 	);
 
@@ -61,14 +62,31 @@ void ABushBase::StateInit()
 	State.SetUpdateFunction(BlockState::idle, [=](float _DeltaTime) {});
 	State.SetUpdateFunction(BlockState::shaking, [=](float _DeltaTime) 
 		{
+			if (0.0f < ShakingDelayTimeCount)
+			{
+				ShakingDelayTimeCount -= _DeltaTime;
+				return;
+			}
+
 			if (ShakingPosY.size() <= ShakingIdx)
 			{
 				State.ChangeState(BlockState::idle);
 				return;
 			}
 
-			Body->AddPosition({ 0.0f, 0.0f, 0.0f });
+			Body->AddPosition({ 0.0f, ShakingPosY[ShakingIdx], 0.0f});
+			ShakingDelayTimeCount = ShakingDelayTime;
 			++ShakingIdx;
 		}
 	);
+}
+
+void ABushBase::SetShaking()
+{
+	if (BlockState::shaking == State.GetCurStateName())
+	{
+		return;
+	}
+
+	State.ChangeState(BlockState::shaking);
 }
