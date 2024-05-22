@@ -28,6 +28,12 @@ public:
 		Session.SetSessionToken(_SessionToken);
 	}
 
+	void Off() override
+	{
+		UEngineNet::Off();
+		Session.End();
+	}
+
 protected:
 	void ServerOpen(int _Port, int _BackLog) override;
 	void Connect(std::string _Ip, int _Port) override;

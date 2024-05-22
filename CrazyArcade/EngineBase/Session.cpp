@@ -18,10 +18,7 @@ USession::USession(SOCKET _Socket)
 USession::~USession()
 {
 	// ¿¬°á ²÷±â
-	if (Socket != 0)
-	{
-		closesocket(Socket);
-	}
+	End();
 }
 
 void USession::Create()
@@ -76,5 +73,13 @@ int USession::Send(UEngineProtocol& _Packet)
 int USession::Send(UEngineSerializer& _Ser)
 {
 	return Send(_Ser.DataPtr(), _Ser.WriteSize());
+}
+
+void USession::End()
+{
+	if (Socket != 0)
+	{
+		closesocket(Socket);
+	}
 }
 
