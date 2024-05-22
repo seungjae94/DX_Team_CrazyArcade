@@ -143,6 +143,7 @@ void UServerManager::ServerOpen()
 			PushUpdate([=]()
 				{
 					int a = _Packet->GetSessionToken();
+					UCrazyArcadeCore::Net->Send(_Packet);
 					ANetActor* Net = dynamic_cast<ANetActor*>(AllNetObject[_Packet->GetSessionToken() * 1000]);
 					if (Net != nullptr) {
 						Net->Destroy();
@@ -207,6 +208,7 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 					Net->Destroy();
 					}
 					int b = 0;
+					//ConnectionInfo::GetInst().PushUserInfos();
 				});
 		});
 }
