@@ -15,6 +15,7 @@ void APlayer::StateInit()
 	State.CreateState("Run");
 	State.CreateState("RidingIdle");
 	State.CreateState("RidingRun");
+	State.CreateState("RidingDown");
 	State.CreateState("TrapStart");
 	State.CreateState("Traped");
 	State.CreateState("TrapEnd");
@@ -104,6 +105,28 @@ void APlayer::StateInit()
 	State.SetUpdateFunction("RidingRun", std::bind(&APlayer::RidingRun, this, std::placeholders::_1));
 	State.SetStartFunction("RidingRun", [=]()
 		{
+		});
+
+	State.SetUpdateFunction("RidingDown", std::bind(&APlayer::RidingDown, this, std::placeholders::_1));
+	State.SetStartFunction("RidingDown", [=]()
+		{
+			switch (PlayerDir)
+			{
+			case EPlayerDir::Left:
+				Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Left");
+				break;
+			case EPlayerDir::Right:
+				Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Right");
+				break;
+			case EPlayerDir::Up:
+				Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Up");
+				break;
+			case EPlayerDir::Down:
+				Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Down");
+				break;
+			default:
+				break;
+			}
 		});
 
 	State.SetUpdateFunction("TrapStart", std::bind(&APlayer::TrapStart, this, std::placeholders::_1));
@@ -427,6 +450,29 @@ void APlayer::RidingRun(float _DeltaTime)
 	}
 }
 
+void APlayer::RidingDown(float _DeltaTime)
+{
+	Riding = ERiding::None;
+	NoHit = true;
+	if (0.0f <= JumpTime && JumpTime < 0.25f)
+	{
+		Renderer->AddPosition(FVector::Up * 200.0f * _DeltaTime);
+	}
+	else if (0.25f <= JumpTime && JumpTime < 0.5f)
+	{
+		Renderer->AddPosition(FVector::Down * 200.0f * _DeltaTime);
+	}
+	else
+	{
+		JumpTime = 0.0f;
+		NoHit = false;
+		State.ChangeState("Idle");
+		return;
+	}
+
+	JumpTime += _DeltaTime;
+}
+
 void APlayer::TrapStart(float _DeltaTime)
 {
 	if (Renderer->IsCurAnimationEnd())
@@ -578,13 +624,7 @@ void APlayer::SetTrapState()
 
 	if (ERiding::None != Riding)
 	{
-		Riding = ERiding::None;
-		NoHit = true;
-		DelayCallBack(0.5f, [=]
-			{
-				NoHit = false;
-			}
-		);
+		State.ChangeState("RidingDown");
 		return;
 	}
 	
