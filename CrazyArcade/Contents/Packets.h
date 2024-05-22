@@ -114,6 +114,7 @@ public:
 		_Ser << NameInfos;
 		_Ser << CharacterTypeInfos;
 		_Ser << ColorInfos;
+		_Ser << ExistInfos;
 	}
 
 	void DeSerialize(UEngineSerializer& _Ser) override
@@ -122,6 +123,7 @@ public:
 		_Ser >> NameInfos;
 		_Ser >> CharacterTypeInfos;
 		_Ser >> ColorInfos;
+		_Ser >> ExistInfos;
 	}
 
 	void SetMyCharacterType(int _Key, ECharacterType _Type)
@@ -129,7 +131,6 @@ public:
 		int MyCharacterType = static_cast<int>(_Type);
 		CharacterTypeInfos[_Key] = MyCharacterType;
 	}
-
 	ECharacterType GetMyCharacterType(int _Key)
 	{
 		return static_cast<ECharacterType>(CharacterTypeInfos[_Key]);
@@ -140,18 +141,26 @@ public:
 		int MyColor = static_cast<int>(_Color);
 		ColorInfos[_Key] = MyColor;
 	}
-
 	ECharacterColor GetMyColorType(int _Key)
 	{
 		return static_cast<ECharacterColor>(ColorInfos[_Key]);
 	}
 
+	void SetExist(int _Key, bool _IsExist)
+	{
+		ExistInfos[_Key] = _IsExist;
+	}
+	bool GetExist(int _Key)
+	{
+		return ExistInfos[_Key];
+	}
 
 public:
 	//std::map<int, ConnectUserInfo> Infos;
 	std::map<int, std::string> NameInfos;
 	std::map<int, int> CharacterTypeInfos;
 	std::map<int, int> ColorInfos;
+	std::map<int, bool> ExistInfos;
 };
 
 class UConnectInitPacket : public UEngineProtocol {

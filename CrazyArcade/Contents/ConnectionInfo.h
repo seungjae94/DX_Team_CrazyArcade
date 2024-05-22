@@ -105,7 +105,8 @@ public:
 		return UserInfos[MyOrder].GetMyColorType();
 	}
 
-	void SetEmpty(int _Order) {
+	void SetEmpty(int _Order) 
+	{
 		UserInfos[_Order].SetMyColorType(ECharacterColor::None);
 		UserInfos[_Order].SetMyCharacterType(ECharacterType::None);
 		UserInfos[_Order].MyName = "";
