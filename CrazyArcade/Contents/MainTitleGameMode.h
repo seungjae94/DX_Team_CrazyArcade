@@ -3,6 +3,7 @@
 #include <EngineCore/TextWidget.h>
 #include<vector>
 #include "NetGameMode.h"
+#include "CrazyArcadeDebugWindow.h"
 
 class AMainTitleGameMode : public ANetGameMode
 {
@@ -20,7 +21,15 @@ public:
 
 	std::string GetPlayerName();
 
+	static AMainTitleGameMode* Title;
 
+	void MyChangeIP() {
+		IPNum = "127.0.0.1";
+	}
+
+	void SungMinChangeIP() {
+		IPNum = "192.168.0.198";
+	}
 
 protected:
 	void BeginPlay() override;

@@ -13,9 +13,11 @@
 #include "Packets.h"
 #include "ServerHelper.h"
 
+AMainTitleGameMode* AMainTitleGameMode::Title = nullptr;
+
 AMainTitleGameMode::AMainTitleGameMode()
 {
-
+	AMainTitleGameMode::Title = this;
 }
 
 AMainTitleGameMode::~AMainTitleGameMode()
@@ -286,6 +288,7 @@ void AMainTitleGameMode::BeginPlay()
 void AMainTitleGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
+
 
 	// PlayerName, IPNum, PortNum Setting
 	StringToText();

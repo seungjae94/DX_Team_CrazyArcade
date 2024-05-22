@@ -1,5 +1,8 @@
 #include "PreCompile.h"
 #include "CrazyArcadeDebugWindow.h"
+#include "CrazyArcadeCore.h"
+#include "MainTitleGameMode.h"
+
 
 UCrazyArcadeDebugWindow::UCrazyArcadeDebugWindow()
 {
@@ -23,6 +26,17 @@ void UCrazyArcadeDebugWindow::OnGui(ULevel* Level, float _Delta)
 	if (true == ImGui::Button("Reset FPS"))
 	{
 		LowFps = 1000000.0f;
+	}
+
+	if (true == ImGui::Button("Sunming IP"))
+	{
+		AMainTitleGameMode::Title->SungMinChangeIP();
+	}
+
+	if (true == ImGui::Button("My IP"))
+	{
+		LowFps = 1000000.0f;
+		AMainTitleGameMode::Title->MyChangeIP();
 	}
 
 	if (true == ImGui::Button("Lobby Title Level"))

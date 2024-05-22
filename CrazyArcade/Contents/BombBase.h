@@ -22,6 +22,10 @@ public:
 
 	void SetPlayer(APlayer* _Player);
 	void SetCurPoint(FPoint _Point);
+	inline void SetBombPower(int _Power)
+	{
+		Power = _Power + 1;
+	}
 
 	inline void SetIdle()
 	{
