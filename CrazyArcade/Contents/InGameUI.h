@@ -38,6 +38,8 @@ protected:
 	void LevelEnd(ULevel* _NextLevel);
 	void LevelStart(ULevel* _PrevLevel);
 
+	void GameEnd();
+
 private:
 	void CountDown(float _DeltaTime);
 	void TimerText();

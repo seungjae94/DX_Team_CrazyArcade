@@ -68,6 +68,15 @@ void AInGameUI::BeginPlay()
 	ResultSummary->SetScale({ 350,20 });
 	ResultSummary->AddToViewPort(4);
 
+	// Fade
+	{
+		Fade = CreateWidget<UImage>(GetWorld(), "Fade");
+		Fade->SetSprite("FadeBlack.png");
+		Fade->AddToViewPort(10);
+		Fade->SetAutoSize(1.0f, true);
+		Fade->SetWidgetLocation({ 0.0f, 0.0f });
+		Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, 0.0f));
+	}
 
 	CancelBtn->SetUnHover([=] {
 		CancelBtn->ChangeAnimation("CancelButtonUnHoverAni");
@@ -82,14 +91,10 @@ void AInGameUI::BeginPlay()
 
 		});
 	CancelBtn->SetUp([=] {
-		CancelBtn->ChangeAnimation("CancelButtonUnHoverAni");
 		if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
 		{
-			std::shared_ptr<UChangeLevelPacket> LevelChangePacket = std::make_shared<UChangeLevelPacket>();
-			LevelChangePacket->LevelName = "LobbyTitleTestLevel";
-			UCrazyArcadeCore::Net->Send(LevelChangePacket);
-			
-			GEngine->ChangeLevel("LobbyTitleTestLevel");
+			IsFadeOut = true;
+			Fade->SetActive(true);
 		}
 		});
 
@@ -121,14 +126,14 @@ void AInGameUI::BeginPlay()
 		Render->SetAutoSize(1.0f, true);
 		//Render->ChangeAnimation("BazziRedAniNormal");
 		// 랜더러 추가로 CreatAnimation만들고 추가하기 
-		Render->AddToViewPort(40);
+		Render->AddToViewPort(3);
 		PlayerUI.push_back(Render);
 
 		UTextWidget* Name = CreateWidget<UTextWidget>(GetWorld(), "PlayerNameUI" + i);
 		Name->SetFont("굴림");
 		Name->SetScale(12.0f);
 		Name->SetColor(Color8Bit::White);
-		Name->AddToViewPort(30);
+		Name->AddToViewPort(3);
 		Name->SetFlag(FW1_LEFT);
 		Name->SetPosition({ 0 * (i + 20),0 });
 
@@ -170,6 +175,19 @@ void AInGameUI::LevelEnd(ULevel* _NextLevel)
 void AInGameUI::Tick(float _DeltaTIme)
 {
 	Super::Tick(_DeltaTIme);
+
+	// Fade & ChangeLevel
+	{
+		if (IsFadeIn == true)
+		{
+			FadeIn(_DeltaTIme);
+		}
+
+		if (IsFadeOut == true)
+		{
+			FadeOut(_DeltaTIme);
+		}
+	}
 
 	for (std::pair<const int, bool>& Pair : FPlayerInfo::IsDeads)
 	{
@@ -366,10 +384,39 @@ void AInGameUI::DeadCheck()
 
 void AInGameUI::FadeIn(float _DeltaTime)
 {
+	if (FadeAlpha <= 0.0f)
+	{
+		IsFadeIn = false;
+		Fade->SetActive(false);
+		return;
+	}
 
+	FadeAlpha -= _DeltaTime * 3.0f;
+	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
 }
 
 void AInGameUI::FadeOut(float _DeltaTime)
 {
+	if (FadeAlpha >= 1.0f)
+	{
+		IsFadeIn = true;
+		IsFadeOut = false;
+		GameEnd();
+		return;
+	}
 
+	FadeAlpha += _DeltaTime * 3.0f;
+	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
+}
+
+void AInGameUI::GameEnd()
+{
+	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+	{
+		std::shared_ptr<UChangeLevelPacket> LevelChangePacket = std::make_shared<UChangeLevelPacket>();
+		LevelChangePacket->LevelName = "LobbyTitleTestLevel";
+		UCrazyArcadeCore::Net->Send(LevelChangePacket);
+
+		GEngine->ChangeLevel("LobbyTitleTestLevel");
+	}
 }
