@@ -523,8 +523,7 @@ void APlayer::SetPlayerDead()
 
 void APlayer::SetCharacterType(ECharacterType _Character)
 {
-	int random = UEngineRandom::MainRandom.RandomInt(0, 100);
-	random = random % 3;
+	int random = UEngineRandom::MainRandom.RandomInt(0, 2);
 	switch (_Character)
 	{
 	case ECharacterType::Random:
