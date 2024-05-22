@@ -28,8 +28,6 @@ private:
 	std::vector<UserInfo> UserInfos;
 	UserInfo Player;
 
-	bool IsInfoChange = false;
-
 public:
 	inline UserInfo GetPlayerInfo()
 	{
@@ -139,8 +137,10 @@ private:
 	std::string Chat_Prev = "";
 
 	void SettingPanel(ECharacterType _CharacterType);
+	void SettingCharacterSelect(ECharacterType _CharacterType);
+	void SettingColorSelect(ECharacterColor _CharacterColor);
 	void SettingName(int _SpaceIndex);
-	void SettingCharacter(int _SpaceIndex);
+	void SettingCharacterImage(int _SpaceIndex);
 	void ChangeCharacter(ECharacterType _CharacterType);
 	void ChangeColor(ECharacterColor _CharacterColor);
 };

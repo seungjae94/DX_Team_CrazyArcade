@@ -625,7 +625,6 @@ void ALobbyTitleGameMode::BeginPlay()
 						});
 
 					Btns_CharacterSelect[i]->SetUp([=] {
-						IsInfoChange = true;
 						ChangeCharacter(ECharacterType(i));
 						});
 				}
@@ -775,7 +774,6 @@ void ALobbyTitleGameMode::BeginPlay()
 						});
 
 					Btns_ColorSelect[i]->SetUp([=] {
-						IsInfoChange = true;
 						ChangeColor(ECharacterColor(i + 3000));
 						});
 				}
@@ -927,11 +925,17 @@ void ALobbyTitleGameMode::LevelStart(ULevel* _PrevLevel)
 	// Initialize
 	Space_IsUserIn[Player.SpaceIndex] = true;
 	Usernames_Space[Player.SpaceIndex]->SetText(Player.Name);
+	SettingCharacterSelect(ConnectionInfo::GetInst().GetCharacterType());	// Ramdom 타입으로 Game에 참가하고 나온 경우를 위해
 
 	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
 	{
 		Btn_GameStart_InActive->SetActive(false);
 	}
+
+	// FadeIn
+	IsFadeIn = true;
+	FadeAlpha = 1.0f;
+	Fade->SetActive(true);
 }
 
 void ALobbyTitleGameMode::LevelEnd(ULevel* _NextLevel)
@@ -1004,7 +1008,7 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 		{
 			SpaceOn(i);
 			SettingName(i);
-			SettingCharacter(i);
+			SettingCharacterImage(i);
 		}
 	}
 }
@@ -1219,12 +1223,81 @@ void ALobbyTitleGameMode::SettingPanel(ECharacterType _CharacterType)
 	}
 }
 
+void ALobbyTitleGameMode::SettingCharacterSelect(ECharacterType _CharacterType)
+{
+	int Index_CharacterType = int(_CharacterType);
+
+	// Button
+	CharacterSelect_Pick[Index_CharacterType] = true;
+	Btns_CharacterSelect[Index_CharacterType]->ChangeAnimation("Pick");
+
+	for (int i = 0; i < 12; i++)
+	{
+		if (i != Index_CharacterType)
+		{
+			CharacterSelect_Pick[i] = false;
+			Btns_CharacterSelect[i]->ChangeAnimation("UnHover");
+		}
+	}
+
+	// Outline
+	switch (_CharacterType)
+	{
+	case ECharacterType::Random:
+	{
+		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Random.png");
+		break;
+	}
+	case ECharacterType::Dao:
+	{
+		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Dao.png");
+		break;
+	}
+	case ECharacterType::Marid:
+	{
+		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Marid.png");
+		break;
+	}
+	case ECharacterType::Bazzi:
+	{
+		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Bazzi.png");
+		break;
+	}
+	default:
+		break;
+	}
+
+	// Checker
+	Checker_CharacterSelect->SetWidgetLocation({ 150.0f + (72.0f * (Index_CharacterType % 4)), 202.0f - (55.0f * (Index_CharacterType / 4)) });
+}
+
+void ALobbyTitleGameMode::SettingColorSelect(ECharacterColor _CharacterColor)
+{
+	int Index_CharacterColor = int(_CharacterColor) - 3000;
+
+	// Button
+	ColorSelect_Pick[Index_CharacterColor] = true;
+	Btns_ColorSelect[Index_CharacterColor]->ChangeAnimation("Pick");
+
+	for (int i = 0; i < 8; i++)
+	{
+		if (i != Index_CharacterColor)
+		{
+			ColorSelect_Pick[i] = false;
+			Btns_ColorSelect[i]->ChangeAnimation("UnHover");
+		}
+	}
+
+	// Checker
+	Checker_ColorSelect->SetWidgetLocation({ 117.0f + (36.0f * Index_CharacterColor), 17.0f });
+}
+
 void ALobbyTitleGameMode::SettingName(int _SpaceIndex)
 {
 	Usernames_Space[_SpaceIndex]->SetText(UserInfos[_SpaceIndex].Name);
 }
 
-void ALobbyTitleGameMode::SettingCharacter(int _SpaceIndex)
+void ALobbyTitleGameMode::SettingCharacterImage(int _SpaceIndex)
 {
 	ECharacterType Type = UserInfos[_SpaceIndex].CharacterType;
 	ECharacterColor Color = UserInfos[_SpaceIndex].CharacterColor;
@@ -1298,50 +1371,8 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 	Player.CharacterType = _CharacterType;
 	ConnectionInfo::GetInst().SetCharacterType(_CharacterType);
 	
-	int Index_CharacterType = int(_CharacterType);
-
-	// Button
-	CharacterSelect_Pick[Index_CharacterType] = true;
-	Btns_CharacterSelect[Index_CharacterType]->ChangeAnimation("Pick");
-
-	for (int i = 0; i < 12; i++)
-	{
-		if (i != Index_CharacterType)
-		{
-			CharacterSelect_Pick[i] = false;
-			Btns_CharacterSelect[i]->ChangeAnimation("UnHover");
-		}
-	}
-
-	// Outline
-	switch (_CharacterType)
-	{
-	case ECharacterType::Random:
-	{
-		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Random.png");
-		break;
-	}
-	case ECharacterType::Dao:
-	{
-		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Dao.png");
-		break;
-	}
-	case ECharacterType::Marid:
-	{
-		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Marid.png");
-		break;
-	}
-	case ECharacterType::Bazzi:
-	{
-		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Bazzi.png");
-		break;
-	}
-	default:
-		break;
-	}
-
-	// Checker
-	Checker_CharacterSelect->SetWidgetLocation({ 150.0f + (72.0f * (Index_CharacterType % 4)), 202.0f - (55.0f * (Index_CharacterType / 4)) });
+	// Button, Outline, Checker
+	SettingCharacterSelect(_CharacterType);
 
 	// 패킷 보내기
 	{
@@ -1374,23 +1405,8 @@ void ALobbyTitleGameMode::ChangeColor(ECharacterColor _CharacterColor)
 	Player.CharacterColor = _CharacterColor;
 	ConnectionInfo::GetInst().SetCharacterColor(_CharacterColor);
 
-	int Index_CharacterColor = int(_CharacterColor) - 3000;
-
-	// Button
-	ColorSelect_Pick[Index_CharacterColor] = true;
-	Btns_ColorSelect[Index_CharacterColor]->ChangeAnimation("Pick");
-
-	for (int i = 0; i < 8; i++)
-	{
-		if (i != Index_CharacterColor)
-		{
-			ColorSelect_Pick[i] = false;
-			Btns_ColorSelect[i]->ChangeAnimation("UnHover");
-		}
-	}
-
-	// Checker
-	Checker_ColorSelect->SetWidgetLocation({ 117.0f + (36.0f * Index_CharacterColor), 17.0f });
+	// Button, Checker
+	SettingColorSelect(_CharacterColor);
 
 	// 패킷 보내기
 	{
@@ -1436,6 +1452,7 @@ void ALobbyTitleGameMode::FadeOut(float _DeltaTime)
 	{
 		IsFadeIn = true;
 		IsFadeOut = false;
+		Fade->SetActive(false);
 		GameStart();
 		return;
 	}
