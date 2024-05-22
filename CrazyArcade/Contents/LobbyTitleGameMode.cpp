@@ -987,26 +987,17 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 		Player.Name = ConnectionInfo::GetInst().GetMyName();
 		Player.CharacterType = ConnectionInfo::GetInst().GetCharacterType();
 		Player.CharacterColor = ConnectionInfo::GetInst().GetCharacterColor();
-
-		if (IsInfoChange == true)
-		{
-			/* Server */
-
-			IsInfoChange = false;
-		}
 	}
 
 	// UserInfos Update
 	{
-		{
-			std::map<int, ConnectUserInfo> ServerUserInfos = ConnectionInfo::GetInst().GetUserInfos();
+		std::map<int, ConnectUserInfo> ServerUserInfos = ConnectionInfo::GetInst().GetUserInfos();
 
-			for (int i = 0; i < 8; i++)
-			{
-				UserInfos[i].Name = ServerUserInfos[i].MyName;
-				UserInfos[i].CharacterType = ServerUserInfos[i].GetMyCharacterType();
-				UserInfos[i].CharacterColor = ServerUserInfos[i].GetMyColorType();
-			}
+		for (int i = 0; i < 8; i++)
+		{
+			UserInfos[i].Name = ServerUserInfos[i].MyName;
+			UserInfos[i].CharacterType = ServerUserInfos[i].GetMyCharacterType();
+			UserInfos[i].CharacterColor = ServerUserInfos[i].GetMyColorType();
 		}
 	}
 
@@ -1051,21 +1042,24 @@ void ALobbyTitleGameMode::ChatUpdate()
 				return;
 			}
 
-			UTextWidget* ChatText = CreateWidget<UTextWidget>(GetWorld(), "ChatText");
-			ChatText->AddToViewPort(4);
-			ChatText->SetScale(12.0f);
-			ChatText->SetWidgetLocation({ -373.0f, -198.0f });
-			ChatText->SetFont("±¼¸²");
-			ChatText->SetColor(Color8Bit::White);
-			ChatText->SetFlag(FW1_LEFT);
-			ChatText->SetText(Player.Name + " : " + ChatInput);
-			ChatTexts.push_back(ChatText);
+			{
+				UTextWidget* ChatText = CreateWidget<UTextWidget>(GetWorld(), "ChatText");
+				ChatText->AddToViewPort(4);
+				ChatText->SetScale(12.0f);
+				ChatText->SetWidgetLocation({ -373.0f, -198.0f });
+				ChatText->SetFont("±¼¸²");
+				ChatText->SetColor(Color8Bit::White);
+				ChatText->SetFlag(FW1_LEFT);
+				ChatText->SetText(Player.Name + " : " + ChatInput);
+				ChatTexts.push_back(ChatText);
+			}
 
 			Chat_Size += 1;
 
-			for (int i = 0; i < Chat_Size; i++)
+			for (int i = 0; i < Chat_Size - 1; i++)
 			{
-
+				FVector PrevLoc = ChatTexts[i]->GetWidgetLocation();
+				ChatTexts[i]->SetWidgetLocation(PrevLoc + float4(0.0f, 20.0f));
 			}
 
 			ChatInputText->SetText("");
