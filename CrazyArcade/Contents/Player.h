@@ -176,6 +176,7 @@ protected:
 	void Run(float _DeltaTime);
 	void RidingIdle(float _DeltaTime);
 	void RidingRun(float _DeltaTime);
+	void RidingDown(float _DeltaTime);
 	void TrapStart(float _DeltaTime);
 	void Traped(float _DeltaTime);
 	void TrapEnd(float _DeltaTime);
@@ -184,6 +185,7 @@ protected:
 
 	void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
 
+	float JumpTime = 0.0f;
 	bool IsDead = false;
 
 

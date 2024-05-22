@@ -119,11 +119,11 @@ void AItemBase::MoveUpDown(float _DeltaTime)
 {
 	if (0.0f <= MoveTime && MoveTime < 0.5f)
 	{
-		Body->AddPosition(FVector::Down * MoveSpeed * _DeltaTime);
+		Body->AddPosition(FVector::Up * MoveSpeed * _DeltaTime);
 	}
 	else if (0.5f <= MoveTime && MoveTime < 1.0f)
 	{
-		Body->AddPosition(FVector::Up * MoveSpeed * _DeltaTime);
+		Body->AddPosition(FVector::Down * MoveSpeed * _DeltaTime);
 	}
 	else
 	{

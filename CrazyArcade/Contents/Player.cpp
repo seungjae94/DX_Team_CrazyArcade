@@ -119,29 +119,10 @@ void APlayer::Tick(float _DeltaTime)
 		UEngineDebugMsgWindow::PushMsg(Msg);
 	}
 	// 임의 적용 테스트
-	if (true == IsDown('C'))
-	{
-		if (ECharacterColor::Red == PlayerColor)
-		{
-			SetPlayerColor(ECharacterColor::Blue);
-		}
-		else if (ECharacterColor::Blue == PlayerColor)
-		{
-			SetPlayerColor(ECharacterColor::Red);
-		}
-	}
-	if (true == IsDown('B'))
-	{
-		SetCharacterType(ECharacterType::Bazzi);
-	}
-	if (true == IsDown('O'))
-	{
-		SetCharacterType(ECharacterType::Dao);
-	}
-	if (true == IsDown('M'))
-	{
-		SetCharacterType(ECharacterType::Marid);
-	}
+	//if (true == IsDown('B'))
+	//{
+	//	SetCharacterType(ECharacterType::Bazzi);
+	//}
 
 	PlayerPos = GetActorLocation();
 

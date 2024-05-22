@@ -59,7 +59,7 @@ public:
 	virtual int GetSessionToken() = 0;
 	virtual void SetSessionToken(int _SessionToken) = 0;
 
-	void Off()
+	virtual void Off()
 	{
 		IsActiveValue = false;
 	}

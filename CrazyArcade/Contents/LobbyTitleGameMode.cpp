@@ -600,21 +600,21 @@ void ALobbyTitleGameMode::BeginPlay()
 					PanelOff();
 					});
 
-				Btns_CharacterSelect[i]->SetHover([=] {
-					if (CharacterSelect_Pick[i] == false)
-					{
-						Btns_CharacterSelect[i]->ChangeAnimation("Hover");
-					}
-					else
-					{
-						Btns_CharacterSelect[i]->ChangeAnimation("Pick");
-					}
-					SettingPanel(ECharacterType(i));
-					PanelOn();
-					});
-
 				if (i == 0 || i == 1 || i == 5 || i == 6)
 				{
+					Btns_CharacterSelect[i]->SetHover([=] {
+						if (CharacterSelect_Pick[i] == false)
+						{
+							Btns_CharacterSelect[i]->ChangeAnimation("Hover");
+						}
+						else
+						{
+							Btns_CharacterSelect[i]->ChangeAnimation("Pick");
+						}
+						SettingPanel(ECharacterType(i));
+						PanelOn();
+						});
+
 					Btns_CharacterSelect[i]->SetDown([=] {
 						Btns_CharacterSelect[i]->ChangeAnimation("Down");
 						});
