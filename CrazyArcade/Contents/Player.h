@@ -176,6 +176,12 @@ protected:
 	void PlayerCreateBazziAnimation(std::string _Color);
 	void PlayerCreateAnimation(std::string _CharacterType_Color);
 
+	bool IsBlink = false;
+	float BlinkTerm = 0.0f;
+	float BlinkTime = 0.0f;
+	void StartBlink(float _BlinkTime);
+	void BlinkRenderer(float _DeltaTime);
+
 	void CharacterTypeDataInit();
 
 	//State
@@ -194,6 +200,7 @@ protected:
 	void Revival(float _DeltaTime);
 
 	void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
+	void HideInBush();
 
 	float JumpTime = 0.0f;
 	bool IsDead = false;
