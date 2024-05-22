@@ -80,6 +80,11 @@ protected:
 		BackGround->SetSprite(_Name);
 	}
 
+	inline void PushPlayerStartPoint(FPoint _Point)
+	{
+		PlayerStartPoint.push_back(_Point);
+	}
+
 	void SetMapInfoSize(int _SizeX, int _SizeY);
 	void CreateWall(FPoint _Point, std::string_view _ImgName);
 	void CreateAnimationWall(FPoint _Point, std::string_view _ImgName);
@@ -109,6 +114,7 @@ private:
 
 	std::vector<std::vector<UTileInfo>> TileInfo;
 	std::vector<APlayer*> OtherPlayer;
+	std::vector<FPoint> PlayerStartPoint;
 
 	static FVector StartPos;
 	static float BlockSize;
