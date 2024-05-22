@@ -494,6 +494,24 @@ void APlayer::SetSupermanOff()
 	}
 }
 
+void APlayer::SpawnBombCheckSend()
+{
+	if (0 < BombCount)
+	{
+		Bomb = PlayLevel->GetMap()->SpawnBomb(GetActorLocation(), this).get();
+		if (nullptr != Bomb)
+		{
+			SpawnBombPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
+			IsBombOn = true;
+			--BombCount;
+		}
+	}
+	else
+	{
+		Bomb = nullptr;
+	}
+}
+
 void APlayer::CheckBombCount()
 {
 	if (true != IsSuperman && BombCount > (MPlayerItem[EItemType::Bubble] + 1))
