@@ -57,9 +57,9 @@ void AMainTitleGameMode::BeginPlay()
 
 	TextWidget = CreateWidget<UTextWidget>(GetWorld(), "TextWidget");
 	TextWidget->SetFont("±¼¸²");
-	TextWidget->SetScale(20.0f);
+	TextWidget->SetScale(16.0f);
 	TextWidget->SetColor(Color8Bit::Black);
-	TextWidget->SetPosition({ -115.0f ,-143.0f });
+	TextWidget->SetPosition({ -110.0f ,-145.0f });
 	TextWidget->SetFlag(FW1_LEFT); //ÁÂ·Î Á¤·Ä
 	TextWidget->AddToViewPort(4);
 	TextWidget->SetText(PlayerName);

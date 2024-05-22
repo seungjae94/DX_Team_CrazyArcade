@@ -6,16 +6,13 @@
 #include "ServerManager.h"
 #include "Packets.h"
 
-
 AInGameUI::AInGameUI()
 {
-
 }
 
 AInGameUI::~AInGameUI()
 {
 }
-
 
 void AInGameUI::BeginPlay()
 {

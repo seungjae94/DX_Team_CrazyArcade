@@ -208,7 +208,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Username_Space->SetScale(13.0f);
 					Username_Space->SetPosition({ -325.0f + 106.0f * (i % 4), 102.0f - 145.0f * (i / 4) });
 					Username_Space->SetFont("±¼¸²");
-					Username_Space->SetColor(Color8Bit::Black);
+					Username_Space->SetColor(Color8Bit::White);
 					Username_Space->SetFlag(FW1_CENTER);
 					Username_Space->SetText(" ");
 
@@ -1039,11 +1039,11 @@ void ALobbyTitleGameMode::ChatUpdate()
 				UTextWidget* ChatText = CreateWidget<UTextWidget>(GetWorld(), "ChatText");
 				ChatText->AddToViewPort(4);
 				ChatText->SetScale(12.0f);
-				ChatText->SetWidgetLocation({ -373.0f, -198.0f });
+				ChatText->SetWidgetLocation({ -370.0f, -195.0f });
 				ChatText->SetFont("±¼¸²");
 				ChatText->SetColor(Color8Bit::White);
 				ChatText->SetFlag(FW1_LEFT);
-				ChatText->SetText(Player.Name + " : " + ChatInput);
+				ChatText->SetText("> " + Player.Name + " : " + ChatInput);
 				ChatTexts.push_back(ChatText);
 			}
 
@@ -1052,7 +1052,12 @@ void ALobbyTitleGameMode::ChatUpdate()
 			for (int i = 0; i < Chat_Size - 1; i++)
 			{
 				FVector PrevLoc = ChatTexts[i]->GetWidgetLocation();
-				ChatTexts[i]->SetWidgetLocation(PrevLoc + float4(0.0f, 20.0f));
+				ChatTexts[i]->SetWidgetLocation(PrevLoc + float4(0.0f, 13.0f));
+			}
+
+			for (int i = 0; i < Chat_Size - 7; i++)
+			{
+				ChatTexts[i]->SetActive(false);
 			}
 
 			ChatInputText->SetText("");
