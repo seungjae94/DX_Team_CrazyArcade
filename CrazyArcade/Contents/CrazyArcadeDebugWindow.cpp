@@ -1,5 +1,8 @@
 #include "PreCompile.h"
 #include "CrazyArcadeDebugWindow.h"
+#include "CrazyArcadeCore.h"
+#include "MainTitleGameMode.h"
+
 
 UCrazyArcadeDebugWindow::UCrazyArcadeDebugWindow()
 {
@@ -11,9 +14,17 @@ UCrazyArcadeDebugWindow::~UCrazyArcadeDebugWindow()
 
 void UCrazyArcadeDebugWindow::OnGui(ULevel* Level, float _Delta)
 {
-	if (true == ImGui::Button("Main Title Level"))
+	
+	On();
+
+	if (true == ImGui::Button("Sunming IP"))
 	{
-		//GEngine->ChangeLevel("MainTitleLevel");
+		AMainTitleGameMode::Title->SungMinChangeIP();
+	}
+
+	if (true == ImGui::Button("My IP"))
+	{
+		AMainTitleGameMode::Title->MyChangeIP();
 	}
 
 	if (true == ImGui::Button("Lobby Title Level"))
