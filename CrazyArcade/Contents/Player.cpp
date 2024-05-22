@@ -71,13 +71,13 @@ void APlayer::BeginPlay()
 
 	Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Down");
 	Renderer->SetAutoSize(0.9f, true);
-	Renderer->AddPosition({ 0.0f, BlockSize / 2.0f, 0.0f });
+	Renderer->SetPosition({ 0.0f, BlockSize / 2.0f, 0.0f });
 
 	ShadowRenderer->SetSprite("Shadow.png");
 	ShadowRenderer->SetAutoSize(1.0f, true);
 	ShadowRenderer->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.7f });
 	ShadowRenderer->SetOrder(ERenderOrder::Shadow);
-	ShadowRenderer->AddPosition({ 0.0f, -BlockSize / 4.0f });
+	ShadowRenderer->SetPosition({ 0.0f, -BlockSize / 4.0f });
 
 	DebugRenderer->SetScale({ 5,5,10 });
 	DebugRenderer->SetOrder(9999);
@@ -515,16 +515,15 @@ void APlayer::SetPlayerDead()
 	IsDead = true;
 	PlayerInfoUpdate();
 
-	for (MPlayerItemIter = MPlayerItem.begin(); MPlayerItemIter != MPlayerItem.end(); ++MPlayerItemIter)
-	{
-		PlayLevel->GetMap()->ReSpawnItem(MPlayerItemIter->first, MPlayerItemIter->second);
-	}
+	//for (MPlayerItemIter = MPlayerItem.begin(); MPlayerItemIter != MPlayerItem.end(); ++MPlayerItemIter)
+	//{
+	//	PlayLevel->GetMap()->ReSpawnItem(MPlayerItemIter->first, MPlayerItemIter->second);
+	//}
 }
 
 void APlayer::SetCharacterType(ECharacterType _Character)
 {
-	int random = UEngineRandom::MainRandom.RandomInt(0, 100);
-	random = random % 3;
+	int random = UEngineRandom::MainRandom.RandomInt(0, 2);
 	switch (_Character)
 	{
 	case ECharacterType::Random:
