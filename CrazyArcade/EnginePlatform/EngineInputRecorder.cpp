@@ -120,7 +120,7 @@ void UEngineInputRecorder::ImeTick(LPARAM _lParam)
     IgnoreCompositionResult = false;
 }
 
-void UEngineInputRecorder::Tick()
+void UEngineInputRecorder::Tick(float _DeltaTime)
 {
     if (false == Activeness)
     {
@@ -133,7 +133,16 @@ void UEngineInputRecorder::Tick()
         return;
     }
 
-    if (true == UEngineInput::IsDown(VK_BACK))
+    DeleteTimer -= _DeltaTime;
+
+    bool DeleteChar = UEngineInput::IsDown(VK_BACK);
+    if (true == UEngineInput::IsPress(VK_BACK) && DeleteTimer < 0.0f)
+    {
+        DeleteChar = true;
+        DeleteTimer = DeleteInterval;
+    }
+
+    if (DeleteChar)
     {
         if (CombLetter.size() > 0)
         {

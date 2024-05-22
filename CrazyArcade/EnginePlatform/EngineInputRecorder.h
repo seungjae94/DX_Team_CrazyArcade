@@ -32,11 +32,14 @@ private:
 
 	static void Init(HWND _hWnd);
 	static bool IsNative();
-	static void Tick();
+	static void Tick(float _DeltaTime);
 	static void ImeTick(LPARAM _lParam);
 	static void Release();
 
 private:
+	inline static float DeleteTimer = 0.0f;
+	inline const static float DeleteInterval = 0.075f;
+
 	// 객체 생성 금지
 	UEngineInputRecorder();
 	~UEngineInputRecorder();
