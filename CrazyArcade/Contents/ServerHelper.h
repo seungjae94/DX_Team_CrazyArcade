@@ -28,6 +28,9 @@ public:
 		{
 			AMainPlayLevel* PlayLevel = dynamic_cast<AMainPlayLevel*>(_Level->GetGameMode().get());
 			std::shared_ptr<ABombBase> Bomb = PlayLevel->GetMap()->SpawnBomb(_Pos, nullptr);
+			if (nullptr == Bomb) {
+				return;
+			}
 			Bomb->SetObjectToken(_Token);
 		}
 		break;
