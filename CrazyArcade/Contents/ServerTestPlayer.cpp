@@ -22,6 +22,8 @@ ServerTestPlayer::~ServerTestPlayer()
 void ServerTestPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+
+	PlayLevel->GetMap()->PushAllPlayer(this);
 }
 
 void ServerTestPlayer::Tick(float _DeltaTime)
