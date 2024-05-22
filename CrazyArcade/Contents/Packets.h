@@ -78,6 +78,7 @@ public:
 		UEngineProtocol::Serialize(_Ser);
 		_Ser << Pos;
 		_Ser << SpawnSelect;
+		_Ser << Power;
 		_Ser << SpawnTime;
 	}
 
@@ -86,6 +87,7 @@ public:
 		UEngineProtocol::DeSerialize(_Ser);
 		_Ser >> Pos;
 		_Ser >> SpawnSelect;
+		_Ser >> Power;
 		_Ser >> SpawnTime;
 	}
 
@@ -93,6 +95,7 @@ public:
 	float4 Pos = float4::Zero;
 	int SpawnSelect = 0;
 	float SpawnTime = 0.0f;
+	int Power;
 };
 
 class UConnectPacket : public UEngineProtocol {

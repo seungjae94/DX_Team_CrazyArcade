@@ -67,6 +67,11 @@ public:
 	
 	std::shared_ptr<ABombBase> SpawnBomb(const FVector& _Pos, APlayer* _Player);
 	void ReSpawnItem(EItemType _Type, int _Count);
+
+	inline void PushOtherPlayer(APlayer* _Player)
+	{
+		OtherPlayer.push_back(_Player);
+	}
 	
 protected:
 	inline void SetBackGround(std::string_view _Name)
@@ -102,14 +107,14 @@ private:
 	USpriteRenderer* PlayUI_BackGround = nullptr;
 
 	std::vector<std::vector<UTileInfo>> TileInfo;
+	std::vector<APlayer*> OtherPlayer;
 
 	static FVector StartPos;
 	static float BlockSize;
 	static int SizeX;
 	static int SizeY;
 
-	static float BombAdjustPosY;
-	
+	static float BombAdjustPosY;	
 
 // Tile Check ฐüทร
 private:
