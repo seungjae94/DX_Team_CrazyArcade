@@ -33,6 +33,18 @@ public:
 		return AcceptSession.GetCurSessionToken();
 	}
 
+	void Off() override
+	{
+		UEngineNet::Off();
+		AcceptSession.End();
+
+		for (std::shared_ptr<USession> Session : Sessions)
+		{
+			Session->End();
+		}
+	}
+
+
 protected:
 	void ServerOpen(int _Port, int _BackLog = 512) override;
 	
