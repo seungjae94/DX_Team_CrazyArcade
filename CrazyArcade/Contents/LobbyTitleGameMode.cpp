@@ -926,8 +926,8 @@ void ALobbyTitleGameMode::LevelStart(ULevel* _PrevLevel)
 	// Initialize
 	Space_IsUserIn[Player.SpaceIndex] = true;
 	Usernames_Space[Player.SpaceIndex]->SetText(Player.Name);
-	ChangeCharacter(ECharacterType::Random);
-	ChangeColor(ECharacterColor::Red);
+	/*ChangeCharacter(ECharacterType::Random);
+	ChangeColor(ECharacterColor::Red);*/
 }
 
 void ALobbyTitleGameMode::Tick(float _DeltaTime)

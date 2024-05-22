@@ -23,7 +23,7 @@ enum EContentPacket
 	ChangeLevelPacket,
 	CharacterTypePacket,
 	ColorTypePacket,
-
+	DeadUpdatePacket,
 	BlockUpdatePacket = 200,
 };
 
@@ -256,52 +256,32 @@ public:
 
 };
 
-//class UCharacterTypePacket : public UEngineProtocol {
-//public:
-//	static const EContentPacket Type = EContentPacket::CharacterTypePacket;
-//public:
-//	UCharacterTypePacket()
-//	{
-//		SetType(EContentPacket::CharacterTypePacket);
-//	}
-//
-//	void Serialize(UEngineSerializer& _Ser) override
-//	{
-//		UEngineProtocol::Serialize(_Ser);
-//		_Ser << CharacterType;
-//	}
-//
-//	void DeSerialize(UEngineSerializer& _Ser) override
-//	{
-//		UEngineProtocol::DeSerialize(_Ser);
-//		_Ser >> CharacterType;
-//	}
-//
-//public:
-//	ECharacterType CharacterType = ECharacterType::None;
-//};
-//
-//class UColorTypePacket : public UEngineProtocol {
-//public:
-//	static const EContentPacket Type = EContentPacket::ColorTypePacket;
-//public:
-//	UColorTypePacket()
-//	{
-//		SetType(EContentPacket::ColorTypePacket);
-//	}
-//
-//	void Serialize(UEngineSerializer& _Ser) override
-//	{
-//		UEngineProtocol::Serialize(_Ser);
-//		_Ser << Infos;
-//	}
-//
-//	void DeSerialize(UEngineSerializer& _Ser) override
-//	{
-//		UEngineProtocol::DeSerialize(_Ser);
-//		_Ser >> Infos;
-//	}
-//
-//public:
-//	std::map<int, int> Infos;
-//};
+
+class UDeadUpdatePacket : public UEngineProtocol {
+public:
+	static const EContentPacket Type = EContentPacket::DeadUpdatePacket;
+public:
+	UDeadUpdatePacket()
+	{
+		SetType(EContentPacket::DeadUpdatePacket);
+	}
+
+	void Serialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::Serialize(_Ser);
+		_Ser << Order;
+		_Ser << DeadValue;
+	}
+
+	void DeSerialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::DeSerialize(_Ser);
+		_Ser >> Order;
+		_Ser >> DeadValue;
+	}
+
+public:
+	int Order = 0;
+	bool DeadValue = false;
+};
+
