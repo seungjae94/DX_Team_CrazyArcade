@@ -9,6 +9,7 @@
 #include "BombBase.h"
 #include "BushBase.h"
 #include "ItemBase.h"
+#include "Player.h"
 
 FVector AMapBase::StartPos = { 20.0f, 40.0f, 0.0f };
 float AMapBase::BlockSize = 40.0f;
@@ -195,6 +196,26 @@ bool AMapBase::IsBushPos(const FVector& _Pos)
 	if (nullptr != TileInfo[Point.Y][Point.X].Bush)
 	{
 		Result = true;
+	}
+
+	return Result;
+}
+
+bool AMapBase::IsColOtherPlayer(const FVector& _Pos)
+{
+	bool Result = false;
+	FVector CurPos = _Pos;
+
+	for (size_t i = 0; i < OtherPlayer.size(); i++)
+	{
+		FVector OtherPos = OtherPlayer[i]->GetActorLocation();
+		FVector DiffPos = CurPos - OtherPos;
+		float DiffLen = sqrtf(powf(DiffPos.X, 2.0f) + powf(DiffPos.Y, 2.0f));
+
+		if (20.0f > DiffLen)
+		{
+			Result = true;
+		}
 	}
 
 	return Result;

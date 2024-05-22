@@ -63,6 +63,7 @@ public:
 	bool CanMovePos(const FVector& _NextPos, const FVector& _Dir);
 	bool IsBombPos(const FVector& _Pos, const FVector& _Dir);
 	bool IsBushPos(const FVector& _Pos);
+	bool IsColOtherPlayer(const FVector& _Pos);
 	EItemType IsItemTile(const FVector& _Pos);
 	
 	std::shared_ptr<ABombBase> SpawnBomb(const FVector& _Pos, APlayer* _Player);
