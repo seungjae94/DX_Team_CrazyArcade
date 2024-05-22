@@ -1382,6 +1382,7 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 		std::map<int, std::string> NameInfos;
 		std::map<int, int> CharacterTypeInfos;
 		std::map<int, int> ColorInfos;
+		std::map<int, bool> ExistInfos;
 
 		for (std::pair<const int, ConnectUserInfo> Pair : Infos)
 		{
@@ -1389,11 +1390,13 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 			NameInfos[Key] = Pair.second.MyName;
 			CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
 			ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
+			ExistInfos[Key] = Pair.second.GetIsExist();
 		}
 
 		Packet->NameInfos = NameInfos;
 		Packet->CharacterTypeInfos = CharacterTypeInfos;
 		Packet->ColorInfos = ColorInfos;
+		Packet->ExistInfos = ExistInfos;
 
 		UCrazyArcadeCore::NetManager.Send(Packet);
 	}
@@ -1416,6 +1419,7 @@ void ALobbyTitleGameMode::ChangeColor(ECharacterColor _CharacterColor)
 		std::map<int, std::string> NameInfos;
 		std::map<int, int> CharacterTypeInfos;
 		std::map<int, int> ColorInfos;
+		std::map<int, bool> ExistInfos;
 
 		for (std::pair<const int, ConnectUserInfo> Pair : Infos)
 		{
@@ -1423,11 +1427,13 @@ void ALobbyTitleGameMode::ChangeColor(ECharacterColor _CharacterColor)
 			NameInfos[Key] = Pair.second.MyName;
 			CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
 			ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
+			ExistInfos[Key] = Pair.second.GetIsExist();
 		}
 
 		Packet->NameInfos = NameInfos;
 		Packet->CharacterTypeInfos = CharacterTypeInfos;
 		Packet->ColorInfos = ColorInfos;
+		Packet->ExistInfos = ExistInfos;
 
 		UCrazyArcadeCore::NetManager.Send(Packet);
 	}
@@ -1497,6 +1503,7 @@ void ALobbyTitleGameMode::GameStart()
 			std::map<int, std::string> NameInfos;
 			std::map<int, int> CharacterTypeInfos;
 			std::map<int, int> ColorInfos;
+			std::map<int, bool> ExistInfos;
 
 			for (std::pair<const int, ConnectUserInfo> Pair : Infos)
 			{
@@ -1504,11 +1511,14 @@ void ALobbyTitleGameMode::GameStart()
 				NameInfos[Key] = Pair.second.MyName;
 				CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
 				ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
+				ExistInfos[Key] = Pair.second.GetIsExist();
 			}
 
 			Packet->NameInfos = NameInfos;
 			Packet->CharacterTypeInfos = CharacterTypeInfos;
 			Packet->ColorInfos = ColorInfos;
+			Packet->ExistInfos = ExistInfos;
+
 			UCrazyArcadeCore::Net->Send(Packet);
 		}
 

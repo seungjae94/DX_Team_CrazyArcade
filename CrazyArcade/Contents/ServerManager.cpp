@@ -46,18 +46,20 @@ void UServerManager::ServerOpen()
 							Infos[Key].MyName = NamePair.second;
 							Infos[Key].SetMyCharacterType(_Packet->GetMyCharacterType(Key));
 							Infos[Key].SetMyColorType(_Packet->GetMyColorType(Key));
+							Infos[Key].SetIsExist(_Packet->GetExist(Key));
 						}
 
 						ConnectionInfo::GetInst().SetUserInfos(Infos);
 					}
 
 					{
-						std::shared_ptr<UConnectPacket> ConnectNumPacket = std::make_shared<UConnectPacket>();
+						std::shared_ptr<UConnectPacket> Packet = std::make_shared<UConnectPacket>();
 						std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
 
 						std::map<int, std::string> NameInfos;
 						std::map<int, int> CharacterTypeInfos;
 						std::map<int, int> ColorInfos;
+						std::map<int, bool> ExistInfos;
 
 						for (std::pair<const int, ConnectUserInfo> Pair : Infos)
 						{
@@ -65,12 +67,14 @@ void UServerManager::ServerOpen()
 							NameInfos[Key] = Pair.second.MyName;
 							CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
 							ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
+							ExistInfos[Key] = Pair.second.GetIsExist();
 						}
 
-						ConnectNumPacket->NameInfos = NameInfos;
-						ConnectNumPacket->CharacterTypeInfos = CharacterTypeInfos;
-						ConnectNumPacket->ColorInfos = ColorInfos;
-						Send(ConnectNumPacket);
+						Packet->NameInfos = NameInfos;
+						Packet->CharacterTypeInfos = CharacterTypeInfos;
+						Packet->ColorInfos = ColorInfos;
+						Packet->ExistInfos = ExistInfos;
+						Send(Packet);
 					}
 				});
 		});
@@ -84,12 +88,13 @@ void UServerManager::ServerOpen()
 					SessionInitVec[_Packet->Session] = true;
 
 					{
-						std::shared_ptr<UConnectPacket> ConnectNumPacket = std::make_shared<UConnectPacket>();
+						std::shared_ptr<UConnectPacket> Packet = std::make_shared<UConnectPacket>();
 						std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
 
 						std::map<int, std::string> NameInfos;
 						std::map<int, int> CharacterTypeInfos;
 						std::map<int, int> ColorInfos;
+						std::map<int, bool> ExistInfos;
 
 						for (std::pair<const int, ConnectUserInfo> Pair : Infos)
 						{
@@ -97,12 +102,14 @@ void UServerManager::ServerOpen()
 							NameInfos[Key] = Pair.second.MyName;
 							CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
 							ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
+							ExistInfos[Key] = Pair.second.GetIsExist();
 						}
 
-						ConnectNumPacket->NameInfos = NameInfos;
-						ConnectNumPacket->CharacterTypeInfos = CharacterTypeInfos;
-						ConnectNumPacket->ColorInfos = ColorInfos;
-						Send(ConnectNumPacket);
+						Packet->NameInfos = NameInfos;
+						Packet->CharacterTypeInfos = CharacterTypeInfos;
+						Packet->ColorInfos = ColorInfos;
+						Packet->ExistInfos = ExistInfos;
+						Send(Packet);
 					}
 
 				});
@@ -181,6 +188,7 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 						Infos[Key].MyName = NamePair.second;
 						Infos[Key].SetMyCharacterType(_Packet->GetMyCharacterType(Key));
 						Infos[Key].SetMyColorType(_Packet->GetMyColorType(Key));
+						Infos[Key].SetIsExist(_Packet->GetExist(Key));
 					}
 
 					ConnectionInfo::GetInst().SetUserInfos(Infos);
