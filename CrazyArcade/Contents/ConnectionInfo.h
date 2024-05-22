@@ -6,11 +6,12 @@ struct ConnectUserInfo
 public:
 	std::string MyName = "Anonymous";
 
+public:
+	
 	void SetMyCharacterType(ECharacterType _Type)
 	{
 		MyCharacterType = static_cast<int>(_Type);
 	}
-
 	ECharacterType GetMyCharacterType()
 	{
 		return static_cast<ECharacterType>(MyCharacterType);
@@ -20,16 +21,24 @@ public:
 	{
 		MyColorType = static_cast<int>(_Type);
 	}
-
 	ECharacterColor GetMyColorType()
 	{
 		return static_cast<ECharacterColor>(MyColorType);
 	}
 
+	void SetIsDead(bool _IsDead)
+	{
+		IsDead = _IsDead;
+	}
+	bool GetIsDead()
+	{
+		return IsDead;
+	}
+
 private:
 	int MyCharacterType = 0;
 	int MyColorType = 0;
-
+	bool IsDead = false;
 	//ECharacterType MyCharacterType = ECharacterType::None;
 	//ECharacterColor MyColorType = ECharacterColor::None;
 };
@@ -107,6 +116,67 @@ public:
 		return static_cast<int>(UserInfos.size());
 	}
 
+	int GetBlueCount()
+	{
+		return BlueCount;
+	}
+	int GetRedCount()
+	{
+		return RedCount;
+	}
+
+	void TeamCount()
+	{
+		int BCount = 0;
+		int RCount = 0;
+		for (std::pair<int, ConnectUserInfo> Iterator : UserInfos)
+		{
+			if (true == Iterator.second.GetIsDead())
+			{
+				continue;
+			}
+			else
+			{
+				if (ECharacterColor::Blue == Iterator.second.GetMyColorType())
+				{
+					BCount++;
+				}
+				if (ECharacterColor::Red == Iterator.second.GetMyColorType())
+				{
+					RCount++;
+				}
+			}
+		}
+
+		BlueCount = BCount;
+		RedCount = RCount;
+	}
+
+	ECharacterColor WinCheck()
+	{
+		if (RedCount == 0 && BlueCount >= 1)
+		{
+			return ECharacterColor::Blue;
+		}
+		else if (BlueCount == 0 && RedCount >= 1)
+		{
+			return ECharacterColor::Red;
+		}
+		else
+		{
+			return ECharacterColor::None;
+		}
+	}
+
+	void SetWins(ECharacterColor _Wins)
+	{
+		Wins = _Wins;
+	}
+	ECharacterColor GetWins()
+	{
+		return Wins;
+	}
+
 protected:
 
 private:
@@ -114,6 +184,11 @@ private:
 	~ConnectionInfo();
 
 	int MyOrder = 0;
+
+	int RedCount = 0;
+	int BlueCount = 0;
+
+	ECharacterColor Wins = ECharacterColor::None;
 
 	std::map<int, ConnectUserInfo> UserInfos;
 

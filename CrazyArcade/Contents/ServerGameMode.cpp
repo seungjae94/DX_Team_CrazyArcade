@@ -46,6 +46,7 @@ void AServerGameMode::LevelStart(ULevel* _PrevLevel)
 	if (Player->GetObjectToken() == -1) {
 		Player->SetObjectToken(GetToken);
 	}
+	ConnectionInfo::GetInst().TeamCount();
 }
 
 
