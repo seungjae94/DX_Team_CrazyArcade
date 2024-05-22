@@ -152,6 +152,17 @@ void APlayer::StateInit()
 		{
 			Renderer->SetPosition(FVector::Zero);
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Die");
+			DelayCallBack(0.9f, [=]
+				{
+					StartBlink(3.0f);
+				}
+			);
+			DelayCallBack(3.9f, [=]
+				{
+					Renderer->SetActive(false);
+					ShadowRenderer->SetActive(false);
+				}
+			);
 			SetPlayerDead();
 		});
 
@@ -186,14 +197,7 @@ void APlayer::Idle(float _Update)
 	}
 
 	// 부쉬 Hide
-	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
-	{
-		Renderer->SetActive(false);
-	}
-	else
-	{
-		Renderer->SetActive(true);
-	}
+	HideInBush();
 
 	// Bomb 피격
 	//if (/*피격 당했으면*/)
@@ -231,14 +235,7 @@ void APlayer::Run(float _DeltaTime)
 	}
 
 	// 부쉬 Hide
-	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
-	{
-		Renderer->SetActive(false);
-	}
-	else
-	{
-		Renderer->SetActive(true);
-	}
+	HideInBush();
 
 	// Bomb 설치
 	if (true == IsDown(VK_SPACE))
@@ -325,14 +322,7 @@ void APlayer::Run(float _DeltaTime)
 void APlayer::RidingIdle(float _Update)
 {
 	// 부쉬 Hide
-	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
-	{
-		Renderer->SetActive(false);
-	}
-	else
-	{
-		Renderer->SetActive(true);
-	}
+	HideInBush();
 
 	// Bomb 설치
 	if (true == IsDown(VK_SPACE))
@@ -379,14 +369,7 @@ void APlayer::RidingRun(float _DeltaTime)
 	}
 
 	// 부쉬 Hide
-	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
-	{
-		Renderer->SetActive(false);
-	}
-	else
-	{
-		Renderer->SetActive(true);
-	}
+	HideInBush();
 
 	// Bomb 설치
 	if (true == IsDown(VK_SPACE))
@@ -530,14 +513,7 @@ void APlayer::TrapStart(float _DeltaTime)
 	}
 
 	// 부쉬 Hide
-	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
-	{
-		Renderer->SetActive(false);
-	}
-	else
-	{
-		Renderer->SetActive(true);
-	}
+	HideInBush();
 }
 
 void APlayer::Traped(float _DeltaTime)
@@ -566,14 +542,7 @@ void APlayer::Traped(float _DeltaTime)
 	}
 
 	// 부쉬 Hide
-	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
-	{
-		Renderer->SetActive(false);
-	}
-	else
-	{
-		Renderer->SetActive(true);
-	}
+	HideInBush();
 
 	if (true == PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this))
 	{
@@ -615,14 +584,7 @@ void APlayer::TrapEnd(float _DeltaTime)
 	}
 
 	// 부쉬 Hide
-	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
-	{
-		Renderer->SetActive(false);
-	}
-	else
-	{
-		Renderer->SetActive(true);
-	}
+	HideInBush();
 
 	if (true == PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this))
 	{
@@ -638,8 +600,9 @@ void APlayer::TrapEnd(float _DeltaTime)
 	}
 }
 
-void APlayer::Die(float _Update)
+void APlayer::Die(float _DeltaTime)
 {
+	BlinkRenderer(_DeltaTime);
 }
 
 void APlayer::Revival(float _DeltaTime)
@@ -669,6 +632,20 @@ void APlayer::KeyMove(float _DeltaTime, FVector _Dir, float _Speed)
 		{
 			IsBombOn = false;
 		}
+	}
+}
+
+void APlayer::HideInBush()
+{
+	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
+	{
+		Renderer->SetActive(false);
+		ShadowRenderer->SetActive(false);
+	}
+	else
+	{
+		Renderer->SetActive(true);
+		ShadowRenderer->SetActive(true);
 	}
 }
 

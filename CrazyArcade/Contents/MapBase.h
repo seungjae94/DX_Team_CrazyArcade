@@ -69,6 +69,7 @@ public:
 	std::shared_ptr<ABombBase> SpawnBomb(const FVector& _Pos, APlayer* _Player);
 	void ReSpawnItem(EItemType _Type, int _Count);
 
+	void PlayerDelete(APlayer* _Player);
 	inline void PushAllPlayer(APlayer* _Player)
 	{
 		AllPlayer.push_back(_Player);
