@@ -17,6 +17,7 @@ public:
 		{
 			std::shared_ptr<ServerTestOtherPlayer> Player = _Level->SpawnActor<ServerTestOtherPlayer>("Player");
 			Player->SetObjectToken(_Token);
+			Player->SettingPlayer(_Token);
 		}
 		break;
 		case 1:
