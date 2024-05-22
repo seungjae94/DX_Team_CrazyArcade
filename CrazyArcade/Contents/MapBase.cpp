@@ -201,6 +201,7 @@ bool AMapBase::IsBushPos(const FVector& _Pos)
 	return Result;
 }
 
+// 다른 플레이어와 충돌시 true 반환
 bool AMapBase::IsColOtherPlayer(const FVector& _Pos)
 {
 	bool Result = false;
