@@ -20,11 +20,21 @@ protected:
 	void BeginPlay();
 	void Tick(float _DeltaTime);
 
+	void CreateIntroFrame(std::string _Name);
+
+	
+	
+
 
 
 private:
-	UImage* IntroAnimation = nullptr;
+	UImage* IntroImage;
+	USpriteRenderer* IntroRenderer;
+	//UDefaultSceneComponent* DefaultComponent;
 
+
+	float AnimationTime;
+	
 
 
 };
