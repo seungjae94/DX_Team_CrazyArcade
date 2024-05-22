@@ -127,8 +127,6 @@ void APlayer::Tick(float _DeltaTime)
 
 	PlayerPos = GetActorLocation();
 
-	PickUpItem();
-
 	Devil(_DeltaTime);
 
 	Superman(_DeltaTime);
