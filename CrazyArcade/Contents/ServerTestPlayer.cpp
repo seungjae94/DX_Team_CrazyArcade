@@ -78,6 +78,7 @@ void ServerTestPlayer::SpawnBomb()
 	SpawnPacket->SpawnTime = FloatResult;
 	Bomb->SetObjectToken(GetToken);
 	SpawnPacket->Pos = /*Bomb->*/GetActorLocation();
+	SpawnPacket->Power = BombPower;
 	Send(SpawnPacket, Bomb->GetObjectToken());
 	IsSpawn = false;
 	Bomb = nullptr;
