@@ -6,7 +6,8 @@ namespace MapImgRes
 	const std::string_view play_ui_background		= "spr_play_ui_background.png";
 	const std::string_view village_background		= "spr_village1_background.png";
 	const std::string_view Forest_background		= "spr_forest_background.png";
-	const std::string_view Pirate_background		= "spr_Pirate_background.png";
+	const std::string_view Pirate_background01		= "spr_Pirate_background01.png";
+	const std::string_view Pirate_background02		 = "spr_Pirate_background02.png";
 
 	
 	// Wall
@@ -20,6 +21,7 @@ namespace MapImgRes
 	
 	const std::string_view block_Pirate_flag		= "spr_pirate_flag";
 	const std::string_view block_Pirate_wall		= "spr_priate_wall.png";
+	const std::string_view block_Pirate_labp		= "spr_pirate_labp";
 
 	// Box
 	const std::string_view block_vil_box0			= "spr_vil_Box0";
@@ -100,6 +102,7 @@ namespace BlockState
 	const std::string_view idle					= "Idle";
 	const std::string_view move					= "Move";
 	const std::string_view destroy				= "Destroy";
+	const std::string_view shaking				= "Shaking";
 }
 
 namespace ItemState

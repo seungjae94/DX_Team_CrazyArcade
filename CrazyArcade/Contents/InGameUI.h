@@ -3,6 +3,8 @@
 
 class AInGameUI : public AActor
 {
+	GENERATED_BODY(AActor)
+private:
 	struct PlayerState
 	{
 		int Order;
@@ -10,12 +12,13 @@ class AInGameUI : public AActor
 		ECharacterColor PlayerColor;
 		ECharacterType PlayerType;
 		bool IsDead;
+		bool IsChange = false; //Tick을 계속돌면서 changeAni를 막기위한것
 
 
 
 		//지윤이랑 인터페이스 동일하게 진행 
 	};
-	GENERATED_BODY(AActor)
+
 public:
 	// constructor destructor
 	AInGameUI();
@@ -40,7 +43,6 @@ private:
 	void TimerText();
 	void IntToText();
 
-
 	std::string MinText;
 	std::string SecText;
 
@@ -64,18 +66,26 @@ private:
 
 	void PlayerUpdate();
 
+	void DeadCheck();
+
 
 	void DataToRender();
 
 	void PlayerStateCheck();
-	bool deadCheck;
+	bool PlayerDeadAct;
+	
 
 	static std::string StateToAnimName(ECharacterType _Type, ECharacterColor _Color, bool _IsDead);
 	static std::string TypeToName(ECharacterType _Type);
 	static std::string ColorToName(ECharacterColor _Color);
 	//static std::map<ECharacterType, std::string> TypeToName;
 	//static std::map<ECharacterColor, std::string> ColorToName;
-	//
-
+	
+	// Fade
+	UImage* Fade = nullptr;
+	bool IsFadeIn = true;
+	bool IsFadeOut = false;
+	float FadeAlpha = 1.0f;
+	void FadeIn(float _DeltaTime);
+	void FadeOut(float _DeltaTime);
 };
-

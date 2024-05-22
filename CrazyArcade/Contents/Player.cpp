@@ -71,13 +71,13 @@ void APlayer::BeginPlay()
 
 	Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Down");
 	Renderer->SetAutoSize(0.9f, true);
-	Renderer->AddPosition({ 0.0f, BlockSize / 2.0f, 0.0f });
+	Renderer->SetPosition({ 0.0f, BlockSize / 2.0f, 0.0f });
 
 	ShadowRenderer->SetSprite("Shadow.png");
 	ShadowRenderer->SetAutoSize(1.0f, true);
 	ShadowRenderer->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.7f });
 	ShadowRenderer->SetOrder(ERenderOrder::Shadow);
-	ShadowRenderer->AddPosition({ 0.0f, -BlockSize / 4.0f });
+	ShadowRenderer->SetPosition({ 0.0f, -BlockSize / 4.0f });
 
 	DebugRenderer->SetScale({ 5,5,10 });
 	DebugRenderer->SetOrder(9999);
@@ -131,6 +131,7 @@ void APlayer::Tick(float _DeltaTime)
 	Devil(_DeltaTime);
 
 	Superman(_DeltaTime);
+
 	CheckBombCount();
 
 	PlayerInfoUpdate();
@@ -169,8 +170,8 @@ void APlayer::PlayerCreateBazziAnimation(std::string _Color)
 
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Win", "Bazzi" + _Color + "_1.png", 0.1f, true, 29, 35);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_TrapStart", "Bazzi" + _Color + "_4.png", 0.07f, false, 6, 10);
-	Renderer->CreateAnimation("Bazzi" + _Color + "_Traped", "Bazzi" + _Color + "_4.png", 0.2f, false, 11, 23);
-	Renderer->CreateAnimation("Bazzi" + _Color + "_TrapEnd", "Bazzi" + _Color + "_4.png", 0.25f, false, 24, 31);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Traped", "Bazzi" + _Color + "_4.png", 0.2f, true, 11, 22);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_TrapEnd", "Bazzi" + _Color + "_4.png", 0.2f, false, 23, 31);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Die", "Bazzi" + _Color + "_2.png", 0.15f, false, 0, 5);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Revival", "Bazzi" + _Color + "_2.png", 0.15f, false, 6, 9);
 
@@ -217,9 +218,9 @@ void APlayer::PlayerCreateAnimation(std::string _CharacterType_Color)
 
 	//Renderer->CreateAnimation(_CharacterType_Color + "_Win", _CharacterType_Color + "_1.png", 0.1f, true, 29, 36);
 	Renderer->CreateAnimation(_CharacterType_Color + "_Win", _CharacterType_Color + "_4.png", 0.1f, true, 0, 12);
-	Renderer->CreateAnimation(_CharacterType_Color + "_TrapStart", _CharacterType_Color + "_5.png", 0.07f, false, 0, 4); // 0.2   0.25
-	Renderer->CreateAnimation(_CharacterType_Color + "_Traped", _CharacterType_Color + "_5.png", 0.2f, true, 5, 18); // 0.2   0.25
-	Renderer->CreateAnimation(_CharacterType_Color + "_TrapEnd", _CharacterType_Color + "_5.png", 0.25f, false, 19, 25);
+	Renderer->CreateAnimation(_CharacterType_Color + "_TrapStart", _CharacterType_Color + "_5.png", 0.07f, false, 0, 4);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Traped", _CharacterType_Color + "_5.png", 0.2f, true, 5, 16);
+	Renderer->CreateAnimation(_CharacterType_Color + "_TrapEnd", _CharacterType_Color + "_5.png", 0.2f, false, 17, 25);
 	Renderer->CreateAnimation(_CharacterType_Color + "_Die", _CharacterType_Color + "_2.png", 0.15f, false, 0, 5);
 	Renderer->CreateAnimation(_CharacterType_Color + "_Revival", _CharacterType_Color + "_2.png", 0.15f, false, 6, 9);
 
@@ -374,21 +375,21 @@ void APlayer::Devil(float _DeltaTime)
 {
 	if (true == IsDevil)
 	{
-		if (0.0f <= RenderChangeTime && RenderChangeTime < 0.5f)
+		if (0.0f <= DevilRenderChangeTime && DevilRenderChangeTime < 0.5f)
 		{
 			Renderer->SetMulColor({ 0.7f, 0.0f, 1.0f, 1.0f });
 		}
-		else if (0.5f <= RenderChangeTime && RenderChangeTime < 1.0f)
+		else if (0.5f <= DevilRenderChangeTime && DevilRenderChangeTime < 1.0f)
 		{
 			Renderer->SetMulColor(FVector::One);
 		}
 		else
 		{
 			//FSpriteInfo SpriteInfo = Renderer->GetCurInfo();
-			RenderChangeTime = 0.0f;
+			DevilRenderChangeTime = 0.0f;
 		}
 
-		RenderChangeTime += _DeltaTime;
+		DevilRenderChangeTime += _DeltaTime;
 
 		DevilTime -= _DeltaTime;
 
@@ -405,25 +406,25 @@ void APlayer::Superman(float _DeltaTime)
 {
 	if (true == IsSuperman)
 	{
-		if (0.0f <= RenderChangeTime && RenderChangeTime < 0.1f)
+		if (0.0f <= SupermanRenderChangeTime && SupermanRenderChangeTime < 0.1f)
 		{
 			Renderer->SetMulColor({ 1.0f, 0.0f, 0.0f, 1.0f });
 		}
-		else if (0.1f <= RenderChangeTime && RenderChangeTime < 0.2f)
+		else if (0.1f <= SupermanRenderChangeTime && SupermanRenderChangeTime < 0.2f)
 		{
 			Renderer->SetMulColor({ 1.0f, 1.0f, 0.0f, 1.0f });
 		}
-		else if (0.2f <= RenderChangeTime && RenderChangeTime < 0.3f)
+		else if (0.2f <= SupermanRenderChangeTime && SupermanRenderChangeTime < 0.3f)
 		{
 			Renderer->SetMulColor({ 0.0f, 0.0f, 1.0f, 1.0f });
 		}
 		else
 		{
 			//FSpriteInfo SpriteInfo = Renderer->GetCurInfo();
-			RenderChangeTime = 0.0f;
+			SupermanRenderChangeTime = 0.0f;
 		}
 
-		RenderChangeTime += _DeltaTime;
+		SupermanRenderChangeTime += _DeltaTime;
 
 		SupermanTime -= _DeltaTime;
 
@@ -515,64 +516,15 @@ void APlayer::SetPlayerDead()
 	IsDead = true;
 	PlayerInfoUpdate();
 
-	for (MPlayerItemIter = MPlayerItem.begin(); MPlayerItemIter != MPlayerItem.end(); ++MPlayerItemIter)
-	{
-		PlayLevel->GetMap()->ReSpawnItem(MPlayerItemIter->first, MPlayerItemIter->second);
-	}
+	//for (MPlayerItemIter = MPlayerItem.begin(); MPlayerItemIter != MPlayerItem.end(); ++MPlayerItemIter)
+	//{
+	//	PlayLevel->GetMap()->ReSpawnItem(MPlayerItemIter->first, MPlayerItemIter->second);
+	//}
 }
 
 void APlayer::SetCharacterType(ECharacterType _Character)
 {
-	int random = UEngineRandom::MainRandom.RandomInt(0, 100);
-	random = random % 3;
-	switch (_Character)
-	{
-	case ECharacterType::Random:
-		switch (random)
-		{
-		case 0:
-			CharacterType = ECharacterType::Dao;
-			break;
-		case 1:
-			CharacterType = ECharacterType::Marid;
-			break;
-		case 2:
-			CharacterType = ECharacterType::Bazzi;
-			break;
-		default:
-			break;
-		}
-		break;
-	case ECharacterType::Dao:
-		CharacterType = ECharacterType::Dao;
-		break;
-	case ECharacterType::Dizni:
-		break;
-	case ECharacterType::Mos:
-		break;
-	case ECharacterType::Ethi:
-		break;
-	case ECharacterType::Marid:
-		CharacterType = ECharacterType::Marid;
-		break;
-	case ECharacterType::Bazzi:
-		CharacterType = ECharacterType::Bazzi;
-		break;
-	case ECharacterType::Uni:
-		break;
-	case ECharacterType::Kephi:
-		break;
-	case ECharacterType::Su:
-		break;
-	case ECharacterType::HooU:
-		break;
-	case ECharacterType::Ray:
-		break;
-	case ECharacterType::None:
-		break;
-	default:
-		break;
-	}
+	CharacterType = _Character;
 
 	Type = MCharacterTypeData[CharacterType].Type;
 	BaseBombCount = MCharacterTypeData[CharacterType].DataBaseBombCount;

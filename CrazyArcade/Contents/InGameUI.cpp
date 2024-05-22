@@ -6,16 +6,13 @@
 #include "ServerManager.h"
 #include "Packets.h"
 
-
 AInGameUI::AInGameUI()
 {
-
 }
 
 AInGameUI::~AInGameUI()
 {
 }
-
 
 void AInGameUI::BeginPlay()
 {
@@ -72,36 +69,29 @@ void AInGameUI::BeginPlay()
 	ResultSummary->AddToViewPort(4);
 
 
-
 	CancelBtn->SetUnHover([=] {
-
-
-
 		CancelBtn->ChangeAnimation("CancelButtonUnHoverAni");
-
 		});
 	CancelBtn->SetHover([=] {
-
 		CancelBtn->ChangeAnimation("CancelButtonHoverAni");
-
-
 		});
 	CancelBtn->SetDown([=] {
+		CancelBtn->ChangeAnimation("CancelButtonIsDownAni");
+		});
+	CancelBtn->SetPress([=] {
 
-		if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType()) {
+		});
+	CancelBtn->SetUp([=] {
+		CancelBtn->ChangeAnimation("CancelButtonUnHoverAni");
+		if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+		{
 			std::shared_ptr<UChangeLevelPacket> LevelChangePacket = std::make_shared<UChangeLevelPacket>();
 			LevelChangePacket->LevelName = "LobbyTitleTestLevel";
 			UCrazyArcadeCore::Net->Send(LevelChangePacket);
-
-		CancelBtn->ChangeAnimation("CancelButtonUnHoverAni");
-		CancelBtn->SetUp([=] {
-
+			
 			GEngine->ChangeLevel("LobbyTitleTestLevel");
-			});
 		}
-
 		});
-
 
 	//게임 실행 하면 유저 정보 가져와서 표시해주기 
 
@@ -111,19 +101,19 @@ void AInGameUI::BeginPlay()
 		UImage* Render = CreateWidget<UImage>(GetWorld(), "PlayerRender" + i);
 		//Render->SetSprite();
 		Render->CreateAnimation("BazziRedNormal", "Play_Portrait_Bazzi_Normal_R.png", 0.8f, true, 0, 1);
-		Render->CreateAnimation("BazziRedLose", "Play_Portrait_Bazzi_Lose_R.png", 0.1f, true, 0, 3);
+		Render->CreateAnimation("BazziRedDead", "Play_Portrait_Bazzi_Lose_R.png", 0.4f, true, 0, 3);
 		Render->CreateAnimation("BazziBlueNormal", "Play_Portrait_Bazzi_Normal_B.png", 0.8f, true, 0, 1);
-		Render->CreateAnimation("BazziBlueLose", "Play_Portrait_Bazzi_Lose_B.png", 0.1f, true, 0, 3);
+		Render->CreateAnimation("BazziBlueDead", "Play_Portrait_Bazzi_Lose_B.png", 0.4f, true, 0, 3);
 
 		Render->CreateAnimation("DaoRedNormal", "Play_Portrait_Dao_Normal_R.png", 0.8f, true, 0, 1);
-		Render->CreateAnimation("DaoRedLose", "Play_Portrait_Dao_Lose_R.png", 0.1f, true, 0, 3);
+		Render->CreateAnimation("DaoRedDead", "Play_Portrait_Dao_Lose_R.png", 0.4f, true, 0, 3);
 		Render->CreateAnimation("DaoBlueNormal", "Play_Portrait_Dao_Normal_B.png", 0.8f, true, 0, 1);
-		Render->CreateAnimation("DaoBlueLose", "Play_Portrait_Dao_Lose_B.png", 0.1f, true, 0, 3);
+		Render->CreateAnimation("DaoBlueDead", "Play_Portrait_Dao_Lose_B.png", 0.4f, true, 0, 3);
 
 		Render->CreateAnimation("MaridRedNormal", "Play_Portrait_Marid_Normal_R.png", 0.8f, true, 0, 1);
-		Render->CreateAnimation("MaridRedLose", "Play_Portrait_Marid_Lose_R.png", 0.1f, true, 0, 3);
+		Render->CreateAnimation("MaridRedDead", "Play_Portrait_Marid_Lose_R.png", 0.4f, true, 0, 3);
 		Render->CreateAnimation("MaridBlueNormal", "Play_Portrait_Marid_Normal_B.png", 0.8f, true, 0, 1);
-		Render->CreateAnimation("MaridBlueLose", "Play_Portrait_Marid_Lose_B.png", 0.1f, true, 0, 3);
+		Render->CreateAnimation("MaridBlueDead", "Play_Portrait_Marid_Lose_B.png", 0.4f, true, 0, 3);
 
 
 
@@ -200,14 +190,19 @@ void AInGameUI::Tick(float _DeltaTIme)
 
 	}
 
+	DeadCheck(); //죽었으면 상태를 바꿔준다 
+
+
 	for (int i = 0; i < PlayerInfo.size(); i++)
 	{
-		if (PlayerInfo[i].IsDead == true)
+		if (PlayerInfo[i].IsDead == true && PlayerInfo[i].IsChange == false)
 		{
 			std::string AnimName = StateToAnimName(PlayerInfo[i].PlayerType, PlayerInfo[i].PlayerColor, PlayerInfo[i].IsDead);
 			PlayerUI[i]->ChangeAnimation(AnimName);
-		}
+			PlayerInfo[i].IsChange = true;
+		}	//
 	}
+
 }
 
 
@@ -246,6 +241,7 @@ void AInGameUI::InitPlayerInfo()
 		PlayerInfo[Iterator.first].PlayerName = Iterator.second.MyName;
 		PlayerInfo[Iterator.first].PlayerType = Iterator.second.GetMyCharacterType();
 		PlayerInfo[Iterator.first].PlayerColor = Iterator.second.GetMyColorType();
+
 	}
 
 	for (std::pair<int, bool> Iterattor : UserDeadCheck)
@@ -357,5 +353,23 @@ std::string AInGameUI::ColorToName(ECharacterColor _Color)
 	}
 }
 
+void AInGameUI::DeadCheck()
+{
+	std::map<int, bool>UserDeadCheck = FPlayerInfo::IsDeads;
+	
+	for (std::pair<int, bool> Iterattor : UserDeadCheck)
+	{
+		PlayerInfo[Iterattor.first].IsDead = Iterattor.second;
 
+	}
+}
 
+void AInGameUI::FadeIn(float _DeltaTime)
+{
+
+}
+
+void AInGameUI::FadeOut(float _DeltaTime)
+{
+
+}

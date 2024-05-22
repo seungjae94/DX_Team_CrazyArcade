@@ -9,6 +9,7 @@
 #include "CrazyArcadeCore.h"
 #include "Packets.h"
 #include "ServerHelper.h"
+#include <EngineBase/EngineRandom.h>
 
 ALobbyTitleGameMode::ALobbyTitleGameMode()
 {
@@ -208,7 +209,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Username_Space->SetScale(13.0f);
 					Username_Space->SetPosition({ -325.0f + 106.0f * (i % 4), 102.0f - 145.0f * (i / 4) });
 					Username_Space->SetFont("굴림");
-					Username_Space->SetColor(Color8Bit::Black);
+					Username_Space->SetColor(Color8Bit::White);
 					Username_Space->SetFlag(FW1_CENTER);
 					Username_Space->SetText(" ");
 
@@ -926,8 +927,6 @@ void ALobbyTitleGameMode::LevelStart(ULevel* _PrevLevel)
 	// Initialize
 	Space_IsUserIn[Player.SpaceIndex] = true;
 	Usernames_Space[Player.SpaceIndex]->SetText(Player.Name);
-	ChangeCharacter(ECharacterType::Random);
-	ChangeColor(ECharacterColor::Red);
 }
 
 void ALobbyTitleGameMode::Tick(float _DeltaTime)
@@ -981,27 +980,27 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 		Player.CharacterType = ConnectionInfo::GetInst().GetCharacterType();
 		Player.CharacterColor = ConnectionInfo::GetInst().GetCharacterColor();
 	}
-
-	// UserInfos Update
 	{
 		std::map<int, ConnectUserInfo> ServerUserInfos = ConnectionInfo::GetInst().GetUserInfos();
 
+		// UserInfos Update
 		for (int i = 0; i < 8; i++)
 		{
 			UserInfos[i].Name = ServerUserInfos[i].MyName;
 			UserInfos[i].CharacterType = ServerUserInfos[i].GetMyCharacterType();
 			UserInfos[i].CharacterColor = ServerUserInfos[i].GetMyColorType();
 		}
-	}
 
-	// Space Update
-	{
+		// Space Update
 		int UserCnt = ConnectionInfo::GetInst().GetInfoSize();
 		for (int i = 0; i < UserCnt; i++)
 		{
+			//if(ServerUserInfos[i] != NONE)
+			//{
 			SpaceOn(i);
 			SettingName(i);
 			SettingCharacter(i);
+			//}
 		}
 	}
 }
@@ -1039,11 +1038,11 @@ void ALobbyTitleGameMode::ChatUpdate()
 				UTextWidget* ChatText = CreateWidget<UTextWidget>(GetWorld(), "ChatText");
 				ChatText->AddToViewPort(4);
 				ChatText->SetScale(12.0f);
-				ChatText->SetWidgetLocation({ -373.0f, -198.0f });
+				ChatText->SetWidgetLocation({ -370.0f, -195.0f });
 				ChatText->SetFont("굴림");
 				ChatText->SetColor(Color8Bit::White);
 				ChatText->SetFlag(FW1_LEFT);
-				ChatText->SetText(Player.Name + " : " + ChatInput);
+				ChatText->SetText("> " + Player.Name + " : " + ChatInput);
 				ChatTexts.push_back(ChatText);
 			}
 
@@ -1052,7 +1051,12 @@ void ALobbyTitleGameMode::ChatUpdate()
 			for (int i = 0; i < Chat_Size - 1; i++)
 			{
 				FVector PrevLoc = ChatTexts[i]->GetWidgetLocation();
-				ChatTexts[i]->SetWidgetLocation(PrevLoc + float4(0.0f, 20.0f));
+				ChatTexts[i]->SetWidgetLocation(PrevLoc + float4(0.0f, 13.0f));
+			}
+
+			for (int i = 0; i < Chat_Size - 7; i++)
+			{
+				ChatTexts[i]->SetActive(false);
 			}
 
 			ChatInputText->SetText("");
@@ -1438,13 +1442,66 @@ void ALobbyTitleGameMode::FadeOut(float _DeltaTime)
 
 void ALobbyTitleGameMode::GameStart()
 {
-	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType()) {
-		std::shared_ptr<UChangeLevelPacket> Packet = std::make_shared<UChangeLevelPacket>();
-		GEngine->ChangeLevel("ServerGameMode");
-		Packet->LevelName = "ServerGameMode";
-		UCrazyArcadeCore::NetManager.Send(Packet);
-		return;
+	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+	{
+		// Server의 ConnectionInfo 바꾸고
+		std::map<int, ConnectUserInfo>& Info = ConnectionInfo::GetInst().GetUserInfos();
+		for (std::pair<const int, ConnectUserInfo>& Iterator : Info)
+		{
+			ConnectUserInfo& UserInfo = Iterator.second;
+
+			int random = UEngineRandom::MainRandom.RandomInt(0, 2);
+			
+			if (ECharacterType::Random == UserInfo.GetMyCharacterType())
+			{
+				switch (random)
+				{
+				case 0:
+					UserInfo.SetMyCharacterType(ECharacterType::Dao);
+					break;
+				case 1:
+					UserInfo.SetMyCharacterType(ECharacterType::Marid);
+					break;
+				case 2:
+					UserInfo.SetMyCharacterType(ECharacterType::Bazzi);
+					break;
+				}
+			}
+		}
+		// 여기서 바뀐 ConnectInfo를 클라이언트에게 보내기
+		{
+			std::shared_ptr<UConnectPacket> Packet = std::make_shared<UConnectPacket>();
+			std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
+
+			std::map<int, std::string> NameInfos;
+			std::map<int, int> CharacterTypeInfos;
+			std::map<int, int> ColorInfos;
+
+			for (std::pair<const int, ConnectUserInfo> Pair : Infos)
+			{
+				int Key = Pair.first;
+				NameInfos[Key] = Pair.second.MyName;
+				CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
+				ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
+			}
+
+			Packet->NameInfos = NameInfos;
+			Packet->CharacterTypeInfos = CharacterTypeInfos;
+			Packet->ColorInfos = ColorInfos;
+			UCrazyArcadeCore::Net->Send(Packet);
+		}
+
+		if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType()) 
+		{
+			std::shared_ptr<UChangeLevelPacket> Packet = std::make_shared<UChangeLevelPacket>();
+			GEngine->ChangeLevel("ServerGameMode");
+			Packet->LevelName = "ServerGameMode";
+			UCrazyArcadeCore::NetManager.Send(Packet);
+			return;
+		}
 	}
+	
+
 }
 
 void ALobbyTitleGameMode::HandlerInit()

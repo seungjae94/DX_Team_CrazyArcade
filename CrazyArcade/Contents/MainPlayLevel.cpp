@@ -6,6 +6,7 @@
 #include "VillageMap.h"
 #include "ForestMap.h"
 #include "PirateMap.h"
+#include "PirateMap02.h"
 #include "ServerTestPlayer.h"
 //UI
 #include "TimerUI.h"
@@ -36,7 +37,7 @@ void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
 	
-	MapType = EMapType::Village;
+	MapType = EMapType::Pirate02;
 	CreateMap();
 }
 
@@ -58,6 +59,11 @@ void AMainPlayLevel::CreateMap()
 		TileMap = GetWorld()->SpawnActor<APirateMap>("PirateMap");
 		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
 		Player->SetActorLocation({ 520.0f, 100.0f, 0.0f });
+		break;
+	case EMapType::Pirate02:
+		TileMap = GetWorld()->SpawnActor<APirateMap02>("PirateMap02");
+		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
+		Player->SetActorLocation({ 320.0f, 100.0f, 0.0f });
 		break;
 	}
 }

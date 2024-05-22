@@ -46,6 +46,7 @@ void AServerGameMode::LevelStart(ULevel* _PrevLevel)
 	if (Player->GetObjectToken() == -1) {
 		Player->SetObjectToken(GetToken);
 	}
+	ConnectionInfo::GetInst().TeamCount();
 }
 
 
@@ -155,6 +156,7 @@ void AServerGameMode::HandlerInit()
 						Bomb = UNetObject::GetNetObject<ABombBase>(_Packet->GetObjectToken());
 						Bomb->SetObjectToken(_Packet->GetObjectToken());
 						Bomb->PushProtocolAsync(_Packet);
+						Bomb->SetBombPower(_Packet->Power);
 						/*ABombBase* MyBomb;
 						ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, 0);
 						MyBomb->SetObjectToken(_Packet->GetObjectToken());

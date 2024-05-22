@@ -63,15 +63,15 @@ public:
 	bool CanMovePos(const FVector& _NextPos, const FVector& _Dir);
 	bool IsBombPos(const FVector& _Pos, const FVector& _Dir);
 	bool IsBushPos(const FVector& _Pos);
-	bool IsColOtherPlayer(const FVector& _Pos);
+	bool IsColOtherPlayer(const FVector& _Pos, APlayer* _Player);
 	EItemType IsItemTile(const FVector& _Pos);
 	
 	std::shared_ptr<ABombBase> SpawnBomb(const FVector& _Pos, APlayer* _Player);
 	void ReSpawnItem(EItemType _Type, int _Count);
 
-	inline void PushOtherPlayer(APlayer* _Player)
+	inline void PushAllPlayer(APlayer* _Player)
 	{
-		OtherPlayer.push_back(_Player);
+		AllPlayer.push_back(_Player);
 	}
 	
 protected:
@@ -113,7 +113,7 @@ private:
 	USpriteRenderer* PlayUI_BackGround = nullptr;
 
 	std::vector<std::vector<UTileInfo>> TileInfo;
-	std::vector<APlayer*> OtherPlayer;
+	std::vector<APlayer*> AllPlayer;
 	std::vector<FPoint> PlayerStartPoint;
 
 	static FVector StartPos;

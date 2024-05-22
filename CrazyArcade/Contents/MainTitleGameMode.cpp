@@ -57,9 +57,9 @@ void AMainTitleGameMode::BeginPlay()
 
 	TextWidget = CreateWidget<UTextWidget>(GetWorld(), "TextWidget");
 	TextWidget->SetFont("굴림");
-	TextWidget->SetScale(20.0f);
+	TextWidget->SetScale(16.0f);
 	TextWidget->SetColor(Color8Bit::Black);
-	TextWidget->SetPosition({ -115.0f ,-143.0f });
+	TextWidget->SetPosition({ -110.0f ,-145.0f });
 	TextWidget->SetFlag(FW1_LEFT); //좌로 정렬
 	TextWidget->AddToViewPort(4);
 	TextWidget->SetText(PlayerName);
@@ -71,20 +71,14 @@ void AMainTitleGameMode::BeginPlay()
 		});
 
 
-	StartButton->SetHover([=]
-		{
+	StartButton->SetHover([=]{
 			StartButton->ChangeAnimation("HoverStartButtonAni");
 
 		});
 
 	StartButton->SetDown([=] {
-
-		if (TextWidget->GetText().size() <= 1)
-		{
-			// 이름을 입력해주세요 UI 추가 
-			return;
-		}
-		GEngine->ChangeLevel("LobbyTitleTestLevel");
+		// 1P, 2P 버튼이 있으므로 비활성화
+		//GEngine->ChangeLevel("LobbyTitleTestLevel");
 		});
 
 	VoidBox->SetDown([=] {
@@ -119,7 +113,6 @@ void AMainTitleGameMode::BeginPlay()
 		IsPortNumBoxActive = false;
 
 		UEngineInputRecorder::RecordStart(TextWidget->GetText(), PlayerNameMaxLength);
-		GetPlayerName();
 		});
 
 	// 1P Button
@@ -154,6 +147,11 @@ void AMainTitleGameMode::BeginPlay()
 			});
 
 		Button_1P->SetUp([=] {
+			if (TextWidget->GetText().size() <= 0)
+			{
+				// 이름을 입력해주세요 UI 추가 
+				//return;
+			}
 			Button_1P->ChangeAnimation("UnHover");
 			ServerStart();
 			});
@@ -191,6 +189,11 @@ void AMainTitleGameMode::BeginPlay()
 			});
 
 		Button_2P->SetUp([=] {
+			if (TextWidget->GetText().size() <= 0)
+			{
+				// 이름을 입력해주세요 UI 추가 
+				//return;
+			}
 			Button_2P->ChangeAnimation("UnHover");
 			ClientStart();
 			});
@@ -215,7 +218,7 @@ void AMainTitleGameMode::BeginPlay()
 			PortNumBox->ChangeAnimation("InActive");
 			IsPortNumBoxActive = false;
 
-			UEngineInputRecorder::RecordStart(IPNumText->GetText(), 15);
+			UEngineInputRecorder::RecordStart(IPNumText->GetText(), IPNumMaxLength);
 			});
 
 		IPNumText = CreateWidget<UTextWidget>(GetWorld(), "IPNumText");
@@ -277,20 +280,13 @@ void AMainTitleGameMode::BeginPlay()
 		PortNumTitle->SetFlag(FW1_LEFT);
 		PortNumTitle->SetText("Port : ");
 	}
-
-	if (UEngineInput::IsDown('M'))
-	{
-		GetPlayerName();
-	}
 }
-
 
 void AMainTitleGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-
-	// PlayerName, IPNum, PortNum Setting
+	// PlayerName, IPNum, PortNum on screen
 	StringToText();
 
 	// Debug
@@ -321,23 +317,23 @@ void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
 	{
 		return;
 	}
-	//ConnectionInfo::GetInst().SetMyName(PlayerName);
-	//Lobby->SetUserName(PlayerName);
 }
 
 void AMainTitleGameMode::ServerStart()
 {
-	if (UCrazyArcadeCore::Net == nullptr) {
-			UCrazyArcadeCore::NetManager.ServerOpen();
-			GEngine->ChangeLevel("LobbyTitleTestLevel");
-			ConnectionInfo::GetInst().SetMyName(PlayerName);
-			ConnectionInfo::GetInst().PushUserInfos(0, PlayerName);
+	if (UCrazyArcadeCore::Net == nullptr)
+	{
+		UCrazyArcadeCore::NetManager.ServerOpen();
+		GEngine->ChangeLevel("LobbyTitleTestLevel");
+		ConnectionInfo::GetInst().SetMyName(PlayerName);
+		ConnectionInfo::GetInst().PushUserInfos(0, PlayerName);
 	}
 }
 
 void AMainTitleGameMode::ClientStart()
 {
-	if (UCrazyArcadeCore::Net == nullptr) {
+	if (UCrazyArcadeCore::Net == nullptr)
+	{
 		UCrazyArcadeCore::NetManager.ClientOpen(IPNum, 30000);
 		ConnectionInfo::GetInst().SetMyName(PlayerName);
 		GEngine->ChangeLevel("LobbyTitleTestLevel");
@@ -347,12 +343,6 @@ void AMainTitleGameMode::ClientStart()
 void AMainTitleGameMode::HandlerInit()
 {
 	UEngineDispatcher& Dis = UCrazyArcadeCore::Net->Dispatcher;
-}
-
-
-std::string AMainTitleGameMode::GetPlayerName()
-{
-	return TextWidget->GetText();
 }
 
 void AMainTitleGameMode::StringToText()
