@@ -44,7 +44,7 @@ void ALobbyTitleGameMode::BeginPlay()
 
 			Player.SpaceIndex = 0;
 			Player.Name = "";
-			Player.CharacterType = ECharacterType::Dao;
+			Player.CharacterType = ECharacterType::Random;
 			Player.CharacterColor = ECharacterColor::Red;
 		}
 
@@ -180,7 +180,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Character_Space->AddToViewPort(2);
 					Character_Space->SetAutoSize(1.0f, true);
 					Character_Space->SetWidgetLocation({ -339.0f + 106.0f * (i % 4), 148.0f - 145.0f * (i / 4) });
-					Character_Space->SetSprite("Character_Space_Dao_R.png");
+					Character_Space->SetSprite("Character_Space_Random_R.png");
 
 					Characters_Space.push_back(Character_Space);
 				}
@@ -475,6 +475,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_CharacterSelect->CreateAnimation("Hover", "Button_CharatorSelect_Random_Hover.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Down", "Button_CharatorSelect_Random_Down.png", 0.1f, false, 0, 0);
 					Btn_CharacterSelect->CreateAnimation("Pick", "Button_CharatorSelect_Random_Pick.png", 0.1f, false, 0, 0);
+					Btn_CharacterSelect_InActive->SetActive(false);
 					break;
 				}
 				case 1:
@@ -599,21 +600,21 @@ void ALobbyTitleGameMode::BeginPlay()
 					PanelOff();
 					});
 
-				Btns_CharacterSelect[i]->SetHover([=] {
-					if (CharacterSelect_Pick[i] == false)
-					{
-						Btns_CharacterSelect[i]->ChangeAnimation("Hover");
-					}
-					else
-					{
-						Btns_CharacterSelect[i]->ChangeAnimation("Pick");
-					}
-					SettingPanel(ECharacterType(i));
-					PanelOn();
-					});
-
-				if (i == 1 || i == 5 || i == 6)
+				if (i == 0 || i == 1 || i == 5 || i == 6)
 				{
+					Btns_CharacterSelect[i]->SetHover([=] {
+						if (CharacterSelect_Pick[i] == false)
+						{
+							Btns_CharacterSelect[i]->ChangeAnimation("Hover");
+						}
+						else
+						{
+							Btns_CharacterSelect[i]->ChangeAnimation("Pick");
+						}
+						SettingPanel(ECharacterType(i));
+						PanelOn();
+						});
+
 					Btns_CharacterSelect[i]->SetDown([=] {
 						Btns_CharacterSelect[i]->ChangeAnimation("Down");
 						});
@@ -914,16 +915,6 @@ void ALobbyTitleGameMode::BeginPlay()
 				ChatInputText->SetFlag(FW1_LEFT);
 				ChatInputText->SetText(ChatInput);
 			}
-			/*{
-				ChatText = CreateWidget<UTextWidget>(GetWorld(), "ChatText");
-				ChatText->AddToViewPort(4);
-				ChatText->SetScale(12.0f);
-				ChatText->SetWidgetLocation({ -373.0f, -198.0f });
-				ChatText->SetFont("±¼¸²");
-				ChatText->SetColor(Color8Bit::Black);
-				ChatText->SetFlag(FW1_LEFT);
-				ChatText->SetText(Chat);
-			}*/
 		}
 	}
 }
@@ -935,6 +926,8 @@ void ALobbyTitleGameMode::LevelStart(ULevel* _PrevLevel)
 	// Initialize
 	Space_IsUserIn[Player.SpaceIndex] = true;
 	Usernames_Space[Player.SpaceIndex]->SetText(Player.Name);
+	ChangeCharacter(ECharacterType::Random);
+	ChangeColor(ECharacterColor::Red);
 }
 
 void ALobbyTitleGameMode::Tick(float _DeltaTime)
@@ -1231,6 +1224,11 @@ void ALobbyTitleGameMode::SettingCharacter(int _SpaceIndex)
 
 	switch (Type)
 	{
+	case ECharacterType::Random:
+	{
+		SpriteName += "_Random";
+		break;
+	}
 	case ECharacterType::Dao:
 	{
 		SpriteName += "_Dao";
@@ -1247,7 +1245,7 @@ void ALobbyTitleGameMode::SettingCharacter(int _SpaceIndex)
 		break;
 	}
 	default:
-		SpriteName += "_Dao";
+		SpriteName += "_Random";
 		break;
 	}
 
@@ -1279,6 +1277,7 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 		_CharacterType == ECharacterType::Mos ||
 		_CharacterType == ECharacterType::Ethi ||
 		_CharacterType == ECharacterType::Uni ||
+		_CharacterType == ECharacterType::Kephi ||
 		_CharacterType == ECharacterType::Su ||
 		_CharacterType == ECharacterType::HooU ||
 		_CharacterType == ECharacterType::Ray
@@ -1327,11 +1326,6 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 	case ECharacterType::Bazzi:
 	{
 		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Bazzi.png");
-		break;
-	}
-	case ECharacterType::Kephi:
-	{
-		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Kephi.png");
 		break;
 	}
 	default:
