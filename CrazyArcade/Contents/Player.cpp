@@ -84,6 +84,8 @@ void APlayer::BeginPlay()
 	DebugRenderer->SetOrder(9999);
 
 	StateInit();
+
+	PlayLevel->GetMap()->PushAllPlayer(this);
 }
 
 void APlayer::Tick(float _DeltaTime)

@@ -79,6 +79,9 @@
     <Filter Include="Level\IntroLevel">
       <UniqueIdentifier>{085f233a-85b8-4850-8c8d-730bd11e8eb8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Map\Manager">
+      <UniqueIdentifier>{c3bbd94a-87d9-4117-8e56-723f8168f7cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -194,6 +197,9 @@
     </ClInclude>
     <ClInclude Include="PirateMap02.h">
       <Filter>Map\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="MapManager.h">
+      <Filter>Map\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -315,6 +321,9 @@
     </ClCompile>
     <ClCompile Include="PirateMap02.cpp">
       <Filter>Map\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="MapManager.cpp">
+      <Filter>Map\Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -146,6 +146,13 @@ void UServerManager::ServerOpen()
 					UCrazyArcadeCore::Net->Send(_Packet);
 					ANetActor* Net = dynamic_cast<ANetActor*>(AllNetObject[_Packet->GetSessionToken() * 1000]);
 					if (Net != nullptr) {
+						APlayer* OtherPlayer = dynamic_cast<APlayer*>(Net);
+						if (nullptr != OtherPlayer)
+						{
+							AMainPlayLevel* PlayLevel = dynamic_cast<AMainPlayLevel*>(OtherPlayer->GetWorld()->GetGameMode().get());
+							PlayLevel->GetMap()->PlayerDelete(OtherPlayer);
+						}
+
 						Net->Destroy();
 					}
 					ConnectionInfo::GetInst().SetEmpty(_Packet->GetSessionToken());
