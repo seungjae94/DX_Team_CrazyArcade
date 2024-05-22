@@ -147,7 +147,10 @@ protected:
 	float SupermanTime = 10.0f;
 	void Superman(float _DeltaTime);
 
+	void SpawnBombCheckSend();
 	void CheckBombCount();
+	FPoint SpawnBombPoint = { -1, -1 };
+	bool IsBombOn = false;
 
 	ECharacterType PlayerType = ECharacterType::Bazzi;
 	std::string Type = "luxMarid";
@@ -180,7 +183,6 @@ protected:
 
 	bool IsDead = false;
 
-	FPoint SpawnBombPoint = { -1, -1 };
-	bool IsBombOn = false;
+
 
 };

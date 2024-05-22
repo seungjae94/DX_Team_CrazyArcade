@@ -179,8 +179,8 @@ void ALobbyTitleGameMode::BeginPlay()
 					UImage* Character_Space = CreateWidget<UImage>(GetWorld(), "Character_Space");
 					Character_Space->AddToViewPort(2);
 					Character_Space->SetAutoSize(1.0f, true);
-					Character_Space->SetWidgetLocation({ -341.0f + 106.0f * (i % 4), 145.0f - 145.0f * (i / 4) });
-					Character_Space->SetSprite("Charcater_Space_Random.png");
+					Character_Space->SetWidgetLocation({ -339.0f + 106.0f * (i % 4), 148.0f - 145.0f * (i / 4) });
+					Character_Space->SetSprite("Character_Space_Dao_R.png");
 
 					Characters_Space.push_back(Character_Space);
 				}
@@ -188,7 +188,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					UImage* Flag_Space = CreateWidget<UImage>(GetWorld(), "Flag_Space");
 					Flag_Space->AddToViewPort(1);
 					Flag_Space->SetAutoSize(1.0f, true);
-					Flag_Space->SetWidgetLocation({ -298.0f + 106.0f * (i % 4), 138.0f - 145.0f * (i / 4) });
+					Flag_Space->SetWidgetLocation({ -297.0f + 106.0f * (i % 4), 138.0f - 145.0f * (i / 4) });
 					Flag_Space->SetSprite("Flag_Space.png");
 
 					Flags_Space.push_back(Flag_Space);
@@ -197,7 +197,7 @@ void ALobbyTitleGameMode::BeginPlay()
 					UImage* Shadow_Space = CreateWidget<UImage>(GetWorld(), "Shadow_Space");
 					Shadow_Space->AddToViewPort(1);
 					Shadow_Space->SetAutoSize(1.0f, true);
-					Shadow_Space->SetWidgetLocation({ -340.0f + 106.0f * (i % 4), 120.0f - 145.0f * (i / 4) });
+					Shadow_Space->SetWidgetLocation({ -339.0f + 106.0f * (i % 4), 120.0f - 145.0f * (i / 4) });
 					Shadow_Space->SetSprite("Shadow_Space.png");
 
 					Shadows_Space.push_back(Shadow_Space);
@@ -625,31 +625,6 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btns_CharacterSelect[i]->SetUp([=] {
 						IsInfoChange = true;
 						ChangeCharacter(ECharacterType(i));
-						ConnectionInfo::GetInst().SetCharacterType(ECharacterType(i));
-
-						// 패킷 보내기
-						{
-							std::shared_ptr<UConnectPacket> Packet = std::make_shared<UConnectPacket>();
-							std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
-
-							std::map<int, std::string> NameInfos;
-							std::map<int, int> CharacterTypeInfos;
-							std::map<int, int> ColorInfos;
-
-							for (std::pair<const int, ConnectUserInfo> Pair : Infos)
-							{
-								int Key = Pair.first;
-								NameInfos[Key] = Pair.second.MyName;
-								CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
-								ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
-							}
-
-							Packet->NameInfos = NameInfos;
-							Packet->CharacterTypeInfos = CharacterTypeInfos;
-							Packet->ColorInfos = ColorInfos;
-
-							UCrazyArcadeCore::NetManager.Send(Packet);
-						}
 						});
 				}
 			}
@@ -800,31 +775,6 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btns_ColorSelect[i]->SetUp([=] {
 						IsInfoChange = true;
 						ChangeColor(ECharacterColor(i + 3000));
-						ConnectionInfo::GetInst().SetCharacterColor(ECharacterColor(i + 3000));
-
-						// 패킷 보내기
-						{
-							std::shared_ptr<UConnectPacket> Packet = std::make_shared<UConnectPacket>();
-							std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
-
-							std::map<int, std::string> NameInfos;
-							std::map<int, int> CharacterTypeInfos;
-							std::map<int, int> ColorInfos;
-
-							for (std::pair<const int, ConnectUserInfo> Pair : Infos)
-							{
-								int Key = Pair.first;
-								NameInfos[Key] = Pair.second.MyName;
-								CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
-								ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
-							}
-
-							Packet->NameInfos = NameInfos;
-							Packet->CharacterTypeInfos = CharacterTypeInfos;
-							Packet->ColorInfos = ColorInfos;
-
-							UCrazyArcadeCore::NetManager.Send(Packet);
-						}
 						});
 				}
 			}
@@ -951,29 +901,29 @@ void ALobbyTitleGameMode::BeginPlay()
 					ChatBox->ChangeAnimation("Active");
 					Chat_IsActive = true;
 
-					UEngineInputRecorder::RecordStart(ChatInputText->GetText(), 15);
+					UEngineInputRecorder::RecordStart(ChatInputText->GetText(), 18);
 					});
 			}
 			{
 				ChatInputText = CreateWidget<UTextWidget>(GetWorld(), "ChatInputText");
 				ChatInputText->AddToViewPort(4);
-				ChatInputText->SetScale(15.0f);
-				ChatInputText->SetWidgetLocation({ -214.0f, -224.0f });
+				ChatInputText->SetScale(12.0f);
+				ChatInputText->SetWidgetLocation({ -213.0f, -225.0f });
 				ChatInputText->SetFont("굴림");
 				ChatInputText->SetColor(Color8Bit::Black);
 				ChatInputText->SetFlag(FW1_LEFT);
 				ChatInputText->SetText(ChatInput);
 			}
-			{
+			/*{
 				ChatText = CreateWidget<UTextWidget>(GetWorld(), "ChatText");
 				ChatText->AddToViewPort(4);
 				ChatText->SetScale(12.0f);
-				ChatText->SetWidgetLocation({ -310.0f, -193.0f });
+				ChatText->SetWidgetLocation({ -373.0f, -198.0f });
 				ChatText->SetFont("굴림");
 				ChatText->SetColor(Color8Bit::Black);
 				ChatText->SetFlag(FW1_LEFT);
 				ChatText->SetText(Chat);
-			}
+			}*/
 		}
 		{
 			// Initialize
@@ -1042,390 +992,470 @@ void ALobbyTitleGameMode::BeginPlay()
 		}
 	}
 
-	void ALobbyTitleGameMode::UserInfosUpdate()
+void ALobbyTitleGameMode::UserInfosUpdate()
+{
+	// PlayerInfo Update
 	{
-		// PlayerInfo Update
+		Player.SpaceIndex = ConnectionInfo::GetInst().GetOrder();
+		Player.Name = ConnectionInfo::GetInst().GetMyName();
+
+		if (IsInfoChange == true)
 		{
-			Player.SpaceIndex = ConnectionInfo::GetInst().GetOrder();
-			std::string Name = Player.Name;
+			/* Server */
 
-			if (IsInfoChange == true)
-			{
-				/* Server */
-
-				IsInfoChange = false;
-			}
+			IsInfoChange = false;
 		}
+	}
 
-		// UserInfos Update
+	// UserInfos Update
+	{
 		{
+			std::map<int, ConnectUserInfo> ServerUserInfos = ConnectionInfo::GetInst().GetUserInfos();
+
+			for (int i = 0; i < 8; i++)
 			{
-				std::map<int, ConnectUserInfo> ServerUserInfos = ConnectionInfo::GetInst().GetUserInfos();
-
-				for (int i = 0; i < 8; i++)
-				{
-					UserInfos[i].Name = ServerUserInfos[i].MyName;
-					UserInfos[i].CharacterType = ServerUserInfos[i].GetMyCharacterType();
-					UserInfos[i].CharacterColor = ServerUserInfos[i].GetMyColorType();
-				}
-			}
-			/*{
-				std::map<int, ECharacterType> ServerCharacterTypeInfos = ConnectionInfo::GetInst().GetCharacterTypeInfos();
-
-				for (int i = 0; i < 8; i++)
-				{
-					UserInfos[i].CharacterType = ServerCharacterTypeInfos[i];
-				}
-			}
-			{
-				std::map<int, ECharacterColor> ServerCharacterColorInfos = ConnectionInfo::GetInst().GetCharacterColorInfos();
-
-				for (int i = 0; i < 8; i++)
-				{
-					UserInfos[i].CharacterColor = ServerCharacterColorInfos[i];
-				}
-			}*/
-		}
-
-		// Space Update
-		{
-			int UserCnt = ConnectionInfo::GetInst().GetInfoSize();
-			for (int i = 0; i < UserCnt; i++)
-			{
-				SpaceOn(i);
-				SettingName(i);
-				SettingCharacter(i);
+				UserInfos[i].Name = ServerUserInfos[i].MyName;
+				UserInfos[i].CharacterType = ServerUserInfos[i].GetMyCharacterType();
+				UserInfos[i].CharacterColor = ServerUserInfos[i].GetMyColorType();
 			}
 		}
 	}
 
-	void ALobbyTitleGameMode::ChatUpdate()
+	// Space Update
 	{
-		StringToText();
-	}
-
-	void ALobbyTitleGameMode::SpaceOn(int _Index)
-	{
-		Characters_Space[_Index]->SetActive(true);
-		Flags_Space[_Index]->SetActive(true);
-		Shadows_Space[_Index]->SetActive(true);
-		Usernames_Space[_Index]->SetActive(true);
-	}
-
-	void ALobbyTitleGameMode::SpaceOff(int _Index)
-	{
-		Characters_Space[_Index]->SetActive(false);
-		Flags_Space[_Index]->SetActive(false);
-		Shadows_Space[_Index]->SetActive(false);
-		Usernames_Space[_Index]->SetActive(false);
-	}
-
-	void ALobbyTitleGameMode::PanelOn()
-	{
-		UpperPanel_CharacterSelect->SetActive(true);
-		Panel_CharacterSelect->SetActive(true);
-
-		for (int i = 0; i < PanelInfo.BombMax; i++)
+		int UserCnt = ConnectionInfo::GetInst().GetInfoSize();
+		for (int i = 0; i < UserCnt; i++)
 		{
-			Traits_CharacterSelect[0][i]->SetActive(true);
-		}
-		for (int i = 0; i < PanelInfo.BombWaterMax; i++)
-		{
-			Traits_CharacterSelect[1][i]->SetActive(true);
-		}
-		for (int i = 0; i < PanelInfo.SpeedMax; i++)
-		{
-			Traits_CharacterSelect[2][i]->SetActive(true);
+			SpaceOn(i);
+			SettingName(i);
+			SettingCharacter(i);
 		}
 	}
+}
 
-	void ALobbyTitleGameMode::PanelOff()
+void ALobbyTitleGameMode::ChatUpdate()
+{
+	// Users Chat Update
+
+
+	// Player Chat Update
+	if (Chat_IsActive == false)
 	{
-		UpperPanel_CharacterSelect->SetActive(false);
-		Panel_CharacterSelect->SetActive(false);
-
-		for (int i = 0; i < 10; i++)
+		if (UEngineInput::IsDown(VK_RETURN) == true)
 		{
-			Traits_CharacterSelect[0][i]->SetActive(false);
-			Traits_CharacterSelect[1][i]->SetActive(false);
-			Traits_CharacterSelect[2][i]->SetActive(false);
+			ChatBox->ChangeAnimation("Active");
+			Chat_IsActive = true;
+
+			UEngineInputRecorder::RecordStart(ChatInputText->GetText(), 18);
 		}
 	}
-
-	void ALobbyTitleGameMode::SettingPanel(ECharacterType _CharacterType)
+	else if (Chat_IsActive == true)
 	{
-		// Sprite
-		switch (_CharacterType)
+		if (UEngineInput::IsDown(VK_RETURN))
 		{
-		case ECharacterType::Random:
-		{
-			UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Random.png");
-			break;
-		}
-		case ECharacterType::Dao:
-		{
-			UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Dao.png");
-			break;
-		}
-		case ECharacterType::Dizni:
-		{
-			UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Dizni.png");
-			break;
-		}
-		case ECharacterType::Mos:
-		{
-			UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Mos.png");
-			break;
-		}
-		case ECharacterType::Ethi:
-		{
-			UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Ethi.png");
-			break;
-		}
-		case ECharacterType::Marid:
-		{
-			UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Marid.png");
-			break;
-		}
-		case ECharacterType::Bazzi:
-		{
-			UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Bazzi.png");
-			break;
-		}
-		case ECharacterType::Uni:
-		{
-			UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Uni.png");
-			break;
-		}
-		case ECharacterType::Kephi:
-		{
-			UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Kephi.png");
-			break;
-		}
-		case ECharacterType::Su:
-		{
-			UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Su.png");
-			break;
-		}
-		case ECharacterType::HooU:
-		{
-			UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_HooU.png");
-			break;
-		}
-		case ECharacterType::Ray:
-		{
-			UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Ray.png");
-			break;
-		}
-		default:
-			break;
-		}
+			ChatBox->ChangeAnimation("InActive");
+			Chat_IsActive = false;
+			UEngineInputRecorder::RecordEnd();
 
-		// PanelInfo
-		PanelInfo = CharacterAbilityInfos[int(_CharacterType)];
-
-		// TraitBar
-		for (int i = 0; i < PanelInfo.BombMin; i++)
-		{
-			Traits_CharacterSelect[0][i]->SetSprite("TraitBar_CharatorSelect_Min.png");
-		}
-		for (int i = PanelInfo.BombMin; i < PanelInfo.BombMax; i++)
-		{
-			Traits_CharacterSelect[0][i]->SetSprite("TraitBar_CharatorSelect_Max.png");
-		}
-		for (int i = 0; i < PanelInfo.BombWaterMin; i++)
-		{
-			Traits_CharacterSelect[1][i]->SetSprite("TraitBar_CharatorSelect_Min.png");
-		}
-		for (int i = PanelInfo.BombWaterMin; i < PanelInfo.BombWaterMax; i++)
-		{
-			Traits_CharacterSelect[1][i]->SetSprite("TraitBar_CharatorSelect_Max.png");
-		}
-		for (int i = 0; i < PanelInfo.SpeedMin; i++)
-		{
-			Traits_CharacterSelect[2][i]->SetSprite("TraitBar_CharatorSelect_Min.png");
-		}
-		for (int i = PanelInfo.SpeedMin; i < PanelInfo.SpeedMax; i++)
-		{
-			Traits_CharacterSelect[2][i]->SetSprite("TraitBar_CharatorSelect_Max.png");
-		}
-	}
-
-	void ALobbyTitleGameMode::SettingName(int _SpaceIndex)
-	{
-		Usernames_Space[_SpaceIndex]->SetText(UserInfos[_SpaceIndex].Name);
-	}
-
-	void ALobbyTitleGameMode::SettingCharacter(int _SpaceIndex)
-	{
-		ECharacterType Type = UserInfos[_SpaceIndex].CharacterType;
-		ECharacterColor Color = UserInfos[_SpaceIndex].CharacterColor;
-
-		switch (Type)
-		{
-		case ECharacterType::Random:
-		{
-			Characters_Space[_SpaceIndex]->SetSprite("Charcater_Space_Random.png");
-			break;
-		}
-		case ECharacterType::Dao:
-		{
-			Characters_Space[_SpaceIndex]->SetSprite("Charcater_Space_Dao.png");
-			break;
-		}
-		case ECharacterType::Marid:
-		{
-			Characters_Space[_SpaceIndex]->SetSprite("Charcater_Space_Marid.png");
-			break;
-		}
-		case ECharacterType::Bazzi:
-		{
-			Characters_Space[_SpaceIndex]->SetSprite("Charcater_Space_Bazzi.png");
-			break;
-		}
-		case ECharacterType::Kephi:
-		{
-			Characters_Space[_SpaceIndex]->SetSprite("Charcater_Space_Kephi.png");
-			break;
-		}
-		default:
-			break;
-		}
-
-		/* Color options to be added */
-	}
-
-	void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
-	{
-		if (
-			_CharacterType == ECharacterType::Dizni ||
-			_CharacterType == ECharacterType::Mos ||
-			_CharacterType == ECharacterType::Ethi ||
-			_CharacterType == ECharacterType::Uni ||
-			_CharacterType == ECharacterType::Su ||
-			_CharacterType == ECharacterType::HooU ||
-			_CharacterType == ECharacterType::Ray
-			)
-		{
-			return;
-		}
-
-		// PlayerInfo
-		Player.CharacterType = _CharacterType;
-		int Index_CharacterType = int(_CharacterType);
-
-		// Button
-		CharacterSelect_Pick[Index_CharacterType] = true;
-		Btns_CharacterSelect[Index_CharacterType]->ChangeAnimation("Pick");
-
-		for (int i = 0; i < 12; i++)
-		{
-			if (i != Index_CharacterType)
+			if (ChatInputText->GetText() == "")
 			{
-				CharacterSelect_Pick[i] = false;
-				Btns_CharacterSelect[i]->ChangeAnimation("UnHover");
-			}
-		}
-
-		// Outline
-		switch (_CharacterType)
-		{
-		case ECharacterType::Random:
-		{
-			Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Random.png");
-			break;
-		}
-		case ECharacterType::Dao:
-		{
-			Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Dao.png");
-			break;
-		}
-		case ECharacterType::Marid:
-		{
-			Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Marid.png");
-			break;
-		}
-		case ECharacterType::Bazzi:
-		{
-			Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Bazzi.png");
-			break;
-		}
-		case ECharacterType::Kephi:
-		{
-			Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Kephi.png");
-			break;
-		}
-		default:
-			break;
-		}
-
-		// Checker
-		Checker_CharacterSelect->SetWidgetLocation({ 150.0f + (72.0f * (Index_CharacterType % 4)), 202.0f - (55.0f * (Index_CharacterType / 4)) });
-	}
-
-	void ALobbyTitleGameMode::ChangeColor(ECharacterColor _CharacterColor)
-	{
-		// PlayerInfo
-		Player.CharacterColor = _CharacterColor;
-		int Index_CharacterColor = int(_CharacterColor) - 3000;
-
-		// Button
-		ColorSelect_Pick[Index_CharacterColor] = true;
-		Btns_ColorSelect[Index_CharacterColor]->ChangeAnimation("Pick");
-
-		for (int i = 0; i < 8; i++)
-		{
-			if (i != Index_CharacterColor)
-			{
-				ColorSelect_Pick[i] = false;
-				Btns_ColorSelect[i]->ChangeAnimation("UnHover");
-			}
-		}
-
-		// Checker
-		Checker_ColorSelect->SetWidgetLocation({ 117.0f + (36.0f * Index_CharacterColor), 17.0f });
-	}
-
-	void ALobbyTitleGameMode::FadeIn(float _DeltaTime)
-	{
-		FadeAlpha -= _DeltaTime * 3.0f;
-		Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
-	}
-
-	void ALobbyTitleGameMode::FadeOut(float _DeltaTime)
-	{
-		FadeAlpha += _DeltaTime * 3.0f;
-		Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
-	}
-
-	void ALobbyTitleGameMode::GameStart()
-	{
-		if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType()) {
-			std::shared_ptr<UChangeLevelPacket> Packet = std::make_shared<UChangeLevelPacket>();
-			GEngine->ChangeLevel("ServerGameMode");
-			Packet->LevelName = "ServerGameMode";
-			UCrazyArcadeCore::NetManager.Send(Packet);
-			return;
-		}
-	}
-
-	void ALobbyTitleGameMode::StringToText()
-	{
-		if (Chat_IsActive == true)
-		{
-			if (UEngineInput::IsDown(VK_RETURN))
-			{
-				ChatText->SetText(Player.Name + " : " + ChatInput);
 				return;
 			}
 
-			ChatInput = UEngineInputRecorder::GetText();
+			UTextWidget* ChatText = CreateWidget<UTextWidget>(GetWorld(), "ChatText");
+			ChatText->AddToViewPort(4);
+			ChatText->SetScale(12.0f);
+			ChatText->SetWidgetLocation({ -373.0f, -198.0f });
+			ChatText->SetFont("굴림");
+			ChatText->SetColor(Color8Bit::White);
+			ChatText->SetFlag(FW1_LEFT);
+			ChatText->SetText(Player.Name + " : " + ChatInput);
+			ChatTexts.push_back(ChatText);
+
+			Chat_Size += 1;
+
+			for (int i = 0; i < Chat_Size; i++)
+			{
+
+			}
+
+			ChatInputText->SetText("");
+			return;
 		}
 
+		ChatInput = UEngineInputRecorder::GetText();
 		ChatInputText->SetText(ChatInput);
 	}
+}
 
-	void ALobbyTitleGameMode::HandlerInit()
+void ALobbyTitleGameMode::SpaceOn(int _Index)
+{
+	Characters_Space[_Index]->SetActive(true);
+	Flags_Space[_Index]->SetActive(true);
+	Shadows_Space[_Index]->SetActive(true);
+	Usernames_Space[_Index]->SetActive(true);
+}
+
+void ALobbyTitleGameMode::SpaceOff(int _Index)
+{
+	Characters_Space[_Index]->SetActive(false);
+	Flags_Space[_Index]->SetActive(false);
+	Shadows_Space[_Index]->SetActive(false);
+	Usernames_Space[_Index]->SetActive(false);
+}
+
+void ALobbyTitleGameMode::PanelOn()
+{
+	UpperPanel_CharacterSelect->SetActive(true);
+	Panel_CharacterSelect->SetActive(true);
+
+	for (int i = 0; i < PanelInfo.BombMax; i++)
 	{
-
+		Traits_CharacterSelect[0][i]->SetActive(true);
 	}
+	for (int i = 0; i < PanelInfo.BombWaterMax; i++)
+	{
+		Traits_CharacterSelect[1][i]->SetActive(true);
+	}
+	for (int i = 0; i < PanelInfo.SpeedMax; i++)
+	{
+		Traits_CharacterSelect[2][i]->SetActive(true);
+	}
+}
+
+void ALobbyTitleGameMode::PanelOff()
+{
+	UpperPanel_CharacterSelect->SetActive(false);
+	Panel_CharacterSelect->SetActive(false);
+
+	for (int i = 0; i < 10; i++)
+	{
+		Traits_CharacterSelect[0][i]->SetActive(false);
+		Traits_CharacterSelect[1][i]->SetActive(false);
+		Traits_CharacterSelect[2][i]->SetActive(false);
+	}
+}
+
+void ALobbyTitleGameMode::SettingPanel(ECharacterType _CharacterType)
+{
+	// Sprite
+	switch (_CharacterType)
+	{
+	case ECharacterType::Random:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Random.png");
+		break;
+	}
+	case ECharacterType::Dao:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Dao.png");
+		break;
+	}
+	case ECharacterType::Dizni:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Dizni.png");
+		break;
+	}
+	case ECharacterType::Mos:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Mos.png");
+		break;
+	}
+	case ECharacterType::Ethi:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Ethi.png");
+		break;
+	}
+	case ECharacterType::Marid:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Marid.png");
+		break;
+	}
+	case ECharacterType::Bazzi:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Bazzi.png");
+		break;
+	}
+	case ECharacterType::Uni:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Uni.png");
+		break;
+	}
+	case ECharacterType::Kephi:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Kephi.png");
+		break;
+	}
+	case ECharacterType::Su:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Su.png");
+		break;
+	}
+	case ECharacterType::HooU:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_HooU.png");
+		break;
+	}
+	case ECharacterType::Ray:
+	{
+		UpperPanel_CharacterSelect->SetSprite("UpperPanel_CharatorSelect_Ray.png");
+		break;
+	}
+	default:
+		break;
+	}
+
+	// PanelInfo
+	PanelInfo = CharacterAbilityInfos[int(_CharacterType)];
+
+	// TraitBar
+	for (int i = 0; i < PanelInfo.BombMin; i++)
+	{
+		Traits_CharacterSelect[0][i]->SetSprite("TraitBar_CharatorSelect_Min.png");
+	}
+	for (int i = PanelInfo.BombMin; i < PanelInfo.BombMax; i++)
+	{
+		Traits_CharacterSelect[0][i]->SetSprite("TraitBar_CharatorSelect_Max.png");
+	}
+	for (int i = 0; i < PanelInfo.BombWaterMin; i++)
+	{
+		Traits_CharacterSelect[1][i]->SetSprite("TraitBar_CharatorSelect_Min.png");
+	}
+	for (int i = PanelInfo.BombWaterMin; i < PanelInfo.BombWaterMax; i++)
+	{
+		Traits_CharacterSelect[1][i]->SetSprite("TraitBar_CharatorSelect_Max.png");
+	}
+	for (int i = 0; i < PanelInfo.SpeedMin; i++)
+	{
+		Traits_CharacterSelect[2][i]->SetSprite("TraitBar_CharatorSelect_Min.png");
+	}
+	for (int i = PanelInfo.SpeedMin; i < PanelInfo.SpeedMax; i++)
+	{
+		Traits_CharacterSelect[2][i]->SetSprite("TraitBar_CharatorSelect_Max.png");
+	}
+}
+
+void ALobbyTitleGameMode::SettingName(int _SpaceIndex)
+{
+	Usernames_Space[_SpaceIndex]->SetText(UserInfos[_SpaceIndex].Name);
+}
+
+void ALobbyTitleGameMode::SettingCharacter(int _SpaceIndex)
+{
+	ECharacterType Type = UserInfos[_SpaceIndex].CharacterType;
+	ECharacterColor Color = UserInfos[_SpaceIndex].CharacterColor;
+	std::string SpriteName = "Character_Space";
+
+	switch (Type)
+	{
+	case ECharacterType::Dao:
+	{
+		SpriteName += "_Dao";
+		break;
+	}
+	case ECharacterType::Marid:
+	{
+		SpriteName += "_Marid";
+		break;
+	}
+	case ECharacterType::Bazzi:
+	{
+		SpriteName += "_Bazzi";
+		break;
+	}
+	default:
+		SpriteName += "_Dao";
+		break;
+	}
+
+	switch (Color)
+	{
+	case ECharacterColor::Red:
+	{
+		SpriteName += "_R";
+		break;
+	}
+	case ECharacterColor::Blue:
+	{
+		SpriteName += "_B";
+		break;
+	}
+	default:
+		SpriteName += "_R";
+		break;
+	}
+
+	SpriteName += ".png";
+	Characters_Space[_SpaceIndex]->SetSprite(SpriteName);
+}
+
+void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
+{
+	if (
+		_CharacterType == ECharacterType::Dizni ||
+		_CharacterType == ECharacterType::Mos ||
+		_CharacterType == ECharacterType::Ethi ||
+		_CharacterType == ECharacterType::Uni ||
+		_CharacterType == ECharacterType::Su ||
+		_CharacterType == ECharacterType::HooU ||
+		_CharacterType == ECharacterType::Ray
+		)
+	{
+		return;
+	}
+
+	// PlayerInfo
+	Player.CharacterType = _CharacterType;
+	ConnectionInfo::GetInst().SetCharacterType(_CharacterType);
+	
+	int Index_CharacterType = int(_CharacterType);
+
+	// Button
+	CharacterSelect_Pick[Index_CharacterType] = true;
+	Btns_CharacterSelect[Index_CharacterType]->ChangeAnimation("Pick");
+
+	for (int i = 0; i < 12; i++)
+	{
+		if (i != Index_CharacterType)
+		{
+			CharacterSelect_Pick[i] = false;
+			Btns_CharacterSelect[i]->ChangeAnimation("UnHover");
+		}
+	}
+
+	// Outline
+	switch (_CharacterType)
+	{
+	case ECharacterType::Random:
+	{
+		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Random.png");
+		break;
+	}
+	case ECharacterType::Dao:
+	{
+		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Dao.png");
+		break;
+	}
+	case ECharacterType::Marid:
+	{
+		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Marid.png");
+		break;
+	}
+	case ECharacterType::Bazzi:
+	{
+		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Bazzi.png");
+		break;
+	}
+	case ECharacterType::Kephi:
+	{
+		Outline_CharacterSelect->SetSprite("Outline_CharatorSelect_Kephi.png");
+		break;
+	}
+	default:
+		break;
+	}
+
+	// Checker
+	Checker_CharacterSelect->SetWidgetLocation({ 150.0f + (72.0f * (Index_CharacterType % 4)), 202.0f - (55.0f * (Index_CharacterType / 4)) });
+
+	// 패킷 보내기
+	{
+		std::shared_ptr<UConnectPacket> Packet = std::make_shared<UConnectPacket>();
+		std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
+
+		std::map<int, std::string> NameInfos;
+		std::map<int, int> CharacterTypeInfos;
+		std::map<int, int> ColorInfos;
+
+		for (std::pair<const int, ConnectUserInfo> Pair : Infos)
+		{
+			int Key = Pair.first;
+			NameInfos[Key] = Pair.second.MyName;
+			CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
+			ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
+		}
+
+		Packet->NameInfos = NameInfos;
+		Packet->CharacterTypeInfos = CharacterTypeInfos;
+		Packet->ColorInfos = ColorInfos;
+
+		UCrazyArcadeCore::NetManager.Send(Packet);
+	}
+}
+
+void ALobbyTitleGameMode::ChangeColor(ECharacterColor _CharacterColor)
+{
+	// PlayerInfo
+	Player.CharacterColor = _CharacterColor;
+	ConnectionInfo::GetInst().SetCharacterColor(_CharacterColor);
+
+	int Index_CharacterColor = int(_CharacterColor) - 3000;
+
+	// Button
+	ColorSelect_Pick[Index_CharacterColor] = true;
+	Btns_ColorSelect[Index_CharacterColor]->ChangeAnimation("Pick");
+
+	for (int i = 0; i < 8; i++)
+	{
+		if (i != Index_CharacterColor)
+		{
+			ColorSelect_Pick[i] = false;
+			Btns_ColorSelect[i]->ChangeAnimation("UnHover");
+		}
+	}
+
+	// Checker
+	Checker_ColorSelect->SetWidgetLocation({ 117.0f + (36.0f * Index_CharacterColor), 17.0f });
+
+	// 패킷 보내기
+	{
+		std::shared_ptr<UConnectPacket> Packet = std::make_shared<UConnectPacket>();
+		std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
+
+		std::map<int, std::string> NameInfos;
+		std::map<int, int> CharacterTypeInfos;
+		std::map<int, int> ColorInfos;
+
+		for (std::pair<const int, ConnectUserInfo> Pair : Infos)
+		{
+			int Key = Pair.first;
+			NameInfos[Key] = Pair.second.MyName;
+			CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
+			ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
+		}
+
+		Packet->NameInfos = NameInfos;
+		Packet->CharacterTypeInfos = CharacterTypeInfos;
+		Packet->ColorInfos = ColorInfos;
+
+		UCrazyArcadeCore::NetManager.Send(Packet);
+	}
+}
+
+void ALobbyTitleGameMode::FadeIn(float _DeltaTime)
+{
+	FadeAlpha -= _DeltaTime * 3.0f;
+	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
+}
+
+void ALobbyTitleGameMode::FadeOut(float _DeltaTime)
+{
+	FadeAlpha += _DeltaTime * 3.0f;
+	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
+}
+
+void ALobbyTitleGameMode::GameStart()
+{
+	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType()) {
+		std::shared_ptr<UChangeLevelPacket> Packet = std::make_shared<UChangeLevelPacket>();
+		GEngine->ChangeLevel("ServerGameMode");
+		Packet->LevelName = "ServerGameMode";
+		UCrazyArcadeCore::NetManager.Send(Packet);
+		return;
+	}
+}
+
+void ALobbyTitleGameMode::HandlerInit()
+{
+
+}

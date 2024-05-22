@@ -129,15 +129,16 @@ private:
 	UImage* VoidBox = nullptr;
 	UImage* ChatBox = nullptr;
 	UTextWidget* ChatInputText = nullptr;
-	UTextWidget* ChatText = nullptr;
+	std::vector<UTextWidget*> ChatTexts;
 	bool Chat_IsActive = false;
-	std::string ChatInput;
-	std::string Chat;
+	int Chat_Size = 0;
+	std::string ChatInput = "";
+	std::string Chat = "";
+	std::string Chat_Prev = "";
 
 	void SettingPanel(ECharacterType _CharacterType);
 	void SettingName(int _SpaceIndex);
 	void SettingCharacter(int _SpaceIndex);
 	void ChangeCharacter(ECharacterType _CharacterType);
 	void ChangeColor(ECharacterColor _CharacterColor);
-	void StringToText();
 };

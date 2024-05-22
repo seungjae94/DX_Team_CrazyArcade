@@ -17,5 +17,6 @@ protected:
 private:
 	void OnGui(ULevel* Level, float _Delta) override;
 
+	float LowFps = 1000000.0f;
 };
 
