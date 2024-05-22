@@ -136,6 +136,11 @@ void ABombBase::StateInit()
 			{
 				Player->SetTrapState();
 			}
+
+			for (size_t i = 0; i < PlayLevel->GetMap()->OtherPlayer.size(); i++)
+			{
+				PlayLevel->GetMap()->OtherPlayer[i]->SetTrapState();
+			}
 		}
 	);
 }

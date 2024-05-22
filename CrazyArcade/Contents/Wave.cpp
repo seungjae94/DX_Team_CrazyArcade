@@ -122,6 +122,11 @@ void AWave::Tick(float _DeltaTime)
 			Player->SetTrapState();
 		}
 
+		for (size_t i = 0; i < PlayLevel->GetMap()->OtherPlayer.size(); i++)
+		{
+			PlayLevel->GetMap()->OtherPlayer[i]->SetTrapState();
+		}
+
 		if (nullptr != PlayLevel->GetMap()->GetTileInfo(CurPoint).Item)
 		{
 			PlayLevel->GetMap()->GetTileInfo(CurPoint).Item->Destroy();
