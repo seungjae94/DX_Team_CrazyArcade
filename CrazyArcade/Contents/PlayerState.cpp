@@ -152,6 +152,7 @@ void APlayer::StateInit()
 	State.SetUpdateFunction("Die", std::bind(&APlayer::Die, this, std::placeholders::_1));
 	State.SetStartFunction("Die", [=]()
 		{
+			Renderer->SetPosition(FVector::Zero);
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Die");
 			SetPlayerDead();
 		});
@@ -230,7 +231,7 @@ void APlayer::Run(float _DeltaTime)
 		State.ChangeState("RidingRun");
 		return;
 	}
-	
+
 	// ºÎ½¬ Hide
 	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
 	{
@@ -644,6 +645,6 @@ void APlayer::SetTrapState()
 		State.ChangeState("RidingDown");
 		return;
 	}
-	
+
 	State.ChangeState("TrapStart");
 }

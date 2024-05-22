@@ -37,4 +37,6 @@ protected:
 	void Tick(float _DeltaTime) override;
 	bool IsSpawn = false;
 	void SpawnBomb();
+
+	bool IsDeadPacketSend = false;
 };
