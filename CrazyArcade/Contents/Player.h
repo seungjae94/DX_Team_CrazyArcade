@@ -87,7 +87,7 @@ public:
 	void SetTrapState();
 	
 	// 플레이어 캐릭터, 색상 설정 후 생성
-	std::shared_ptr<APlayer> SpawnPlayer(ECharacterType _Character, ECharacterColor _Color);
+	void SettingPlayer(int _ObjectToken);
 	inline ECharacterType GetCharacterType()
 	{
 		return CharacterType;
