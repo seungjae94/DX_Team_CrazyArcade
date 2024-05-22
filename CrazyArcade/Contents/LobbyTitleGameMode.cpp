@@ -927,16 +927,21 @@ void ALobbyTitleGameMode::LevelStart(ULevel* _PrevLevel)
 	// Initialize
 	Space_IsUserIn[Player.SpaceIndex] = true;
 	Usernames_Space[Player.SpaceIndex]->SetText(Player.Name);
-}
-
-void ALobbyTitleGameMode::Tick(float _DeltaTime)
-{
-	Super::Tick(_DeltaTime);
 
 	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
 	{
 		Btn_GameStart_InActive->SetActive(false);
 	}
+}
+
+void ALobbyTitleGameMode::LevelEnd(ULevel* _NextLevel)
+{
+	Super::LevelEnd(_NextLevel);
+}
+
+void ALobbyTitleGameMode::Tick(float _DeltaTime)
+{
+	Super::Tick(_DeltaTime);
 
 	// Fade & ChangeLevel
 	{
@@ -1500,8 +1505,6 @@ void ALobbyTitleGameMode::GameStart()
 			return;
 		}
 	}
-	
-
 }
 
 void ALobbyTitleGameMode::HandlerInit()
