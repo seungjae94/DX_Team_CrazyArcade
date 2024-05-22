@@ -505,6 +505,7 @@ void APlayer::TrapStart(float _DeltaTime)
 	if (TrapStartTime <= 0.0f)
 	{
 		State.ChangeState("Trapped");
+		TrapStartTime = 0.28f;
 		return;
 	}
 
@@ -544,6 +545,7 @@ void APlayer::Trapped(float _DeltaTime)
 	if (TrappedTime <= 0.0f)
 	{
 		State.ChangeState("TrapEnd");
+		TrappedTime = 4.0f;
 		return;
 	}
 	if (true == IsPress(VK_LEFT))
@@ -586,6 +588,7 @@ void APlayer::TrapEnd(float _DeltaTime)
 	if (TrapEndTime <= 0.0f)
 	{
 		State.ChangeState("Die");
+		TrapEndTime = 1.6f;
 		return;
 	}
 	if (true == IsPress(VK_LEFT))
