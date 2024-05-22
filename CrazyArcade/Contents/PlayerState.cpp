@@ -534,6 +534,12 @@ void APlayer::Traped(float _DeltaTime)
 		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
 	}
 
+	if (true == PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this))
+	{
+		State.ChangeState("Die");
+		return;
+	}
+
 	// 바늘 사용하면
 	if (true == IsDown('2') && NeedleCount > 0)
 	{
@@ -564,6 +570,12 @@ void APlayer::TrapEnd(float _DeltaTime)
 	else if (true == IsPress(VK_DOWN))
 	{
 		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
+	}
+
+	if (true == PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this))
+	{
+		State.ChangeState("Die");
+		return;
 	}
 
 	// 바늘 사용하면
