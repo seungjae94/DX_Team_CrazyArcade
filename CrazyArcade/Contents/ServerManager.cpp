@@ -38,16 +38,40 @@ void UServerManager::ServerOpen()
 		{
 			PushUpdate([=]()
 				{
-					std::map<int, ConnectUserInfo> Infos;
-					for (std::pair<const int, std::string> NamePair : _Packet->NameInfos)
 					{
-						int Key = NamePair.first;
-						Infos[Key].MyName = NamePair.second;
-						Infos[Key].SetMyCharacterType(_Packet->GetMyCharacterType(Key));
-						Infos[Key].SetMyColorType(_Packet->GetMyColorType(Key));
+						std::map<int, ConnectUserInfo> Infos;
+						for (std::pair<const int, std::string> NamePair : _Packet->NameInfos)
+						{
+							int Key = NamePair.first;
+							Infos[Key].MyName = NamePair.second;
+							Infos[Key].SetMyCharacterType(_Packet->GetMyCharacterType(Key));
+							Infos[Key].SetMyColorType(_Packet->GetMyColorType(Key));
+						}
+
+						ConnectionInfo::GetInst().SetUserInfos(Infos);
 					}
 
-					ConnectionInfo::GetInst().SetUserInfos(Infos);
+					{
+						std::shared_ptr<UConnectPacket> ConnectNumPacket = std::make_shared<UConnectPacket>();
+						std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
+						
+						std::map<int, std::string> NameInfos;
+						std::map<int, int> CharacterTypeInfos;
+						std::map<int, int> ColorInfos;
+
+						for (std::pair<const int, ConnectUserInfo> Pair : Infos)
+						{
+							int Key = Pair.first;
+							NameInfos[Key] = Pair.second.MyName;
+							CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
+							ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
+						}
+
+						ConnectNumPacket->NameInfos = NameInfos;
+						ConnectNumPacket->CharacterTypeInfos = CharacterTypeInfos;
+						ConnectNumPacket->ColorInfos = ColorInfos;
+						Send(ConnectNumPacket);
+					}
 				});
 		});
 
@@ -59,28 +83,27 @@ void UServerManager::ServerOpen()
 					ConnectionInfo::GetInst().PushUserInfos(_Packet->GetSessionToken(), _Packet->Name);
 					SessionInitVec[_Packet->Session] = true;
 
-					std::shared_ptr<UConnectPacket> ConnectNumPacket = std::make_shared<UConnectPacket>();
-
-					std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
-					
-					
-					std::map<int, std::string> NameInfos;
-					std::map<int, int> CharacterTypeInfos;
-					std::map<int, int> ColorInfos;
-
-					for (std::pair<const int, ConnectUserInfo> Pair : Infos)
 					{
-						int Key = Pair.first;
-						NameInfos[Key] = Pair.second.MyName;
-						CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
-						ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
+						std::shared_ptr<UConnectPacket> ConnectNumPacket = std::make_shared<UConnectPacket>();
+						std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
+
+						std::map<int, std::string> NameInfos;
+						std::map<int, int> CharacterTypeInfos;
+						std::map<int, int> ColorInfos;
+
+						for (std::pair<const int, ConnectUserInfo> Pair : Infos)
+						{
+							int Key = Pair.first;
+							NameInfos[Key] = Pair.second.MyName;
+							CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
+							ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
+						}
+
+						ConnectNumPacket->NameInfos = NameInfos;
+						ConnectNumPacket->CharacterTypeInfos = CharacterTypeInfos;
+						ConnectNumPacket->ColorInfos = ColorInfos;
+						Send(ConnectNumPacket);
 					}
-
-					ConnectNumPacket->NameInfos = NameInfos;
-					ConnectNumPacket->CharacterTypeInfos = CharacterTypeInfos;
-					ConnectNumPacket->ColorInfos = ColorInfos;
-
-					Send(ConnectNumPacket);
 
 				});
 		});
