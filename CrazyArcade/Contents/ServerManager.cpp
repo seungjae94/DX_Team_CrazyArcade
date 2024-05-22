@@ -220,7 +220,10 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 					if (OtherPlayer != nullptr) {
 						{
 							AMainPlayLevel* PlayLevel = dynamic_cast<AMainPlayLevel*>(OtherPlayer->GetWorld()->GetGameMode().get());
-							PlayLevel->GetMap()->PlayerDelete(OtherPlayer);
+							if (nullptr != PlayLevel->GetMap())
+							{
+								PlayLevel->GetMap()->PlayerDelete(OtherPlayer);
+							}
 						}
 						OtherPlayer->Destroy();
 					}
