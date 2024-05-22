@@ -145,6 +145,13 @@ void UServerManager::ServerOpen()
 					int a = _Packet->GetSessionToken();
 					ANetActor* Net = dynamic_cast<ANetActor*>(AllNetObject[_Packet->GetSessionToken() * 1000]);
 					if (Net != nullptr) {
+						APlayer* OtherPlayer = dynamic_cast<APlayer*>(Net);
+						if (nullptr != OtherPlayer)
+						{
+							AMainPlayLevel* PlayLevel = dynamic_cast<AMainPlayLevel*>(OtherPlayer->GetWorld()->GetGameMode().get());
+							PlayLevel->GetMap()->PlayerDelete(OtherPlayer);
+						}
+
 						Net->Destroy();
 					}
 					int b = 0;

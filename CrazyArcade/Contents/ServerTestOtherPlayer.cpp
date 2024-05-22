@@ -12,15 +12,12 @@ ServerTestOtherPlayer::ServerTestOtherPlayer()
 
 ServerTestOtherPlayer::~ServerTestOtherPlayer()
 {
-	PlayLevel->GetMap()->PlayerDelete(this);
 }
 
 void ServerTestOtherPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	InputOff();
-
-	PlayLevel->GetMap()->PushAllPlayer(this);
 }
 
 void ServerTestOtherPlayer::Tick(float _DeltaTime)

@@ -49,6 +49,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MapHelper.h" />
+    <ClInclude Include="MapManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="MoveBox.h">
       <SubType>
       </SubType>
@@ -179,6 +183,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="MapBase_Check.cpp" />
+    <ClCompile Include="MapManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MoveBox.cpp">
       <SubType>
       </SubType>
