@@ -88,7 +88,7 @@ void AMapBase::LevelEnd(ULevel* _NextLevel)
 	}
 
 	TileInfo.clear();
-	OtherPlayer.clear();
+	AllPlayer.clear();
 }
 
 void AMapBase::Tick(float _DeltaTime)
@@ -202,14 +202,19 @@ bool AMapBase::IsBushPos(const FVector& _Pos)
 }
 
 // 다른 플레이어와 충돌시 true 반환
-bool AMapBase::IsColOtherPlayer(const FVector& _Pos)
+bool AMapBase::IsColOtherPlayer(const FVector& _Pos, APlayer* _Player)
 {
 	bool Result = false;
 	FVector CurPos = _Pos;
 
-	for (size_t i = 0; i < OtherPlayer.size(); i++)
+	for (size_t i = 0; i < AllPlayer.size(); i++)
 	{
-		FVector OtherPos = OtherPlayer[i]->GetActorLocation();
+		if (AllPlayer[i] == _Player)
+		{
+			continue;
+		}
+
+		FVector OtherPos = AllPlayer[i]->GetActorLocation();
 		FVector DiffPos = CurPos - OtherPos;
 		float DiffLen = sqrtf(powf(DiffPos.X, 2.0f) + powf(DiffPos.Y, 2.0f));
 

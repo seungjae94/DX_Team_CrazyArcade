@@ -115,11 +115,19 @@ void AWave::Tick(float _DeltaTime)
 		break;
 	default:
 	{
-		ServerTestPlayer* Player = PlayLevel->GetPlayer().get();
-		FPoint PlayerPoint = AMapBase::ConvertLocationToPoint(Player->GetActorLocation());
-		if (8 > Body->GetCurAnimationFrame() && PlayerPoint == CurPoint)
+		for (size_t i = 0; i < PlayLevel->GetMap()->AllPlayer.size(); i++)
 		{
-			Player->SetTrapState();
+			if (nullptr == PlayLevel->GetMap()->AllPlayer[i])
+			{
+				continue;
+			}
+
+			FVector PlayerPos = PlayLevel->GetMap()->AllPlayer[i]->GetActorLocation();
+			FPoint PlayerPoint = AMapBase::ConvertLocationToPoint(PlayerPos);
+			if (8 > Body->GetCurAnimationFrame() && PlayerPoint == CurPoint)
+			{
+				PlayLevel->GetMap()->AllPlayer[i]->SetTrapState();
+			}
 		}
 
 		if (nullptr != PlayLevel->GetMap()->GetTileInfo(CurPoint).Item)

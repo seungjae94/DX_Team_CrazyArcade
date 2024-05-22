@@ -69,6 +69,11 @@ public:
 		return BombPower;
 	}
 
+	inline int GetNeedleCount()
+	{
+		return NeedleCount;
+	}
+
 	inline void IncreaseBombCount()
 	{
 		++BombCount;
@@ -77,15 +82,19 @@ public:
 	void SetSupermanOff();
 
 	void SetPlayerDead();
-	void SetCharacterType(ECharacterType _Character);
-	void SetPlayerColor(ECharacterColor _Color);
 	void PlayerInfoUpdate();
 
 	void SetTrapState();
 	
-	inline int GetNeedleCount()
+	// 플레이어 캐릭터, 색상 설정 후 생성
+	std::shared_ptr<APlayer> SpawnPlayer(ECharacterType _Character, ECharacterColor _Color);
+	inline ECharacterType GetCharacterType()
 	{
-		return NeedleCount;
+		return CharacterType;
+	}
+	inline ECharacterColor GetPlayerColor()
+	{
+		return PlayerColor;
 	}
 
 protected:
@@ -99,6 +108,11 @@ protected:
 	USpriteRenderer* ShadowRenderer;
 	USpriteRenderer* DebugRenderer;
 	
+	std::shared_ptr<APlayer> Player = nullptr;
+	ECharacterType CharacterType;
+	void SetCharacterType(ECharacterType _Character);
+	void SetPlayerColor(ECharacterColor _Color);
+
 	std::map<ECharacterType, FCharacterTypeData> MCharacterTypeData;
 	FVector PlayerPos;
 	std::string Name = "Player";
@@ -172,6 +186,7 @@ protected:
 	void Run(float _DeltaTime);
 	void RidingIdle(float _DeltaTime);
 	void RidingRun(float _DeltaTime);
+	void RidingDown(float _DeltaTime);
 	void TrapStart(float _DeltaTime);
 	void Traped(float _DeltaTime);
 	void TrapEnd(float _DeltaTime);
@@ -180,6 +195,7 @@ protected:
 
 	void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
 
+	float JumpTime = 0.0f;
 	bool IsDead = false;
 
 
