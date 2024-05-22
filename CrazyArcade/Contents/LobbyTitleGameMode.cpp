@@ -998,6 +998,8 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 	{
 		Player.SpaceIndex = ConnectionInfo::GetInst().GetOrder();
 		Player.Name = ConnectionInfo::GetInst().GetMyName();
+		Player.CharacterType = ConnectionInfo::GetInst().GetCharacterType();
+		Player.CharacterColor = ConnectionInfo::GetInst().GetCharacterColor();
 
 		if (IsInfoChange == true)
 		{
