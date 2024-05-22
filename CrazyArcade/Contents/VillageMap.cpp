@@ -18,6 +18,12 @@ void AVillageMap::BeginPlay()
 
 	SetBackGround(MapImgRes::village_background);
 	SetMapInfoSize(15, 13);
+	PushPlayerStartPoint({  0, 12 });
+	PushPlayerStartPoint({  1,  1 });
+	PushPlayerStartPoint({  6,  0 });
+	PushPlayerStartPoint({  7, 12 });
+	PushPlayerStartPoint({ 13, 11 });
+	PushPlayerStartPoint({ 14,  0 });
 }
 
 void AVillageMap::LevelStart(ULevel* _PrevLevel)
