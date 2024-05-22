@@ -152,7 +152,6 @@ protected:
 	FPoint SpawnBombPoint = { -1, -1 };
 	bool IsBombOn = false;
 
-	ECharacterType PlayerType = ECharacterType::Bazzi;
 	std::string Type = "luxMarid";
 	ECharacterColor PlayerColor = ECharacterColor::Red;
 	std::string PlayerColorText = "_R";
