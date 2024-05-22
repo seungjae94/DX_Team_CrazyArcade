@@ -26,6 +26,8 @@ void APlayer::StateInit()
 	State.SetUpdateFunction("Ready", std::bind(&APlayer::Ready, this, std::placeholders::_1));
 	State.SetStartFunction("Ready", [=]
 		{
+			SetCharacterType(ConnectionInfo::GetInst().GetCharacterType());
+			SetPlayerColor(ConnectionInfo::GetInst().GetCharacterColor());
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Ready");
 		}
 	);
