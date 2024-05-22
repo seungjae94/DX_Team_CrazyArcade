@@ -19,8 +19,7 @@ UServerManager::UServerManager()
 
 UServerManager::~UServerManager()
 {
-	std::shared_ptr<UEndSession> EndPacket = std::make_shared<UEndSession>();
-	Send(EndPacket);
+
 }
 
 
@@ -120,29 +119,24 @@ void UServerManager::ServerOpen()
 				});
 		});
 
-	/*Dis.AddHandler<UCharacterTypePacket>([=](std::shared_ptr<UCharacterTypePacket> _Packet)
+	Dis.AddHandler<UDeadUpdatePacket>([=](std::shared_ptr<UDeadUpdatePacket> _Packet)
 		{
 			PushUpdate([=]()
 				{
-					ConnectionInfo::GetInst().SetCharacterType(_Packet->Infos);
+					ConnectionInfo::GetInst().GetUserInfos()[_Packet->Order].SetIsDead(_Packet->DeadValue);
 
-					std::shared_ptr<UCharacterTypePacket> CharacterTypePacket = std::make_shared<UCharacterTypePacket>();
-					CharacterTypePacket->Infos = ConnectionInfo::GetInst().GetCharacterTypeInfos();
-					Send(CharacterTypePacket);
+					{
+						std::shared_ptr<UDeadUpdatePacket> Packet = std::make_shared<UDeadUpdatePacket>();
+						Packet->Order = _Packet->Order;
+						Packet->DeadValue = _Packet->DeadValue;
+						Send(Packet);
+					}
+
+					ConnectionInfo::GetInst().TeamCount();
+					ECharacterColor Win = ConnectionInfo::GetInst().WinCheck();
+					ConnectionInfo::GetInst().SetWins(Win);
 				});
 		});
-
-	Dis.AddHandler<UColorTypePacket>([=](std::shared_ptr<UColorTypePacket> _Packet)
-		{
-			PushUpdate([=]()
-				{
-					ConnectionInfo::GetInst().SetCharacterColor(_Packet->Infos);
-
-					std::shared_ptr<UColorTypePacket> ColorTypePacket = std::make_shared<UColorTypePacket>();
-					ColorTypePacket->Infos = ConnectionInfo::GetInst().GetCharacterColorInfos();
-					Send(ColorTypePacket);
-				});
-		});*/
 }
 
 void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
@@ -180,21 +174,14 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 				});
 		});
 
-	/*Dis.AddHandler<UCharacterTypePacket>([=](std::shared_ptr<UCharacterTypePacket> _Packet)
+	Dis.AddHandler<UDeadUpdatePacket>([=](std::shared_ptr<UDeadUpdatePacket> _Packet)
 		{
-			PushUpdate([=]()
-				{
-					ConnectionInfo::GetInst().SetCharacterType(_Packet->Infos);
-				});
+			ConnectionInfo::GetInst().GetUserInfos()[_Packet->Order].SetIsDead(_Packet->DeadValue);
+			ConnectionInfo::GetInst().TeamCount();
+			ECharacterColor Win = ConnectionInfo::GetInst().WinCheck();
+			ConnectionInfo::GetInst().SetWins(Win);
 		});
 
-	Dis.AddHandler<UColorTypePacket>([=](std::shared_ptr<UColorTypePacket> _Packet)
-		{
-			PushUpdate([=]()
-				{
-					ConnectionInfo::GetInst().SetCharacterColor(_Packet->Infos);
-				});
-		});*/
 
 }
 
@@ -231,22 +218,7 @@ void UServerManager::ServerUpdate(float _DeltaTime)
 
 	if (nullptr != UCrazyArcadeCore::Net)
 	{
-		//int ServerSessionCount = ConnectionInfo::GetInst().GetInfoSize();
-		//bool Isinit = true;
-		//for (int i = 0; i <= ServerSessionCount; ++i) {
-		//	Isinit = Isinit || SessionInitVec[i];
-		//}
-		//if (Isinit == false) {
-		//	return;
-		//}
-		//int CurSessionToken = Server->GetCurSessionToken();
-		//if (ServerSessionCount != CurSessionToken)
-		//{
-		//	std::shared_ptr<UConnectPacket> ConnectNumPacket = std::make_shared<UConnectPacket>();
-		//	ConnectNumPacket->Infos = ConnectionInfo::GetInst().GetUserInfos();
-
-		//	Send(ConnectNumPacket);
-		//}
+		// ??
 	}
 }
 

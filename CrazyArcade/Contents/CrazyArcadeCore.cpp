@@ -25,6 +25,8 @@ UCrazyArcadeCore::UCrazyArcadeCore()
 
 void UCrazyArcadeCore::End() 
 {
+	std::shared_ptr<UEndSession> EndPacket = std::make_shared<UEndSession>();
+	UCrazyArcadeCore::Net->Send(EndPacket);
 	if (nullptr != Net)
 	{
 		Net->Off();

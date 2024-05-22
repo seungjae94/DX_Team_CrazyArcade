@@ -3,6 +3,8 @@
 
 class AInGameUI : public AActor
 {
+	GENERATED_BODY(AActor)
+private:
 	struct PlayerState
 	{
 		int Order;
@@ -16,7 +18,7 @@ class AInGameUI : public AActor
 
 		//지윤이랑 인터페이스 동일하게 진행 
 	};
-	GENERATED_BODY(AActor)
+
 public:
 	// constructor destructor
 	AInGameUI();
@@ -40,7 +42,6 @@ private:
 	void CountDown(float _DeltaTime);
 	void TimerText();
 	void IntToText();
-
 
 	std::string MinText;
 	std::string SecText;

@@ -130,16 +130,19 @@ void ABombBase::StateInit()
 
 	State.SetUpdateFunction(BombState::explosion, [=](float _DeltaTime)	
 		{
-			ServerTestPlayer* Player = PlayLevel->GetPlayer().get();
-			FPoint PlayerPoint = AMapBase::ConvertLocationToPoint(Player->GetActorLocation());
-			if (PlayerPoint == CurPoint)
+			for (size_t i = 0; i < PlayLevel->GetMap()->AllPlayer.size(); i++)
 			{
-				Player->SetTrapState();
-			}
+				if (nullptr == PlayLevel->GetMap()->AllPlayer[i])
+				{
+					continue;
+				}
 
-			for (size_t i = 0; i < PlayLevel->GetMap()->OtherPlayer.size(); i++)
-			{
-				PlayLevel->GetMap()->OtherPlayer[i]->SetTrapState();
+				FVector PlayerPos = PlayLevel->GetMap()->AllPlayer[i]->GetActorLocation();
+				FPoint PlayerPoint = AMapBase::ConvertLocationToPoint(PlayerPos);
+				if (8 > Body->GetCurAnimationFrame() && PlayerPoint == CurPoint)
+				{
+					PlayLevel->GetMap()->AllPlayer[i]->SetTrapState();
+				}
 			}
 		}
 	);

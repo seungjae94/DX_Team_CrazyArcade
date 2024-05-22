@@ -87,7 +87,7 @@ void UEngineNet::RecvThreadFunction(USession* _Session, UEngineNet* _Net)
 
 
 		if (Protocol.GetPacketType() == -3) {
-			int a = 0;
+			_Session->End();
 		}
 
 

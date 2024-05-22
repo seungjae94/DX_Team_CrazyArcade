@@ -173,6 +173,7 @@ void APlayer::Ready(float _DeltaTime)
 	if (Renderer->IsCurAnimationEnd())
 	{
 		State.ChangeState("Idle");
+		return;
 	}
 }
 
@@ -227,7 +228,7 @@ void APlayer::Run(float _DeltaTime)
 	if (ERiding::None != Riding)
 	{
 		State.ChangeState("RidingRun");
-
+		return;
 	}
 	
 	// 부쉬 Hide
@@ -454,16 +455,17 @@ void APlayer::RidingDown(float _DeltaTime)
 {
 	Riding = ERiding::None;
 	NoHit = true;
-	if (0.0f <= JumpTime && JumpTime < 0.25f)
+	if (0.0f <= JumpTime && JumpTime < 0.35f)
 	{
-		Renderer->AddPosition(FVector::Up * 200.0f * _DeltaTime);
+		Renderer->AddPosition(FVector::Up * 100.0f * _DeltaTime);
 	}
-	else if (0.25f <= JumpTime && JumpTime < 0.5f)
+	else if (0.35f <= JumpTime && JumpTime < 0.7f)
 	{
-		Renderer->AddPosition(FVector::Down * 200.0f * _DeltaTime);
+		Renderer->AddPosition(FVector::Down * 100.0f * _DeltaTime);
 	}
 	else
 	{
+		Renderer->SetPosition({ 0.0f, BlockSize / 2.0f, 0.0f });
 		JumpTime = 0.0f;
 		NoHit = false;
 		State.ChangeState("Idle");
@@ -478,6 +480,7 @@ void APlayer::TrapStart(float _DeltaTime)
 	if (Renderer->IsCurAnimationEnd())
 	{
 		State.ChangeState("Traped");
+		return;
 	}
 
 	if (true == IsDevil)
@@ -512,6 +515,7 @@ void APlayer::Traped(float _DeltaTime)
 	if (Renderer->IsCurAnimationEnd())
 	{
 		State.ChangeState("TrapEnd");
+		return;
 	}
 	if (true == IsPress(VK_LEFT))
 	{
@@ -528,6 +532,12 @@ void APlayer::Traped(float _DeltaTime)
 	else if (true == IsPress(VK_DOWN))
 	{
 		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
+	}
+
+	if (true == PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this))
+	{
+		State.ChangeState("Die");
+		return;
 	}
 
 	// 바늘 사용하면
@@ -543,6 +553,7 @@ void APlayer::TrapEnd(float _DeltaTime)
 	if (Renderer->IsCurAnimationEnd())
 	{
 		State.ChangeState("Die");
+		return;
 	}
 	if (true == IsPress(VK_LEFT))
 	{
@@ -561,8 +572,14 @@ void APlayer::TrapEnd(float _DeltaTime)
 		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
 	}
 
+	if (true == PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this))
+	{
+		State.ChangeState("Die");
+		return;
+	}
+
 	// 바늘 사용하면
-	if (true == IsDown('2'))
+	if (true == IsDown('2') && NeedleCount > 0)
 	{
 		State.ChangeState("Revival");
 		return;
@@ -614,7 +631,7 @@ void APlayer::SetTrapState()
 	{
 		SetSupermanOff();
 		NoHit = true;
-		DelayCallBack(0.5f, [=]
+		DelayCallBack(0.7f, [=]
 			{
 				NoHit = false;
 			}
