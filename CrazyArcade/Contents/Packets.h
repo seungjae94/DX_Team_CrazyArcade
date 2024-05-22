@@ -15,6 +15,7 @@ enum ServerObjectType
 
 enum EContentPacket
 {
+	EndSession = -2,
 	ActorUpdatePacket = 99,
 	SpawnUpdatePacket,
 	ConnectUpdatePacket,
@@ -232,6 +233,27 @@ public:
 public:
 	bool IsMoveValue = false;
 	FVector MoveDir = {};
+};
+
+class UEndSession : public UEngineProtocol {
+public:
+	static const EContentPacket Type = EContentPacket::EndSession;
+public:
+	UEndSession()
+	{
+		SetType(EContentPacket::EndSession);
+	}
+
+	void Serialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::Serialize(_Ser);
+	}
+
+	void DeSerialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::DeSerialize(_Ser);
+	}
+
 };
 
 //class UCharacterTypePacket : public UEngineProtocol {
