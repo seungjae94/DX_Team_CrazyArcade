@@ -94,6 +94,8 @@ public:
 	void PushUserInfos(int _Order, std::string _Name)
 	{
 		UserInfos[_Order].MyName = _Name;
+		UserInfos[_Order].SetMyCharacterType(ECharacterType::Dao);
+		UserInfos[_Order].SetMyColorType(ECharacterColor::Red);
 	}
 	std::map<int, ConnectUserInfo>& GetUserInfos()
 	{
