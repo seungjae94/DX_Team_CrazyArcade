@@ -22,6 +22,8 @@ ServerTestPlayer::~ServerTestPlayer()
 void ServerTestPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+
+	PlayLevel->GetMap()->PushAllPlayer(this);
 }
 
 void ServerTestPlayer::Tick(float _DeltaTime)
@@ -60,6 +62,23 @@ void ServerTestPlayer::Tick(float _DeltaTime)
 		if (true == IsSpawn) {
 			SpawnBomb();
 		}
+	}
+
+	if (false == IsDeadPacketSend && true == IsDead)
+	{
+		
+
+		// 패킷 보내기
+		std::shared_ptr<UDeadUpdatePacket> Packet = std::make_shared<UDeadUpdatePacket>();
+		Packet->Order = ConnectionInfo::GetInst().GetOrder();
+		Packet->DeadValue = IsDead;
+		Send(Packet);
+		IsDeadPacketSend = true;
+
+		ConnectionInfo::GetInst().GetUserInfos()[Packet->Order].SetIsDead(IsDead);
+		ConnectionInfo::GetInst().TeamCount();
+		ECharacterColor Win = ConnectionInfo::GetInst().WinCheck();
+		ConnectionInfo::GetInst().SetWins(Win);
 	}
 }
 

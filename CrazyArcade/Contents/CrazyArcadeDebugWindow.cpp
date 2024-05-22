@@ -2,6 +2,7 @@
 #include "CrazyArcadeDebugWindow.h"
 #include "CrazyArcadeCore.h"
 #include "MainTitleGameMode.h"
+#include "ConnectionInfo.h"
 
 
 UCrazyArcadeDebugWindow::UCrazyArcadeDebugWindow()
@@ -14,6 +15,12 @@ UCrazyArcadeDebugWindow::~UCrazyArcadeDebugWindow()
 
 void UCrazyArcadeDebugWindow::OnGui(ULevel* Level, float _Delta)
 {
+	int RedCount = ConnectionInfo::GetInst().GetRedCount();
+	int BlueCount = ConnectionInfo::GetInst().GetBlueCount();
+	ImGui::Text(std::to_string(RedCount).c_str());
+	ImGui::Text(std::to_string(BlueCount).c_str());
+
+	
 	float Fps = 1.0f / _Delta;
 	LowFps = (LowFps < Fps) ? LowFps : Fps;
 

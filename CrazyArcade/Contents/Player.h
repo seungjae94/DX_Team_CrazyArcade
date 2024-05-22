@@ -198,6 +198,7 @@ protected:
 	float JumpTime = 0.0f;
 	bool IsDead = false;
 
-
-
+	float TrapStartTime = 0.28f;
+	float TrapedTime = 4.0f;
+	float TrapEndTime = 1.6f;
 };

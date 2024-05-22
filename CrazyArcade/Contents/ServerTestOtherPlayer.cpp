@@ -19,7 +19,7 @@ void ServerTestOtherPlayer::BeginPlay()
 	Super::BeginPlay();
 	InputOff();
 
-	PlayLevel->GetMap()->PushOtherPlayer(this);
+	PlayLevel->GetMap()->PushAllPlayer(this);
 }
 
 void ServerTestOtherPlayer::Tick(float _DeltaTime)

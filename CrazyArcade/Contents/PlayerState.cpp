@@ -152,6 +152,7 @@ void APlayer::StateInit()
 	State.SetUpdateFunction("Die", std::bind(&APlayer::Die, this, std::placeholders::_1));
 	State.SetStartFunction("Die", [=]()
 		{
+			Renderer->SetPosition(FVector::Zero);
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Die");
 			SetPlayerDead();
 		});
@@ -230,7 +231,7 @@ void APlayer::Run(float _DeltaTime)
 		State.ChangeState("RidingRun");
 		return;
 	}
-	
+
 	// 부쉬 Hide
 	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
 	{
@@ -325,6 +326,16 @@ void APlayer::Run(float _DeltaTime)
 
 void APlayer::RidingIdle(float _Update)
 {
+	// 부쉬 Hide
+	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
+	{
+		Renderer->SetActive(false);
+	}
+	else
+	{
+		Renderer->SetActive(true);
+	}
+
 	// Bomb 설치
 	if (true == IsDown(VK_SPACE))
 	{
@@ -367,6 +378,16 @@ void APlayer::RidingRun(float _DeltaTime)
 		break;
 	default:
 		break;
+	}
+
+	// 부쉬 Hide
+	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
+	{
+		Renderer->SetActive(false);
+	}
+	else
+	{
+		Renderer->SetActive(true);
 	}
 
 	// Bomb 설치
@@ -477,7 +498,8 @@ void APlayer::RidingDown(float _DeltaTime)
 
 void APlayer::TrapStart(float _DeltaTime)
 {
-	if (Renderer->IsCurAnimationEnd())
+	TrapStartTime -= _DeltaTime;
+	if (TrapStartTime <= 0.0f)
 	{
 		State.ChangeState("Traped");
 		return;
@@ -508,11 +530,22 @@ void APlayer::TrapStart(float _DeltaTime)
 	{
 		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
 	}
+
+	// 부쉬 Hide
+	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
+	{
+		Renderer->SetActive(false);
+	}
+	else
+	{
+		Renderer->SetActive(true);
+	}
 }
 
 void APlayer::Traped(float _DeltaTime)
 {
-	if (Renderer->IsCurAnimationEnd())
+	TrapedTime -= _DeltaTime;
+	if (TrapedTime <= 0.0f)
 	{
 		State.ChangeState("TrapEnd");
 		return;
@@ -534,6 +567,22 @@ void APlayer::Traped(float _DeltaTime)
 		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
 	}
 
+	// 부쉬 Hide
+	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
+	{
+		Renderer->SetActive(false);
+	}
+	else
+	{
+		Renderer->SetActive(true);
+	}
+
+	if (true == PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this))
+	{
+		State.ChangeState("Die");
+		return;
+	}
+
 	// 바늘 사용하면
 	if (true == IsDown('2') && NeedleCount > 0)
 	{
@@ -544,7 +593,8 @@ void APlayer::Traped(float _DeltaTime)
 
 void APlayer::TrapEnd(float _DeltaTime)
 {
-	if (Renderer->IsCurAnimationEnd())
+	TrapEndTime -= _DeltaTime;
+	if (TrapEndTime <= 0.0f)
 	{
 		State.ChangeState("Die");
 		return;
@@ -564,6 +614,22 @@ void APlayer::TrapEnd(float _DeltaTime)
 	else if (true == IsPress(VK_DOWN))
 	{
 		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
+	}
+
+	// 부쉬 Hide
+	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
+	{
+		Renderer->SetActive(false);
+	}
+	else
+	{
+		Renderer->SetActive(true);
+	}
+
+	if (true == PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this))
+	{
+		State.ChangeState("Die");
+		return;
 	}
 
 	// 바늘 사용하면
@@ -632,6 +698,6 @@ void APlayer::SetTrapState()
 		State.ChangeState("RidingDown");
 		return;
 	}
-	
+
 	State.ChangeState("TrapStart");
 }
