@@ -124,7 +124,12 @@ void AWave::Tick(float _DeltaTime)
 
 		for (size_t i = 0; i < PlayLevel->GetMap()->OtherPlayer.size(); i++)
 		{
-			PlayLevel->GetMap()->OtherPlayer[i]->SetTrapState();
+			FVector OtherPos = PlayLevel->GetMap()->OtherPlayer[i]->GetActorLocation();
+			FPoint OtherPoint = AMapBase::ConvertLocationToPoint(OtherPos);
+			if (8 > Body->GetCurAnimationFrame() && OtherPoint == CurPoint)
+			{
+				PlayLevel->GetMap()->OtherPlayer[i]->SetTrapState();
+			}
 		}
 
 		if (nullptr != PlayLevel->GetMap()->GetTileInfo(CurPoint).Item)

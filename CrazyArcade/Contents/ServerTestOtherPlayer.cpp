@@ -2,13 +2,12 @@
 #include "ServerTestOtherPlayer.h"
 #include "Packets.h"
 #include "CrazyArcadeCore.h"
-
+#include "MainPlayLevel.h"
+#include "MapBase.h"
 
 ServerTestOtherPlayer::ServerTestOtherPlayer()
 	:APlayer()
 {
-
-
 }
 
 ServerTestOtherPlayer::~ServerTestOtherPlayer()
@@ -19,6 +18,8 @@ void ServerTestOtherPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	InputOff();
+
+	PlayLevel->GetMap()->PushOtherPlayer(this);
 }
 
 void ServerTestOtherPlayer::Tick(float _DeltaTime)
