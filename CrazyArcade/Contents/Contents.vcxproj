@@ -61,6 +61,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="PirateMap02.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ServerHelper.h" />
     <ClInclude Include="ServerManager.h">
       <SubType>
@@ -184,6 +188,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PirateMap.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PirateMap02.cpp">
       <SubType>
       </SubType>
     </ClCompile>

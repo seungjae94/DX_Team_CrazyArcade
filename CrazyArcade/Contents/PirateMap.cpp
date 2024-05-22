@@ -16,7 +16,7 @@ void APirateMap::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SetBackGround(MapImgRes::Pirate_background);
+	SetBackGround(MapImgRes::Pirate_background01);
 	SetMapInfoSize(15, 13);
 	CreateFlag(6, 6);
 	CreatePirateBoxs();

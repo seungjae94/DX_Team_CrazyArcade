@@ -142,7 +142,7 @@ void UServerManager::ServerOpen()
 		{
 			PushUpdate([=]()
 				{
-					Send(_Packet);
+					UCrazyArcadeCore::Net->Send(_Packet);
 					int a = _Packet->GetSessionToken();
 					int b = 0;
 				});

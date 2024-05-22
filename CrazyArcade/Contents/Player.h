@@ -145,8 +145,6 @@ protected:
 
 	int NeedleCount = 1;
 
-	float RenderChangeTime = 0.0f;
-
 	std::map<EItemType, int> MPlayerItem;
 	std::map<EItemType, int>::iterator MPlayerItemIter;
 
@@ -156,8 +154,10 @@ protected:
 	void PickUpItem();
 	void AddItemCount(EItemType _ItemType);
 
-	float DevilTime = 10.0f;
+	float DevilRenderChangeTime = 0.0f;
+	float DevilTime = 15.0f;
 	void Devil(float _DeltaTime);
+	float SupermanRenderChangeTime = 0.0f;
 	float SupermanTime = 10.0f;
 	void Superman(float _DeltaTime);
 
@@ -198,6 +198,7 @@ protected:
 	float JumpTime = 0.0f;
 	bool IsDead = false;
 
-
-
+	float TrapStartTime = 0.28f;
+	float TrapedTime = 4.0f;
+	float TrapEndTime = 1.6f;
 };

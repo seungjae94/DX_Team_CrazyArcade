@@ -326,6 +326,16 @@ void APlayer::Run(float _DeltaTime)
 
 void APlayer::RidingIdle(float _Update)
 {
+	// 부쉬 Hide
+	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
+	{
+		Renderer->SetActive(false);
+	}
+	else
+	{
+		Renderer->SetActive(true);
+	}
+
 	// Bomb 설치
 	if (true == IsDown(VK_SPACE))
 	{
@@ -368,6 +378,16 @@ void APlayer::RidingRun(float _DeltaTime)
 		break;
 	default:
 		break;
+	}
+
+	// 부쉬 Hide
+	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
+	{
+		Renderer->SetActive(false);
+	}
+	else
+	{
+		Renderer->SetActive(true);
 	}
 
 	// Bomb 설치
@@ -478,7 +498,8 @@ void APlayer::RidingDown(float _DeltaTime)
 
 void APlayer::TrapStart(float _DeltaTime)
 {
-	if (Renderer->IsCurAnimationEnd())
+	TrapStartTime -= _DeltaTime;
+	if (TrapStartTime <= 0.0f)
 	{
 		State.ChangeState("Traped");
 		return;
@@ -509,11 +530,22 @@ void APlayer::TrapStart(float _DeltaTime)
 	{
 		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
 	}
+
+	// 부쉬 Hide
+	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
+	{
+		Renderer->SetActive(false);
+	}
+	else
+	{
+		Renderer->SetActive(true);
+	}
 }
 
 void APlayer::Traped(float _DeltaTime)
 {
-	if (Renderer->IsCurAnimationEnd())
+	TrapedTime -= _DeltaTime;
+	if (TrapedTime <= 0.0f)
 	{
 		State.ChangeState("TrapEnd");
 		return;
@@ -535,6 +567,16 @@ void APlayer::Traped(float _DeltaTime)
 		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
 	}
 
+	// 부쉬 Hide
+	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
+	{
+		Renderer->SetActive(false);
+	}
+	else
+	{
+		Renderer->SetActive(true);
+	}
+
 	if (true == PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this))
 	{
 		State.ChangeState("Die");
@@ -551,7 +593,8 @@ void APlayer::Traped(float _DeltaTime)
 
 void APlayer::TrapEnd(float _DeltaTime)
 {
-	if (Renderer->IsCurAnimationEnd())
+	TrapEndTime -= _DeltaTime;
+	if (TrapEndTime <= 0.0f)
 	{
 		State.ChangeState("Die");
 		return;
@@ -571,6 +614,16 @@ void APlayer::TrapEnd(float _DeltaTime)
 	else if (true == IsPress(VK_DOWN))
 	{
 		KeyMove(_DeltaTime, FVector::Down, CurSpeed);
+	}
+
+	// 부쉬 Hide
+	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
+	{
+		Renderer->SetActive(false);
+	}
+	else
+	{
+		Renderer->SetActive(true);
 	}
 
 	if (true == PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this))
