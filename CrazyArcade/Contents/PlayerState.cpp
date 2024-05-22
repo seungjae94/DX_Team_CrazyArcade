@@ -455,11 +455,11 @@ void APlayer::RidingDown(float _DeltaTime)
 {
 	Riding = ERiding::None;
 	NoHit = true;
-	if (0.0f <= JumpTime && JumpTime < 0.25f)
+	if (0.0f <= JumpTime && JumpTime < 0.35f)
 	{
 		Renderer->AddPosition(FVector::Up * 200.0f * _DeltaTime);
 	}
-	else if (0.25f <= JumpTime && JumpTime < 0.5f)
+	else if (0.35f <= JumpTime && JumpTime < 0.7f)
 	{
 		Renderer->AddPosition(FVector::Down * 200.0f * _DeltaTime);
 	}
@@ -618,7 +618,7 @@ void APlayer::SetTrapState()
 	{
 		SetSupermanOff();
 		NoHit = true;
-		DelayCallBack(0.5f, [=]
+		DelayCallBack(0.7f, [=]
 			{
 				NoHit = false;
 			}
