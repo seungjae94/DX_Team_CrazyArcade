@@ -17,7 +17,7 @@ void APlayer::StateInit()
 	State.CreateState("RidingRun");
 	State.CreateState("RidingDown");
 	State.CreateState("TrapStart");
-	State.CreateState("Traped");
+	State.CreateState("Trapped");
 	State.CreateState("TrapEnd");
 	State.CreateState("Die");
 	State.CreateState("Revival");
@@ -132,13 +132,14 @@ void APlayer::StateInit()
 	State.SetUpdateFunction("TrapStart", std::bind(&APlayer::TrapStart, this, std::placeholders::_1));
 	State.SetStartFunction("TrapStart", [=]()
 		{
+			IsTrapped = true;
 			NoHit = true;
 			CurSpeed = 30.0f;
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_TrapStart");
 		});
 
-	State.SetUpdateFunction("Traped", std::bind(&APlayer::Traped, this, std::placeholders::_1));
-	State.SetStartFunction("Traped", [=]()
+	State.SetUpdateFunction("Trapped", std::bind(&APlayer::Trapped, this, std::placeholders::_1));
+	State.SetStartFunction("Trapped", [=]()
 		{
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Traped");
 		});
@@ -171,6 +172,7 @@ void APlayer::StateInit()
 	State.SetUpdateFunction("Revival", std::bind(&APlayer::Revival, this, std::placeholders::_1));
 	State.SetStartFunction("Revival", [=]()
 		{
+			IsTrapped = false;
 			NeedleCount--;
 			CurSpeed = BaseSpeed + Speed;
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Revival");
@@ -502,7 +504,7 @@ void APlayer::TrapStart(float _DeltaTime)
 	TrapStartTime -= _DeltaTime;
 	if (TrapStartTime <= 0.0f)
 	{
-		State.ChangeState("Traped");
+		State.ChangeState("Trapped");
 		return;
 	}
 
@@ -536,10 +538,10 @@ void APlayer::TrapStart(float _DeltaTime)
 	HideInBush();
 }
 
-void APlayer::Traped(float _DeltaTime)
+void APlayer::Trapped(float _DeltaTime)
 {
-	TrapedTime -= _DeltaTime;
-	if (TrapedTime <= 0.0f)
+	TrappedTime -= _DeltaTime;
+	if (TrappedTime <= 0.0f)
 	{
 		State.ChangeState("TrapEnd");
 		return;

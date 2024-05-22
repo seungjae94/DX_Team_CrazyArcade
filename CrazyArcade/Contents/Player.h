@@ -74,6 +74,16 @@ public:
 		return NeedleCount;
 	}
 
+	inline bool GetIsTrapped()
+	{
+		return IsTrapped;
+	}
+
+	inline bool GetIsDead()
+	{
+		return IsDead;
+	}
+	
 	inline void IncreaseBombCount()
 	{
 		++BombCount;
@@ -193,7 +203,7 @@ protected:
 	void RidingRun(float _DeltaTime);
 	void RidingDown(float _DeltaTime);
 	void TrapStart(float _DeltaTime);
-	void Traped(float _DeltaTime);
+	void Trapped(float _DeltaTime);
 	void TrapEnd(float _DeltaTime);
 	void Die(float _DeltaTime);
 	void Revival(float _DeltaTime);
@@ -203,8 +213,9 @@ protected:
 
 	float JumpTime = 0.0f;
 	bool IsDead = false;
+	bool IsTrapped = false;
 
 	float TrapStartTime = 0.28f;
-	float TrapedTime = 4.0f;
+	float TrappedTime = 4.0f;
 	float TrapEndTime = 1.6f;
 };

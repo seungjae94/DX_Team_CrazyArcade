@@ -37,8 +37,8 @@ void ALobbyTitleGameMode::BeginPlay()
 				UserInfo User;
 				User.SpaceIndex = i;
 				User.Name = "";
-				User.CharacterType = ECharacterType::Random;
-				User.CharacterColor = ECharacterColor::Red;
+				User.CharacterType = ECharacterType::None;
+				User.CharacterColor = ECharacterColor::None;
 
 				UserInfos.push_back(User);
 			}
@@ -985,27 +985,26 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 		Player.CharacterType = ConnectionInfo::GetInst().GetCharacterType();
 		Player.CharacterColor = ConnectionInfo::GetInst().GetCharacterColor();
 	}
-	{
-		std::map<int, ConnectUserInfo> ServerUserInfos = ConnectionInfo::GetInst().GetUserInfos();
 
+	std::map<int, ConnectUserInfo> ServerUserInfos = ConnectionInfo::GetInst().GetUserInfos();
+
+	for (int i = 0; i < 8; i++)
+	{
 		// UserInfos Update
-		for (int i = 0; i < 8; i++)
-		{
-			UserInfos[i].Name = ServerUserInfos[i].MyName;
-			UserInfos[i].CharacterType = ServerUserInfos[i].GetMyCharacterType();
-			UserInfos[i].CharacterColor = ServerUserInfos[i].GetMyColorType();
-		}
+		UserInfos[i].Name = ServerUserInfos[i].MyName;
+		UserInfos[i].CharacterType = ServerUserInfos[i].GetMyCharacterType();
+		UserInfos[i].CharacterColor = ServerUserInfos[i].GetMyColorType();
 
 		// Space Update
-		int UserCnt = ConnectionInfo::GetInst().GetInfoSize();
-		for (int i = 0; i < UserCnt; i++)
+		if (ServerUserInfos[i].GetIsExist() == false)
 		{
-			//if(ServerUserInfos[i] != NONE)
-			//{
+			SpaceOff(i);
+		}
+		else
+		{
 			SpaceOn(i);
 			SettingName(i);
 			SettingCharacter(i);
-			//}
 		}
 	}
 }
