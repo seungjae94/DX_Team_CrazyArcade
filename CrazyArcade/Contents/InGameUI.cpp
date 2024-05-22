@@ -69,36 +69,29 @@ void AInGameUI::BeginPlay()
 	ResultSummary->AddToViewPort(4);
 
 
-
 	CancelBtn->SetUnHover([=] {
-
-
-
 		CancelBtn->ChangeAnimation("CancelButtonUnHoverAni");
-
 		});
 	CancelBtn->SetHover([=] {
-
 		CancelBtn->ChangeAnimation("CancelButtonHoverAni");
-
-
 		});
 	CancelBtn->SetDown([=] {
+		CancelBtn->ChangeAnimation("CancelButtonIsDownAni");
+		});
+	CancelBtn->SetPress([=] {
 
-		if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType()) {
+		});
+	CancelBtn->SetUp([=] {
+		CancelBtn->ChangeAnimation("CancelButtonUnHoverAni");
+		if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+		{
 			std::shared_ptr<UChangeLevelPacket> LevelChangePacket = std::make_shared<UChangeLevelPacket>();
 			LevelChangePacket->LevelName = "LobbyTitleTestLevel";
 			UCrazyArcadeCore::Net->Send(LevelChangePacket);
-
-		CancelBtn->ChangeAnimation("CancelButtonUnHoverAni");
-		CancelBtn->SetUp([=] {
-
+			
 			GEngine->ChangeLevel("LobbyTitleTestLevel");
-			});
 		}
-
 		});
-
 
 	//게임 실행 하면 유저 정보 가져와서 표시해주기 
 
@@ -371,4 +364,12 @@ void AInGameUI::DeadCheck()
 	}
 }
 
+void AInGameUI::FadeIn(float _DeltaTime)
+{
 
+}
+
+void AInGameUI::FadeOut(float _DeltaTime)
+{
+
+}

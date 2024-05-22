@@ -132,6 +132,7 @@ void APlayer::Tick(float _DeltaTime)
 	Devil(_DeltaTime);
 
 	Superman(_DeltaTime);
+
 	CheckBombCount();
 
 	PlayerInfoUpdate();
@@ -375,21 +376,21 @@ void APlayer::Devil(float _DeltaTime)
 {
 	if (true == IsDevil)
 	{
-		if (0.0f <= RenderChangeTime && RenderChangeTime < 0.5f)
+		if (0.0f <= DevilRenderChangeTime && DevilRenderChangeTime < 0.5f)
 		{
 			Renderer->SetMulColor({ 0.7f, 0.0f, 1.0f, 1.0f });
 		}
-		else if (0.5f <= RenderChangeTime && RenderChangeTime < 1.0f)
+		else if (0.5f <= DevilRenderChangeTime && DevilRenderChangeTime < 1.0f)
 		{
 			Renderer->SetMulColor(FVector::One);
 		}
 		else
 		{
 			//FSpriteInfo SpriteInfo = Renderer->GetCurInfo();
-			RenderChangeTime = 0.0f;
+			DevilRenderChangeTime = 0.0f;
 		}
 
-		RenderChangeTime += _DeltaTime;
+		DevilRenderChangeTime += _DeltaTime;
 
 		DevilTime -= _DeltaTime;
 
@@ -406,25 +407,25 @@ void APlayer::Superman(float _DeltaTime)
 {
 	if (true == IsSuperman)
 	{
-		if (0.0f <= RenderChangeTime && RenderChangeTime < 0.1f)
+		if (0.0f <= SupermanRenderChangeTime && SupermanRenderChangeTime < 0.1f)
 		{
 			Renderer->SetMulColor({ 1.0f, 0.0f, 0.0f, 1.0f });
 		}
-		else if (0.1f <= RenderChangeTime && RenderChangeTime < 0.2f)
+		else if (0.1f <= SupermanRenderChangeTime && SupermanRenderChangeTime < 0.2f)
 		{
 			Renderer->SetMulColor({ 1.0f, 1.0f, 0.0f, 1.0f });
 		}
-		else if (0.2f <= RenderChangeTime && RenderChangeTime < 0.3f)
+		else if (0.2f <= SupermanRenderChangeTime && SupermanRenderChangeTime < 0.3f)
 		{
 			Renderer->SetMulColor({ 0.0f, 0.0f, 1.0f, 1.0f });
 		}
 		else
 		{
 			//FSpriteInfo SpriteInfo = Renderer->GetCurInfo();
-			RenderChangeTime = 0.0f;
+			SupermanRenderChangeTime = 0.0f;
 		}
 
-		RenderChangeTime += _DeltaTime;
+		SupermanRenderChangeTime += _DeltaTime;
 
 		SupermanTime -= _DeltaTime;
 
@@ -522,29 +523,7 @@ void APlayer::SetPlayerDead()
 
 void APlayer::SetCharacterType(ECharacterType _Character)
 {
-	int random = UEngineRandom::MainRandom.RandomInt(0, 2);
-
-	if (ECharacterType::Random == _Character)
-	{
-		switch (random)
-		{
-		case 0:
-			CharacterType = ECharacterType::Dao;
-			break;
-		case 1:
-			CharacterType = ECharacterType::Marid;
-			break;
-		case 2:
-			CharacterType = ECharacterType::Bazzi;
-			break;
-		default:
-			break;
-		}
-	}
-	else
-	{
-		CharacterType = _Character;
-	}
+	CharacterType = _Character;
 
 	Type = MCharacterTypeData[CharacterType].Type;
 	BaseBombCount = MCharacterTypeData[CharacterType].DataBaseBombCount;

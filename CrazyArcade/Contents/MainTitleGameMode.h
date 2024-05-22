@@ -19,8 +19,6 @@ public:
 	AMainTitleGameMode& operator=(const AMainTitleGameMode& _Other) = delete;
 	AMainTitleGameMode& operator=(AMainTitleGameMode&& _Other) = delete;
 
-	std::string GetPlayerName();
-
 	static AMainTitleGameMode* Title;
 
 	void MyChangeIP() {
@@ -72,5 +70,6 @@ private:
 	bool IsPortNumBoxActive = false;
 
 	const int PlayerNameMaxLength = 6;
+	const int IPNumMaxLength = 15;
 	const int PortNumMaxLength = 5;
 };
