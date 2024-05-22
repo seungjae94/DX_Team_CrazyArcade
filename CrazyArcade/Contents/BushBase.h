@@ -31,6 +31,9 @@ private:
 	AMainPlayLevel* PlayLevel = nullptr;
 	USpriteRenderer* Body = nullptr;
 
+	std::vector<float> ShakingPosY;
+	int ShakingIdx = 0;
+
 // FSM
 private:
 	UStateManager State;
