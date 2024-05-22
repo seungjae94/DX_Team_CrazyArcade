@@ -514,9 +514,9 @@ void APlayer::SpawnBombCheckSend()
 
 void APlayer::CheckBombCount()
 {
-	if (true != IsSuperman && BombCount > (MPlayerItem[EItemType::Bubble] + 1))
+	if (true != IsSuperman && BombCount > (MPlayerItem[EItemType::Bubble] + BaseBombCount))
 	{
-		BombCount = MPlayerItem[EItemType::Bubble] + 1;
+		BombCount = MPlayerItem[EItemType::Bubble] + BaseBombCount;
 	}
 }
 
