@@ -63,6 +63,7 @@ public:
 	bool CanMovePos(const FVector& _NextPos, const FVector& _Dir);
 	bool IsBombPos(const FVector& _Pos, const FVector& _Dir);
 	bool IsBushPos(const FVector& _Pos);
+	bool IsColOtherPlayer(const FVector& _Pos);
 	EItemType IsItemTile(const FVector& _Pos);
 	
 	std::shared_ptr<ABombBase> SpawnBomb(const FVector& _Pos, APlayer* _Player);
@@ -77,6 +78,11 @@ protected:
 	inline void SetBackGround(std::string_view _Name)
 	{
 		BackGround->SetSprite(_Name);
+	}
+
+	inline void PushPlayerStartPoint(FPoint _Point)
+	{
+		PlayerStartPoint.push_back(_Point);
 	}
 
 	void SetMapInfoSize(int _SizeX, int _SizeY);
@@ -108,6 +114,7 @@ private:
 
 	std::vector<std::vector<UTileInfo>> TileInfo;
 	std::vector<APlayer*> OtherPlayer;
+	std::vector<FPoint> PlayerStartPoint;
 
 	static FVector StartPos;
 	static float BlockSize;

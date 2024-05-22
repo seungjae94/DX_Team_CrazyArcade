@@ -112,6 +112,9 @@ void UServerManager::ServerOpen()
 		{
 			PushUpdate([=]()
 				{
+					if (GEngine->GetCurLevel()->GetName()._Equal(_Packet->LevelName)) {
+						return;
+					}
 					GEngine->ChangeLevel(_Packet->LevelName);
 				});
 		});
@@ -165,15 +168,6 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 					}
 
 					ConnectionInfo::GetInst().SetUserInfos(Infos);
-				});
-		});
-
-	Dis.AddHandler<UConnectInitPacket>([=](std::shared_ptr<UConnectInitPacket> _Packet)
-		{
-			PushUpdate([=]()
-				{
-					ConnectionInfo::GetInst().PushUserInfos(_Packet->GetSessionToken(), _Packet->Name);
-					SessionInitVec[_Packet->Session] = true;
 				});
 		});
 
