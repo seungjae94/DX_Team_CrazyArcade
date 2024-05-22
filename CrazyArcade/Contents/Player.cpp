@@ -523,24 +523,26 @@ void APlayer::SetPlayerDead()
 
 void APlayer::SetCharacterType(ECharacterType _Character)
 {
+	int random = UEngineRandom::MainRandom.RandomInt(0, 100);
+	random = random % 3;
 	switch (_Character)
 	{
 	case ECharacterType::Random:
-		//int random = UEngineRandom::MainRandom.RandomInt(0, 2);
-		//switch (random)
-		//{
-		//case 0:
-		//	CharacterType = ECharacterType::Dao;
-		//	break;
-		//case 1:
-		//	CharacterType = ECharacterType::Marid;
-		//	break;
-		//case 2:
-		//	CharacterType = ECharacterType::Bazzi;
-		//	break;
-		//default:
-		//	break;
-		//}
+		switch (random)
+		{
+		case 0:
+			CharacterType = ECharacterType::Dao;
+			break;
+		case 1:
+			CharacterType = ECharacterType::Marid;
+			break;
+		case 2:
+			CharacterType = ECharacterType::Bazzi;
+			break;
+		default:
+			break;
+		}
+		break;
 	case ECharacterType::Dao:
 		CharacterType = ECharacterType::Dao;
 		break;
