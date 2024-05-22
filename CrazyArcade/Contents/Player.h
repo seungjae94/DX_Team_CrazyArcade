@@ -108,7 +108,6 @@ protected:
 	USpriteRenderer* ShadowRenderer;
 	USpriteRenderer* DebugRenderer;
 	
-	std::shared_ptr<APlayer> Player = nullptr;
 	ECharacterType CharacterType;
 	void SetCharacterType(ECharacterType _Character);
 	void SetPlayerColor(ECharacterColor _Color);
