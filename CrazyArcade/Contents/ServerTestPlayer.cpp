@@ -16,8 +16,8 @@ ServerTestPlayer::ServerTestPlayer()
 
 ServerTestPlayer::~ServerTestPlayer()
 {
+	PlayLevel->GetMap()->PlayerDelete(this);
 }
-
 
 void ServerTestPlayer::BeginPlay()
 {
