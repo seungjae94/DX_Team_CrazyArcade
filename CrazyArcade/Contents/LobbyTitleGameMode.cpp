@@ -927,8 +927,6 @@ void ALobbyTitleGameMode::LevelStart(ULevel* _PrevLevel)
 	// Initialize
 	Space_IsUserIn[Player.SpaceIndex] = true;
 	Usernames_Space[Player.SpaceIndex]->SetText(Player.Name);
-	/*ChangeCharacter(ECharacterType::Random);
-	ChangeColor(ECharacterColor::Red);*/
 }
 
 void ALobbyTitleGameMode::Tick(float _DeltaTime)
@@ -982,27 +980,27 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 		Player.CharacterType = ConnectionInfo::GetInst().GetCharacterType();
 		Player.CharacterColor = ConnectionInfo::GetInst().GetCharacterColor();
 	}
-
-	// UserInfos Update
 	{
 		std::map<int, ConnectUserInfo> ServerUserInfos = ConnectionInfo::GetInst().GetUserInfos();
 
+		// UserInfos Update
 		for (int i = 0; i < 8; i++)
 		{
 			UserInfos[i].Name = ServerUserInfos[i].MyName;
 			UserInfos[i].CharacterType = ServerUserInfos[i].GetMyCharacterType();
 			UserInfos[i].CharacterColor = ServerUserInfos[i].GetMyColorType();
 		}
-	}
 
-	// Space Update
-	{
+		// Space Update
 		int UserCnt = ConnectionInfo::GetInst().GetInfoSize();
 		for (int i = 0; i < UserCnt; i++)
 		{
+			//if(ServerUserInfos[i] != NONE)
+			//{
 			SpaceOn(i);
 			SettingName(i);
 			SettingCharacter(i);
+			//}
 		}
 	}
 }
