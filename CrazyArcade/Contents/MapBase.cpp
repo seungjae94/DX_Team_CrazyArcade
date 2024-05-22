@@ -209,7 +209,8 @@ bool AMapBase::IsColOtherPlayer(const FVector& _Pos, APlayer* _Player)
 
 	for (size_t i = 0; i < AllPlayer.size(); i++)
 	{
-		if (nullptr == AllPlayer[i] || _Player == AllPlayer[i])
+		if (nullptr == AllPlayer[i] || _Player == AllPlayer[i]
+		||  true == AllPlayer[i]->GetIsDead() || true == AllPlayer[i]->GetIsTrapped())
 		{
 			continue;
 		}
