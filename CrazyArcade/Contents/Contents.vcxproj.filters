@@ -192,6 +192,9 @@
     <ClInclude Include="IntroGameMode.h">
       <Filter>Level\IntroLevel</Filter>
     </ClInclude>
+    <ClInclude Include="PirateMap02.h">
+      <Filter>Map\Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -309,6 +312,9 @@
     </ClCompile>
     <ClCompile Include="IntroGameMode.cpp">
       <Filter>Level\IntroLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PirateMap02.cpp">
+      <Filter>Map\Stage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
