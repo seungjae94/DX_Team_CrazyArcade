@@ -173,6 +173,7 @@ void APlayer::Ready(float _DeltaTime)
 	if (Renderer->IsCurAnimationEnd())
 	{
 		State.ChangeState("Idle");
+		return;
 	}
 }
 
@@ -227,7 +228,7 @@ void APlayer::Run(float _DeltaTime)
 	if (ERiding::None != Riding)
 	{
 		State.ChangeState("RidingRun");
-
+		return;
 	}
 	
 	// ºÎ½¬ Hide
@@ -478,6 +479,7 @@ void APlayer::TrapStart(float _DeltaTime)
 	if (Renderer->IsCurAnimationEnd())
 	{
 		State.ChangeState("Traped");
+		return;
 	}
 
 	if (true == IsDevil)
@@ -512,6 +514,7 @@ void APlayer::Traped(float _DeltaTime)
 	if (Renderer->IsCurAnimationEnd())
 	{
 		State.ChangeState("TrapEnd");
+		return;
 	}
 	if (true == IsPress(VK_LEFT))
 	{
@@ -543,6 +546,7 @@ void APlayer::TrapEnd(float _DeltaTime)
 	if (Renderer->IsCurAnimationEnd())
 	{
 		State.ChangeState("Die");
+		return;
 	}
 	if (true == IsPress(VK_LEFT))
 	{
