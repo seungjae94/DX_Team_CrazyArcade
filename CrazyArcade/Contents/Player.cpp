@@ -71,13 +71,13 @@ void APlayer::BeginPlay()
 
 	Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Down");
 	Renderer->SetAutoSize(0.9f, true);
-	Renderer->AddPosition({ 0.0f, BlockSize / 2.0f, 0.0f });
+	Renderer->SetPosition({ 0.0f, BlockSize / 2.0f, 0.0f });
 
 	ShadowRenderer->SetSprite("Shadow.png");
 	ShadowRenderer->SetAutoSize(1.0f, true);
 	ShadowRenderer->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.7f });
 	ShadowRenderer->SetOrder(ERenderOrder::Shadow);
-	ShadowRenderer->AddPosition({ 0.0f, -BlockSize / 4.0f });
+	ShadowRenderer->SetPosition({ 0.0f, -BlockSize / 4.0f });
 
 	DebugRenderer->SetScale({ 5,5,10 });
 	DebugRenderer->SetOrder(9999);
@@ -119,29 +119,10 @@ void APlayer::Tick(float _DeltaTime)
 		UEngineDebugMsgWindow::PushMsg(Msg);
 	}
 	// 임의 적용 테스트
-	if (true == IsDown('C'))
-	{
-		if (ECharacterColor::Red == PlayerColor)
-		{
-			SetPlayerColor(ECharacterColor::Blue);
-		}
-		else if (ECharacterColor::Blue == PlayerColor)
-		{
-			SetPlayerColor(ECharacterColor::Red);
-		}
-	}
-	if (true == IsDown('B'))
-	{
-		SetCharacterType(ECharacterType::Bazzi);
-	}
-	if (true == IsDown('O'))
-	{
-		SetCharacterType(ECharacterType::Dao);
-	}
-	if (true == IsDown('M'))
-	{
-		SetCharacterType(ECharacterType::Marid);
-	}
+	//if (true == IsDown('B'))
+	//{
+	//	SetCharacterType(ECharacterType::Bazzi);
+	//}
 
 	PlayerPos = GetActorLocation();
 
@@ -223,7 +204,7 @@ void APlayer::PlayerCreateAnimation(std::string _CharacterType_Color)
 {
 	// Idle
 	Renderer->CreateAnimation(_CharacterType_Color + "_Ready", _CharacterType_Color + "_4.png", 0.06f, false, 0, 17);
-	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Right", _CharacterType_Color + "_1.png", 1.0f, false, 0, 0 );
+	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Right", _CharacterType_Color + "_1.png", 1.0f, false, 0, 0);
 	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Left", _CharacterType_Color + "_1.png", 1.f, false, 6, 6);
 	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Up", _CharacterType_Color + "_1.png", 1.f, false, 12, 12);
 	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Down", _CharacterType_Color + "_1.png", 1.f, false, 18, 18);
@@ -520,26 +501,59 @@ void APlayer::CheckBombCount()
 	}
 }
 
+std::shared_ptr<APlayer> APlayer::SpawnPlayer(ECharacterType _Character, ECharacterColor _Color)
+{
+	Player = GetWorld()->SpawnActor<APlayer>("Player");
+	Player->SetCharacterType(_Character);
+	Player->SetPlayerColor(_Color);
+
+	return Player;
+}
+
 void APlayer::SetPlayerDead()
 {
 	IsDead = true;
 	PlayerInfoUpdate();
 
-	for (MPlayerItemIter = MPlayerItem.begin(); MPlayerItemIter != MPlayerItem.end(); ++MPlayerItemIter)
-	{
-		PlayLevel->GetMap()->ReSpawnItem(MPlayerItemIter->first, MPlayerItemIter->second);
-	}
+	//for (MPlayerItemIter = MPlayerItem.begin(); MPlayerItemIter != MPlayerItem.end(); ++MPlayerItemIter)
+	//{
+	//	PlayLevel->GetMap()->ReSpawnItem(MPlayerItemIter->first, MPlayerItemIter->second);
+	//}
 }
 
 void APlayer::SetCharacterType(ECharacterType _Character)
 {
-	Type = MCharacterTypeData[_Character].Type;
-	BaseBombCount = MCharacterTypeData[_Character].DataBaseBombCount;
-	MaxBombCount = MCharacterTypeData[_Character].DataMaxBombCount;
-	BaseBombPower = MCharacterTypeData[_Character].DataBaseBombPower;
-	MaxBombPower = MCharacterTypeData[_Character].DataMaxBombPower;
-	BaseSpeed = MCharacterTypeData[_Character].DataBaseSpeed;
-	MaxSpeed = MCharacterTypeData[_Character].DataMaxSpeed;
+	int random = UEngineRandom::MainRandom.RandomInt(0, 2);
+
+	if (ECharacterType::Random == _Character)
+	{
+		switch (random)
+		{
+		case 0:
+			CharacterType = ECharacterType::Dao;
+			break;
+		case 1:
+			CharacterType = ECharacterType::Marid;
+			break;
+		case 2:
+			CharacterType = ECharacterType::Bazzi;
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		CharacterType = _Character;
+	}
+
+	Type = MCharacterTypeData[CharacterType].Type;
+	BaseBombCount = MCharacterTypeData[CharacterType].DataBaseBombCount;
+	MaxBombCount = MCharacterTypeData[CharacterType].DataMaxBombCount;
+	BaseBombPower = MCharacterTypeData[CharacterType].DataBaseBombPower;
+	MaxBombPower = MCharacterTypeData[CharacterType].DataMaxBombPower;
+	BaseSpeed = MCharacterTypeData[CharacterType].DataBaseSpeed;
+	MaxSpeed = MCharacterTypeData[CharacterType].DataMaxSpeed;
 
 	BombCount = BaseBombCount;
 	BombPower = BaseBombPower;

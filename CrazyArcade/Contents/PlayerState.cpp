@@ -15,6 +15,7 @@ void APlayer::StateInit()
 	State.CreateState("Run");
 	State.CreateState("RidingIdle");
 	State.CreateState("RidingRun");
+	State.CreateState("RidingDown");
 	State.CreateState("TrapStart");
 	State.CreateState("Traped");
 	State.CreateState("TrapEnd");
@@ -106,6 +107,28 @@ void APlayer::StateInit()
 		{
 		});
 
+	State.SetUpdateFunction("RidingDown", std::bind(&APlayer::RidingDown, this, std::placeholders::_1));
+	State.SetStartFunction("RidingDown", [=]()
+		{
+			switch (PlayerDir)
+			{
+			case EPlayerDir::Left:
+				Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Left");
+				break;
+			case EPlayerDir::Right:
+				Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Right");
+				break;
+			case EPlayerDir::Up:
+				Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Up");
+				break;
+			case EPlayerDir::Down:
+				Renderer->ChangeAnimation(Type + PlayerColorText + "_Idle_Down");
+				break;
+			default:
+				break;
+			}
+		});
+
 	State.SetUpdateFunction("TrapStart", std::bind(&APlayer::TrapStart, this, std::placeholders::_1));
 	State.SetStartFunction("TrapStart", [=]()
 		{
@@ -150,6 +173,7 @@ void APlayer::Ready(float _DeltaTime)
 	if (Renderer->IsCurAnimationEnd())
 	{
 		State.ChangeState("Idle");
+		return;
 	}
 }
 
@@ -204,7 +228,7 @@ void APlayer::Run(float _DeltaTime)
 	if (ERiding::None != Riding)
 	{
 		State.ChangeState("RidingRun");
-
+		return;
 	}
 	
 	// 부쉬 Hide
@@ -427,11 +451,36 @@ void APlayer::RidingRun(float _DeltaTime)
 	}
 }
 
+void APlayer::RidingDown(float _DeltaTime)
+{
+	Riding = ERiding::None;
+	NoHit = true;
+	if (0.0f <= JumpTime && JumpTime < 0.35f)
+	{
+		Renderer->AddPosition(FVector::Up * 100.0f * _DeltaTime);
+	}
+	else if (0.35f <= JumpTime && JumpTime < 0.7f)
+	{
+		Renderer->AddPosition(FVector::Down * 100.0f * _DeltaTime);
+	}
+	else
+	{
+		Renderer->SetPosition({ 0.0f, BlockSize / 2.0f, 0.0f });
+		JumpTime = 0.0f;
+		NoHit = false;
+		State.ChangeState("Idle");
+		return;
+	}
+
+	JumpTime += _DeltaTime;
+}
+
 void APlayer::TrapStart(float _DeltaTime)
 {
 	if (Renderer->IsCurAnimationEnd())
 	{
 		State.ChangeState("Traped");
+		return;
 	}
 
 	if (true == IsDevil)
@@ -466,6 +515,7 @@ void APlayer::Traped(float _DeltaTime)
 	if (Renderer->IsCurAnimationEnd())
 	{
 		State.ChangeState("TrapEnd");
+		return;
 	}
 	if (true == IsPress(VK_LEFT))
 	{
@@ -497,6 +547,7 @@ void APlayer::TrapEnd(float _DeltaTime)
 	if (Renderer->IsCurAnimationEnd())
 	{
 		State.ChangeState("Die");
+		return;
 	}
 	if (true == IsPress(VK_LEFT))
 	{
@@ -516,7 +567,7 @@ void APlayer::TrapEnd(float _DeltaTime)
 	}
 
 	// 바늘 사용하면
-	if (true == IsDown('2'))
+	if (true == IsDown('2') && NeedleCount > 0)
 	{
 		State.ChangeState("Revival");
 		return;
@@ -568,7 +619,7 @@ void APlayer::SetTrapState()
 	{
 		SetSupermanOff();
 		NoHit = true;
-		DelayCallBack(0.5f, [=]
+		DelayCallBack(0.7f, [=]
 			{
 				NoHit = false;
 			}
@@ -578,13 +629,7 @@ void APlayer::SetTrapState()
 
 	if (ERiding::None != Riding)
 	{
-		Riding = ERiding::None;
-		NoHit = true;
-		DelayCallBack(0.5f, [=]
-			{
-				NoHit = false;
-			}
-		);
+		State.ChangeState("RidingDown");
 		return;
 	}
 	

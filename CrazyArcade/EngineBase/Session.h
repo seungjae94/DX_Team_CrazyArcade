@@ -11,7 +11,7 @@ public:
 	// constrcuter destructer
 	USession();
 	USession(SOCKET Socket);
-	~USession();
+	virtual ~USession();
 
 	virtual void Create() = 0;
 	virtual void Bind(int _Port) = 0;
@@ -71,6 +71,8 @@ public:
 	{
 		TokenInit = true;
 	}
+
+	void End();
 
 protected:
 	SOCKET Socket = 0;

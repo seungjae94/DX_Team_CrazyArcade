@@ -19,7 +19,7 @@ UServerManager::UServerManager()
 
 UServerManager::~UServerManager()
 {
-	int a = 0;
+
 }
 
 

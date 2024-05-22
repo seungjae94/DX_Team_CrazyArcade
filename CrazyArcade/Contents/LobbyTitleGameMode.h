@@ -24,7 +24,6 @@ private:
 		std::string Name;
 		ECharacterType CharacterType;
 		ECharacterColor CharacterColor;
-		//ability, rank, ...etc.
 	};
 	std::vector<UserInfo> UserInfos;
 	UserInfo Player;

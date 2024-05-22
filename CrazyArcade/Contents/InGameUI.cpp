@@ -6,16 +6,13 @@
 #include "ServerManager.h"
 #include "Packets.h"
 
-
 AInGameUI::AInGameUI()
 {
-
 }
 
 AInGameUI::~AInGameUI()
 {
 }
-
 
 void AInGameUI::BeginPlay()
 {
@@ -233,10 +230,8 @@ void AInGameUI::PlayerUpdate()
 void AInGameUI::InitPlayerInfo()
 {
 	//
-
 	std::map<int, ConnectUserInfo> UserInfos = ConnectionInfo::GetInst().GetUserInfos();
 	std::map<int, bool>UserDeadCheck = FPlayerInfo::IsDeads;
-
 
 	//오더랑 이름 가져오기
 	for (std::pair<int, ConnectUserInfo> Iterator : UserInfos)
@@ -245,20 +240,15 @@ void AInGameUI::InitPlayerInfo()
 		//PlayerInfo[Iterator.first].IsDead = UserDeadCheck[Iterator.first];
 		//임시 작업용 코드 	
 
-
-
 		PlayerInfo[Iterator.first].PlayerName = Iterator.second.MyName;
-		//
-		int a = 0;
+		PlayerInfo[Iterator.first].PlayerType = Iterator.second.GetMyCharacterType();
+		PlayerInfo[Iterator.first].PlayerColor = Iterator.second.GetMyColorType();
 	}
-
 
 	for (std::pair<int, bool> Iterattor : UserDeadCheck)
 	{
 		PlayerInfo[Iterattor.first].IsDead = Iterattor.second;
 	}
-
-
 }
 
 

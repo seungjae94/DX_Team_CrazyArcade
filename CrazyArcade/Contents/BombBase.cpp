@@ -136,6 +136,16 @@ void ABombBase::StateInit()
 			{
 				Player->SetTrapState();
 			}
+
+			for (size_t i = 0; i < PlayLevel->GetMap()->OtherPlayer.size(); i++)
+			{
+				FVector OtherPos = PlayLevel->GetMap()->OtherPlayer[i]->GetActorLocation();
+				FPoint OtherPoint = AMapBase::ConvertLocationToPoint(OtherPos);
+				if (8 > Body->GetCurAnimationFrame() && OtherPoint == CurPoint)
+				{
+					PlayLevel->GetMap()->OtherPlayer[i]->SetTrapState();
+				}
+			}
 		}
 	);
 }
