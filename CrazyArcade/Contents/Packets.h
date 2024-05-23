@@ -291,6 +291,7 @@ public:
 		UEngineProtocol::Serialize(_Ser);
 		_Ser << IsMoveValue;
 		_Ser << MoveDir;
+		_Ser >> Pos;
 	}
 
 	void DeSerialize(UEngineSerializer& _Ser) override
@@ -298,11 +299,13 @@ public:
 		UEngineProtocol::DeSerialize(_Ser);
 		_Ser >> IsMoveValue;
 		_Ser >> MoveDir;
+		_Ser >> Pos;
 	}
 
 public:
 	bool IsMoveValue = false;
 	FVector MoveDir = {};
+	FVector Pos = {};
 };
 
 class UEndSession : public UEngineProtocol {
