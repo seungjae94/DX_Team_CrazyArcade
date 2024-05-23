@@ -30,15 +30,13 @@ void AMainPlayLevel::BeginPlay()
 	//UI
 	Timer = GetWorld()->SpawnActor<ATimerUI>("TimeUI");
 	Timer->SetTimer(180.0f);
-
-	
 }
 
 void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
 	
-	MapType = EMapType::Test;
+	MapType = EMapType::Village;
 	CreateMap();
 }
 
@@ -49,7 +47,7 @@ void AMainPlayLevel::CreateMap()
 	case EMapType::Village:
 		TileMap = GetWorld()->SpawnActor<AVillageMap>("VillageMap");
 		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
-		Player->SetActorLocation({ 398.0f, 344.0f, 0.0f });
+		Player->SetActorLocation(TileMap->GetPlayerStartPos(ConnectionInfo::GetInst().GetOrder()));
 		break;
 	case EMapType::Forest:
 		TileMap = GetWorld()->SpawnActor<AForestMap>("ForestMap");
