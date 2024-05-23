@@ -19,7 +19,6 @@ protected:
 private:
 	static bool Activeness;
 	static int MaxLength;
-	static bool ImeTickCalled;
 	static bool IgnoreCompositionResult;
 
 	static std::wstring WText;
@@ -32,14 +31,12 @@ private:
 
 	static void Init(HWND _hWnd);
 	static bool IsNative();
-	static void Tick(float _DeltaTime);
-	static void ImeTick(LPARAM _lParam);
+	static void ImeCompositionTick(LPARAM _lParam);
+	static void CharTick(WPARAM _wParam);
 	static void Release();
+	static void MergeCombLetter();
 
 private:
-	inline static float DeleteTimer = 0.0f;
-	inline const static float DeleteInterval = 0.075f;
-
 	// 객체 생성 금지
 	UEngineInputRecorder();
 	~UEngineInputRecorder();

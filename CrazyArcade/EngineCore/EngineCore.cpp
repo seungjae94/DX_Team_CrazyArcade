@@ -115,7 +115,6 @@ void UEngineCore::EngineFrameUpdate()
 	if (true == EngineWindow.IsFocus())
 	{
 		UEngineInput::KeyCheckTick(DeltaTime);
-		UEngineInputRecorder::Tick(DeltaTime);
 	}
 	else
 	{
