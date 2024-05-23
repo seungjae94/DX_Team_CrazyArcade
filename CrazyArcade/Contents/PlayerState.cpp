@@ -578,7 +578,8 @@ void APlayer::Trapped(float _DeltaTime)
 	// 부쉬 Hide
 	HideInBush();
 
-	if (true == PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this))
+	ECharacterColor ColPlayerColor = PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this);
+	if (ECharacterColor::None != ColPlayerColor && PlayerColor != ColPlayerColor)
 	{
 		State.ChangeState("Die");
 		return;
@@ -622,7 +623,8 @@ void APlayer::TrapEnd(float _DeltaTime)
 	// 부쉬 Hide
 	HideInBush();
 
-	if (true == PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this))
+	ECharacterColor ColPlayerColor = PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this);
+	if (ECharacterColor::None != ColPlayerColor	&& PlayerColor != ColPlayerColor)
 	{
 		State.ChangeState("Die");
 		return;
