@@ -57,6 +57,12 @@ private:
 
 	UImage* PlayerStateRender = nullptr;
 	UImage* NeedleRender = nullptr; // 원래는 아이템 벡터로 받을려고 했는데 시간상 그냥 아이템 하나 
+	UImage* NeedleRender2 = nullptr;
+
+	UImage* NeedleNum = nullptr;
+	UImage* NeedleNum2 = nullptr;
+	UImage* NeedleX = nullptr;
+
 
 	int ServerToken = 0;
 
@@ -78,6 +84,8 @@ private:
 	void PlayerStateCheck();
 
 	void ResultCheck();
+
+
 
 
 	//아이템 및 바늘

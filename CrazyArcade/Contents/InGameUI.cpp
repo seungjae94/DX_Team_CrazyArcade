@@ -73,6 +73,33 @@ void AInGameUI::BeginPlay()
 	NeedleRender->AddWidgetLocation({-140,-282});
 	NeedleRender->AddToViewPort(4);
 
+	NeedleRender2 = CreateWidget<UImage>(GetWorld(), "NeedleUI2");
+	NeedleRender2->SetSprite("spr_item_needle.png");
+	NeedleRender2->SetMulColor({ 1.0f,1.0f,1.0f,2.0f });
+	NeedleRender2->SetScale({ 40,40 });
+	NeedleRender2->AddWidgetLocation({ 294,-210 });
+	NeedleRender2->AddToViewPort(4);
+
+
+
+	NeedleNum = CreateWidget<UImage>(GetWorld(), "NeedleNum0");
+	NeedleNum->SetSprite("0.png");
+	NeedleNum->SetAutoSize(1.0f, true);
+	NeedleNum->AddWidgetLocation({ 352,-210 });
+	NeedleNum->AddToViewPort(4);
+
+	NeedleNum2 = CreateWidget<UImage>(GetWorld(), "NeedleNum0");
+	NeedleNum2->SetAutoSize(1.0f, true);
+	NeedleNum2->AddWidgetLocation({ 364,-210 });
+	NeedleNum2->AddToViewPort(4);
+
+	NeedleX = CreateWidget<UImage>(GetWorld(), "XUI");
+	NeedleX->SetSprite("X.png");
+	NeedleX->SetAutoSize(1.0f,true);
+	NeedleX->AddWidgetLocation({ 340,-210 });
+	NeedleX->AddToViewPort(4);
+
+
 
 	// Fade
 	{
@@ -445,6 +472,11 @@ void AInGameUI::NeedleCheck()
 {
 	
 	Needles = PlayerPtr->GetNeedleCount();
+	std::string TextNum = std::to_string(Needles);
+	NeedleNum2->SetSprite(TextNum + ".png");
+
+
+	
 	if (Needles == 0)
 	{
 		NeedleRender->SetMulColor({ 1.0f,1.0f,1.0f,0.5f }); //색상 변경해주는 느낌 
@@ -480,6 +512,9 @@ void AInGameUI::ResultCheck()
 			}
 		}
 	}	
+
+
+
 }
 
 
