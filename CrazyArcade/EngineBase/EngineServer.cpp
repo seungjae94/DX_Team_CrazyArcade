@@ -38,23 +38,14 @@ void UEngineServer::AcceptThreadFunction(UEngineServer* Server, SOCKET _AcceptSo
 
 		// 세션 토큰과 
 
-
-		if (Server->SessionSize() >= 7) {  //현재 인원이 다 찼는가?
-			USessionRejectPacket RejectPacket;
-			UEngineSerializer RejectSer = RejectPacket.GetSerialize();
-			NewSession->Send(RejectSer);
-			continue;
-		}
-
 		int InitToken = 0;
 
 
-		bool SessionArr[8] = { false, };
 		for (std::shared_ptr<USession> Session : Server->Sessions) {
-			SessionArr[Session->GetSessionToken()] = true;
+			Server->SessionArr[Session->GetSessionToken()] = true;
 		}
-		for (int SessionToken = 1; SessionToken < 8; ++SessionToken) {
-			if (false == SessionArr[SessionToken]) {
+		for (int SessionToken = 1; SessionToken < Server->SessionArr.size(); ++SessionToken) {
+			if (false == Server->SessionArr[SessionToken]) {
 				USessionTokenPacket NewPacket;
 				NewPacket.SetSessionToken(SessionToken);
 				NewPacket.SetObjectToken(SessionToken * 1000);
@@ -65,8 +56,8 @@ void UEngineServer::AcceptThreadFunction(UEngineServer* Server, SOCKET _AcceptSo
 			}
 		}
 
-		for (int i = 0; i < 8; ++i) {
-			SessionArr[i] = false;
+		for (int i = 0; i < Server->SessionArr.size(); ++i) {
+			Server->SessionArr[i] = false;
 		}
 
 

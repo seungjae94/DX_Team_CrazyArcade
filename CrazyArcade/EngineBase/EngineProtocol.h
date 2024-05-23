@@ -106,14 +106,5 @@ public:
 	}
 };
 
-class USessionRejectPacket : public UEngineProtocol
-{
-public:
-	USessionRejectPacket()
-	{
-		SetType(-4);
-	}
-};
-
 #define ProtocolHeader(EnumType, TypeName) \
 public: static const EnumType Type = EnumType##::##TypeName; public: U##TypeName##() { SetType(##EnumType##::##TypeName); }

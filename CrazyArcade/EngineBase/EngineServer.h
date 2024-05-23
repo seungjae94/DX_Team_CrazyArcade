@@ -49,6 +49,8 @@ public:
 	}
 
 	void SessionDestroy(USession* _Session);
+
+	std::vector<bool> SessionArr = { false, false, false, false, false, false, false, false, false, false, false, false, };
 protected:
 	void ServerOpen(int _Port, int _BackLog = 512) override;
 
