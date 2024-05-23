@@ -157,6 +157,12 @@ void AServerGameMode::HandlerInit()
 						Bomb->SetObjectToken(_Packet->GetObjectToken());
 						Bomb->PushProtocolAsync(_Packet);
 						Bomb->SetBombPower(_Packet->Power);
+
+						FEngineTimeStamp CurStamp = UEngineTime::GetCurTime();
+						float PacketDiff = CurStamp.TimeToFloat() - _Packet->SpawnTime;
+
+						int a = 0;
+
 						/*ABombBase* MyBomb;
 						ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, 0);
 						MyBomb->SetObjectToken(_Packet->GetObjectToken());
