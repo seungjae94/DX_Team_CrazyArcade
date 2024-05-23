@@ -40,6 +40,7 @@ APlayer::~APlayer()
 
 void APlayer::BeginPlay()
 {
+
 	Super::BeginPlay();
 
 	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
