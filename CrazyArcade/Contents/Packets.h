@@ -291,7 +291,7 @@ public:
 		UEngineProtocol::Serialize(_Ser);
 		_Ser << IsMoveValue;
 		_Ser << MoveDir;
-		_Ser >> Pos;
+		_Ser << Pos;
 	}
 
 	void DeSerialize(UEngineSerializer& _Ser) override
