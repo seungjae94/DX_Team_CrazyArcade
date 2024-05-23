@@ -184,6 +184,13 @@ void AInGameUI::LevelStart(ULevel* _PrevLevel)
 	PlayerLevelPtr = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
 	PlayerPtr = PlayerLevelPtr->GetPlayer();
 	Needles = PlayerPtr->GetNeedleCount();
+	
+	for (int i = 0; i < PlayerInfo.size(); i++)
+	{
+		PlayerInfo[i].IsChange = false;
+		std::string AnimName = StateToAnimName(PlayerInfo[i].PlayerType, PlayerInfo[i].PlayerColor, false);
+		PlayerUI[i]->ChangeAnimation(AnimName);
+	}
 }
 
 void AInGameUI::LevelEnd(ULevel* _NextLevel)
@@ -232,11 +239,12 @@ void AInGameUI::Tick(float _DeltaTIme)
 
 	for (int i = 0; i < PlayerInfo.size(); i++)
 	{
+		
 		if (PlayerInfo[i].IsDead == true && PlayerInfo[i].IsChange == false)
 		{
 			std::string AnimName = StateToAnimName(PlayerInfo[i].PlayerType, PlayerInfo[i].PlayerColor, PlayerInfo[i].IsDead);
 			PlayerUI[i]->ChangeAnimation(AnimName);
-			PlayerInfo[i].IsChange = true;
+			PlayerInfo[i].IsChange = true; 
 		}	//
 	}
 	//¹Ù´Ã °¹¼ö °¡Á®¿ÔÀ½ 
@@ -402,11 +410,11 @@ std::string AInGameUI::ColorToName(ECharacterColor _Color)
 
 void AInGameUI::DeadCheck()
 {
-	std::map<int, bool>UserDeadCheck = FPlayerInfo::IsDeads;
+	std::map<int, ConnectUserInfo> Info = ConnectionInfo::GetInst().GetUserInfos();
 	
-	for (std::pair<int, bool> Iterattor : UserDeadCheck)
+	for (std::pair<int, ConnectUserInfo> Iterator : Info)
 	{
-		PlayerInfo[Iterattor.first].IsDead = Iterattor.second;
+		PlayerInfo[Iterator.first].IsDead = Iterator.second.GetIsDead();
 
 	}
 }

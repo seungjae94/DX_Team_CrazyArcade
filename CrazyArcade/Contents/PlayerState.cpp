@@ -195,7 +195,7 @@ void APlayer::StateInit()
 		});
 
 	// 시작 상태
-	State.ChangeState("Win");
+	State.ChangeState("Ready");
 }
 
 void APlayer::Ready(float _DeltaTime)
@@ -602,9 +602,16 @@ void APlayer::Trapped(float _DeltaTime)
 	// 부쉬 Hide
 	HideInBush();
 
-	if (true == PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this))
+	ECharacterColor ColPlayerColor = PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this);
+	if (ECharacterColor::None != ColPlayerColor && PlayerColor != ColPlayerColor)
 	{
 		State.ChangeState("Die");
+		return;
+	}
+	
+	if (ECharacterColor::None != ColPlayerColor && PlayerColor == ColPlayerColor)
+	{
+		State.ChangeState("Revival");
 		return;
 	}
 
@@ -650,9 +657,16 @@ void APlayer::TrapEnd(float _DeltaTime)
 	// 부쉬 Hide
 	HideInBush();
 
-	if (true == PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this))
+	ECharacterColor ColPlayerColor = PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this);
+	if (ECharacterColor::None != ColPlayerColor	&& PlayerColor != ColPlayerColor)
 	{
 		State.ChangeState("Die");
+		return;
+	}
+
+	if (ECharacterColor::None != ColPlayerColor && PlayerColor == ColPlayerColor)
+	{
+		State.ChangeState("Revival");
 		return;
 	}
 
