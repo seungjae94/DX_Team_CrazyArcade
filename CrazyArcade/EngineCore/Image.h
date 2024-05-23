@@ -89,6 +89,11 @@ public:
 		VertexUVValue.PlusUV = _UVPlus;
 	}
 
+	inline void AnimationReset()
+	{
+		CurAnimation = nullptr;
+	}
+
 protected:
 	void MaterialSettingEnd() override;
 	void Tick(float _DetaTime) override;

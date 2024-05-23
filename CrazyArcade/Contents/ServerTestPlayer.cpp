@@ -12,6 +12,8 @@
 ServerTestPlayer::ServerTestPlayer()
 	:APlayer()
 {
+	ArrowRenderer = CreateDefaultSubObject<USpriteRenderer>("ArrowRenderer");
+	ArrowRenderer->SetupAttachment(DefaultComponent);
 }
 
 ServerTestPlayer::~ServerTestPlayer()
@@ -21,6 +23,11 @@ ServerTestPlayer::~ServerTestPlayer()
 void ServerTestPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+
+	ArrowRenderer->SetSprite("Arrow.png");
+	ArrowRenderer->SetAutoSize(1.0f, true);
+	ArrowRenderer->SetOrder(9999);
+	ArrowRenderer->SetPosition({ 0.0f, 72.0f,0.0f });
 }
 
 void ServerTestPlayer::Tick(float _DeltaTime)
@@ -64,8 +71,6 @@ void ServerTestPlayer::Tick(float _DeltaTime)
 
 	if (false == IsDeadPacketSend && true == IsDead)
 	{
-		
-
 		// 패킷 보내기
 		std::shared_ptr<UDeadUpdatePacket> Packet = std::make_shared<UDeadUpdatePacket>();
 		Packet->Order = ConnectionInfo::GetInst().GetOrder();
@@ -77,6 +82,8 @@ void ServerTestPlayer::Tick(float _DeltaTime)
 		ConnectionInfo::GetInst().TeamCount();
 		ECharacterColor Win = ConnectionInfo::GetInst().WinCheck();
 		ConnectionInfo::GetInst().SetWins(Win);
+
+		ArrowRenderer->SetActive(false);
 	}
 }
 

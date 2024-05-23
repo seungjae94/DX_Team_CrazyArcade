@@ -20,9 +20,6 @@ APlayer::APlayer()
 	ShadowRenderer = CreateDefaultSubObject<USpriteRenderer>("ShadowRenderer");
 	ShadowRenderer->SetupAttachment(DefaultComponent);
 
-	ArrowRenderer = CreateDefaultSubObject<USpriteRenderer>("DebugRenderer");
-	ArrowRenderer->SetupAttachment(DefaultComponent);
-
 	MPlayerItem.insert(std::pair(EItemType::Bubble, 0));
 	MPlayerItem.insert(std::pair(EItemType::Fluid, 0));
 	MPlayerItem.insert(std::pair(EItemType::Ultra, 0));
@@ -80,11 +77,6 @@ void APlayer::BeginPlay()
 	ShadowRenderer->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.7f });
 	ShadowRenderer->SetOrder(ERenderOrder::Shadow);
 	ShadowRenderer->SetPosition({ 0.0f, -BlockSize / 4.0f });
-
-	ArrowRenderer->SetSprite("Arrow.png");
-	ArrowRenderer->SetAutoSize(1.0f, true);
-	ArrowRenderer->SetOrder(9999);
-	ArrowRenderer->SetPosition({ 0.0f, 72.0f,0.0f });
 
 	StateInit();
 

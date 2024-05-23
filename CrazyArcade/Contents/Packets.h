@@ -96,7 +96,7 @@ public:
 	float4 Pos = float4::Zero;
 	int SpawnSelect = 0;
 	float SpawnTime = 0.0f;
-	int Power;
+	int Power = 0;
 };
 
 class UConnectPacket : public UEngineProtocol {
