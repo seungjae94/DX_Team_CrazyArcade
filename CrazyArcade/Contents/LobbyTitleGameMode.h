@@ -24,6 +24,7 @@ private:
 		std::string Name;
 		ECharacterType CharacterType;
 		ECharacterColor CharacterColor;
+		bool IsReady;
 	};
 	std::vector<UserInfo> UserInfos;
 	UserInfo Player;
@@ -82,7 +83,7 @@ private:
 
 	// GameStart
 	UImage* Btn_GameStart = nullptr;
-	UImage* Btn_GameStart_InActive = nullptr;
+	//UImage* Btn_GameStart_InActive = nullptr;
 
 	// MapSelect
 	UImage* Btn_MapSelect = nullptr;
@@ -100,6 +101,7 @@ private:
 	std::vector<UImage*> Characters_Space;
 	std::vector<UImage*> Flags_Space;
 	std::vector<UImage*> Shadows_Space;
+	std::vector<UImage*> Readys_Space;
 	std::vector<UTextWidget*> Usernames_Space;
 
 	// CharacterSelect
@@ -151,7 +153,9 @@ private:
 	void SettingCharacterSelect(ECharacterType _CharacterType);
 	void SettingColorSelect(ECharacterColor _CharacterColor);
 	void SettingName(int _SpaceIndex);
+	void SettingReady(int _SpaceIndex);
 	void SettingCharacterImage(int _SpaceIndex);
 	void ChangeCharacter(ECharacterType _CharacterType);
 	void ChangeColor(ECharacterColor _CharacterColor);
+	void ChangeReady(bool _IsReady);
 };
