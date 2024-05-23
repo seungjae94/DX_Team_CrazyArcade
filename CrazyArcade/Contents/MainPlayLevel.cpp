@@ -40,7 +40,6 @@ void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 	
 	MapType = EMapType::Test;
 	CreateMap();
-	//InGameUI->
 }
 
 void AMainPlayLevel::CreateMap()

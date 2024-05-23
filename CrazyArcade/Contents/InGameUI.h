@@ -2,7 +2,6 @@
 #include"ConnectionInfo.h"
 
 class APlayer;
-class ServerTestPlayer;
 class AMainPlayLevel;
 class AInGameUI : public AActor
 {
@@ -83,7 +82,7 @@ private:
 	//아이템 및 바늘
 	int Needles = 0;
 	AMainPlayLevel* PlayerLevelPtr = nullptr;
-	std::shared_ptr<ServerTestPlayer> PlayerPtr = nullptr;
+	std::shared_ptr<APlayer> PlayerPtr = nullptr;
 	bool PlayerDeadAct;
 	
 
