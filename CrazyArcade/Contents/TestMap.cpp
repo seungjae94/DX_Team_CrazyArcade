@@ -17,6 +17,8 @@ void TestMap::BeginPlay()
 
 	SetBackGround(MapImgRes::village_background);
 	SetMapInfoSize(15, 13);
+
+	PushPlayerStartPoint({ 2,  6 });
 }
 
 void TestMap::Tick(float _DeltaTime)

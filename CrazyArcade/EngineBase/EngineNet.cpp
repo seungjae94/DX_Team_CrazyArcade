@@ -5,6 +5,7 @@
 #include "EngineClient.h"
 #include "EngineDebug.h"
 #include "EngineProtocol.h"
+#include "EngineServer.h"
 
 UEngineNet::UEngineNet()
 {
@@ -92,10 +93,15 @@ void UEngineNet::RecvThreadFunction(USession* _Session, UEngineNet* _Net)
 
 
 		if (Protocol.GetPacketType() == -3) {
-			if(Protocol.GetSessionToken() == _Session->GetSessionToken())
-			_Session->End();
-		}
+			if (Protocol.GetSessionToken() == _Session->GetSessionToken())
+				_Session->End();
 
+			if (false == IsClient) {
+				if (UEngineServer* Server = dynamic_cast<UEngineServer*>(_Net)) {
+					Server->SessionDestroy(_Session);
+				}
+			}
+		}
 
 
 		Ser.AddReadOffset(-16);

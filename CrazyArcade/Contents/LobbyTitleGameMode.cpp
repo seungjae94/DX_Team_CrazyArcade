@@ -1545,25 +1545,7 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 		std::shared_ptr<UConnectPacket> Packet = std::make_shared<UConnectPacket>();
 		std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
 
-		std::map<int, std::string> NameInfos;
-		std::map<int, int> CharacterTypeInfos;
-		std::map<int, int> ColorInfos;
-		std::map<int, bool> ExistInfos;
-
-		for (std::pair<const int, ConnectUserInfo> Pair : Infos)
-		{
-			int Key = Pair.first;
-			NameInfos[Key] = Pair.second.MyName;
-			CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
-			ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
-			ExistInfos[Key] = Pair.second.GetIsExist();
-		}
-
-		Packet->NameInfos = NameInfos;
-		Packet->CharacterTypeInfos = CharacterTypeInfos;
-		Packet->ColorInfos = ColorInfos;
-		Packet->ExistInfos = ExistInfos;
-
+		Packet->Infos = Infos;
 		UCrazyArcadeCore::NetManager.Send(Packet);
 	}
 }
@@ -1582,25 +1564,7 @@ void ALobbyTitleGameMode::ChangeColor(ECharacterColor _CharacterColor)
 		std::shared_ptr<UConnectPacket> Packet = std::make_shared<UConnectPacket>();
 		std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
 
-		std::map<int, std::string> NameInfos;
-		std::map<int, int> CharacterTypeInfos;
-		std::map<int, int> ColorInfos;
-		std::map<int, bool> ExistInfos;
-
-		for (std::pair<const int, ConnectUserInfo> Pair : Infos)
-		{
-			int Key = Pair.first;
-			NameInfos[Key] = Pair.second.MyName;
-			CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
-			ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
-			ExistInfos[Key] = Pair.second.GetIsExist();
-		}
-
-		Packet->NameInfos = NameInfos;
-		Packet->CharacterTypeInfos = CharacterTypeInfos;
-		Packet->ColorInfos = ColorInfos;
-		Packet->ExistInfos = ExistInfos;
-
+		Packet->Infos = Infos;
 		UCrazyArcadeCore::NetManager.Send(Packet);
 	}
 }
@@ -1666,25 +1630,7 @@ void ALobbyTitleGameMode::GameStart()
 			std::shared_ptr<UConnectPacket> Packet = std::make_shared<UConnectPacket>();
 			std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
 
-			std::map<int, std::string> NameInfos;
-			std::map<int, int> CharacterTypeInfos;
-			std::map<int, int> ColorInfos;
-			std::map<int, bool> ExistInfos;
-
-			for (std::pair<const int, ConnectUserInfo> Pair : Infos)
-			{
-				int Key = Pair.first;
-				NameInfos[Key] = Pair.second.MyName;
-				CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
-				ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
-				ExistInfos[Key] = Pair.second.GetIsExist();
-			}
-
-			Packet->NameInfos = NameInfos;
-			Packet->CharacterTypeInfos = CharacterTypeInfos;
-			Packet->ColorInfos = ColorInfos;
-			Packet->ExistInfos = ExistInfos;
-
+			Packet->Infos = Infos;
 			UCrazyArcadeCore::Net->Send(Packet);
 		}
 
@@ -1696,6 +1642,18 @@ void ALobbyTitleGameMode::GameStart()
 			UCrazyArcadeCore::NetManager.Send(Packet);
 			return;
 		}
+
+		/* {
+			// ReadyUpdate Packet
+			// 자신의 Infos 업데이트
+			//ConnectionInfo::GetInst().SetMyIsReady(IsReady);
+			// 패킷 보내기
+			std::shared_ptr<UReadyUpdatePacket> Packet = std::make_shared<UReadyUpdatePacket>();
+			Packet->Order = ConnectionInfo::GetInst().GetOrder();
+			Packet->ReadyValue = IsReady;
+			UCrazyArcadeCore::Net->Send(Packet);
+		}
+		*/
 	}
 }
 

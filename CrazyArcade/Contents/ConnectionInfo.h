@@ -44,11 +44,21 @@ public:
 		return IsExist;
 	}
 
+	void SetIsReady(bool _IsReady)
+	{
+		IsReady = _IsReady;
+	}
+	bool GetIsReady()
+	{
+		return IsReady;
+	}
+
 private:
 	int MyCharacterType = 0;
 	int MyColorType = 0;
 	bool IsDead = false;
 	bool IsExist = false;
+	bool IsReady = false;
 	//ECharacterType MyCharacterType = ECharacterType::None;
 	//ECharacterColor MyColorType = ECharacterColor::None;
 };
@@ -103,6 +113,15 @@ public:
 	ECharacterColor GetCharacterColor()
 	{
 		return UserInfos[MyOrder].GetMyColorType();
+	}
+
+	void SetMyIsReady(bool _IsReady)
+	{
+		UserInfos[MyOrder].SetIsReady(_IsReady);
+	}
+	bool GetMyIsReady()
+	{
+		return UserInfos[MyOrder].GetIsReady();
 	}
 
 	void SetEmpty(int _Order) 

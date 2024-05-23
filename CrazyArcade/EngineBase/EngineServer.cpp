@@ -4,6 +4,7 @@
 #include "EngineProtocol.h"
 #include "NetObject.h"
 #include "list"
+#include "Session.h"
 
 UEngineServer::UEngineServer()
 {
@@ -33,7 +34,6 @@ void UEngineServer::AcceptThreadFunction(UEngineServer* Server, SOCKET _AcceptSo
 
 		// 토큰의 생성은 가장 쉬운게 서버에요.
 		// 서버가 다 담당할 겁니다.
-		int SessionToken = USession::GetNewSessionToken();
 
 
 		// 세션 토큰과 
@@ -46,24 +46,53 @@ void UEngineServer::AcceptThreadFunction(UEngineServer* Server, SOCKET _AcceptSo
 			continue;
 		}
 
-		//for(Server->SessionSize())
+		int InitToken = 0;
 
-		USessionTokenPacket NewPacket;
-		NewPacket.SetSessionToken(SessionToken);
-		NewPacket.SetObjectToken(SessionToken * 1000);
-		UEngineSerializer Ser = NewPacket.GetSerialize();
-		NewSession->Send(Ser);
+
+		bool SessionArr[8] = { false, };
+		for (std::shared_ptr<USession> Session : Server->Sessions) {
+			SessionArr[Session->GetSessionToken()] = true;
+		}
+		for (int SessionToken = 1; SessionToken < 8; ++SessionToken) {
+			if (false == SessionArr[SessionToken]) {
+				USessionTokenPacket NewPacket;
+				NewPacket.SetSessionToken(SessionToken);
+				NewPacket.SetObjectToken(SessionToken * 1000);
+				UEngineSerializer Ser = NewPacket.GetSerialize();
+				NewSession->Send(Ser);
+				InitToken = SessionToken;
+				break;
+			}
+		}
+
+		for (int i = 0; i < 8; ++i) {
+			SessionArr[i] = false;
+		}
+
 
 		// 클라이언트 1명의 리시브쓰레드를 만들었으니 상대가 응답했다면
 		// 그녀석은 이제 준비가 된거다.
 		// 티키타가를 잘이해해야 한다.
 		std::shared_ptr<UEngineThread> ClientRecvThread = std::make_shared<UEngineThread>();
-		ClientRecvThread->SetName("Server Recv Thread " + std::to_string(SessionToken));
+		ClientRecvThread->SetName("Server Recv Thread " + std::to_string(InitToken));
 		ClientRecvThread->Start(std::bind(UEngineNet::RecvThreadFunction, NewSession.get(), Server));
 
 		Server->SessionRecvs.push_back(ClientRecvThread);
 		Server->Sessions.push_back(NewSession);
 
+	}
+}
+
+void UEngineServer::SessionDestroy(USession* _Session) {
+	std::vector<std::shared_ptr<USession>> RemoveSessions;
+	for (std::shared_ptr<USession> Session : Sessions) {
+		if (Session.get() == _Session) {
+			RemoveSessions.push_back(Session);
+		}
+	}
+	int Size =  static_cast<int>(RemoveSessions.size());
+	for (int i = 0; i < Size; ++i) {
+		Sessions.remove(RemoveSessions[i]);
 	}
 }
 

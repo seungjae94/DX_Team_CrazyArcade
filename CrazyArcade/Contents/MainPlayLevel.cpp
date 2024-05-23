@@ -30,15 +30,13 @@ void AMainPlayLevel::BeginPlay()
 	//UI
 	Timer = GetWorld()->SpawnActor<ATimerUI>("TimeUI");
 	Timer->SetTimer(180.0f);
-
-	
 }
 
 void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
 	
-	MapType = EMapType::Pirate02;
+	MapType = EMapType::Village;
 	CreateMap();
 }
 
@@ -49,29 +47,26 @@ void AMainPlayLevel::CreateMap()
 	case EMapType::Village:
 		TileMap = GetWorld()->SpawnActor<AVillageMap>("VillageMap");
 		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
-		Player->SetActorLocation({ 398.0f, 344.0f, 0.0f });
 		break;
 	case EMapType::Forest:
 		TileMap = GetWorld()->SpawnActor<AForestMap>("ForestMap");
 		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
-		Player->SetActorLocation({ 238.0f, 344.0f, 0.0f });
 		break;
 	case EMapType::Pirate:
 		TileMap = GetWorld()->SpawnActor<APirateMap>("PirateMap");
 		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
-		Player->SetActorLocation({ 520.0f, 100.0f, 0.0f });
 		break;
 	case EMapType::Pirate02:
 		TileMap = GetWorld()->SpawnActor<APirateMap02>("PirateMap02");
 		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
-		Player->SetActorLocation({ 320.0f, 100.0f, 0.0f });
 		break;
 	case EMapType::Test:
 		TileMap = GetWorld()->SpawnActor<TestMap>("TestMap");
 		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
-		Player->SetActorLocation(AMapBase::ConvertPointToLocation({ 2, 6 }));
 		break;
 	}
+
+	Player->SetActorLocation(TileMap->GetPlayerStartPos(ConnectionInfo::GetInst().GetOrder()));
 
 	if (nullptr == InGameUI)
 	{
