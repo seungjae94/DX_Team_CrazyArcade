@@ -296,7 +296,7 @@ void UServerManager::ClientInit()  //한 번만 실행되는 함수
 		ConnectionInfo::GetInst().SetOrder(UCrazyArcadeCore::Net->GetSessionToken());
 		std::shared_ptr<UConnectInitPacket> InitPacket = std::make_shared<UConnectInitPacket>();
 		InitPacket->Session = UCrazyArcadeCore::Net->GetSessionToken();
-		InitPacket->Name = ConnectionInfo::GetInst().GetMyName();
+		InitPacket->Name = ConnectionInfo::GetInst().GetTempName();
 		Send(InitPacket);
 		ClientBool = true;
 		AddHandlerFunction();
