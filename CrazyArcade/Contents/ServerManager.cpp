@@ -120,20 +120,22 @@ void UServerManager::ServerOpen()
 				{
 					int a = _Packet->GetSessionToken();
 					UCrazyArcadeCore::Net->Send(_Packet);
-					APlayer* OtherPlayer = dynamic_cast<APlayer*>(AllNetObject[_Packet->GetSessionToken() * 1000]);
-					if (OtherPlayer != nullptr) {
-						{
-							AMainPlayLevel* PlayLevel = dynamic_cast<AMainPlayLevel*>(OtherPlayer->GetWorld()->GetGameMode().get());
-							PlayLevel->GetMap()->PlayerDelete(OtherPlayer);
+					if (true == IsNetObject(_Packet->GetSessionToken() * 1000)) {
+						APlayer* OtherPlayer = dynamic_cast<APlayer*>(AllNetObject[_Packet->GetSessionToken() * 1000]);
+						if (OtherPlayer != nullptr) {
+							{
+								AMainPlayLevel* PlayLevel = dynamic_cast<AMainPlayLevel*>(OtherPlayer->GetWorld()->GetGameMode().get());
+								if (nullptr != PlayLevel->GetMap())
+								{
+									PlayLevel->GetMap()->PlayerDelete(OtherPlayer);
+								}
+							}
+							OtherPlayer->Destroy();
 						}
-
-						OtherPlayer->Destroy();
 					}
 					ConnectionInfo::GetInst().SetEmpty(_Packet->GetSessionToken());
 				});
 		});
-
-
 }
 
 void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
@@ -199,17 +201,18 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 		{
 			PushUpdate([=]()
 				{
-					int a = _Packet->GetSessionToken();
-					APlayer* OtherPlayer = dynamic_cast<APlayer*>(AllNetObject[_Packet->GetSessionToken() * 1000]);
-					if (OtherPlayer != nullptr) {
-						{
-							AMainPlayLevel* PlayLevel = dynamic_cast<AMainPlayLevel*>(OtherPlayer->GetWorld()->GetGameMode().get());
-							if (nullptr != PlayLevel->GetMap())
+					if (true == IsNetObject(_Packet->GetSessionToken() * 1000)) {
+						APlayer* OtherPlayer = dynamic_cast<APlayer*>(AllNetObject[_Packet->GetSessionToken() * 1000]);
+						if (OtherPlayer != nullptr) {
 							{
-								PlayLevel->GetMap()->PlayerDelete(OtherPlayer);
+								AMainPlayLevel* PlayLevel = dynamic_cast<AMainPlayLevel*>(OtherPlayer->GetWorld()->GetGameMode().get());
+								if (nullptr != PlayLevel->GetMap())
+								{
+									PlayLevel->GetMap()->PlayerDelete(OtherPlayer);
+								}
 							}
+							OtherPlayer->Destroy();
 						}
-						OtherPlayer->Destroy();
 					}
 					ConnectionInfo::GetInst().SetEmpty(_Packet->GetSessionToken());
 				});
@@ -279,9 +282,9 @@ void UServerManager::ClientInit()  //한 번만 실행되는 함수
 		std::shared_ptr<UConnectInitPacket> InitPacket = std::make_shared<UConnectInitPacket>();
 		InitPacket->Session = UCrazyArcadeCore::Net->GetSessionToken();
 		InitPacket->Name = ConnectionInfo::GetInst().GetTempName();
+		AddHandlerFunction();
 		Send(InitPacket);
 		ClientBool = true;
-		AddHandlerFunction();
 	}
 }
 
