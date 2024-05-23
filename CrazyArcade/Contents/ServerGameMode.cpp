@@ -38,6 +38,8 @@ void AServerGameMode::Tick(float _DeltaTime)
 	Super::Tick(_DeltaTime);
 	UNetObject::AllNetObject;
 	int a = 0;
+
+	CheckGame(_DeltaTime);
 }
 
 void AServerGameMode::LevelStart(ULevel* _PrevLevel)
@@ -161,6 +163,10 @@ void AServerGameMode::HandlerInit()
 						Bomb->PushProtocolAsync(_Packet);
 						Bomb->SetBombPower(_Packet->Power);
 
+						FEngineTimeStamp CurStamp = UEngineTime::GetCurTime();
+						float PacketDiff = CurStamp.TimeToFloat() - _Packet->SpawnTime;
+
+						int a = 0;
 
 						/*ABombBase* MyBomb;
 						ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, 0);
@@ -194,4 +200,35 @@ void AServerGameMode::HandlerInit()
 void AServerGameMode::LevelEnd(ULevel* _NextLevel)
 {
 	Super::LevelEnd(_NextLevel);
+}
+
+void AServerGameMode::CheckGame(float _DeltaTime)
+{
+	bool WinResult = false;
+	ECharacterColor WinTeam = ConnectionInfo::GetInst().GetWins();
+	switch (WinTeam)
+	{
+	case ECharacterColor::Red:
+		WinResult = true;
+		break;
+	case ECharacterColor::Blue:
+		WinResult = true;
+		break;
+	case ECharacterColor::None:
+		WinResult = false;
+		break;
+	}
+	if (true == WinResult)
+	{
+		CurWinTime += _DeltaTime;
+	}
+	if (CurWinTime >= WinTime && ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+	{
+		std::shared_ptr<UChangeLevelPacket> Packet = std::make_shared<UChangeLevelPacket>();
+		GEngine->ChangeLevel("LobbyTitleTestLevel");
+		Packet->LevelName = "LobbyTitleTestLevel";
+		UCrazyArcadeCore::NetManager.Send(Packet);
+		CurWinTime = 0.0f;
+		return;
+	}
 }
