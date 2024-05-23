@@ -35,11 +35,6 @@ public:
 		return Player;
 	}
 
-	inline void SetPlayer(std::shared_ptr<APlayer> _Player)
-	{
-		Player = _Player;
-	}
-
 	inline void SetMapType(EMapType _MapType)
 	{
 		MapType = _MapType;

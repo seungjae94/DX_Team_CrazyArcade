@@ -86,6 +86,7 @@ private:
 
 	// MapSelect
 	UImage* Btn_MapSelect = nullptr;
+	UImage* Btn_MapSelect_InActive = nullptr;
 	UImage* BackGround_MapSelect = nullptr;
 	UImage* Btn_MapSelectAccept = nullptr;
 	UImage* Btn_MapSelectCancel = nullptr;

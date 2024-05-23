@@ -2,8 +2,6 @@
 #include "VillageMap.h"
 #include "MapConstant.h"
 
-#include "Box.h"
-
 AVillageMap::AVillageMap()
 {
 }
