@@ -19,12 +19,6 @@
     <Filter Include="Map">
       <UniqueIdentifier>{2725ac91-1a32-4115-a2cc-1f86e74e3738}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level\PlayLevel">
-      <UniqueIdentifier>{44ade195-7278-4b24-a3f2-bb726807fefe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Level\PlayLevel\Actor">
-      <UniqueIdentifier>{17b123cd-df90-46dd-bb13-1c5c23e00591}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Option">
       <UniqueIdentifier>{e28f2a8c-94dc-4617-9504-5df354edf536}</UniqueIdentifier>
     </Filter>
@@ -36,9 +30,6 @@
     </Filter>
     <Filter Include="Map\Block">
       <UniqueIdentifier>{72f176bb-3c05-4479-9e5f-62c8628c17a8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Level\PlayLevel\Actor\Player">
-      <UniqueIdentifier>{2d6be738-09f5-486b-8f7f-cc89e70a8824}</UniqueIdentifier>
     </Filter>
     <Filter Include="Debug">
       <UniqueIdentifier>{a04418e5-d48f-42b4-9fbf-a320400c0254}</UniqueIdentifier>
@@ -81,6 +72,9 @@
     </Filter>
     <Filter Include="Level\IntroLevel\Object">
       <UniqueIdentifier>{36a5c6a8-1736-4725-9338-0e0028329614}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{2d6be738-09f5-486b-8f7f-cc89e70a8824}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -130,7 +124,7 @@
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Level\PlayLevel\Actor\Player</Filter>
+      <Filter>Player</Filter>
     </ClInclude>
     <ClInclude Include="Wall.h">
       <Filter>Map\Block</Filter>

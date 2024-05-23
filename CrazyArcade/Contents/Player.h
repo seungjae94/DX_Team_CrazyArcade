@@ -122,7 +122,7 @@ protected:
 	USpriteRenderer* Renderer;
 	USpriteRenderer* ShadowRenderer;
 	
-	ECharacterType CharacterType;
+	ECharacterType CharacterType = ECharacterType::None;
 	void SetCharacterType(ECharacterType _Character);
 	void SetPlayerColor(ECharacterColor _Color);
 
