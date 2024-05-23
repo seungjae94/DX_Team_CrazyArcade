@@ -90,6 +90,11 @@ void AMapBase::LevelEnd(ULevel* _NextLevel)
 
 	for (size_t i = 0; i < AllPlayer.size(); i++)
 	{
+		if (PlayLevel->GetPlayer().get() == AllPlayer[i])
+		{
+			continue;
+		}
+
 		AllPlayer[i]->Destroy();
 		AllPlayer[i] = nullptr;
 	}
