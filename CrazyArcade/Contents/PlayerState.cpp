@@ -608,6 +608,12 @@ void APlayer::Trapped(float _DeltaTime)
 		State.ChangeState("Die");
 		return;
 	}
+	
+	if (ECharacterColor::None != ColPlayerColor && PlayerColor == ColPlayerColor)
+	{
+		State.ChangeState("Revival");
+		return;
+	}
 
 	// 바늘 사용하면
 	if (true == IsDown('2') && NeedleCount > 0)
@@ -655,6 +661,12 @@ void APlayer::TrapEnd(float _DeltaTime)
 	if (ECharacterColor::None != ColPlayerColor	&& PlayerColor != ColPlayerColor)
 	{
 		State.ChangeState("Die");
+		return;
+	}
+
+	if (ECharacterColor::None != ColPlayerColor && PlayerColor == ColPlayerColor)
+	{
+		State.ChangeState("Revival");
 		return;
 	}
 
