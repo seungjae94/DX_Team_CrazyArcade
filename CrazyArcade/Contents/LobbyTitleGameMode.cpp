@@ -1068,6 +1068,13 @@ void ALobbyTitleGameMode::ChatUpdate()
 			}
 
 			ChatInputText->SetText("");
+
+			{
+				std::shared_ptr<UCheatingPacket> Packet = std::make_shared<UCheatingPacket>();
+				Packet->Cheating = ChatTexts.back()->GetText();
+				UCrazyArcadeCore::Net->Send(Packet);
+			}
+
 			return;
 		}
 
@@ -1542,7 +1549,16 @@ void ALobbyTitleGameMode::HandlerInit()
 			GetWorld()->PushFunction([=]()
 				{
 					UCrazyArcadeCore::Net->Send(_Packet);
-					std::string_view a =  _Packet->Cheating;
+					
+					UTextWidget* ChatText = CreateWidget<UTextWidget>(GetWorld(), "ChatText");
+					ChatText->AddToViewPort(4);
+					ChatText->SetScale(12.0f);
+					ChatText->SetWidgetLocation({ -370.0f, -195.0f });
+					ChatText->SetFont("±¼¸²");
+					ChatText->SetColor(Color8Bit::White);
+					ChatText->SetFlag(FW1_LEFT);
+					ChatText->SetText(_Packet->Cheating);
+					ChatTexts.push_back(ChatText);
 				});
 		});
 	}
@@ -1552,7 +1568,15 @@ void ALobbyTitleGameMode::HandlerInit()
 			{
 				GetWorld()->PushFunction([=]()
 					{
-						std::string_view a = _Packet->Cheating;
+						UTextWidget* ChatText = CreateWidget<UTextWidget>(GetWorld(), "ChatText");
+						ChatText->AddToViewPort(4);
+						ChatText->SetScale(12.0f);
+						ChatText->SetWidgetLocation({ -370.0f, -195.0f });
+						ChatText->SetFont("±¼¸²");
+						ChatText->SetColor(Color8Bit::White);
+						ChatText->SetFlag(FW1_LEFT);
+						ChatText->SetText(_Packet->Cheating);
+						ChatTexts.push_back(ChatText);
 					});
 			});
 	}

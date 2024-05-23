@@ -214,9 +214,9 @@ bool AMapBase::IsBushPos(const FVector& _Pos, bool _IsInBush)
 }
 
 // 다른 플레이어와 충돌시 true 반환
-bool AMapBase::IsColOtherPlayer(const FVector& _Pos, APlayer* _Player)
+ECharacterColor AMapBase::IsColOtherPlayer(const FVector& _Pos, APlayer* _Player)
 {
-	bool Result = false;
+	ECharacterColor Color = ECharacterColor::None;
 	FVector CurPos = _Pos;
 
 	for (size_t i = 0; i < AllPlayer.size(); i++)
@@ -233,11 +233,11 @@ bool AMapBase::IsColOtherPlayer(const FVector& _Pos, APlayer* _Player)
 
 		if (20.0f > DiffLen)
 		{
-			Result = true;
+			Color = AllPlayer[i]->GetPlayerColor();
 		}
 	}
 
-	return Result;
+	return Color;
 }
 
 // 해당 위치 Tile의 ItemType을 반환
