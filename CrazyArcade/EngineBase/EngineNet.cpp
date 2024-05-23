@@ -92,6 +92,7 @@ void UEngineNet::RecvThreadFunction(USession* _Session, UEngineNet* _Net)
 
 
 		if (Protocol.GetPacketType() == -3) {
+			if(Protocol.GetSessionToken() == _Session->GetSessionToken())
 			_Session->End();
 		}
 
