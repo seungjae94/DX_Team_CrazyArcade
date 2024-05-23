@@ -331,6 +331,8 @@ void ULevel::ChangeOrderCollision(std::shared_ptr<UCollision> _Collision, int _P
 void ULevel::LevelEnd(ULevel* _NextLevel)
 {
 	Super::LevelStart(_NextLevel);
+	
+	Functions.clear();
 	for (std::pair<const int, std::list<std::shared_ptr<AActor>>>& TickGroup : Actors)
 	{
 		std::list<std::shared_ptr<AActor>>& GroupActors = TickGroup.second;
@@ -343,7 +345,9 @@ void ULevel::LevelEnd(ULevel* _NextLevel)
 }
 void ULevel::LevelStart(ULevel* _PrevLevel)
 {
-	Super::LevelStart(_PrevLevel);
+	Super::LevelEnd(_PrevLevel);
+	
+	Functions.clear();
 	for (std::pair<const int, std::list<std::shared_ptr<AActor>>>& TickGroup : Actors)
 	{
 		std::list<std::shared_ptr<AActor>>& GroupActors = TickGroup.second;

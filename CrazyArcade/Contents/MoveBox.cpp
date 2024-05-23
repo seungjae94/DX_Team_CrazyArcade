@@ -159,6 +159,34 @@ void AMoveBox::Tick(float _DeltaTime)
 			if (true == IsMove)
 			{
 				SetActorLocation(UpdatePacket->Pos);
+
+				if (BlockState::move == State.GetCurStateName())
+				{
+					FPoint NextPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
+					if (0.0f < MoveDir.X)
+					{
+						NextPoint.X += 1;
+					}
+					else if (0.0f > MoveDir.X)
+					{
+						NextPoint.X -= 1;
+					}
+					else if (0.0f < MoveDir.Y)
+					{
+						NextPoint.Y += 1;
+					}
+					else if (0.0f > MoveDir.Y)
+					{
+						NextPoint.Y -= 1;
+					}
+
+					if (true == AMapBase::MapRangeCheckByPoint(NextPoint)
+					&&  this == PlayLevel->GetMap()->GetTileInfo(NextPoint).Block)
+					{
+						PlayLevel->GetMap()->GetTileInfo(NextPoint).Block = nullptr;
+					}
+				}
+				
 				MoveDir = UpdatePacket->MoveDir;
 				MoveOneBlockCheckRecv();
 			}

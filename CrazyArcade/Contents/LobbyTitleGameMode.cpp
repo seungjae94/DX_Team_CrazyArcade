@@ -117,7 +117,7 @@ void ALobbyTitleGameMode::BeginPlay()
 				{
 					if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
 					{
-						if (IsReadyDone == true)
+						if (IsGameStartable == true)
 						{
 							IsFadeOut = true;
 							Fade->SetActive(true);
@@ -1086,6 +1086,7 @@ void ALobbyTitleGameMode::LevelStart(ULevel* _PrevLevel)
 	Space_IsUserIn[Player.SpaceIndex] = true;
 	Usernames_Space[Player.SpaceIndex]->SetText(Player.Name);
 	SettingCharacterSelect(ConnectionInfo::GetInst().GetCharacterType());	// Ramdom 타입으로 Game에 참가하고 나온 경우를 위해
+	ChangeReady(false);
 
 	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
 	{
@@ -1258,8 +1259,10 @@ void ALobbyTitleGameMode::ChatUpdate()
 
 void ALobbyTitleGameMode::ReadyUpdate()
 {
-	bool Result = true;
+	// Ready Check
+	bool IsReadyDone = true;
 	std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
+
 	for (std::pair<int, ConnectUserInfo> Iterator : Infos)
 	{
 		if (Iterator.first == 0)
@@ -1267,12 +1270,28 @@ void ALobbyTitleGameMode::ReadyUpdate()
 			continue;
 		}
 
-		Result = Result && Iterator.second.GetIsReady();
+		IsReadyDone = IsReadyDone && Iterator.second.GetIsReady();
 	}
 
-	IsReadyDone = Result;
+	// Team Balance Check
+	bool IsTeamBalanced = false;
+	ConnectionInfo::GetInst().TeamCount();
+	int RCnt = ConnectionInfo::GetInst().GetRedCount();
+	int BCnt = ConnectionInfo::GetInst().GetBlueCount();
 
-	if (IsReadyDone == true)
+	if (abs(RCnt - BCnt) <= 1)
+	{
+		IsTeamBalanced = true;
+	}
+	else
+	{
+		IsTeamBalanced = false;
+	}
+
+	// GameStart Button Activate
+	IsGameStartable = IsReadyDone * IsTeamBalanced;
+
+	if (IsGameStartable == true)
 	{
 		Btn_GameStart_InActive->SetActive(false);
 	}

@@ -85,7 +85,7 @@ private:
 	// GameStart
 	UImage* Btn_GameStart = nullptr;
 	UImage* Btn_GameStart_InActive = nullptr;
-	bool IsReadyDone = false;
+	bool IsGameStartable = false;
 
 	// MapSelect
 	UImage* Btn_MapSelect = nullptr;
