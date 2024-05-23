@@ -158,10 +158,9 @@ void AMoveBox::Tick(float _DeltaTime)
 			bool IsMove = UpdatePacket->IsMoveValue;
 			if (true == IsMove)
 			{
-				//SetActorLocation(UpdatePacket->Pos);
+				SetActorLocation(UpdatePacket->Pos);
 				MoveDir = UpdatePacket->MoveDir;
 				MoveOneBlockCheckRecv();
-				
 			}
 		}
 	);
@@ -251,8 +250,11 @@ void AMoveBox::MoveOneBlockCheckSend()
 
 void AMoveBox::MoveOneBlockCheckRecv()
 {
-	StartPos = GetActorLocation();
-	TargetPos = GetActorLocation();
+	FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
+	FVector CurPos = AMapBase::ConvertPointToLocation(CurPoint);
+
+	StartPos = CurPos;
+	TargetPos = CurPos;
 
 	if (0.0f < MoveDir.X)
 	{
