@@ -117,7 +117,11 @@ void AServerGameMode::HandlerInit()
 					{
 						UNetObject* Block = UNetObject::GetNetObject<UNetObject>(_Packet->GetObjectToken());
 						if (nullptr == Block) {
-							MsgBoxAssert("이거 nullptr이면 안됨");
+							MsgBoxLog("안터지면 괜찮기는 한데, 시간있으면 고치기 그리고 이 MsgBoxLog도 제출 전 지우기");
+							_Packet->IsDestroy = true;
+							_Packet->SetSessionToken(UCrazyArcadeCore::Net->GetSessionToken());
+							UCrazyArcadeCore::Net->Send(_Packet);
+							return;
 						}
 						Block->PushProtocol(_Packet);
 						UCrazyArcadeCore::Net->Send(_Packet);
@@ -188,7 +192,9 @@ void AServerGameMode::HandlerInit()
 					{
 						UNetObject* Block = UNetObject::GetNetObject<UNetObject>(_Packet->GetObjectToken());
 						if (nullptr == Block) {
-							MsgBoxAssert("이거 nullptr이면 안됨");
+							MsgBoxLog("안터지면 괜찮기는 한데, 시간있으면 고치기 그리고 이 MsgBoxLog도 제출 전 지우기");
+							_Packet->IsDestroy = true;
+							return;
 						}
 						Block->PushProtocol(_Packet);
 					});
