@@ -12,6 +12,7 @@ UNetObject::UNetObject()
 
 UNetObject::~UNetObject() 
 {
+	AllNetObject[GetObjectToken()] = nullptr;
 }
 
 

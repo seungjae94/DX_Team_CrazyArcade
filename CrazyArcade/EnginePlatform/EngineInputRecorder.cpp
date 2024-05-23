@@ -4,7 +4,6 @@
 
 bool UEngineInputRecorder::Activeness = false;
 int UEngineInputRecorder::MaxLength = 100;
-bool UEngineInputRecorder::ImeTickCalled = false;
 bool UEngineInputRecorder::IgnoreCompositionResult = false;
 std::wstring UEngineInputRecorder::WText = L"";
 std::string UEngineInputRecorder::CombLetter = "";
@@ -69,14 +68,9 @@ void UEngineInputRecorder::Init(HWND _hWnd)
     hIMC = ImmGetContext(_hWnd);
 }
 
-void UEngineInputRecorder::ImeTick(LPARAM _lParam)
+void UEngineInputRecorder::ImeCompositionTick(LPARAM _lParam)
 {
     if (false == Activeness)
-    {
-        return;
-    }
-
-    if (false == IsNative())
     {
         return;
     }
@@ -116,40 +110,20 @@ void UEngineInputRecorder::ImeTick(LPARAM _lParam)
         }
     }
 
-    ImeTickCalled = true;
     IgnoreCompositionResult = false;
 }
 
-void UEngineInputRecorder::Tick(float _DeltaTime)
+void UEngineInputRecorder::CharTick(WPARAM _wParam)
 {
     if (false == Activeness)
     {
         return;
     }
 
-    if (true == ImeTickCalled)
+    // 백스페이스
+    if (_wParam == '\b')
     {
-        ImeTickCalled = false;
-        return;
-    }
-
-    DeleteTimer -= _DeltaTime;
-
-    bool DeleteChar = UEngineInput::IsDown(VK_BACK);
-    if (true == UEngineInput::IsPress(VK_BACK) && DeleteTimer < 0.0f && UEngineInput::GetPressTime(VK_BACK) > 0.2f)
-    {
-        DeleteChar = true;
-        DeleteTimer = DeleteInterval;
-    }
-
-    if (DeleteChar)
-    {
-        if (CombLetter.size() > 0)
-        {
-            WText += UEngineString::AnsiToUniCode(CombLetter);
-            CombLetter.clear();
-            ImmNotifyIME(hIMC, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
-        }
+        MergeCombLetter();
 
         if (0 == WText.size())
         {
@@ -160,68 +134,42 @@ void UEngineInputRecorder::Tick(float _DeltaTime)
         return;
     }
 
+    if (_wParam == VK_RETURN)
+    {
+        return;
+    }
+
     if (WText.size() + 1 > MaxLength)
     {
         return;
     }
 
-    for (char c : AllNumericAndSpecial)
-    {
-        if (true == UEngineInput::IsDown(c))
-        {
-            if (CombLetter.size() > 0)
-            {
-                WText += UEngineString::AnsiToUniCode(CombLetter);
-                CombLetter.clear();
-                ImmNotifyIME(hIMC, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
-            }
+    char NewChar = _wParam & 0xff;
 
-            WText += UEngineString::AnsiToUniCode(std::string(1, c));
-            IgnoreCompositionResult = true;
-            return;
-        }
-    }
-
-    if (true == UEngineInput::IsDown(VK_SPACE))
-    {
-        if (CombLetter.size() > 0)
-        {
-            WText += UEngineString::AnsiToUniCode(CombLetter);
-            CombLetter.clear();
-            ImmNotifyIME(hIMC, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
-        }
-
-        WText += UEngineString::AnsiToUniCode(" ");
-        IgnoreCompositionResult = true;
-        return;
-    }
-
-    if (true == IsNative())
+    // 입력 가능한 문자가 아닐 경우 리턴
+    if (NewChar != ' ' && false == (NewChar >= 33 && NewChar <= 126))
     {
         return;
     }
 
-    for (char c : AllAlpha)
-    {
-        if (true == UEngineInput::IsDown(c))
-        {
-            if (CombLetter.size() > 0)
-            {
-                WText += UEngineString::AnsiToUniCode(CombLetter);
-                CombLetter.clear();
-                ImmNotifyIME(hIMC, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
-            }
-
-            WText += UEngineString::AnsiToUniCode(std::string(1, c));
-            IgnoreCompositionResult = true;
-            return;
-        }
-    }
+    MergeCombLetter();
+    WText += std::wstring(1, NewChar);
+    IgnoreCompositionResult = true;
 }
 
 void UEngineInputRecorder::Release()
 {
     ImmReleaseContext(hWnd, hIMC);
+}
+
+void UEngineInputRecorder::MergeCombLetter()
+{
+    if (CombLetter.size() > 0)
+    {
+        WText += UEngineString::AnsiToUniCode(CombLetter);
+        CombLetter.clear();
+        ImmNotifyIME(hIMC, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
+    }
 }
 
 bool UEngineInputRecorder::IsNative()

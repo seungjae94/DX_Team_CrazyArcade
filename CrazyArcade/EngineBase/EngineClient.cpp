@@ -22,8 +22,10 @@ void UEngineClient::Connect(std::string _Ip, int _Port)
 	if (false == Session.Connect())
 	{
 		MsgBoxAssert("클라이언트로 서버에 접속에 실패했습니다. 서버가 열었는지 포트는 정확한지 아이피도 정확한지 확인하세요.");
+		Session.SetServerConnected(false);
+		return;
 	}
-
+	Session.SetServerConnected(true);
 	RecvThread.SetName("Client Recv Thread");
 	RecvThread.Start(std::bind(UEngineNet::RecvThreadFunction, &Session, this));
 }

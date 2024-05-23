@@ -40,6 +40,8 @@ public:
 		return IsActiveValue;
 	}
 
+	virtual bool IsNetConnetion() { return false; }
+
 	void End()
 	{
 		IsActiveValue = false;
