@@ -2,7 +2,6 @@
 #include"ConnectionInfo.h"
 
 class APlayer;
-class ServerTestPlayer;
 class AMainPlayLevel;
 class AInGameUI : public AActor
 {
@@ -62,13 +61,13 @@ private:
 	UImage* NeedleRender = nullptr; // 원래는 아이템 벡터로 받을려고 했는데 시간상 그냥 아이템 하나 
 
 	int ServerToken = 0;
-	
+
 	std::vector<UImage*> PlayerUI; //플레이어
 	std::vector<UTextWidget*> PlayerNameUI;
 	std::vector<PlayerState> PlayerInfo;
 
 
-	void InitPlayerInfo(); 
+	void InitPlayerInfo();
 
 	void PlayerUpdate();
 
@@ -80,24 +79,19 @@ private:
 
 	void PlayerStateCheck();
 
+
 	//아이템 및 바늘
 	int Needles = 0;
 	AMainPlayLevel* PlayerLevelPtr = nullptr;
-	std::shared_ptr<ServerTestPlayer> PlayerPtr = nullptr;
+	std::shared_ptr<APlayer> PlayerPtr = nullptr;
 	bool PlayerDeadAct;
-	
+
 
 	static std::string StateToAnimName(ECharacterType _Type, ECharacterColor _Color, bool _IsDead);
 	static std::string TypeToName(ECharacterType _Type);
 	static std::string ColorToName(ECharacterColor _Color);
-	
-	//아이템 받아오기 
-	//바늘 갯수 APlayer::GetNeedleCount <- 하나로 정해두기 
-	//0번 아이템 배열에 채워두기 
-	// 
-	//static std::map<ECharacterType, std::string> TypeToName;
-	//static std::map<ECharacterColor, std::string> ColorToName;
-	
+
+
 
 
 	// Fade
@@ -107,4 +101,7 @@ private:
 	float FadeAlpha = 1.0f;
 	void FadeIn(float _DeltaTime);
 	void FadeOut(float _DeltaTime);
+
+
+
 };

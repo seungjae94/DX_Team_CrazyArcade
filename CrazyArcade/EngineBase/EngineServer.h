@@ -48,9 +48,9 @@ public:
 		return static_cast<int>(Sessions.size());
 	}
 
+	void SessionDestroy(USession* _Session);
 protected:
 	void ServerOpen(int _Port, int _BackLog = 512) override;
-	
 
 private:
 	int Port;

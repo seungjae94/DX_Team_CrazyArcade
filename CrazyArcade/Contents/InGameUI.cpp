@@ -228,10 +228,7 @@ void AInGameUI::Tick(float _DeltaTIme)
 
 	if (this->IsActive() == true)
 	{
-		//InitPlayerInfo();
-		//DataToRender();
-		//PlayerStateCheck();
-
+		PlayerUpdate();
 	}
 
 	DeadCheck(); //죽었으면 상태를 바꿔준다 
@@ -259,18 +256,31 @@ void AInGameUI::Tick(float _DeltaTIme)
 
 void AInGameUI::PlayerUpdate()
 {
-	std::map<int, ConnectUserInfo> UserInfos = ConnectionInfo::GetInst().GetUserInfos();
+	std::map<int, ConnectUserInfo> UserInfos = ConnectionInfo::GetInst().GetUserInfos(); //인포 가져오고
 
-	for (std::pair<int, ConnectUserInfo> Iterator : UserInfos)
+	for (int i = 0; i < 8; ++i)
 	{
-		//	PlayerInfo[Iterator.first].IsDead = FPlayerInfo::IsDeads;
+		if (false == UserInfos.contains(i))
+		{
+			PlayerUI[i]->SetActive(false);
+			PlayerNameUI[i]->SetActive(false);
+			continue;
+		}
 	}
 
 
-	for (int i = 0; i < UCrazyArcadeCore::Net->GetSessionToken(); i++)
+	/*for (std::pair<int, ConnectUserInfo> Iterator : UserInfos)
 	{
-		//PlayerInfo[i].IsDead() = FPlayerInfo::IsDeads();
-	}
+		if (UserInfos.empty() == true)
+		{
+
+			PlayerUI[Iterator.first]->SetActive(false);
+		}
+		
+	}*/
+
+
+	
 }
 
 
@@ -343,6 +353,7 @@ void AInGameUI::PlayerStateCheck()
 
 	for (int i = 0; i < UserCount; ++i)
 	{
+		
 		PlayerUI[i]->SetActive(true);
 
 		std::string AnimName = StateToAnimName(PlayerInfo[i].PlayerType, PlayerInfo[i].PlayerColor, PlayerInfo[i].IsDead);
@@ -358,19 +369,6 @@ void AInGameUI::PlayerStateCheck()
 
 
 
-	//for (int i = 0; i < PlayerInfo.size(); i++)
-	//{
-	//	/*PlayerInfo[i].PlayerType*/
-	////ECharacterType TypeToName = ECharacterType::Bazzi;
-	////ECharacterColor ColorToName = PlayerInfo[i].PlayerColor;
-
-	////std::string name = StateToAnimName(TypeToName, ColorToName, PlayerInfo[i].IsDead);
-	////PlayerUI[i]->ChangeAnimation(StateToAnimName(TypeToName, ColorToName, PlayerInfo[i].IsDead));
-	////어떤 상태를 한번에 채크하는 방식으로 사용할 것ㅇ이다.
-
-	//	std::string AnimName = StateToAnimName(PlayerInfo[i].PlayerType,PlayerInfo[i].PlayerColor,PlayerInfo[i].IsDead);
-	//	PlayerUI[i]->ChangeAnimation(AnimName);
-	//}
 }
 
 std::string AInGameUI::TypeToName(ECharacterType _Type)
@@ -467,3 +465,4 @@ void AInGameUI::NeedleCheck()
 		NeedleRender->SetMulColor({ 1.0f,1.0f,1.0f,1.0f }); //색상 변경해주는 느낌 
 	}
 }
+

@@ -4,7 +4,7 @@
 class AVillageMap;
 
 class AMapBase;
-class ServerTestPlayer;
+class APlayer;
 
 //UI
 class ATimerUI;
@@ -30,7 +30,7 @@ public:
 		return TileMap;
 	}
 
-	inline std::shared_ptr<ServerTestPlayer> GetPlayer() const
+	inline std::shared_ptr<APlayer> GetPlayer() const
 	{
 		return Player;
 	}
@@ -54,7 +54,7 @@ protected:
 	std::shared_ptr<AMapBase> TileMap = nullptr;
 	EMapType MapType = EMapType::None;
 
-	std::shared_ptr<ServerTestPlayer> Player = nullptr;
+	std::shared_ptr<APlayer> Player = nullptr;
 	std::shared_ptr<ATimerUI> Timer = nullptr;
 	std::shared_ptr<AInGameUI> InGameUI = nullptr;
 };

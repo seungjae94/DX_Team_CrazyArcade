@@ -353,3 +353,11 @@ void AMapBase::PlayerDelete(APlayer* _Player)
 		}
 	}
 }
+
+// 플레이어 시작 위치 반환
+FVector AMapBase::GetPlayerStartPos(int _Index)
+{
+	int Index = _Index % static_cast<int>(PlayerStartPoint.size());
+	FVector PlayerStartPos = ConvertPointToLocation(PlayerStartPoint[Index]);
+	return PlayerStartPos;
+}

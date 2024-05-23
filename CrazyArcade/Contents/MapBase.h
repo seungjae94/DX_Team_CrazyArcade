@@ -76,6 +76,8 @@ public:
 	{
 		AllPlayer.push_back(_Player);
 	}
+
+	FVector GetPlayerStartPos(int _Index);
 	
 protected:
 	inline void SetBackGround(std::string_view _Name)
@@ -116,8 +118,8 @@ private:
 	USpriteRenderer* PlayUI_BackGround = nullptr;
 
 	std::vector<std::vector<UTileInfo>> TileInfo;
-	std::vector<APlayer*> AllPlayer;
 	std::vector<FPoint> PlayerStartPoint;
+	std::vector<APlayer*> AllPlayer;
 
 	static FVector StartPos;
 	static float BlockSize;
