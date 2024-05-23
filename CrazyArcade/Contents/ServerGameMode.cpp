@@ -73,7 +73,7 @@ void AServerGameMode::HandlerInit()
 							OtherPlayer = UNetObject::GetNetObject<ANetActor>(_Packet->GetObjectToken());
 						}
 
-						OtherPlayer->PushProtocolAsync(_Packet);
+						OtherPlayer->PushProtocol(_Packet);
 					});
 
 
@@ -91,8 +91,8 @@ void AServerGameMode::HandlerInit()
 						ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, _Packet->GetObjectToken(), _Packet->Pos);
 						Bomb = UNetObject::GetNetObject<ABombBase>(_Packet->GetObjectToken());
 						Bomb->SetObjectToken(_Packet->GetObjectToken());
-						Bomb->PushProtocolAsync(_Packet);
 						Bomb->SetBombPower(_Packet->Power);
+						Bomb->PushProtocol(_Packet);
 						UCrazyArcadeCore::Net->Send(_Packet);
 
 						FEngineTimeStamp curtime = UEngineTime::GetCurTime();
@@ -119,7 +119,7 @@ void AServerGameMode::HandlerInit()
 						if (nullptr == Block) {
 							MsgBoxAssert("이거 nullptr이면 안됨");
 						}
-						Block->PushProtocolAsync(_Packet);
+						Block->PushProtocol(_Packet);
 						UCrazyArcadeCore::Net->Send(_Packet);
 					});
 			});
@@ -143,7 +143,7 @@ void AServerGameMode::HandlerInit()
 							OtherPlayer = UNetObject::GetNetObject<ANetActor>(_Packet->GetObjectToken());
 						}
 
-						OtherPlayer->PushProtocolAsync(_Packet);
+						OtherPlayer->PushProtocol(_Packet);
 					});
 			});
 
@@ -159,8 +159,8 @@ void AServerGameMode::HandlerInit()
 						ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, _Packet->GetObjectToken(), _Packet->Pos);
 						Bomb = UNetObject::GetNetObject<ABombBase>(_Packet->GetObjectToken());
 						Bomb->SetObjectToken(_Packet->GetObjectToken());
-						Bomb->PushProtocolAsync(_Packet);
 						Bomb->SetBombPower(_Packet->Power);
+						Bomb->PushProtocol(_Packet);
 
 						FEngineTimeStamp CurStamp = UEngineTime::GetCurTime();
 						float PacketDiff = CurStamp.TimeToFloat() - _Packet->SpawnTime;
@@ -190,7 +190,7 @@ void AServerGameMode::HandlerInit()
 						if (nullptr == Block) {
 							MsgBoxAssert("이거 nullptr이면 안됨");
 						}
-						Block->PushProtocolAsync(_Packet);
+						Block->PushProtocol(_Packet);
 					});
 			});
 	}

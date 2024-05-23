@@ -24,7 +24,7 @@ UNetObject::~UNetObject()
 
 	if (true == AllNetObject.contains(GetObjectToken()))
 	{
-		AllNetObject[GetObjectToken()] = nullptr;
+		AllNetObject.erase(GetObjectToken());
 	}
 }
 
