@@ -141,7 +141,7 @@ void APlayer::StateInit()
 	State.SetUpdateFunction("Trapped", std::bind(&APlayer::Trapped, this, std::placeholders::_1));
 	State.SetStartFunction("Trapped", [=]()
 		{
-			Renderer->ChangeAnimation(Type + PlayerColorText + "_Traped");
+			Renderer->ChangeAnimation(Type + PlayerColorText + "_Trapped");
 		});
 
 	State.SetUpdateFunction("TrapEnd", std::bind(&APlayer::TrapEnd, this, std::placeholders::_1));
@@ -164,6 +164,7 @@ void APlayer::StateInit()
 				{
 					Renderer->SetActive(false);
 					ShadowRenderer->SetActive(false);
+					ArrowRenderer->SetActive(false);
 				}
 			);
 			SetPlayerDead();
