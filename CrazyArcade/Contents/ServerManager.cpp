@@ -174,6 +174,9 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 		UCrazyArcadeCore::Net = std::make_shared<UEngineClient>();
 		UCrazyArcadeCore::NetManager.CManagerInit();
 		UCrazyArcadeCore::Net->Connect(std::string(_Ip), _Port);
+		if (UCrazyArcadeCore::Net->IsNetConnetion() == false) {
+			MsgBoxAssert("정상적인 연결이 되지 않았습니다");
+		}
 	}
 
 	UEngineDispatcher& Dis = UCrazyArcadeCore::Net->Dispatcher;
