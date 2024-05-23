@@ -2,7 +2,6 @@
 #include "CrazyArcadeCore.h"
 #include "InitTestGameMode.h"
 #include "MainPlayLevel.h"
-#include "PlayGameMode.h"
 #include "CrazyArcadeDebugWindow.h"
 #include <EngineCore/EngineEditorGUI.h>
 #include "MainTitleGameMode.h"
@@ -63,7 +62,7 @@ void UCrazyArcadeCore::Initialize()
 	GEngine->CreateLevel<AServerGameMode>("ServerGameMode");
 	GEngine->CreateLevel<ALobbyTitleGameMode>("LobbyTitleTestLevel");
 	GEngine->CreateLevel<AEngineTestGameMode>("EngineTestLevel");
-	GEngine->CreateLevel<AIntroGameMode>("IntroTestLevel");
+	GEngine->CreateLevel<AIntroGameMode>("IntroLevel");
 	//GEngine->ChangeLevel("InitTestLevel");
 	GEngine->ChangeLevel("TitleTestLevel");
 }

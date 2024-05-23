@@ -20,9 +20,18 @@ public:
 	int Send(UEngineSerializer& _Ser) override;
 	int Send(void* Data, int Size) override;
 
+	bool IsServerConnected() {
+		return ServerConnected;
+	}
+
+	void SetServerConnected(bool _Connection) {
+		ServerConnected = _Connection;
+	}
+
 protected:
 
 private:
+	bool ServerConnected = false;
 	// ip주소도 이녀석이 관리한다.
 
 };

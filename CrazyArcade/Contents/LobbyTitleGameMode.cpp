@@ -1535,5 +1535,4 @@ void ALobbyTitleGameMode::GameStart()
 
 void ALobbyTitleGameMode::HandlerInit()
 {
-
 }

@@ -3,6 +3,7 @@
 #include <functional>
 #include "EngineProtocol.h"
 #include "NetObject.h"
+#include "list"
 
 UEngineServer::UEngineServer()
 {
@@ -41,6 +42,13 @@ void UEngineServer::AcceptThreadFunction(UEngineServer* Server, SOCKET _AcceptSo
 		NewPacket.SetObjectToken(SessionToken * 1000);
 
 		UEngineSerializer Ser = NewPacket.GetSerialize();
+
+		if (Server->SessionSize() >= 7) {  //현재 인원이 다 찼는가?
+			USessionRejectPacket RejectPacket;
+			UEngineSerializer RejectSer = RejectPacket.GetSerialize();
+			NewSession->Send(RejectSer);
+			continue;
+		}
 		NewSession->Send(Ser);
 
 		// 클라이언트 1명의 리시브쓰레드를 만들었으니 상대가 응답했다면

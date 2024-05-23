@@ -28,9 +28,7 @@ protected:
 
 
 private:
-	UImage* IntroImage;
-	USpriteRenderer* IntroRenderer;
-	//UDefaultSceneComponent* DefaultComponent;
+
 
 
 	float AnimationTime;

@@ -63,6 +63,11 @@ void UCrazyArcadeDebugWindow::OnGui(ULevel* Level, float _Delta)
 		AMainTitleGameMode::Title->MyChangeIP();
 	}
 
+	if (true == ImGui::Button("Intro Level"))
+	{
+		GEngine->ChangeLevel("IntroLevel");
+	}
+
 	if (true == ImGui::Button("Lobby Title Level"))
 	{
 		GEngine->ChangeLevel("LobbyTitleTestLevel");

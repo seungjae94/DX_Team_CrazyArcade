@@ -113,7 +113,6 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 		{
 			Result = false;
 
-			//FVector PlayerPos = PlayLevel->GetPlayer()->GetActorLocation();
 			FVector PlayerPos = _NextPos;
 			FVector BoxPos = MoveBox->GetActorLocation();
 			BoxPos.X += BlockSize * 0.5f;
@@ -199,7 +198,6 @@ bool AMapBase::SubMoveBoxCheck(FPoint _NextPoint, const FVector& _Dir)
 		if (BlockState::move == MoveBox->GetCurState())
 		{
 			FVector PlayerPos = PlayLevel->GetPlayer()->GetActorLocation();
-			//FVector PlayerPos = _NextPos;
 			FVector BoxPos = MoveBox->GetActorLocation();
 			BoxPos.X += BlockSize * 0.5f;
 			BoxPos.Y += BlockSize * 0.5f;
