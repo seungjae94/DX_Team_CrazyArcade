@@ -76,7 +76,6 @@ void ALobbyTitleGameMode::BeginPlay()
 			Btn_GameStart->AddToViewPort(1);
 			Btn_GameStart->SetAutoSize(1.0f, true);
 			Btn_GameStart->SetWidgetLocation({ 231.0f, -222.0f });
-
 			Btn_GameStart->CreateAnimation("UnHover", "Button_GameStart_UnHover.png", 0.1f, false, 0, 0);
 			Btn_GameStart->CreateAnimation("Hover", "Button_GameStart_Hover.png", 0.1f, true, 0, 2);
 			Btn_GameStart->CreateAnimation("Down", "Button_GameStart_Down.png", 0.1f, false, 0, 0);
@@ -92,33 +91,37 @@ void ALobbyTitleGameMode::BeginPlay()
 			Btn_GameStart->SetUnHover([=] {
 				Btn_GameStart->ChangeAnimation("UnHover");
 				});
-
 			Btn_GameStart->SetHover([=] {
-				if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+				if (
+					ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType() && 
+					IsMapSelectOn == false && 
+					Btn_GameStart->IsCurAnimationEnd() == true
+					)
 				{
-					if (Btn_GameStart->IsCurAnimationEnd() == true)
-					{
-						Btn_GameStart->ChangeAnimation("Hover");
-					}
+					Btn_GameStart->ChangeAnimation("Hover");
 				}
 				});
-
 			Btn_GameStart->SetDown([=] {
-				if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+				if (
+					ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType() &&
+					IsMapSelectOn == false
+					)
 				{
 					Btn_GameStart->ChangeAnimation("Down");
 				}
 				});
-
 			Btn_GameStart->SetPress([=] {
 
 				});
-
 			Btn_GameStart->SetUp([=] {
-				if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+				if (
+					ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType() &&
+					IsMapSelectOn == false
+					)
 				{
 					IsFadeOut = true;
 					Fade->SetActive(true);
+					Btn_GameStart->ChangeAnimation("UnHover");
 				}
 				});
 		}
@@ -130,7 +133,6 @@ void ALobbyTitleGameMode::BeginPlay()
 				Btn_MapSelect->AddToViewPort(1);
 				Btn_MapSelect->SetAutoSize(1.0f, true);
 				Btn_MapSelect->SetWidgetLocation({ 307.0f, -151.0f });
-
 				Btn_MapSelect->CreateAnimation("UnHover", "Button_MapSelect_UnHover.png", 0.1f, false, 0, 0);
 				Btn_MapSelect->CreateAnimation("Hover", "Button_MapSelect_Hover.png", 0.1f, true, 0, 1);
 				Btn_MapSelect->CreateAnimation("Down", "Button_MapSelect_Down.png", 0.1f, false, 0, 0);
@@ -147,13 +149,19 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_MapSelect->ChangeAnimation("UnHover");
 					});
 				Btn_MapSelect->SetHover([=] {
-					if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+					if (
+						ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType() &&
+						IsMapSelectOn == false
+						)
 					{
 						Btn_MapSelect->ChangeAnimation("Hover");
 					}
 					});
 				Btn_MapSelect->SetDown([=] {
-					if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+					if (
+						ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType() &&
+						IsMapSelectOn == false
+						)
 					{
 						Btn_MapSelect->ChangeAnimation("Down");
 					}
@@ -162,9 +170,13 @@ void ALobbyTitleGameMode::BeginPlay()
 
 					});
 				Btn_MapSelect->SetUp([=] {
-					if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+					if (
+						ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType() &&
+						IsMapSelectOn == false
+						)
 					{
 						MapSelectOn();
+						Btn_MapSelect->ChangeAnimation("UnHover");
 					}
 					});
 			}
@@ -175,6 +187,14 @@ void ALobbyTitleGameMode::BeginPlay()
 				BackGround_MapSelect->SetAutoSize(1.0f, true);
 				BackGround_MapSelect->SetWidgetLocation({ 0.0f, 0.0f });
 				BackGround_MapSelect->SetActive(false);
+
+				Fade_MapSelect = CreateWidget<UImage>(GetWorld(), "Fade_MapSelect");
+				Fade_MapSelect->SetSprite("FadeBlack.png");
+				Fade_MapSelect->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.3f });
+				Fade_MapSelect->AddToViewPort(4);
+				Fade_MapSelect->SetAutoSize(1.0f, true);
+				Fade_MapSelect->SetWidgetLocation({ 0.0f, 0.0f });
+				Fade_MapSelect->SetActive(false);
 			}
 			{
 				Btn_MapSelectAccept = CreateWidget<UImage>(GetWorld(), "Btn_MapSelectAccept");
@@ -182,7 +202,6 @@ void ALobbyTitleGameMode::BeginPlay()
 				Btn_MapSelectAccept->SetAutoSize(1.0f, true);
 				Btn_MapSelectAccept->SetWidgetLocation({ -58.0f, -216.0f });
 				Btn_MapSelectAccept->SetActive(false);
-
 				Btn_MapSelectAccept->CreateAnimation("UnHover", "Button_MapSelectAccept_UnHover.png", 0.1f, false, 0, 0);
 				Btn_MapSelectAccept->CreateAnimation("Hover", "Button_MapSelectAccept_Hover.png", 0.1f, true, 0, 1);
 				Btn_MapSelectAccept->CreateAnimation("Down", "Button_MapSelectAccept_Down.png", 0.1f, false, 0, 0);
@@ -250,7 +269,6 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_Space->AddToViewPort(1);
 					Btn_Space->SetAutoSize(1.0f, true);
 					Btn_Space->SetWidgetLocation({ -324.0f + 106.0f * (i % 4), 157.0f - 145.0f * (i / 4) });
-
 					Btn_Space->CreateAnimation("Space_UnHover", "Button_Space_UnHover.png", 0.1f, false, 0, 0);
 					Btn_Space->CreateAnimation("Space_Hover", "Button_Space_Hover.png", 0.1f, false, 0, 0);
 					Btn_Space->CreateAnimation("Space_Down", "Button_Space_Down.png", 0.1f, false, 0, 0);
@@ -319,9 +337,11 @@ void ALobbyTitleGameMode::BeginPlay()
 						}
 					}
 					});
-
 				Btns_Space[i]->SetHover([=] {
-					if (Space_IsUserIn[i] == false)
+					if (
+						IsMapSelectOn == false &&
+						Space_IsUserIn[i] == false
+						)
 					{
 						if (Space_IsAvailable[i] == true)
 						{
@@ -333,9 +353,11 @@ void ALobbyTitleGameMode::BeginPlay()
 						}
 					}
 					});
-
 				Btns_Space[i]->SetDown([=] {
-					if (Space_IsUserIn[i] == false)
+					if (
+						IsMapSelectOn == false &&
+						Space_IsUserIn[i] == false
+						)
 					{
 						if (Space_IsAvailable[i] == true)
 						{
@@ -349,13 +371,14 @@ void ALobbyTitleGameMode::BeginPlay()
 						}
 					}
 					});
-
 				Btns_Space[i]->SetPress([=] {
 
 					});
-
 				Btns_Space[i]->SetUp([=] {
-					if (Space_IsUserIn[i] == false)
+					if (
+						IsMapSelectOn == false &&
+						Space_IsUserIn[i] == false
+						)
 					{
 						if (Space_IsAvailable[i] == true)
 						{
@@ -691,28 +714,34 @@ void ALobbyTitleGameMode::BeginPlay()
 				if (i == 0 || i == 1 || i == 5 || i == 6)
 				{
 					Btns_CharacterSelect[i]->SetHover([=] {
-						if (CharacterSelect_Pick[i] == false)
+						if (IsMapSelectOn == false)
 						{
-							Btns_CharacterSelect[i]->ChangeAnimation("Hover");
+							if (CharacterSelect_Pick[i] == false)
+							{
+								Btns_CharacterSelect[i]->ChangeAnimation("Hover");
+							}
+							else
+							{
+								Btns_CharacterSelect[i]->ChangeAnimation("Pick");
+							}
+							SettingPanel(ECharacterType(i));
+							PanelOn();
 						}
-						else
-						{
-							Btns_CharacterSelect[i]->ChangeAnimation("Pick");
-						}
-						SettingPanel(ECharacterType(i));
-						PanelOn();
 						});
-
 					Btns_CharacterSelect[i]->SetDown([=] {
-						Btns_CharacterSelect[i]->ChangeAnimation("Down");
+						if (IsMapSelectOn == false)
+						{
+							Btns_CharacterSelect[i]->ChangeAnimation("Down");
+						}
 						});
-
 					Btns_CharacterSelect[i]->SetPress([=] {
 
 						});
-
 					Btns_CharacterSelect[i]->SetUp([=] {
-						ChangeCharacter(ECharacterType(i));
+						if (IsMapSelectOn == false)
+						{
+							ChangeCharacter(ECharacterType(i));
+						}
 						});
 				}
 			}
@@ -842,26 +871,32 @@ void ALobbyTitleGameMode::BeginPlay()
 				if (i == 0 || i == 5)
 				{
 					Btns_ColorSelect[i]->SetHover([=] {
-						if (ColorSelect_Pick[i] == false)
+						if (IsMapSelectOn == false)
 						{
-							Btns_ColorSelect[i]->ChangeAnimation("Hover");
-						}
-						else
-						{
-							Btns_ColorSelect[i]->ChangeAnimation("Pick");
+							if (ColorSelect_Pick[i] == false)
+							{
+								Btns_ColorSelect[i]->ChangeAnimation("Hover");
+							}
+							else
+							{
+								Btns_ColorSelect[i]->ChangeAnimation("Pick");
+							}
 						}
 						});
-
 					Btns_ColorSelect[i]->SetDown([=] {
-						Btns_ColorSelect[i]->ChangeAnimation("Down");
+						if (IsMapSelectOn == false)
+						{
+							Btns_ColorSelect[i]->ChangeAnimation("Down");
+						}
 						});
-
 					Btns_ColorSelect[i]->SetPress([=] {
 
 						});
-
 					Btns_ColorSelect[i]->SetUp([=] {
-						ChangeColor(ECharacterColor(i + 3000));
+						if (IsMapSelectOn == false)
+						{
+							ChangeColor(ECharacterColor(i + 3000));
+						}
 						});
 				}
 			}
@@ -882,7 +917,6 @@ void ALobbyTitleGameMode::BeginPlay()
 				Btn_Back->AddToViewPort(1);
 				Btn_Back->SetAutoSize(1.0f, true);
 				Btn_Back->SetWidgetLocation({ 316.0f, -284.0f });
-
 				Btn_Back->CreateAnimation("UnHover", "Button_Back_UnHover.png", 0.1f, false, 0, 0);
 				Btn_Back->CreateAnimation("Hover", "Button_Back_Hover.png", 0.1f, true, 0, 1);
 				Btn_Back->CreateAnimation("Down", "Button_Back_Down.png", 0.1f, false, 0, 0);
@@ -891,24 +925,30 @@ void ALobbyTitleGameMode::BeginPlay()
 				Btn_Back->SetUnHover([=] {
 					Btn_Back->ChangeAnimation("UnHover");
 					});
-
 				Btn_Back->SetHover([=] {
-					if (Btn_Back->IsCurAnimationEnd() == true)
+					if (
+						IsMapSelectOn == false &&
+						Btn_Back->IsCurAnimationEnd() == true
+						)
 					{
 						Btn_Back->ChangeAnimation("Hover");
 					}
 					});
-
 				Btn_Back->SetDown([=] {
+					if (IsMapSelectOn == false)
+					{
+						Btn_Back->ChangeAnimation("Down");
+					}
 					Btn_Back->ChangeAnimation("Down");
 					});
-
 				Btn_Back->SetPress([=] {
 
 					});
-
 				Btn_Back->SetUp([=] {
-					Btn_Back->ChangeAnimation("Hover");
+					if (IsMapSelectOn == false)
+					{
+						Btn_Back->ChangeAnimation("Hover");
+					}
 					});
 			}
 			{
@@ -916,7 +956,6 @@ void ALobbyTitleGameMode::BeginPlay()
 				Btn_Exit->AddToViewPort(1);
 				Btn_Exit->SetAutoSize(1.0f, true);
 				Btn_Exit->SetWidgetLocation({ 363.0f, -284.0f });
-
 				Btn_Exit->CreateAnimation("UnHover", "Button_Exit_UnHover.png", 0.1f, false, 0, 0);
 				Btn_Exit->CreateAnimation("Hover", "Button_Exit_Hover.png", 0.1f, true, 0, 1);
 				Btn_Exit->CreateAnimation("Down", "Button_Exit_Down.png", 0.1f, false, 0, 0);
@@ -925,24 +964,30 @@ void ALobbyTitleGameMode::BeginPlay()
 				Btn_Exit->SetUnHover([=] {
 					Btn_Exit->ChangeAnimation("UnHover");
 					});
-
 				Btn_Exit->SetHover([=] {
-					if (Btn_Exit->IsCurAnimationEnd() == true)
+					if (
+						IsMapSelectOn == false &&
+						Btn_Exit->IsCurAnimationEnd() == true
+						)
 					{
 						Btn_Exit->ChangeAnimation("Hover");
 					}
 					});
-
 				Btn_Exit->SetDown([=] {
+					if (IsMapSelectOn == false)
+					{
+						Btn_Exit->ChangeAnimation("Down");
+					}
 					Btn_Exit->ChangeAnimation("Down");
 					});
-
 				Btn_Exit->SetPress([=] {
 
 					});
-
 				Btn_Exit->SetUp([=] {
-					Btn_Exit->ChangeAnimation("Hover");
+					if (IsMapSelectOn == false)
+					{
+						Btn_Exit->ChangeAnimation("Hover");
+					}
 					});
 			}
 			{
@@ -964,14 +1009,17 @@ void ALobbyTitleGameMode::BeginPlay()
 				VoidBox->SetPosition({ 0.0f, 0.0f });
 
 				VoidBox->SetDown([=] {
-					if (Chat_IsActive == true)
+					if (IsMapSelectOn == false)
 					{
-						ChatBox->ChangeAnimation("InActive");
-						Chat_IsActive = false;
-					}
+						if (Chat_IsActive == true)
+						{
+							ChatBox->ChangeAnimation("InActive");
+							Chat_IsActive = false;
+						}
 
-					UEngineInputRecorder::GetText();
-					UEngineInputRecorder::RecordEnd();
+						UEngineInputRecorder::GetText();
+						UEngineInputRecorder::RecordEnd();
+					}
 					});
 			}
 			{
@@ -979,16 +1027,18 @@ void ALobbyTitleGameMode::BeginPlay()
 				ChatBox->AddToViewPort(3);
 				ChatBox->SetScale({ 225.0f, 23.0f });
 				ChatBox->SetWidgetLocation({ -102.0f, -234.0f });
-
 				ChatBox->CreateAnimation("InActive", "NameBoxNotActive.png", 0.1f, false, 0, 0);
 				ChatBox->CreateAnimation("Active", "NameBox.png", 0.1f, false, 0, 0);
 				ChatBox->ChangeAnimation("InActive");
 
 				ChatBox->SetDown([=] {
-					ChatBox->ChangeAnimation("Active");
-					Chat_IsActive = true;
+					if (IsMapSelectOn == false)
+					{
+						ChatBox->ChangeAnimation("Active");
+						Chat_IsActive = true;
 
-					UEngineInputRecorder::RecordStart(ChatInputText->GetText(), 18);
+						UEngineInputRecorder::RecordStart(ChatInputText->GetText(), 18);
+					}
 					});
 			}
 			{
@@ -1014,7 +1064,7 @@ void ALobbyTitleGameMode::LevelStart(ULevel* _PrevLevel)
 	Usernames_Space[Player.SpaceIndex]->SetText(Player.Name);
 	SettingCharacterSelect(ConnectionInfo::GetInst().GetCharacterType());	// Ramdom 타입으로 Game에 참가하고 나온 경우를 위해
 
-	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())	// GameStart, MapSelect 버튼은 서버만 누를 수 있음
 	{
 		Btn_GameStart_InActive->SetActive(false);
 		Btn_MapSelect_InActive->SetActive(false);
@@ -1103,13 +1153,12 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 
 void ALobbyTitleGameMode::ChatUpdate()
 {
-	// Users Chat Update
-
-
-	// Player Chat Update
 	if (Chat_IsActive == false)
 	{
-		if (UEngineInput::IsDown(VK_RETURN) == true)
+		if (
+			IsMapSelectOn == false &&
+			UEngineInput::IsDown(VK_RETURN) == true
+			)
 		{
 			ChatBox->ChangeAnimation("Active");
 			Chat_IsActive = true;
@@ -1119,7 +1168,10 @@ void ALobbyTitleGameMode::ChatUpdate()
 	}
 	else if (Chat_IsActive == true)
 	{
-		if (UEngineInput::IsDown(VK_RETURN))
+		if (
+			IsMapSelectOn == false &&
+			UEngineInput::IsDown(VK_RETURN) == true
+			)
 		{
 			ChatBox->ChangeAnimation("InActive");
 			Chat_IsActive = false;
@@ -1132,7 +1184,7 @@ void ALobbyTitleGameMode::ChatUpdate()
 
 			{
 				UTextWidget* ChatText = CreateWidget<UTextWidget>(GetWorld(), "ChatText");
-				ChatText->AddToViewPort(4);
+				ChatText->AddToViewPort(3);
 				ChatText->SetScale(12.0f);
 				ChatText->SetWidgetLocation({ -370.0f, -195.0f });
 				ChatText->SetFont("굴림");
@@ -1222,16 +1274,20 @@ void ALobbyTitleGameMode::PanelOff()
 
 void ALobbyTitleGameMode::MapSelectOn()
 {
+	IsMapSelectOn = true;
 	BackGround_MapSelect->SetActive(true);
 	Btn_MapSelectAccept->SetActive(true);
 	Btn_MapSelectCancel->SetActive(true);
+	Fade_MapSelect->SetActive(true);
 }
 
 void ALobbyTitleGameMode::MapSelectOff()
 {
+	IsMapSelectOn = false;
 	BackGround_MapSelect->SetActive(false);
 	Btn_MapSelectAccept->SetActive(false);
 	Btn_MapSelectCancel->SetActive(false);
+	Fade_MapSelect->SetActive(false);
 }
 
 void ALobbyTitleGameMode::SettingPanel(ECharacterType _CharacterType)
