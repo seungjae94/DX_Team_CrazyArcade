@@ -83,6 +83,11 @@ public:
 	{
 		return IsDead;
 	}
+
+	inline FVector GetPlayerDirVector()
+	{
+		return PlayerDirVector;
+	}
 	
 	inline void IncreaseBombCount()
 	{
@@ -126,6 +131,7 @@ protected:
 	FVector PlayerPos;
 	std::string Name = "Player";
 	EPlayerDir PlayerDir = EPlayerDir::Down;
+	FVector PlayerDirVector = FVector::Zero;
 	ABombBase* Bomb = nullptr;
 	ERiding Riding = ERiding::None;
 
