@@ -1071,6 +1071,7 @@ void ALobbyTitleGameMode::ChatUpdate()
 
 			{
 				std::shared_ptr<UCheatingPacket> Packet = std::make_shared<UCheatingPacket>();
+				Packet->SetSessionToken(UCrazyArcadeCore::Net->GetSessionToken());
 				Packet->Cheating = ChatTexts.back()->GetText();
 				UCrazyArcadeCore::Net->Send(Packet);
 			}
