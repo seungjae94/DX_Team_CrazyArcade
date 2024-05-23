@@ -283,14 +283,15 @@ void APlayer::Run(float _DeltaTime)
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Right");
 			PlayerDir = EPlayerDir::Right;
 			PlayerDirVector = FVector::Right;
+			KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 		}
 		else //기본 이동
 		{
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Left");
 			PlayerDir = EPlayerDir::Left;
 			PlayerDirVector = FVector::Left;
+			KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 		}
-		KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 	}
 	else if (true == IsPress(VK_RIGHT))
 	{
@@ -299,14 +300,15 @@ void APlayer::Run(float _DeltaTime)
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Left");
 			PlayerDir = EPlayerDir::Left;
 			PlayerDirVector = FVector::Left;
+			KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 		}
 		else
 		{
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Right");
 			PlayerDir = EPlayerDir::Right;
 			PlayerDirVector = FVector::Right;
+			KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 		}
-		KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 	}
 	else if (true == IsPress(VK_UP))
 	{
@@ -315,14 +317,15 @@ void APlayer::Run(float _DeltaTime)
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Down");
 			PlayerDir = EPlayerDir::Down;
 			PlayerDirVector = FVector::Down;
+			KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 		}
 		else
 		{
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Up");
 			PlayerDir = EPlayerDir::Up;
 			PlayerDirVector = FVector::Up;
+			KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 		}
-		KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 	}
 	else if (true == IsPress(VK_DOWN))
 	{
@@ -331,14 +334,17 @@ void APlayer::Run(float _DeltaTime)
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Up");
 			PlayerDir = EPlayerDir::Up;
 			PlayerDirVector = FVector::Up;
+			KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
+
 		}
 		else
 		{
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Run_Down");
 			PlayerDir = EPlayerDir::Down;
 			PlayerDirVector = FVector::Down;
+			KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
+
 		}
-		KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 	}
 
 	if (true == IsFree(VK_LEFT) && true == IsFree(VK_RIGHT) && true == IsFree(VK_UP) && true == IsFree(VK_DOWN))
@@ -433,15 +439,15 @@ void APlayer::RidingRun(float _DeltaTime)
 
 			PlayerDir = EPlayerDir::Right;
 			PlayerDirVector = FVector::Right;
+			KeyMove(_DeltaTime, PlayerDirVector, RidingSpeed);
 		}
 		else //기본 이동
 		{
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Riding" + RidingType + "_Left");
 			PlayerDir = EPlayerDir::Left;
 			PlayerDirVector = FVector::Left;
+			KeyMove(_DeltaTime, PlayerDirVector, RidingSpeed);
 		}
-		KeyMove(_DeltaTime, PlayerDirVector, RidingSpeed);
-
 	}
 	else if (true == IsPress(VK_RIGHT))
 	{
@@ -450,14 +456,15 @@ void APlayer::RidingRun(float _DeltaTime)
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Riding" + RidingType + "_Left");
 			PlayerDir = EPlayerDir::Left;
 			PlayerDirVector = FVector::Left;
+			KeyMove(_DeltaTime, PlayerDirVector, RidingSpeed);
 		}
 		else
 		{
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Riding" + RidingType + "_Right");
 			PlayerDir = EPlayerDir::Right;
 			PlayerDirVector = FVector::Right;
+			KeyMove(_DeltaTime, PlayerDirVector, RidingSpeed);
 		}
-		KeyMove(_DeltaTime, PlayerDirVector, RidingSpeed);
 	}
 	else if (true == IsPress(VK_UP))
 	{
@@ -466,14 +473,15 @@ void APlayer::RidingRun(float _DeltaTime)
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Riding" + RidingType + "_Down");
 			PlayerDir = EPlayerDir::Down;
 			PlayerDirVector = FVector::Down;
+			KeyMove(_DeltaTime, PlayerDirVector, RidingSpeed);
 		}
 		else
 		{
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Riding" + RidingType + "_Up");
 			PlayerDir = EPlayerDir::Up;
 			PlayerDirVector = FVector::Up;
+			KeyMove(_DeltaTime, PlayerDirVector, RidingSpeed);
 		}
-		KeyMove(_DeltaTime, PlayerDirVector, RidingSpeed);
 	}
 	else if (true == IsPress(VK_DOWN))
 	{
@@ -482,14 +490,15 @@ void APlayer::RidingRun(float _DeltaTime)
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Riding" + RidingType + "_Up");
 			PlayerDir = EPlayerDir::Up;
 			PlayerDirVector = FVector::Up;
+			KeyMove(_DeltaTime, PlayerDirVector, RidingSpeed);
 		}
 		else
 		{
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Riding" + RidingType + "_Down");
 			PlayerDir = EPlayerDir::Down;
 			PlayerDirVector = FVector::Down;
+			KeyMove(_DeltaTime, PlayerDirVector, RidingSpeed);
 		}
-		KeyMove(_DeltaTime, PlayerDirVector, RidingSpeed);
 	}
 
 	if (true == IsFree(VK_LEFT) && true == IsFree(VK_RIGHT) && true == IsFree(VK_UP) && true == IsFree(VK_DOWN))
@@ -545,24 +554,23 @@ void APlayer::TrapStart(float _DeltaTime)
 	if (true == IsPress(VK_LEFT))
 	{
 		PlayerDirVector = FVector::Left;
+		KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 	}
 	else if (true == IsPress(VK_RIGHT))
 	{
 		PlayerDirVector = FVector::Right;
+		KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 	}
 	else if (true == IsPress(VK_UP))
 	{
 		PlayerDirVector = FVector::Up;
+		KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 	}
 	else if (true == IsPress(VK_DOWN))
 	{
 		PlayerDirVector = FVector::Down;
-	}
-	else
-	{
-		PlayerDirVector = FVector::Zero;
-	}
-	KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
+		KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
+	}	
 
 	// 부쉬 Hide
 	HideInBush();
@@ -580,24 +588,23 @@ void APlayer::Trapped(float _DeltaTime)
 	if (true == IsPress(VK_LEFT))
 	{
 		PlayerDirVector = FVector::Left;
+		KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 	}
 	else if (true == IsPress(VK_RIGHT))
 	{
 		PlayerDirVector = FVector::Right;
+		KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 	}
 	else if (true == IsPress(VK_UP))
 	{
 		PlayerDirVector = FVector::Up;
+		KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 	}
 	else if (true == IsPress(VK_DOWN))
 	{
 		PlayerDirVector = FVector::Down;
+		KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 	}
-	else
-	{
-		PlayerDirVector = FVector::Zero;
-	}
-	KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 
 	// 부쉬 Hide
 	HideInBush();
@@ -635,24 +642,23 @@ void APlayer::TrapEnd(float _DeltaTime)
 	if (true == IsPress(VK_LEFT))
 	{
 		PlayerDirVector = FVector::Left;
+		KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 	}
 	else if (true == IsPress(VK_RIGHT))
 	{
 		PlayerDirVector = FVector::Right;
+		KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 	}
 	else if (true == IsPress(VK_UP))
 	{
 		PlayerDirVector = FVector::Up;
+		KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 	}
 	else if (true == IsPress(VK_DOWN))
 	{
 		PlayerDirVector = FVector::Down;
+		KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 	}
-	else
-	{
-		PlayerDirVector = FVector::Zero;
-	}
-	KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 
 	// 부쉬 Hide
 	HideInBush();
