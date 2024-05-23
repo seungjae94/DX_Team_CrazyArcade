@@ -108,7 +108,7 @@ void ABombBase::StateInit()
 
 			DelayCallBack(0.66f, [=] 
 				{
-					PlayLevel->GetMap()->GetTileInfo(CurPoint).Bomb = nullptr;
+					PlayLevel->GetMap()->GetTileInfo(CurPoint).AllBomb.clear();
 					Destroy();
 				}
 			);
@@ -205,11 +205,13 @@ void ABombBase::CreateLeftWave()
 			break;
 		}
 
-		std::shared_ptr<ABombBase> Bomb = PlayLevel->GetMap()->GetTileInfo(WavePoint).Bomb;
-		if (nullptr != Bomb && BombState::explosion != Bomb->State.GetCurStateName())
+		for (std::shared_ptr<ABombBase> Bomb : PlayLevel->GetMap()->GetTileInfo(WavePoint).AllBomb)
 		{
-			Bomb->PlayerBombCountUpdate();
-			Bomb->State.ChangeState(BombState::explosion);
+			if (nullptr != Bomb && BombState::explosion != Bomb->State.GetCurStateName())
+			{
+				Bomb->PlayerBombCountUpdate();
+				Bomb->State.ChangeState(BombState::explosion);
+			}
 		}
 
 		if (i == Power)
@@ -253,11 +255,13 @@ void ABombBase::CreateRightWave()
 			break;
 		}
 
-		std::shared_ptr<ABombBase> Bomb = PlayLevel->GetMap()->GetTileInfo(WavePoint).Bomb;
-		if (nullptr != Bomb && BombState::explosion != Bomb->State.GetCurStateName())
+		for (std::shared_ptr<ABombBase> Bomb : PlayLevel->GetMap()->GetTileInfo(WavePoint).AllBomb)
 		{
-			Bomb->PlayerBombCountUpdate();
-			Bomb->State.ChangeState(BombState::explosion);
+			if (nullptr != Bomb && BombState::explosion != Bomb->State.GetCurStateName())
+			{
+				Bomb->PlayerBombCountUpdate();
+				Bomb->State.ChangeState(BombState::explosion);
+			}
 		}
 
 		if (i == Power)
@@ -301,11 +305,13 @@ void ABombBase::CreateUpWave()
 			break;
 		}
 
-		std::shared_ptr<ABombBase> Bomb = PlayLevel->GetMap()->GetTileInfo(WavePoint).Bomb;
-		if (nullptr != Bomb && BombState::explosion != Bomb->State.GetCurStateName())
+		for (std::shared_ptr<ABombBase> Bomb : PlayLevel->GetMap()->GetTileInfo(WavePoint).AllBomb)
 		{
-			Bomb->PlayerBombCountUpdate();
-			Bomb->State.ChangeState(BombState::explosion);
+			if (nullptr != Bomb && BombState::explosion != Bomb->State.GetCurStateName())
+			{
+				Bomb->PlayerBombCountUpdate();
+				Bomb->State.ChangeState(BombState::explosion);
+			}
 		}
 
 		if (i == Power)
@@ -349,11 +355,13 @@ void ABombBase::CreateDownWave()
 			break;
 		}
 
-		std::shared_ptr<ABombBase> Bomb = PlayLevel->GetMap()->GetTileInfo(WavePoint).Bomb;
-		if (nullptr != Bomb && BombState::explosion != Bomb->State.GetCurStateName())
+		for (std::shared_ptr<ABombBase> Bomb : PlayLevel->GetMap()->GetTileInfo(WavePoint).AllBomb)
 		{
-			Bomb->PlayerBombCountUpdate();
-			Bomb->State.ChangeState(BombState::explosion);
+			if (nullptr != Bomb && BombState::explosion != Bomb->State.GetCurStateName())
+			{
+				Bomb->PlayerBombCountUpdate();
+				Bomb->State.ChangeState(BombState::explosion);
+			}
 		}
 
 		if (i == Power)

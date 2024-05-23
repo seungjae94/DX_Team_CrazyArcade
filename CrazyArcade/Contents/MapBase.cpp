@@ -67,10 +67,11 @@ void AMapBase::LevelEnd(ULevel* _NextLevel)
 				TileInfo[Y][X].Block = nullptr;
 			}
 
-			if (nullptr != TileInfo[Y][X].Bomb)
+			std::list<std::shared_ptr<ABombBase>>::iterator Iter; 
+			for (Iter = TileInfo[Y][X].AllBomb.begin(); Iter != TileInfo[Y][X].AllBomb.end(); ++Iter)
 			{
-				TileInfo[Y][X].Bomb->Destroy();
-				TileInfo[Y][X].Bomb = nullptr;
+				(*Iter)->Destroy();
+				(*Iter) = nullptr;
 			}
 
 			if (nullptr != TileInfo[Y][X].Item)
@@ -185,7 +186,7 @@ bool AMapBase::IsBombPos(const FVector& _Pos, const FVector& _Dir)
 	FPoint Point = ConvertLocationToPoint(NextPos);
 
 	if (true == MapRangeCheckByPoint(Point)
-	&&	nullptr != TileInfo[Point.Y][Point.X].Bomb)
+	&&	false == TileInfo[Point.Y][Point.X].AllBomb.empty())
 	{
 		Result = true;
 	}
@@ -193,47 +194,19 @@ bool AMapBase::IsBombPos(const FVector& _Pos, const FVector& _Dir)
 	return Result;
 }
 
-// 물폭탄 위치면 포인터 반환
-std::shared_ptr<ABombBase> AMapBase::IsBombPosRet(const FVector& _Pos, const FVector& _Dir)
-{
-	FVector NextPos = _Pos;
-
-	if (0.0f < _Dir.X)			// 우
-	{
-		NextPos.X += BlockCheckAdjPosX;
-	}
-	else if (0.0f > _Dir.X)		// 좌
-	{
-		NextPos.X -= BlockCheckAdjPosX;
-	}
-	else if (0.0f < _Dir.Y)		// 상
-	{
-		NextPos.Y += BlockCheckAdjUpPos;
-	}
-	else if (0.0f > _Dir.Y)		// 하
-	{
-		NextPos.Y -= BlockCheckAdjDownPos;
-	}
-
-	FPoint Point = ConvertLocationToPoint(NextPos);
-
-	if (true == MapRangeCheckByPoint(Point)
-	&&  nullptr != TileInfo[Point.Y][Point.X].Bomb)
-	{
-		return TileInfo[Point.Y][Point.X].Bomb;
-	}
-
-	return nullptr;
-}
-
 // Bush 위치면 true 반환
-bool AMapBase::IsBushPos(const FVector& _Pos)
+bool AMapBase::IsBushPos(const FVector& _Pos, bool _IsInBush)
 {
 	bool Result = false;
 	FPoint Point = ConvertLocationToPoint(_Pos);
 
 	if (nullptr != TileInfo[Point.Y][Point.X].Bush)
 	{
+		if (_IsInBush == false)
+		{
+			TileInfo[Point.Y][Point.X].Bush->SetShaking();
+		}
+
 		Result = true;
 	}
 
@@ -241,9 +214,9 @@ bool AMapBase::IsBushPos(const FVector& _Pos)
 }
 
 // 다른 플레이어와 충돌시 true 반환
-bool AMapBase::IsColOtherPlayer(const FVector& _Pos, APlayer* _Player)
+ECharacterColor AMapBase::IsColOtherPlayer(const FVector& _Pos, APlayer* _Player)
 {
-	bool Result = false;
+	ECharacterColor Color = ECharacterColor::None;
 	FVector CurPos = _Pos;
 
 	for (size_t i = 0; i < AllPlayer.size(); i++)
@@ -260,11 +233,11 @@ bool AMapBase::IsColOtherPlayer(const FVector& _Pos, APlayer* _Player)
 
 		if (20.0f > DiffLen)
 		{
-			Result = true;
+			Color = AllPlayer[i]->GetPlayerColor();
 		}
 	}
 
-	return Result;
+	return Color;
 }
 
 // 해당 위치 Tile의 ItemType을 반환
@@ -300,21 +273,37 @@ std::shared_ptr<ABombBase> AMapBase::SpawnBomb(const FVector& _Pos, APlayer* _Pl
 		return nullptr;
 	}
 
-	if (nullptr == TileInfo[CurPoint.Y][CurPoint.X].Bomb)
+	if (true == TileInfo[CurPoint.Y][CurPoint.X].AllBomb.empty())
 	{
 		FVector TargetPos = ConvertPointToLocation(CurPoint);
 		TargetPos.Y += BombAdjustPosY;
-		TileInfo[CurPoint.Y][CurPoint.X].Bomb = GetWorld()->SpawnActor<ABombBase>("Bomb");
-		TileInfo[CurPoint.Y][CurPoint.X].Bomb->SetActorLocation(TargetPos);
-		TileInfo[CurPoint.Y][CurPoint.X].Bomb->SetPlayer(_Player);
-		TileInfo[CurPoint.Y][CurPoint.X].Bomb->SetCurPoint(CurPoint);
-		TileInfo[CurPoint.Y][CurPoint.X].Bomb->SetIdle();
-		return TileInfo[CurPoint.Y][CurPoint.X].Bomb;
+		std::shared_ptr<ABombBase> NewBomb = GetWorld()->SpawnActor<ABombBase>("Bomb");
+		NewBomb->SetActorLocation(TargetPos);
+		NewBomb->SetPlayer(_Player);
+		NewBomb->SetCurPoint(CurPoint);
+		NewBomb->SetIdle();
+		TileInfo[CurPoint.Y][CurPoint.X].AllBomb.push_back(NewBomb);
+		return NewBomb;
 	}
 	else
 	{
 		return nullptr;
 	}
+}
+
+// 현재 위치 Tile에 Bomb 스폰 함수 (무조건 생성됨)
+std::shared_ptr<ABombBase> AMapBase::ServerSpawnBomb(const FVector& _Pos, APlayer* _Player)
+{
+	FPoint CurPoint = ConvertLocationToPoint(_Pos);
+	FVector TargetPos = ConvertPointToLocation(CurPoint);
+	TargetPos.Y += BombAdjustPosY;
+	std::shared_ptr<ABombBase> NewBomb = GetWorld()->SpawnActor<ABombBase>("Bomb");
+	NewBomb->SetActorLocation(TargetPos);
+	NewBomb->SetPlayer(_Player);
+	NewBomb->SetCurPoint(CurPoint);
+	NewBomb->SetIdle();
+	TileInfo[CurPoint.Y][CurPoint.X].AllBomb.push_back(NewBomb);
+	return NewBomb;
 }
 
 // 플레이어 사망시 Item 다시 소환
@@ -343,7 +332,7 @@ void AMapBase::ReSpawnItem(EItemType _Type, int _Count)
 			continue;
 		}
 
-		if (nullptr != TileInfo[Point.Y][Point.X].Bomb)
+		if (false == TileInfo[Point.Y][Point.X].AllBomb.empty())
 		{
 			continue;
 		}

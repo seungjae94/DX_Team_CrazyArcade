@@ -35,13 +35,9 @@ void UEngineServer::AcceptThreadFunction(UEngineServer* Server, SOCKET _AcceptSo
 		// 서버가 다 담당할 겁니다.
 		int SessionToken = USession::GetNewSessionToken();
 
-		USessionTokenPacket NewPacket;
 
 		// 세션 토큰과 
-		NewPacket.SetSessionToken(SessionToken);
-		NewPacket.SetObjectToken(SessionToken * 1000);
 
-		UEngineSerializer Ser = NewPacket.GetSerialize();
 
 		if (Server->SessionSize() >= 7) {  //현재 인원이 다 찼는가?
 			USessionRejectPacket RejectPacket;
@@ -49,6 +45,13 @@ void UEngineServer::AcceptThreadFunction(UEngineServer* Server, SOCKET _AcceptSo
 			NewSession->Send(RejectSer);
 			continue;
 		}
+
+		//for(Server->SessionSize())
+
+		USessionTokenPacket NewPacket;
+		NewPacket.SetSessionToken(SessionToken);
+		NewPacket.SetObjectToken(SessionToken * 1000);
+		UEngineSerializer Ser = NewPacket.GetSerialize();
 		NewSession->Send(Ser);
 
 		// 클라이언트 1명의 리시브쓰레드를 만들었으니 상대가 응답했다면

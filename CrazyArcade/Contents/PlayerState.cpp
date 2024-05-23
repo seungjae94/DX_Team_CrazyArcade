@@ -9,6 +9,9 @@
 
 void APlayer::StateInit()
 {
+	SetCharacterType(ConnectionInfo::GetInst().GetCharacterType());
+	SetPlayerColor(ConnectionInfo::GetInst().GetCharacterColor());
+
 	// 스테이트 생성
 	State.CreateState("Ready");
 	State.CreateState("Idle");
@@ -21,13 +24,13 @@ void APlayer::StateInit()
 	State.CreateState("TrapEnd");
 	State.CreateState("Die");
 	State.CreateState("Revival");
+	State.CreateState("Win");
+	State.CreateState("Lose");
 
 	// 함수 세팅
 	State.SetUpdateFunction("Ready", std::bind(&APlayer::Ready, this, std::placeholders::_1));
 	State.SetStartFunction("Ready", [=]
 		{
-			SetCharacterType(ConnectionInfo::GetInst().GetCharacterType());
-			SetPlayerColor(ConnectionInfo::GetInst().GetCharacterColor());
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Ready");
 		}
 	);
@@ -179,6 +182,19 @@ void APlayer::StateInit()
 			NoHit = false;
 		});
 
+	State.SetUpdateFunction("Win", std::bind(&APlayer::Win, this, std::placeholders::_1));
+	State.SetStartFunction("Win", [=]()
+		{
+			Renderer->ChangeAnimation(Type + PlayerColorText + "_Win");
+		});
+
+	State.SetUpdateFunction("Lose", std::bind(&APlayer::Lose, this, std::placeholders::_1));
+	State.SetStartFunction("Lose", [=]()
+		{
+			Renderer->ChangeAnimation(Type + PlayerColorText + "_Lose");
+		});
+
+	// 시작 상태
 	State.ChangeState("Ready");
 }
 
@@ -414,7 +430,7 @@ void APlayer::RidingRun(float _DeltaTime)
 		if (true == IsDevil && true == MoveDevil)
 		{
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Riding" + RidingType + "_Right");
-			
+
 			PlayerDir = EPlayerDir::Right;
 			PlayerDirVector = FVector::Right;
 		}
@@ -542,6 +558,10 @@ void APlayer::TrapStart(float _DeltaTime)
 	{
 		PlayerDirVector = FVector::Down;
 	}
+	else
+	{
+		PlayerDirVector = FVector::Zero;
+	}
 	KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 
 	// 부쉬 Hide
@@ -573,12 +593,17 @@ void APlayer::Trapped(float _DeltaTime)
 	{
 		PlayerDirVector = FVector::Down;
 	}
+	else
+	{
+		PlayerDirVector = FVector::Zero;
+	}
 	KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 
 	// 부쉬 Hide
 	HideInBush();
 
-	if (true == PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this))
+	ECharacterColor ColPlayerColor = PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this);
+	if (ECharacterColor::None != ColPlayerColor && PlayerColor != ColPlayerColor)
 	{
 		State.ChangeState("Die");
 		return;
@@ -617,12 +642,17 @@ void APlayer::TrapEnd(float _DeltaTime)
 	{
 		PlayerDirVector = FVector::Down;
 	}
+	else
+	{
+		PlayerDirVector = FVector::Zero;
+	}
 	KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
 
 	// 부쉬 Hide
 	HideInBush();
 
-	if (true == PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this))
+	ECharacterColor ColPlayerColor = PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this);
+	if (ECharacterColor::None != ColPlayerColor	&& PlayerColor != ColPlayerColor)
 	{
 		State.ChangeState("Die");
 		return;
@@ -650,6 +680,14 @@ void APlayer::Revival(float _DeltaTime)
 	}
 }
 
+void APlayer::Win(float _DeltaTime)
+{
+}
+
+void APlayer::Lose(float _DeltaTime)
+{
+}
+
 void APlayer::KeyMove(float _DeltaTime, FVector _Dir, float _Speed)
 {
 	FVector NextPos = GetActorLocation() + FVector(_DeltaTime * _Speed * _Dir.X, _DeltaTime * _Speed * _Dir.Y, 0.0f);
@@ -673,13 +711,15 @@ void APlayer::KeyMove(float _DeltaTime, FVector _Dir, float _Speed)
 
 void APlayer::HideInBush()
 {
-	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
+	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation(), IsInBush))
 	{
+		IsInBush = true;
 		Renderer->SetActive(false);
 		ShadowRenderer->SetActive(false);
 	}
 	else
 	{
+		IsInBush = false;
 		Renderer->SetActive(true);
 		ShadowRenderer->SetActive(true);
 	}

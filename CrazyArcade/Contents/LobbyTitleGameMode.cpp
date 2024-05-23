@@ -1068,6 +1068,13 @@ void ALobbyTitleGameMode::ChatUpdate()
 			}
 
 			ChatInputText->SetText("");
+
+			{
+				std::shared_ptr<UCheatingPacket> Packet = std::make_shared<UCheatingPacket>();
+				Packet->Cheating = ChatTexts.back()->GetText();
+				UCrazyArcadeCore::Net->Send(Packet);
+			}
+
 			return;
 		}
 
@@ -1535,4 +1542,43 @@ void ALobbyTitleGameMode::GameStart()
 
 void ALobbyTitleGameMode::HandlerInit()
 {
+	if(ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType()){
+	UEngineDispatcher& Dis = UCrazyArcadeCore::Net->Dispatcher;
+	Dis.AddHandler<UCheatingPacket>([=](std::shared_ptr<UCheatingPacket> _Packet)  //¿¢ÅÍ ½ºÆù Å×½ºÆ®¿ë
+		{
+			GetWorld()->PushFunction([=]()
+				{
+					UCrazyArcadeCore::Net->Send(_Packet);
+					
+					UTextWidget* ChatText = CreateWidget<UTextWidget>(GetWorld(), "ChatText");
+					ChatText->AddToViewPort(4);
+					ChatText->SetScale(12.0f);
+					ChatText->SetWidgetLocation({ -370.0f, -195.0f });
+					ChatText->SetFont("±¼¸²");
+					ChatText->SetColor(Color8Bit::White);
+					ChatText->SetFlag(FW1_LEFT);
+					ChatText->SetText(_Packet->Cheating);
+					ChatTexts.push_back(ChatText);
+				});
+		});
+	}
+	if (ENetType::Client== UCrazyArcadeCore::NetManager.GetNetType()) {
+		UEngineDispatcher& Dis = UCrazyArcadeCore::Net->Dispatcher;
+		Dis.AddHandler<UCheatingPacket>([=](std::shared_ptr<UCheatingPacket> _Packet)  //¿¢ÅÍ ½ºÆù Å×½ºÆ®¿ë
+			{
+				GetWorld()->PushFunction([=]()
+					{
+						UTextWidget* ChatText = CreateWidget<UTextWidget>(GetWorld(), "ChatText");
+						ChatText->AddToViewPort(4);
+						ChatText->SetScale(12.0f);
+						ChatText->SetWidgetLocation({ -370.0f, -195.0f });
+						ChatText->SetFont("±¼¸²");
+						ChatText->SetColor(Color8Bit::White);
+						ChatText->SetFlag(FW1_LEFT);
+						ChatText->SetText(_Packet->Cheating);
+						ChatTexts.push_back(ChatText);
+					});
+			});
+	}
+
 }

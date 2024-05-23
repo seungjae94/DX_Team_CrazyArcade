@@ -147,7 +147,7 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 		if (0 > TwoStepPoint.X || SizeX <= TwoStepPoint.X
 		||  0 > TwoStepPoint.Y || SizeY <= TwoStepPoint.Y
 		||  nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Block
-		||  nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Bomb)
+		||  false == TileInfo[TwoStepPoint.Y][TwoStepPoint.X].AllBomb.empty())
 		{
 			Result = false;
 			return Result;
@@ -233,7 +233,7 @@ bool AMapBase::SubMoveBoxCheck(FPoint _NextPoint, const FVector& _Dir)
 		if (0 > TwoStepPoint.X || SizeX <= TwoStepPoint.X
 		||  0 > TwoStepPoint.Y || SizeY <= TwoStepPoint.Y
 		||  nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Block
-		||  nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Bomb)
+		||  false == TileInfo[TwoStepPoint.Y][TwoStepPoint.X].AllBomb.empty())
 		{
 			return false;
 		}
@@ -284,7 +284,7 @@ bool AMapBase::SubMoveBoxOnlyCheck(FPoint _NextPoint, const FVector& _Dir)
 		if (0 > TwoStepPoint.X || SizeX <= TwoStepPoint.X
 		||  0 > TwoStepPoint.Y || SizeY <= TwoStepPoint.Y
 		||  nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Block
-		||  nullptr != TileInfo[TwoStepPoint.Y][TwoStepPoint.X].Bomb)
+		||  false == TileInfo[TwoStepPoint.Y][TwoStepPoint.X].AllBomb.empty())
 		{
 			return false;
 		}

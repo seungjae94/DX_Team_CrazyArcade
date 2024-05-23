@@ -12,7 +12,20 @@ UNetObject::UNetObject()
 
 UNetObject::~UNetObject() 
 {
-	AllNetObject[GetObjectToken()] = nullptr;
+	if (true == AllNetObject.empty())
+	{
+		return;
+	}
+
+	int IsManager = GetObjectToken();
+	if (-1 == IsManager) {
+		return;
+	}
+
+	if (true == AllNetObject.contains(GetObjectToken()))
+	{
+		AllNetObject[GetObjectToken()] = nullptr;
+	}
 }
 
 
