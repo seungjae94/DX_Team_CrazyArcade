@@ -2,7 +2,7 @@
 #include "NetObject.h"
 
 // 이 토큰을 부여해줄수 있는건 보통 서버입니다.
-std::atomic<int> UNetObject::CurObjectToken = 0;
+std::atomic<int> UNetObject::CurObjectToken = 1;
 std::map<int, UNetObject*> UNetObject::AllNetObject;
 std::mutex UNetObject::AllNetObjectLock;
 
