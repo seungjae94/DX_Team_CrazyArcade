@@ -176,7 +176,6 @@ void APlayer::StateInit()
 	State.SetStartFunction("Revival", [=]()
 		{
 			IsTrapped = false;
-			NeedleCount--;
 			CurSpeed = BaseSpeed + Speed;
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Revival");
 			NoHit = false;
@@ -625,6 +624,11 @@ void APlayer::Trapped(float _DeltaTime)
 	// 바늘 사용하면
 	if (true == IsDown('2') && NeedleCount > 0)
 	{
+		NeedleCount--;
+		if (NeedleCount <= 0)
+		{
+			NeedleCount = 0;
+		}
 		State.ChangeState("Revival");
 		return;
 	}
