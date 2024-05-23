@@ -3,6 +3,8 @@
 
 #include "MainPlayLevel.h"
 #include "MapConstant.h"
+#include "MapBase.h"
+#include "Player.h"
 
 ABushBase::ABushBase()
 {
@@ -48,6 +50,7 @@ void ABushBase::StateInit()
 	// State Create
 	State.CreateState(BushState::idle);
 	State.CreateState(BushState::shaking);
+	State.CreateState(BushState::player_in);
 
 	// State Start
 	State.SetStartFunction(BushState::idle, [=] {});
@@ -55,6 +58,12 @@ void ABushBase::StateInit()
 		{
 			ShakingIdx = 0;
 			ShakingDelayTimeCount = ShakingDelayTime;
+		}
+	);
+
+	State.SetStartFunction(BushState::player_in, [=]
+		{
+
 		}
 	);
 
@@ -70,13 +79,42 @@ void ABushBase::StateInit()
 
 			if (ShakingPosY.size() <= ShakingIdx)
 			{
-				State.ChangeState(BushState::idle);
+				State.ChangeState(BushState::player_in);
 				return;
 			}
 
 			Body->AddPosition({ 0.0f, ShakingPosY[ShakingIdx], 0.0f});
 			ShakingDelayTimeCount = ShakingDelayTime;
 			++ShakingIdx;
+		}
+	);
+
+	State.SetUpdateFunction(BushState::player_in, [=](float _DeltaTime)
+		{
+			FPoint BushPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
+			bool IsInPlayer = false;
+
+			for (size_t i = 0; i < PlayLevel->GetMap()->AllPlayer.size(); i++)
+			{
+				APlayer* Player = PlayLevel->GetMap()->AllPlayer[i];
+				if (nullptr == Player || true == Player->GetIsDead())
+				{
+					continue;
+				}
+
+				FVector PlayerPos = Player->GetActorLocation();
+				FPoint PlayerPoint = AMapBase::ConvertLocationToPoint(PlayerPos);
+				if (PlayerPoint == BushPoint)
+				{
+					IsInPlayer = true;
+				}
+			}
+
+			if (false == IsInPlayer)
+			{
+				State.ChangeState(BushState::idle);
+				return;
+			}
 		}
 	);
 }

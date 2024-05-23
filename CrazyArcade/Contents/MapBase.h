@@ -28,9 +28,10 @@ class AMapBase : public AActor
 	GENERATED_BODY(AActor)
 
 	friend ABombBase;
+	friend ABushBase;
 	friend AMoveBox;
-	friend ABox;
 	friend AWave;
+	friend ABox;
 public:
 	// constrcuter destructer
 	AMapBase();
@@ -62,7 +63,7 @@ public:
 
 	bool CanMovePos(const FVector& _NextPos, const FVector& _Dir);
 	bool IsBombPos(const FVector& _Pos, const FVector& _Dir);
-	bool IsBushPos(const FVector& _Pos);
+	bool IsBushPos(const FVector& _Pos, bool _IsInBush);
 	bool IsColOtherPlayer(const FVector& _Pos, APlayer* _Player);
 	EItemType IsItemTile(const FVector& _Pos);
 	
