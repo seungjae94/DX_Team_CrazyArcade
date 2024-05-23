@@ -41,6 +41,7 @@ void ALobbyTitleGameMode::BeginPlay()
 				User.Name = "";
 				User.CharacterType = ECharacterType::None;
 				User.CharacterColor = ECharacterColor::None;
+				User.IsReady = false;
 
 				UserInfos.push_back(User);
 			}
@@ -49,6 +50,7 @@ void ALobbyTitleGameMode::BeginPlay()
 			Player.Name = "";
 			Player.CharacterType = ECharacterType::Random;
 			Player.CharacterColor = ECharacterColor::Red;
+			Player.IsReady = false;
 		}
 
 		// BackGround
@@ -81,20 +83,19 @@ void ALobbyTitleGameMode::BeginPlay()
 			Btn_GameStart->CreateAnimation("Down", "Button_GameStart_Down.png", 0.1f, false, 0, 0);
 			Btn_GameStart->ChangeAnimation("UnHover");
 
-			Btn_GameStart_InActive = CreateWidget<UImage>(GetWorld(), "Btn_GameStart_InActive");
+			/*Btn_GameStart_InActive = CreateWidget<UImage>(GetWorld(), "Btn_GameStart_InActive");
 			Btn_GameStart_InActive->SetSprite("Button_GameStart_InActive.png");
 			Btn_GameStart_InActive->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
 			Btn_GameStart_InActive->AddToViewPort(1);
 			Btn_GameStart_InActive->SetAutoSize(1.0f, true);
-			Btn_GameStart_InActive->SetWidgetLocation({ 231.0f, -222.0f });
+			Btn_GameStart_InActive->SetWidgetLocation({ 231.0f, -222.0f });*/
 
 			Btn_GameStart->SetUnHover([=] {
 				Btn_GameStart->ChangeAnimation("UnHover");
 				});
 			Btn_GameStart->SetHover([=] {
 				if (
-					ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType() && 
-					IsMapSelectOn == false && 
+					IsMapSelectOn == false &&
 					Btn_GameStart->IsCurAnimationEnd() == true
 					)
 				{
@@ -102,10 +103,7 @@ void ALobbyTitleGameMode::BeginPlay()
 				}
 				});
 			Btn_GameStart->SetDown([=] {
-				if (
-					ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType() &&
-					IsMapSelectOn == false
-					)
+				if (IsMapSelectOn == false)
 				{
 					Btn_GameStart->ChangeAnimation("Down");
 				}
@@ -114,13 +112,24 @@ void ALobbyTitleGameMode::BeginPlay()
 
 				});
 			Btn_GameStart->SetUp([=] {
-				if (
-					ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType() &&
-					IsMapSelectOn == false
-					)
+				if (IsMapSelectOn == false)
 				{
-					IsFadeOut = true;
-					Fade->SetActive(true);
+					if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+					{
+						IsFadeOut = true;
+						Fade->SetActive(true);
+					}
+					else
+					{
+						if (Player.IsReady == false)
+						{
+							ChangeReady(true);
+						}
+						else
+						{
+							ChangeReady(false);
+						}
+					}
 					Btn_GameStart->ChangeAnimation("UnHover");
 				}
 				});
@@ -307,6 +316,16 @@ void ALobbyTitleGameMode::BeginPlay()
 					Shadow_Space->SetSprite("Shadow_Space.png");
 
 					Shadows_Space.push_back(Shadow_Space);
+				}
+				{
+					UImage* Ready_Space = CreateWidget<UImage>(GetWorld(), "Ready_Space");
+					Ready_Space->AddToViewPort(1);
+					Ready_Space->SetAutoSize(1.0f, true);
+					Ready_Space->SetWidgetLocation({ -324.0f + 106.0f * (i % 4), 76.0f - 145.0f * (i / 4) });
+					Ready_Space->SetSprite("Ready_Space.png");
+					Ready_Space->SetActive(false);
+
+					Readys_Space.push_back(Ready_Space);
 				}
 				{
 					UTextWidget* Username_Space = CreateWidget<UTextWidget>(GetWorld(), "Username_Space");
@@ -1064,9 +1083,9 @@ void ALobbyTitleGameMode::LevelStart(ULevel* _PrevLevel)
 	Usernames_Space[Player.SpaceIndex]->SetText(Player.Name);
 	SettingCharacterSelect(ConnectionInfo::GetInst().GetCharacterType());	// Ramdom 타입으로 Game에 참가하고 나온 경우를 위해
 
-	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())	// GameStart, MapSelect 버튼은 서버만 누를 수 있음
+	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())	// MapSelect 버튼은 서버만 누를 수 있음
 	{
-		Btn_GameStart_InActive->SetActive(false);
+		//Btn_GameStart_InActive->SetActive(false);
 		Btn_MapSelect_InActive->SetActive(false);
 	}
 
@@ -1126,6 +1145,7 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 		Player.Name = ConnectionInfo::GetInst().GetMyName();
 		Player.CharacterType = ConnectionInfo::GetInst().GetCharacterType();
 		Player.CharacterColor = ConnectionInfo::GetInst().GetCharacterColor();
+		Player.IsReady = ConnectionInfo::GetInst().GetMyIsReady();
 	}
 
 	std::map<int, ConnectUserInfo> ServerUserInfos = ConnectionInfo::GetInst().GetUserInfos();
@@ -1136,6 +1156,7 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 		UserInfos[i].Name = ServerUserInfos[i].MyName;
 		UserInfos[i].CharacterType = ServerUserInfos[i].GetMyCharacterType();
 		UserInfos[i].CharacterColor = ServerUserInfos[i].GetMyColorType();
+		UserInfos[i].IsReady = ServerUserInfos[i].GetIsReady();
 
 		// Space Update
 		if (ServerUserInfos[i].GetIsExist() == false)
@@ -1147,6 +1168,7 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 			SpaceOn(i);
 			SettingName(i);
 			SettingCharacterImage(i);
+			SettingReady(i);
 		}
 	}
 }
@@ -1463,6 +1485,13 @@ void ALobbyTitleGameMode::SettingName(int _SpaceIndex)
 	Usernames_Space[_SpaceIndex]->SetText(UserInfos[_SpaceIndex].Name);
 }
 
+void ALobbyTitleGameMode::SettingReady(int _SpaceIndex)
+{
+	bool Ready = UserInfos[_SpaceIndex].IsReady;
+
+	Readys_Space[_SpaceIndex]->SetActive(Ready);
+}
+
 void ALobbyTitleGameMode::SettingCharacterImage(int _SpaceIndex)
 {
 	ECharacterType Type = UserInfos[_SpaceIndex].CharacterType;
@@ -1569,6 +1598,36 @@ void ALobbyTitleGameMode::ChangeColor(ECharacterColor _CharacterColor)
 	}
 }
 
+void ALobbyTitleGameMode::ChangeReady(bool _IsReady)
+{
+	// PlayerInfo
+	Player.IsReady = _IsReady;
+	ConnectionInfo::GetInst().SetMyIsReady(_IsReady);
+
+	// 패킷 보내기
+	{
+		std::shared_ptr<UReadyUpdatePacket> Packet = std::make_shared<UReadyUpdatePacket>();
+		Packet->Order = ConnectionInfo::GetInst().GetOrder();
+		Packet->ReadyValue = _IsReady;
+		UCrazyArcadeCore::Net->Send(Packet);
+	}
+
+	//// 레디 확인
+	//{
+	//	bool Result = true;
+	//	std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
+	//	for (std::pair<int, ConnectUserInfo> Iterator : Infos)
+	//	{
+	//		if (Iterator.first == 0)
+	//		{
+	//			continue;
+	//		}
+
+	//		Result = Result && Iterator.second.GetIsReady();
+	//	}
+	//}
+}
+
 void ALobbyTitleGameMode::FadeIn(float _DeltaTime)
 {
 	if (FadeAlpha <= 0.0f)
@@ -1642,18 +1701,6 @@ void ALobbyTitleGameMode::GameStart()
 			UCrazyArcadeCore::NetManager.Send(Packet);
 			return;
 		}
-
-		/* {
-			// ReadyUpdate Packet
-			// 자신의 Infos 업데이트
-			//ConnectionInfo::GetInst().SetMyIsReady(IsReady);
-			// 패킷 보내기
-			std::shared_ptr<UReadyUpdatePacket> Packet = std::make_shared<UReadyUpdatePacket>();
-			Packet->Order = ConnectionInfo::GetInst().GetOrder();
-			Packet->ReadyValue = IsReady;
-			UCrazyArcadeCore::Net->Send(Packet);
-		}
-		*/
 	}
 }
 
