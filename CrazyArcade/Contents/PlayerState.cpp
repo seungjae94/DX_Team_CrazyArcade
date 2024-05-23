@@ -195,7 +195,7 @@ void APlayer::StateInit()
 		});
 
 	// 시작 상태
-	State.ChangeState("Win");
+	State.ChangeState("Ready");
 }
 
 void APlayer::Ready(float _DeltaTime)
