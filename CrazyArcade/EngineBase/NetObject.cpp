@@ -12,15 +12,16 @@ UNetObject::UNetObject()
 
 UNetObject::~UNetObject() 
 {
+	int IsManager = GetObjectToken();
+	if (-1 == IsManager) {
+		return;
+	}
+
 	if (true == AllNetObject.empty())
 	{
 		return;
 	}
 
-	int IsManager = GetObjectToken();
-	if (-1 == IsManager) {
-		return;
-	}
 
 	if (true == AllNetObject.contains(GetObjectToken()))
 	{
