@@ -116,7 +116,7 @@ protected:
 	UDefaultSceneComponent* DefaultComponent;
 	USpriteRenderer* Renderer;
 	USpriteRenderer* ShadowRenderer;
-	USpriteRenderer* DebugRenderer;
+	USpriteRenderer* ArrowRenderer;
 	
 	ECharacterType CharacterType;
 	void SetCharacterType(ECharacterType _Character);
