@@ -232,11 +232,11 @@ void AServerGameMode::CheckGame(float _DeltaTime)
 	}
 	if (CurWinTime >= WinTime && ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
 	{
+		CurWinTime = 0.0f;
 		std::shared_ptr<UChangeLevelPacket> Packet = std::make_shared<UChangeLevelPacket>();
-		GEngine->ChangeLevel("LobbyTitleTestLevel");
 		Packet->LevelName = "LobbyTitleTestLevel";
 		UCrazyArcadeCore::NetManager.Send(Packet);
-		CurWinTime = 0.0f;
+		GEngine->ChangeLevel("LobbyTitleTestLevel");
 		return;
 	}
 }

@@ -73,7 +73,10 @@ void AMainPlayLevel::CreateMap()
 		break;
 	}
 
-	InGameUI = GetWorld()->SpawnActor<AInGameUI>("InGameUIs");
+	if (nullptr == InGameUI)
+	{
+		InGameUI = GetWorld()->SpawnActor<AInGameUI>("InGameUIs");
+	}
 }
 
 void AMainPlayLevel::LevelEnd(ULevel* _NextLevel)

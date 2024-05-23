@@ -98,6 +98,7 @@ public:
 
 	void SetPlayerDead();
 	void PlayerInfoUpdate();
+	void CheckWinLose();
 
 	void SetTrapState();
 	
@@ -180,7 +181,7 @@ protected:
 	FPoint SpawnBombPoint = { -1, -1 };
 	bool IsBombOn = false;
 
-	std::string Type = "luxMarid";
+	std::string Type = "Bazzi";
 	ECharacterColor PlayerColor = ECharacterColor::Red;
 	std::string PlayerColorText = "_R";
 
@@ -212,9 +213,12 @@ protected:
 	void TrapEnd(float _DeltaTime);
 	void Die(float _DeltaTime);
 	void Revival(float _DeltaTime);
+	void Win(float _DeltaTime);
+	void Lose(float _DeltaTime);
 
 	void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
 	void HideInBush();
+	bool IsInBush = false;
 
 	float JumpTime = 0.0f;
 	bool IsDead = false;

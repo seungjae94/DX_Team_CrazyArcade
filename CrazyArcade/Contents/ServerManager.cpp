@@ -19,7 +19,6 @@ UServerManager::UServerManager()
 
 UServerManager::~UServerManager()
 {
-
 }
 
 
@@ -297,7 +296,7 @@ void UServerManager::ClientInit()  //한 번만 실행되는 함수
 		ConnectionInfo::GetInst().SetOrder(UCrazyArcadeCore::Net->GetSessionToken());
 		std::shared_ptr<UConnectInitPacket> InitPacket = std::make_shared<UConnectInitPacket>();
 		InitPacket->Session = UCrazyArcadeCore::Net->GetSessionToken();
-		InitPacket->Name = ConnectionInfo::GetInst().GetMyName();
+		InitPacket->Name = ConnectionInfo::GetInst().GetTempName();
 		Send(InitPacket);
 		ClientBool = true;
 		AddHandlerFunction();
@@ -311,6 +310,7 @@ void UServerManager::SManagerInit()
 		// 네트워크 통신준비가 아직 안된 오브젝트다.
 		UCrazyArcadeCore::NetManager.InitNet(UCrazyArcadeCore::Net);
 		ManagerType = ENetType::Server;
+		SetObjectToken(-1);
 	}
 }
 
@@ -321,6 +321,7 @@ void UServerManager::CManagerInit()
 		// 네트워크 통신준비가 아직 안된 오브젝트다.
 		UCrazyArcadeCore::NetManager.InitNet(UCrazyArcadeCore::Net);
 		ManagerType = ENetType::Client;
+		SetObjectToken(-1);
 	}
 }
 

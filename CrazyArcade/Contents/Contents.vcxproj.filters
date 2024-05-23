@@ -224,8 +224,6 @@
     <ClCompile Include="VillageMap.cpp">
       <Filter>Map\Stage</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="ServerTestOtherPlayer.cpp">
       <Filter>Level\ServerLevel\ServerActor</Filter>
     </ClCompile>
@@ -318,6 +316,12 @@
     </ClCompile>
     <ClCompile Include="IntroFrame.cpp">
       <Filter>Level\IntroLevel\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

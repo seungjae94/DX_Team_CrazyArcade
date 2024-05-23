@@ -4,7 +4,7 @@
 struct ConnectUserInfo 
 {
 public:
-	std::string MyName = "Anonymous";
+	std::string MyName;
 
 public:
 	
@@ -199,6 +199,15 @@ public:
 		return Wins;
 	}
 
+	void SetTempName(std::string _TempName)
+	{
+		TempName = _TempName;
+	}
+	std::string GetTempName()
+	{
+		return TempName;
+	}
+
 protected:
 
 private:
@@ -209,6 +218,8 @@ private:
 
 	int RedCount = 0;
 	int BlueCount = 0;
+
+	std::string TempName;
 
 	ECharacterColor Wins = ECharacterColor::None;
 
