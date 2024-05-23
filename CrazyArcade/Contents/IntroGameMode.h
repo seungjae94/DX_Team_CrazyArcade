@@ -20,7 +20,7 @@ protected:
 	void BeginPlay();
 	void Tick(float _DeltaTime);
 
-	void CreateIntroFrame(std::string _Name);
+	void CreateIntroFrameAnimation(std::string _FileName, std::string _ImageName);
 
 	
 	
