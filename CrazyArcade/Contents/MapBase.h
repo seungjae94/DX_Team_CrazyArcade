@@ -130,6 +130,7 @@ private:
 
 	bool SubMoveBoxCheck(FPoint _NextPoint, const FVector& _Dir);
 	bool SubMoveBoxOnlyCheck(FPoint _NextPoint, const FVector& _Dir);
+	bool MovingBoxColCheck(const FVector& _MoveBoxDir, const FVector& _PlayerDir);
 
 private:
 	FVector NextPos = FVector::Zero;	// Main Pos

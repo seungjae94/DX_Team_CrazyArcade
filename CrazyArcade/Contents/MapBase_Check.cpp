@@ -113,7 +113,8 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 		{
 			Result = false;
 
-			FVector PlayerPos = PlayLevel->GetPlayer()->GetActorLocation();
+			//FVector PlayerPos = PlayLevel->GetPlayer()->GetActorLocation();
+			FVector PlayerPos = _NextPos;
 			FVector BoxPos = MoveBox->GetActorLocation();
 			BoxPos.X += BlockSize * 0.5f;
 			BoxPos.Y += BlockSize * 0.5f;
@@ -198,9 +199,12 @@ bool AMapBase::SubMoveBoxCheck(FPoint _NextPoint, const FVector& _Dir)
 		if (BlockState::move == MoveBox->GetCurState())
 		{
 			FVector PlayerPos = PlayLevel->GetPlayer()->GetActorLocation();
+			//FVector PlayerPos = _NextPos;
 			FVector BoxPos = MoveBox->GetActorLocation();
 			BoxPos.X += BlockSize * 0.5f;
 			BoxPos.Y += BlockSize * 0.5f;
+
+			//MovingBoxColCheck(_Dir,)
 
 			if (0.0f < _Dir.X || 0.0f > _Dir.X)
 			{
@@ -288,6 +292,32 @@ bool AMapBase::SubMoveBoxOnlyCheck(FPoint _NextPoint, const FVector& _Dir)
 	}
 
 	return true;
+}
+
+// MoveBox 움직이는 도중 정면 충돌 체크
+bool AMapBase::MovingBoxColCheck(const FVector& _MoveBoxDir, const FVector& _PlayerDir)
+{
+	if (0.0f < _MoveBoxDir.X && 0.0f > _PlayerDir.X)
+	{
+		return true;
+	}
+
+	if (0.0f > _MoveBoxDir.X && 0.0f < _PlayerDir.X)
+	{
+		return true;
+	}
+
+	if (0.0f < _MoveBoxDir.Y && 0.0f > _PlayerDir.Y)
+	{
+		return true;
+	}
+
+	if (0.0f > _MoveBoxDir.Y && 0.0f < _PlayerDir.Y)
+	{
+		return true;
+	}
+
+	return false;
 }
 
 // 체크 위치 세팅

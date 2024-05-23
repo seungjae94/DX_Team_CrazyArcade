@@ -19,6 +19,11 @@ public:
 	AMoveBox& operator=(AMoveBox&& _Other) noexcept = delete;
 
 	void SetMoveState(const FVector& _Dir);
+	
+	inline FVector GetMoveDir() const 
+	{
+		return MoveDir;
+	}
 
 protected:
 	void BeginPlay() override;
