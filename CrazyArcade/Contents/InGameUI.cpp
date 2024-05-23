@@ -41,9 +41,7 @@ void AInGameUI::BeginPlay()
 	UEngineSprite::CreateCutting("Play_Portrait_Marid_Normal_B.png", 1, 2);
 	UEngineSprite::CreateCutting("Play_Portrait_Marid_Normal_R.png", 1, 2);
 
-	//결과 텍스트
-	UEngineSprite::CreateCutting("UIResult.png",1, 3);
-
+	
 	Super::BeginPlay();
 	//버튼 
 	CancelBtn = CreateWidget<UImage>(GetWorld(), "CancelButton");
@@ -60,14 +58,11 @@ void AInGameUI::BeginPlay()
 	//결과창
 
 	ResultBackGround = CreateWidget<UImage>(GetWorld(), "UIResult");
-	//ResultBackGround->SetSprite("UIResult.png");
 	ResultBackGround->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
-	ResultBackGround->AddWidgetLocation(FVector{ -80.0,-30.0f });
+	ResultBackGround->AddWidgetLocation(FVector{ -20.0f,100.0f });
 	ResultBackGround->AddToViewPort(3);
-	ResultBackGround->SetScale({ 200,100 });
-	ResultBackGround->AddWidgetLocation({ 0,100 });
-
-
+	ResultBackGround->SetAutoSize(1.0f, true);
+	
 
 	
 	//아이템
@@ -452,7 +447,7 @@ void AInGameUI::NeedleCheck()
 	Needles = PlayerPtr->GetNeedleCount();
 	if (Needles == 0)
 	{
-		NeedleRender->SetMulColor({ 1.0f,1.0f,1.0f,1.0f }); //색상 변경해주는 느낌 
+		NeedleRender->SetMulColor({ 1.0f,1.0f,1.0f,0.5f }); //색상 변경해주는 느낌 
 	}
 }
 
@@ -464,15 +459,25 @@ void AInGameUI::ResultCheck()
 
 	if (WinResult != ECharacterColor::None)
 	{
-		if (WinResult == MyColor)
+		if (WinResult == ECharacterColor::Green)
 		{
-			ResultBackGround->SetSprite("UIResult.png", 2);
+			ResultBackGround->SetSprite("Lose.png");
 			ResultBackGround->SetActive(true);
 		}
 		else
 		{
-			ResultBackGround->SetSprite("UIResult.png", 1);
-			ResultBackGround->SetActive(true);
+			if (WinResult == MyColor)
+			{
+				ResultBackGround->SetSprite("Win.png");
+				ResultBackGround->SetActive(true);
+				
+			}
+			else
+			{
+				//ResultBackGround->SetSprite("Lose.png");
+				ResultBackGround->SetActive(true);
+				
+			}
 		}
 	}	
 }
