@@ -4,9 +4,9 @@
 class AMainPlayLevel;
 
 // 설명 : Bush 기본 클래스
-class ABushBase : public ANetActor
+class ABushBase : public AActor
 {
-	GENERATED_BODY(ANetActor)
+	GENERATED_BODY(AActor)
 public:
 	// constructor destructor
 	ABushBase();
@@ -42,7 +42,6 @@ private:
 private:
 	UStateManager State;
 	void StateInit();
-
 
 };
 
