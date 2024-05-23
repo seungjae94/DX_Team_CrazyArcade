@@ -83,6 +83,11 @@ public:
 	{
 		return IsDead;
 	}
+
+	inline FVector GetPlayerDirVector()
+	{
+		return PlayerDirVector;
+	}
 	
 	inline void IncreaseBombCount()
 	{
@@ -116,9 +121,8 @@ protected:
 	UDefaultSceneComponent* DefaultComponent;
 	USpriteRenderer* Renderer;
 	USpriteRenderer* ShadowRenderer;
-	USpriteRenderer* ArrowRenderer;
 	
-	ECharacterType CharacterType;
+	ECharacterType CharacterType = ECharacterType::None;
 	void SetCharacterType(ECharacterType _Character);
 	void SetPlayerColor(ECharacterColor _Color);
 
@@ -126,6 +130,7 @@ protected:
 	FVector PlayerPos;
 	std::string Name = "Player";
 	EPlayerDir PlayerDir = EPlayerDir::Down;
+	FVector PlayerDirVector = FVector::Zero;
 	ABombBase* Bomb = nullptr;
 	ERiding Riding = ERiding::None;
 

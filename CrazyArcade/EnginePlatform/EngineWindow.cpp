@@ -21,14 +21,16 @@ LRESULT CALLBACK UEngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 		UserWndProcFunction(hWnd, message, wParam, lParam);
 	}
 
-	//if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
-	//	return true;
-
 	switch (message)
 	{
 	case WM_IME_COMPOSITION:
 	{
-		UEngineInputRecorder::ImeTick(lParam);
+		UEngineInputRecorder::ImeCompositionTick(lParam);
+		break;
+	}
+	case WM_CHAR:
+	{
+		UEngineInputRecorder::CharTick(wParam);
 		break;
 	}
 	case WM_PAINT:

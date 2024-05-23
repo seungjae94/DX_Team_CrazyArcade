@@ -38,7 +38,7 @@ void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
 	
-	MapType = EMapType::Pirate02;
+	MapType = EMapType::Test;
 	CreateMap();
 }
 
@@ -71,7 +71,6 @@ void AMainPlayLevel::CreateMap()
 		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
 		Player->SetActorLocation(AMapBase::ConvertPointToLocation({ 2, 6 }));
 		break;
-
 	}
 
 	InGameUI = GetWorld()->SpawnActor<AInGameUI>("InGameUIs");

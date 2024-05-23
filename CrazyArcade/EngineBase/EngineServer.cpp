@@ -3,6 +3,7 @@
 #include <functional>
 #include "EngineProtocol.h"
 #include "NetObject.h"
+#include "list"
 
 UEngineServer::UEngineServer()
 {
@@ -34,12 +35,22 @@ void UEngineServer::AcceptThreadFunction(UEngineServer* Server, SOCKET _AcceptSo
 		// 서버가 다 담당할 겁니다.
 		int SessionToken = USession::GetNewSessionToken();
 
-		USessionTokenPacket NewPacket;
 
 		// 세션 토큰과 
+
+
+		if (Server->SessionSize() >= 7) {  //현재 인원이 다 찼는가?
+			USessionRejectPacket RejectPacket;
+			UEngineSerializer RejectSer = RejectPacket.GetSerialize();
+			NewSession->Send(RejectSer);
+			continue;
+		}
+
+		//for(Server->SessionSize())
+
+		USessionTokenPacket NewPacket;
 		NewPacket.SetSessionToken(SessionToken);
 		NewPacket.SetObjectToken(SessionToken * 1000);
-
 		UEngineSerializer Ser = NewPacket.GetSerialize();
 		NewSession->Send(Ser);
 

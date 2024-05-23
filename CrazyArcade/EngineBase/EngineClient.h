@@ -34,6 +34,10 @@ public:
 		Session.End();
 	}
 
+	bool IsNetConnetion() override{
+		return	Session.IsServerConnected();
+	}
+
 protected:
 	void ServerOpen(int _Port, int _BackLog) override;
 	void Connect(std::string _Ip, int _Port) override;

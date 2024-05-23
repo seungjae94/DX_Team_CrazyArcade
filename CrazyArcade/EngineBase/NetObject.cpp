@@ -12,6 +12,15 @@ UNetObject::UNetObject()
 
 UNetObject::~UNetObject() 
 {
+	if (true == AllNetObject.empty())
+	{
+		return;
+	}
+
+	if (true == AllNetObject.contains(GetObjectToken()))
+	{
+		AllNetObject[GetObjectToken()] = nullptr;
+	}
 }
 
 
