@@ -316,7 +316,6 @@ bool AMapBase::CanMovePosInTraped(const FVector& _NextPos, const FVector& _Dir)
 		// MoveBox Idle 상태일 경우
 		if (BlockState::idle == MoveBox->GetCurState())
 		{
-			MoveBox->SetMoveState(_Dir);
 			Result = false;
 			return Result;
 		}
