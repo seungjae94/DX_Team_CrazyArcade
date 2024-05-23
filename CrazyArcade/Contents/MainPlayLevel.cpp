@@ -36,7 +36,7 @@ void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
 	
-	MapType = EMapType::Village;
+	MapType = EMapType::Pirate;
 	CreateMap();
 }
 

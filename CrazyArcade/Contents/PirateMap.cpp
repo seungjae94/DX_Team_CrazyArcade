@@ -18,16 +18,29 @@ void APirateMap::BeginPlay()
 
 	SetBackGround(MapImgRes::Pirate_background01);
 	SetMapInfoSize(15, 13);
-	CreateFlag(6, 6);
-	CreatePirateBoxs();
-	CreatePirateMoveBoxs();
-	CreateWalls();
+	PushPlayerStartPoint({  1,  7 });
+	PushPlayerStartPoint({  2,  0 });
+	PushPlayerStartPoint({  4,  5 });
+	PushPlayerStartPoint({  5, 12 });
+	PushPlayerStartPoint({  9, 12 });
+	PushPlayerStartPoint({ 10,  5 });
+	PushPlayerStartPoint({ 12,  0 });
+	PushPlayerStartPoint({ 13,  7 });
 }
 
 void APirateMap::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
 
+	if (true == IsDestroy())
+	{
+		return;
+	}
+
+	CreateFlag(6, 6);
+	CreatePirateBoxs();
+	CreatePirateMoveBoxs();
+	CreateWalls();
 }
 
 void APirateMap::LevelEnd(ULevel* _NextLevel)
