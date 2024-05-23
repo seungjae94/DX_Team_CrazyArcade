@@ -27,7 +27,7 @@ void ABushBase::BeginPlay()
 	StateInit();
 	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
 	ShakingPosY = { 2.0f, 2.0f, -2.0f, -2.0f, -2.0f, 2.0f };
-	State.ChangeState(BlockState::idle);
+	State.ChangeState(BushState::idle);
 }
 
 void ABushBase::Tick(float _DeltaTime)
@@ -38,7 +38,7 @@ void ABushBase::Tick(float _DeltaTime)
 
 	if (UEngineInput::IsDown('B'))
 	{
-		State.ChangeState(BlockState::shaking);
+		State.ChangeState(BushState::shaking);
 		return;
 	}
 }
@@ -46,12 +46,12 @@ void ABushBase::Tick(float _DeltaTime)
 void ABushBase::StateInit()
 {
 	// State Create
-	State.CreateState(BlockState::idle);
-	State.CreateState(BlockState::shaking);
+	State.CreateState(BushState::idle);
+	State.CreateState(BushState::shaking);
 
 	// State Start
-	State.SetStartFunction(BlockState::idle, [=] {});
-	State.SetStartFunction(BlockState::shaking, [=] 
+	State.SetStartFunction(BushState::idle, [=] {});
+	State.SetStartFunction(BushState::shaking, [=]
 		{
 			ShakingIdx = 0;
 			ShakingDelayTimeCount = ShakingDelayTime;
@@ -59,8 +59,8 @@ void ABushBase::StateInit()
 	);
 
 	// State Update
-	State.SetUpdateFunction(BlockState::idle, [=](float _DeltaTime) {});
-	State.SetUpdateFunction(BlockState::shaking, [=](float _DeltaTime) 
+	State.SetUpdateFunction(BushState::idle, [=](float _DeltaTime) {});
+	State.SetUpdateFunction(BushState::shaking, [=](float _DeltaTime) 
 		{
 			if (0.0f < ShakingDelayTimeCount)
 			{
@@ -70,7 +70,7 @@ void ABushBase::StateInit()
 
 			if (ShakingPosY.size() <= ShakingIdx)
 			{
-				State.ChangeState(BlockState::idle);
+				State.ChangeState(BushState::idle);
 				return;
 			}
 
@@ -83,10 +83,10 @@ void ABushBase::StateInit()
 
 void ABushBase::SetShaking()
 {
-	if (BlockState::shaking == State.GetCurStateName())
+	if (BushState::shaking == State.GetCurStateName())
 	{
 		return;
 	}
 
-	State.ChangeState(BlockState::shaking);
+	State.ChangeState(BushState::shaking);
 }

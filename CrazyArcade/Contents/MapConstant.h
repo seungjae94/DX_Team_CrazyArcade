@@ -105,6 +105,13 @@ namespace BlockState
 	const std::string_view shaking				= "Shaking";
 }
 
+namespace BushState
+{
+	const std::string_view idle					= "Idle";
+	const std::string_view shaking				= "Shaking";
+	const std::string_view destroy				= "Destroy";
+}
+
 namespace ItemState
 {
 	const std::string_view idle					= "Idle";
