@@ -93,6 +93,9 @@ void AServerGameMode::HandlerInit()
 						Bomb->PushProtocolAsync(_Packet);
 						Bomb->SetBombPower(_Packet->Power);
 						UCrazyArcadeCore::Net->Send(_Packet);
+
+						FEngineTimeStamp curtime = UEngineTime::GetCurTime();
+						int a = 0;
 						//MyBomb->SetObjectToken(_Packet->GetObjectToken());
 
 						//MyBomb->SetActorLocation(_Packet->Pos);
@@ -157,6 +160,8 @@ void AServerGameMode::HandlerInit()
 						Bomb->SetObjectToken(_Packet->GetObjectToken());
 						Bomb->PushProtocolAsync(_Packet);
 						Bomb->SetBombPower(_Packet->Power);
+
+
 						/*ABombBase* MyBomb;
 						ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, 0);
 						MyBomb->SetObjectToken(_Packet->GetObjectToken());
