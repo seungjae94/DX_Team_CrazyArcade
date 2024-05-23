@@ -138,7 +138,7 @@ private:
 	// UnderBar
 	UImage* Btn_Back = nullptr;
 	UImage* Btn_Exit = nullptr;
-	UImage* Image_Line = nullptr;
+	UImage* Line_UnderBar = nullptr;
 
 	// Chat
 	UImage* VoidBox = nullptr;

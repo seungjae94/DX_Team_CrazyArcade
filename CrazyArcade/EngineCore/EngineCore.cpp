@@ -143,6 +143,7 @@ void UEngineCore::EngineFrameUpdate()
 		if (nullptr != CurLevel)
 		{
 			CurLevel->LevelEnd(NextLevel.get());
+			CurLevel->Destroy();
 		}
 
 		NextLevel->LevelStart(CurLevel.get());
