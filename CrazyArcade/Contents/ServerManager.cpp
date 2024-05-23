@@ -19,7 +19,6 @@ UServerManager::UServerManager()
 
 UServerManager::~UServerManager()
 {
-
 }
 
 
@@ -311,6 +310,7 @@ void UServerManager::SManagerInit()
 		// 네트워크 통신준비가 아직 안된 오브젝트다.
 		UCrazyArcadeCore::NetManager.InitNet(UCrazyArcadeCore::Net);
 		ManagerType = ENetType::Server;
+		SetObjectToken(-1);
 	}
 }
 
@@ -321,6 +321,7 @@ void UServerManager::CManagerInit()
 		// 네트워크 통신준비가 아직 안된 오브젝트다.
 		UCrazyArcadeCore::NetManager.InitNet(UCrazyArcadeCore::Net);
 		ManagerType = ENetType::Client;
+		SetObjectToken(-1);
 	}
 }
 
