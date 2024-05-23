@@ -136,21 +136,36 @@ void ALobbyTitleGameMode::BeginPlay()
 				Btn_MapSelect->CreateAnimation("Down", "Button_MapSelect_Down.png", 0.1f, false, 0, 0);
 				Btn_MapSelect->ChangeAnimation("UnHover");
 
+				Btn_MapSelect_InActive = CreateWidget<UImage>(GetWorld(), "Btn_MapSelect_InActive");
+				Btn_MapSelect_InActive->SetSprite("Button_MapSelect_InActive.png");
+				Btn_MapSelect_InActive->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+				Btn_MapSelect_InActive->AddToViewPort(1);
+				Btn_MapSelect_InActive->SetAutoSize(1.0f, true);
+				Btn_MapSelect_InActive->SetWidgetLocation({ 307.0f, -151.0f });
+
 				Btn_MapSelect->SetUnHover([=] {
 					Btn_MapSelect->ChangeAnimation("UnHover");
 					});
 				Btn_MapSelect->SetHover([=] {
-					Btn_MapSelect->ChangeAnimation("Hover");
+					if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+					{
+						Btn_MapSelect->ChangeAnimation("Hover");
+					}
 					});
 				Btn_MapSelect->SetDown([=] {
-					Btn_MapSelect->ChangeAnimation("Down");
+					if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+					{
+						Btn_MapSelect->ChangeAnimation("Down");
+					}
 					});
 				Btn_MapSelect->SetPress([=] {
 
 					});
 				Btn_MapSelect->SetUp([=] {
-					Btn_MapSelect->ChangeAnimation("Hover");
-					MapSelectOn();
+					if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+					{
+						MapSelectOn();
+					}
 					});
 			}
 			{
@@ -189,7 +204,6 @@ void ALobbyTitleGameMode::BeginPlay()
 
 					});
 				Btn_MapSelectAccept->SetUp([=] {
-					Btn_MapSelectAccept->ChangeAnimation("Hover");
 					MapSelectOff();
 					});
 			}
@@ -1003,6 +1017,7 @@ void ALobbyTitleGameMode::LevelStart(ULevel* _PrevLevel)
 	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
 	{
 		Btn_GameStart_InActive->SetActive(false);
+		Btn_MapSelect_InActive->SetActive(false);
 	}
 
 	// FadeIn
