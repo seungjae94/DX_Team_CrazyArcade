@@ -17,6 +17,11 @@ UNetObject::~UNetObject()
 		return;
 	}
 
+	int IsManager = GetObjectToken();
+	if (-1 == IsManager) {
+		return;
+	}
+
 	if (true == AllNetObject.contains(GetObjectToken()))
 	{
 		AllNetObject[GetObjectToken()] = nullptr;
