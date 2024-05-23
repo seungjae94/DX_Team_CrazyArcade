@@ -41,7 +41,8 @@ void AInGameUI::BeginPlay()
 	UEngineSprite::CreateCutting("Play_Portrait_Marid_Normal_B.png", 1, 2);
 	UEngineSprite::CreateCutting("Play_Portrait_Marid_Normal_R.png", 1, 2);
 
-
+	//결과 텍스트
+	UEngineSprite::CreateCutting("UIResult.png",1, 3);
 
 	Super::BeginPlay();
 	//버튼 
@@ -58,21 +59,17 @@ void AInGameUI::BeginPlay()
 
 	//결과창
 
-	ResultBackGround = CreateWidget<UImage>(GetWorld(), "ResultBackGroundUI");
-	ResultBackGround->SetSprite("ResultWindow.png");
-	ResultBackGround->SetMulColor({ 1.0f,1.0f,1.0f,0.7f });
+	ResultBackGround = CreateWidget<UImage>(GetWorld(), "UIResult");
+	//ResultBackGround->SetSprite("UIResult.png");
+	ResultBackGround->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
 	ResultBackGround->AddWidgetLocation(FVector{ -80.0,-30.0f });
 	ResultBackGround->AddToViewPort(3);
-	ResultBackGround->SetScale({ 550,400 });
+	ResultBackGround->SetScale({ 200,100 });
+	ResultBackGround->AddWidgetLocation({ 0,100 });
 
 
-	ResultSummary = CreateWidget<UImage>(GetWorld(), "ResultBackGroundUI");
-	ResultSummary->SetSprite("Result_Summary.png");
 
-	ResultSummary->AddWidgetLocation(FVector{ -90.0f,140.0f });
-	ResultSummary->SetScale({ 350,20 });
-	ResultSummary->AddToViewPort(4);
-
+	
 	//아이템
 	NeedleRender = CreateWidget<UImage>(GetWorld(), "NeedleUI");
 	NeedleRender->SetSprite("spr_item_needle.png");
@@ -166,7 +163,7 @@ void AInGameUI::BeginPlay()
 	//DataToRender();
 
 	ResultBackGround->SetActive(false);
-	ResultSummary->SetActive(false);
+	
 	std::vector<UImage*> PlayerUI; //플레이어
 	std::vector<UTextWidget*> PlayerNameUI;
 	std::vector<PlayerState> PlayerInfo;
@@ -196,6 +193,7 @@ void AInGameUI::LevelStart(ULevel* _PrevLevel)
 void AInGameUI::LevelEnd(ULevel* _NextLevel)
 {
 	Super::LevelEnd(_NextLevel);
+	ResultBackGround->SetActive(false);
 }
 
 void AInGameUI::Tick(float _DeltaTIme)
@@ -248,7 +246,7 @@ void AInGameUI::Tick(float _DeltaTIme)
 	NeedleCheck();
 	
 	
-
+	ResultCheck();
 
 }
 
@@ -269,15 +267,7 @@ void AInGameUI::PlayerUpdate()
 	}
 
 
-	/*for (std::pair<int, ConnectUserInfo> Iterator : UserInfos)
-	{
-		if (UserInfos.empty() == true)
-		{
-
-			PlayerUI[Iterator.first]->SetActive(false);
-		}
-		
-	}*/
+	
 
 
 	
@@ -465,4 +455,26 @@ void AInGameUI::NeedleCheck()
 		NeedleRender->SetMulColor({ 1.0f,1.0f,1.0f,1.0f }); //색상 변경해주는 느낌 
 	}
 }
+
+
+void AInGameUI::ResultCheck()
+{
+	ECharacterColor WinResult = ConnectionInfo::GetInst().GetWins();
+	ECharacterColor MyColor = ConnectionInfo::GetInst().GetCharacterColor();
+
+	if (WinResult != ECharacterColor::None)
+	{
+		if (WinResult == MyColor)
+		{
+			ResultBackGround->SetSprite("UIResult.png", 2);
+			ResultBackGround->SetActive(true);
+		}
+		else
+		{
+			ResultBackGround->SetSprite("UIResult.png", 1);
+			ResultBackGround->SetActive(true);
+		}
+	}	
+}
+
 

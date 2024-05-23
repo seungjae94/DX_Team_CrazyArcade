@@ -158,6 +158,7 @@ void AMoveBox::Tick(float _DeltaTime)
 			bool IsMove = UpdatePacket->IsMoveValue;
 			if (true == IsMove)
 			{
+				SetActorLocation(UpdatePacket->Pos);
 				MoveDir = UpdatePacket->MoveDir;
 				MoveOneBlockCheckRecv();
 			}
@@ -243,13 +244,20 @@ void AMoveBox::MoveOneBlockCheckSend()
 	std::shared_ptr<UBlockUpdatePacket> Packet = std::make_shared<UBlockUpdatePacket>();
 	Packet->MoveDir = MoveDir;
 	Packet->IsMoveValue = IsMoveValue;
+	Packet->Pos = GetActorLocation();
 	Send(Packet);
 }
 
 void AMoveBox::MoveOneBlockCheckRecv()
 {
-	StartPos = GetActorLocation();
-	TargetPos = GetActorLocation();
+	FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
+	FVector CurPos = AMapBase::ConvertPointToLocation(CurPoint);
+
+	CurPos.X -= AMapBase::BlockSize * 0.5f;
+	CurPos.Y -= AMapBase::BlockSize * 0.5f;
+
+	StartPos = CurPos;
+	TargetPos = CurPos;
 
 	if (0.0f < MoveDir.X)
 	{
