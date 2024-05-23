@@ -253,6 +253,9 @@ void AMoveBox::MoveOneBlockCheckRecv()
 	FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
 	FVector CurPos = AMapBase::ConvertPointToLocation(CurPoint);
 
+	CurPos.X += AMapBase::BlockSize * 0.5f;
+	CurPos.Y += AMapBase::BlockSize * 0.5f;
+
 	StartPos = CurPos;
 	TargetPos = CurPos;
 
