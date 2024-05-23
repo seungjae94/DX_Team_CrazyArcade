@@ -38,7 +38,7 @@ void AIntroGameMode::Tick(float _DeltaTime)
 
 }
 
-void AIntroGameMode::CreateIntroFrame(std::string _Name)
+void AIntroGameMode::CreateIntroFrameAnimation(std::string _FileName, std::string _ImageName)
 {
 	// 인트로 프레임 이미지 첫번째 이름 :
 	// intro_frame_0.png

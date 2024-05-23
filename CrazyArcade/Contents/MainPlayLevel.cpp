@@ -31,7 +31,7 @@ void AMainPlayLevel::BeginPlay()
 	Timer = GetWorld()->SpawnActor<ATimerUI>("TimeUI");
 	Timer->SetTimer(180.0f);
 
-	InGameUI = GetWorld()->SpawnActor<AInGameUI>("InGameUIs");
+	
 }
 
 void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
@@ -73,6 +73,8 @@ void AMainPlayLevel::CreateMap()
 		break;
 
 	}
+
+	InGameUI = GetWorld()->SpawnActor<AInGameUI>("InGameUIs");
 }
 
 void AMainPlayLevel::LevelEnd(ULevel* _NextLevel)
