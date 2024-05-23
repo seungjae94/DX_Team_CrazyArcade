@@ -25,6 +25,7 @@ void ALobbyTitleGameMode::BeginPlay()
 
 	{
 		UEngineSprite::CreateCutting("Button_GameStart_Hover.png", 1, 3);
+		UEngineSprite::CreateCutting("Button_Ready_Hover.png", 1, 3);
 		UEngineSprite::CreateCutting("Button_MapSelect_Hover.png", 1, 2);
 		UEngineSprite::CreateCutting("Button_MapSelectAccept_Hover.png", 1, 2);
 		UEngineSprite::CreateCutting("Button_MapSelectCancel_Hover.png", 1, 2);
@@ -78,10 +79,12 @@ void ALobbyTitleGameMode::BeginPlay()
 			Btn_GameStart->AddToViewPort(1);
 			Btn_GameStart->SetAutoSize(1.0f, true);
 			Btn_GameStart->SetWidgetLocation({ 231.0f, -222.0f });
-			Btn_GameStart->CreateAnimation("UnHover", "Button_GameStart_UnHover.png", 0.1f, false, 0, 0);
-			Btn_GameStart->CreateAnimation("Hover", "Button_GameStart_Hover.png", 0.1f, true, 0, 2);
-			Btn_GameStart->CreateAnimation("Down", "Button_GameStart_Down.png", 0.1f, false, 0, 0);
-			Btn_GameStart->ChangeAnimation("UnHover");
+			Btn_GameStart->CreateAnimation("UnHover_Server", "Button_GameStart_UnHover.png", 0.1f, false, 0, 0);
+			Btn_GameStart->CreateAnimation("Hover_Server", "Button_GameStart_Hover.png", 0.1f, true, 0, 2);
+			Btn_GameStart->CreateAnimation("Down_Server", "Button_GameStart_Down.png", 0.1f, false, 0, 0);
+			Btn_GameStart->CreateAnimation("UnHover_Client", "Button_Ready_UnHover.png", 0.1f, false, 0, 0);
+			Btn_GameStart->CreateAnimation("Hover_Client", "Button_Ready_Hover.png", 0.1f, true, 0, 2);
+			Btn_GameStart->CreateAnimation("Down_Client", "Button_Ready_Down.png", 0.1f, false, 0, 0);
 
 			Btn_GameStart_InActive = CreateWidget<UImage>(GetWorld(), "Btn_GameStart_InActive");
 			Btn_GameStart_InActive->SetSprite("Button_GameStart_InActive.png");
@@ -92,7 +95,14 @@ void ALobbyTitleGameMode::BeginPlay()
 			Btn_GameStart_InActive->SetActive(false);
 
 			Btn_GameStart->SetUnHover([=] {
-				Btn_GameStart->ChangeAnimation("UnHover");
+				if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+				{
+					Btn_GameStart->ChangeAnimation("UnHover_Server");
+				}
+				else
+				{
+					Btn_GameStart->ChangeAnimation("UnHover_Client");
+				}
 				});
 			Btn_GameStart->SetHover([=] {
 				if (
@@ -100,13 +110,33 @@ void ALobbyTitleGameMode::BeginPlay()
 					Btn_GameStart->IsCurAnimationEnd() == true
 					)
 				{
-					Btn_GameStart->ChangeAnimation("Hover");
+					if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+					{
+						if (IsGameStartable == true)
+						{
+							Btn_GameStart->ChangeAnimation("Hover_Server");
+						}
+					}
+					else
+					{
+						Btn_GameStart->ChangeAnimation("Hover_Client");
+					}
 				}
 				});
 			Btn_GameStart->SetDown([=] {
 				if (IsMapSelectOn == false)
 				{
-					Btn_GameStart->ChangeAnimation("Down");
+					if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+					{
+						if (IsGameStartable == true)
+						{
+							Btn_GameStart->ChangeAnimation("Down_Server");
+						}
+					}
+					else
+					{
+						Btn_GameStart->ChangeAnimation("Down_Client");
+					}
 				}
 				});
 			Btn_GameStart->SetPress([=] {
@@ -122,6 +152,7 @@ void ALobbyTitleGameMode::BeginPlay()
 							IsFadeOut = true;
 							Fade->SetActive(true);
 						}
+						Btn_GameStart->ChangeAnimation("UnHover_Server");
 					}
 					else
 					{
@@ -133,8 +164,8 @@ void ALobbyTitleGameMode::BeginPlay()
 						{
 							ChangeReady(false);
 						}
+						Btn_GameStart->ChangeAnimation("UnHover_Client");
 					}
-					Btn_GameStart->ChangeAnimation("UnHover");
 				}
 				});
 		}
@@ -1014,11 +1045,11 @@ void ALobbyTitleGameMode::BeginPlay()
 					});
 			}
 			{
-				Image_Line = CreateWidget<UImage>(GetWorld(), "Image_Line");
-				Image_Line->SetSprite("Image_UnderBar_Line.png");
-				Image_Line->AddToViewPort(1);
-				Image_Line->SetAutoSize(1.0f, true);
-				Image_Line->SetWidgetLocation({ 340.0f, -284.0f });
+				Line_UnderBar = CreateWidget<UImage>(GetWorld(), "Line_UnderBar");
+				Line_UnderBar->SetSprite("Line_UnderBar.png");
+				Line_UnderBar->AddToViewPort(1);
+				Line_UnderBar->SetAutoSize(1.0f, true);
+				Line_UnderBar->SetWidgetLocation({ 340.0f, -284.0f });
 			}
 		}
 
@@ -1090,8 +1121,13 @@ void ALobbyTitleGameMode::LevelStart(ULevel* _PrevLevel)
 
 	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
 	{
+		Btn_GameStart->ChangeAnimation("UnHover_Server");
 		Btn_GameStart_InActive->SetActive(true);	// GameStart 버튼은 클라이언트 모두가 Ready 해야 서버가 누를 수 있음
 		Btn_MapSelect_InActive->SetActive(false);	// MapSelect 버튼은 서버만 누를 수 있음
+	}
+	else
+	{
+		Btn_GameStart->ChangeAnimation("UnHover_Client");
 	}
 
 	// FadeIn
