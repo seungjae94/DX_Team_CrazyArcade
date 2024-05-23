@@ -194,39 +194,6 @@ bool AMapBase::IsBombPos(const FVector& _Pos, const FVector& _Dir)
 	return Result;
 }
 
-// 물폭탄 위치면 포인터 반환
-std::shared_ptr<ABombBase> AMapBase::IsBombPosRet(const FVector& _Pos, const FVector& _Dir)
-{
-	FVector NextPos = _Pos;
-
-	if (0.0f < _Dir.X)			// 우
-	{
-		NextPos.X += BlockCheckAdjPosX;
-	}
-	else if (0.0f > _Dir.X)		// 좌
-	{
-		NextPos.X -= BlockCheckAdjPosX;
-	}
-	else if (0.0f < _Dir.Y)		// 상
-	{
-		NextPos.Y += BlockCheckAdjUpPos;
-	}
-	else if (0.0f > _Dir.Y)		// 하
-	{
-		NextPos.Y -= BlockCheckAdjDownPos;
-	}
-
-	FPoint Point = ConvertLocationToPoint(NextPos);
-
-	if (true == MapRangeCheckByPoint(Point)
-	&& false == TileInfo[Point.Y][Point.X].AllBomb.empty())
-	{
-		//return TileInfo[Point.Y][Point.X].Bomb;
-	}
-
-	return nullptr;
-}
-
 // Bush 위치면 true 반환
 bool AMapBase::IsBushPos(const FVector& _Pos, bool _IsInBush)
 {

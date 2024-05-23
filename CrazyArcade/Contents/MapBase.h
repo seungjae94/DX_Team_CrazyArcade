@@ -69,7 +69,6 @@ public:
 	
 	std::shared_ptr<ABombBase> SpawnBomb(const FVector& _Pos, APlayer* _Player);
 	std::shared_ptr<ABombBase> ServerSpawnBomb(const FVector& _Pos, APlayer* _Player);
-	std::shared_ptr<ABombBase> IsBombPosRet(const FVector& _Pos, const FVector& _Dir);
 	void ReSpawnItem(EItemType _Type, int _Count);
 
 	void PlayerDelete(APlayer* _Player);
