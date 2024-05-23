@@ -5,6 +5,8 @@
 #include "ConnectionInfo.h"
 #include "ServerManager.h"
 #include "Packets.h"
+#include "MainPlayLevel.h"
+#include "ServerTestPlayer.h"
 
 AInGameUI::AInGameUI()
 {
@@ -42,6 +44,7 @@ void AInGameUI::BeginPlay()
 
 
 	Super::BeginPlay();
+	//버튼 
 	CancelBtn = CreateWidget<UImage>(GetWorld(), "CancelButton");
 	CancelBtn->CreateAnimation("CancelButtonUnHoverAni", "Play_ExitButtonUnHover.png", 0.1f, false, 0, 0);
 	CancelBtn->CreateAnimation("CancelButtonHoverAni", "Play_ExitButtonHover.png", 0.1f, false, 0, 1);
@@ -51,7 +54,9 @@ void AInGameUI::BeginPlay()
 	CancelBtn->ChangeAnimation("CancelButtonUnHoverAni");
 	CancelBtn->SetWidgetLocation({ 316.0f, -276.0f });
 	CancelBtn->AddToViewPort(3);
+	
 
+	//결과창
 
 	ResultBackGround = CreateWidget<UImage>(GetWorld(), "ResultBackGroundUI");
 	ResultBackGround->SetSprite("ResultWindow.png");
@@ -67,6 +72,15 @@ void AInGameUI::BeginPlay()
 	ResultSummary->AddWidgetLocation(FVector{ -90.0f,140.0f });
 	ResultSummary->SetScale({ 350,20 });
 	ResultSummary->AddToViewPort(4);
+
+	//아이템
+	NeedleRender = CreateWidget<UImage>(GetWorld(), "NeedleUI");
+	NeedleRender->SetSprite("spr_item_needle.png");
+	NeedleRender->SetMulColor({ 1.0f,1.0f,1.0f,2.0f });
+	NeedleRender->SetScale({ 30,30 });
+	NeedleRender->AddWidgetLocation({-140,-282});
+	NeedleRender->AddToViewPort(4);
+
 
 	// Fade
 	{
@@ -157,7 +171,9 @@ void AInGameUI::BeginPlay()
 	std::vector<UTextWidget*> PlayerNameUI;
 	std::vector<PlayerState> PlayerInfo;
 
+	
 
+	
 }
 
 void AInGameUI::LevelStart(ULevel* _PrevLevel)
@@ -165,6 +181,9 @@ void AInGameUI::LevelStart(ULevel* _PrevLevel)
 	Super::LevelStart(_PrevLevel);
 	InitPlayerInfo();
 	DataToRender();
+	PlayerLevelPtr = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
+	PlayerPtr = PlayerLevelPtr->GetPlayer();
+	Needles = PlayerPtr->GetNeedleCount();
 }
 
 void AInGameUI::LevelEnd(ULevel* _NextLevel)
@@ -220,6 +239,11 @@ void AInGameUI::Tick(float _DeltaTIme)
 			PlayerInfo[i].IsChange = true;
 		}	//
 	}
+	//바늘 갯수 가져왔음 
+	NeedleCheck();
+	
+	
+
 
 }
 
@@ -259,6 +283,7 @@ void AInGameUI::InitPlayerInfo()
 		PlayerInfo[Iterator.first].PlayerName = Iterator.second.MyName;
 		PlayerInfo[Iterator.first].PlayerType = Iterator.second.GetMyCharacterType();
 		PlayerInfo[Iterator.first].PlayerColor = Iterator.second.GetMyColorType();
+		
 
 	}
 
@@ -266,6 +291,7 @@ void AInGameUI::InitPlayerInfo()
 	{
 		PlayerInfo[Iterattor.first].IsDead = Iterattor.second;
 	}
+
 }
 
 
@@ -319,6 +345,9 @@ void AInGameUI::PlayerStateCheck()
 	{
 		PlayerUI[i]->SetActive(false);
 	}
+
+	
+
 
 
 	//for (int i = 0; i < PlayerInfo.size(); i++)
@@ -418,5 +447,15 @@ void AInGameUI::GameEnd()
 		UCrazyArcadeCore::Net->Send(LevelChangePacket);
 
 		GEngine->ChangeLevel("LobbyTitleTestLevel");
+	}
+}
+
+void AInGameUI::NeedleCheck()
+{
+	
+	Needles = PlayerPtr->GetNeedleCount();
+	if (Needles == 0)
+	{
+		NeedleRender->SetMulColor({ 1.0f,1.0f,1.0f,1.0f }); //색상 변경해주는 느낌 
 	}
 }

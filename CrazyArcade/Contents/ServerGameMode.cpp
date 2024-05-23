@@ -95,6 +95,9 @@ void AServerGameMode::HandlerInit()
 						Bomb->PushProtocolAsync(_Packet);
 						Bomb->SetBombPower(_Packet->Power);
 						UCrazyArcadeCore::Net->Send(_Packet);
+
+						FEngineTimeStamp curtime = UEngineTime::GetCurTime();
+						int a = 0;
 						//MyBomb->SetObjectToken(_Packet->GetObjectToken());
 
 						//MyBomb->SetActorLocation(_Packet->Pos);
@@ -159,6 +162,12 @@ void AServerGameMode::HandlerInit()
 						Bomb->SetObjectToken(_Packet->GetObjectToken());
 						Bomb->PushProtocolAsync(_Packet);
 						Bomb->SetBombPower(_Packet->Power);
+
+						FEngineTimeStamp CurStamp = UEngineTime::GetCurTime();
+						float PacketDiff = CurStamp.TimeToFloat() - _Packet->SpawnTime;
+
+						int a = 0;
+
 						/*ABombBase* MyBomb;
 						ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, 0);
 						MyBomb->SetObjectToken(_Packet->GetObjectToken());
@@ -191,6 +200,12 @@ void AServerGameMode::HandlerInit()
 void AServerGameMode::LevelEnd(ULevel* _NextLevel)
 {
 	Super::LevelEnd(_NextLevel);
+	std::map<int, ConnectUserInfo>& Temp = ConnectionInfo::GetInst().GetUserInfos();
+	for (std::pair<const int, ConnectUserInfo>& Iterator : Temp)
+	{
+		Iterator.second.SetIsDead(false);
+	}
+	ConnectionInfo::GetInst().SetWins(ECharacterColor::None);
 }
 
 void AServerGameMode::CheckGame(float _DeltaTime)
@@ -203,6 +218,9 @@ void AServerGameMode::CheckGame(float _DeltaTime)
 		WinResult = true;
 		break;
 	case ECharacterColor::Blue:
+		WinResult = true;
+		break;
+	case ECharacterColor::Green:
 		WinResult = true;
 		break;
 	case ECharacterColor::None:
