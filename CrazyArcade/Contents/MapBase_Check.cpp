@@ -118,6 +118,11 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 			BoxPos.X += BlockSize * 0.5f;
 			BoxPos.Y += BlockSize * 0.5f;
 
+			if (true == MovingBoxColCheck(MoveBox->GetMoveDir(), _Dir))
+			{
+				return false;
+			}
+
 			if (0.0f < _Dir.X || 0.0f > _Dir.X)
 			{
 				float diffX = abs(PlayerPos.X - BoxPos.X);
@@ -202,7 +207,10 @@ bool AMapBase::SubMoveBoxCheck(FPoint _NextPoint, const FVector& _Dir)
 			BoxPos.X += BlockSize * 0.5f;
 			BoxPos.Y += BlockSize * 0.5f;
 
-			//MovingBoxColCheck(_Dir,)
+			if (true == MovingBoxColCheck(MoveBox->GetMoveDir(), _Dir))
+			{
+				return false;
+			}
 
 			if (0.0f < _Dir.X || 0.0f > _Dir.X)
 			{
