@@ -44,6 +44,9 @@ public:
 		}
 	}
 
+	int SessionSize() {
+		return static_cast<int>(Sessions.size());
+	}
 
 protected:
 	void ServerOpen(int _Port, int _BackLog = 512) override;
