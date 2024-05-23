@@ -12,6 +12,7 @@
 #include "TimerUI.h"
 #include "InGameUI.h"
 
+#include "TestMap.h"
 
 
 AMainPlayLevel::AMainPlayLevel()
@@ -37,7 +38,7 @@ void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
 	
-	MapType = EMapType::Village;
+	MapType = EMapType::Test;
 	CreateMap();
 }
 
@@ -65,6 +66,12 @@ void AMainPlayLevel::CreateMap()
 		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
 		Player->SetActorLocation({ 320.0f, 100.0f, 0.0f });
 		break;
+	case EMapType::Test:
+		TileMap = GetWorld()->SpawnActor<TestMap>("TestMap");
+		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
+		Player->SetActorLocation({ 300.0f, 400.0f, 0.0f });
+		break;
+
 	}
 }
 
