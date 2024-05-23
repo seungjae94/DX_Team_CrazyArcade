@@ -133,7 +133,7 @@ void APlayer::Tick(float _DeltaTime)
 	PlayerInfoUpdate();
 
 	// ½ÂÆÐ È®ÀÎ
-
+	CheckWinLose();
 }
 
 void APlayer::PlayerCreateCuttingBazzi(std::string _Color)
@@ -622,6 +622,28 @@ void APlayer::PlayerInfoUpdate()
 	}
 	else
 	{
+		return;
+	}
+}
+
+void APlayer::CheckWinLose()
+{
+	ECharacterColor Color = ECharacterColor::None;
+	ECharacterColor WinTeamColor = ConnectionInfo::GetInst().GetWins();
+
+	if (WinTeamColor == ECharacterColor::None)
+	{
+		return;
+	}
+
+	if (PlayerColor == WinTeamColor)
+	{
+		State.ChangeState("Win");
+		return;
+	}
+	else if(PlayerColor != WinTeamColor && IsDead == false)
+	{
+		State.ChangeState("Lose");
 		return;
 	}
 }

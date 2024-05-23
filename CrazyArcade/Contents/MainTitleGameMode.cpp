@@ -325,8 +325,13 @@ void AMainTitleGameMode::ServerStart()
 	{
 		UCrazyArcadeCore::NetManager.ServerOpen();
 		GEngine->ChangeLevel("LobbyTitleTestLevel");
-		ConnectionInfo::GetInst().SetMyName(PlayerName);
-		ConnectionInfo::GetInst().PushUserInfos(0, PlayerName);
+
+		if (true == PlayerName._Equal(""))
+		{
+			PlayerName = "Anonymous";
+		}
+		ConnectionInfo::GetInst().SetTempName(PlayerName);
+		ConnectionInfo::GetInst().PushUserInfos(0, ConnectionInfo::GetInst().GetTempName());
 	}
 }
 
@@ -335,7 +340,11 @@ void AMainTitleGameMode::ClientStart()
 	if (UCrazyArcadeCore::Net == nullptr)
 	{
 		UCrazyArcadeCore::NetManager.ClientOpen(IPNum, 30000);
-		ConnectionInfo::GetInst().SetMyName(PlayerName);
+		if (true == PlayerName._Equal(""))
+		{
+			PlayerName = "Anonymous";
+		}
+		ConnectionInfo::GetInst().SetTempName(PlayerName);
 		GEngine->ChangeLevel("LobbyTitleTestLevel");
 	}
 }

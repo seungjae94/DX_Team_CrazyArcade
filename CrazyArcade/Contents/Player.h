@@ -98,6 +98,7 @@ public:
 
 	void SetPlayerDead();
 	void PlayerInfoUpdate();
+	void CheckWinLose();
 
 	void SetTrapState();
 	
