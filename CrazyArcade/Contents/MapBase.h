@@ -19,7 +19,7 @@ public:
 	ABlockBase* Block = nullptr;
 	std::shared_ptr<ABushBase> Bush = nullptr;
 	std::shared_ptr<AItemBase> Item = nullptr;
-	std::shared_ptr<ABombBase> Bomb = nullptr;
+	std::list<std::shared_ptr<ABombBase>> AllBomb;
 };
 
 // 설명 : Map 기초 클래스
@@ -67,6 +67,7 @@ public:
 	EItemType IsItemTile(const FVector& _Pos);
 	
 	std::shared_ptr<ABombBase> SpawnBomb(const FVector& _Pos, APlayer* _Player);
+	std::shared_ptr<ABombBase> ServerSpawnBomb(const FVector& _Pos, APlayer* _Player);
 	std::shared_ptr<ABombBase> IsBombPosRet(const FVector& _Pos, const FVector& _Dir);
 	void ReSpawnItem(EItemType _Type, int _Count);
 

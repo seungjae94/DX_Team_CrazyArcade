@@ -164,7 +164,6 @@ void APlayer::StateInit()
 				{
 					Renderer->SetActive(false);
 					ShadowRenderer->SetActive(false);
-					ArrowRenderer->SetActive(false);
 				}
 			);
 			SetPlayerDead();

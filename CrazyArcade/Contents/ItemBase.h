@@ -3,9 +3,9 @@
 
 class AMainPlayLevel;
 
-class AItemBase : public ANetActor
+class AItemBase : public AActor
 {
-	GENERATED_BODY(ANetActor)
+	GENERATED_BODY(AActor)
 public:
 	// constrcuter destructer
 	AItemBase();

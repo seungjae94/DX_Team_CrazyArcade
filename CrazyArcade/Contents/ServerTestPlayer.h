@@ -39,4 +39,6 @@ protected:
 	void SpawnBomb();
 
 	bool IsDeadPacketSend = false;
+
+	USpriteRenderer* ArrowRenderer;
 };

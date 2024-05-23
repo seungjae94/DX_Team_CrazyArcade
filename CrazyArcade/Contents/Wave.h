@@ -4,9 +4,9 @@
 class AMainPlayLevel;
 
 // ¼³¸í : ¹° ÆøÅº ÆÄµµ
-class AWave : public ANetActor
+class AWave : public AActor
 {
-	GENERATED_BODY(ANetActor)
+	GENERATED_BODY(AActor)
 public:
 	// constrcuter destructer
 	AWave();
