@@ -215,6 +215,7 @@ protected:
 
 	void KeyMove(float _DeltaTime, FVector _Dir, float _Speed);
 	void HideInBush();
+	bool IsInBush = false;
 
 	float JumpTime = 0.0f;
 	bool IsDead = false;

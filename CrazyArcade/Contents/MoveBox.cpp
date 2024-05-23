@@ -137,6 +137,7 @@ void AMoveBox::StateInit()
 			if (nullptr != PlayLevel->GetMap()->GetTileInfo(CurPoint).Item)
 			{
 				PlayLevel->GetMap()->GetTileInfo(CurPoint).Item->Destroy();
+				PlayLevel->GetMap()->GetTileInfo(CurPoint).Item = nullptr;
 			}
 
 			PlayLevel->GetMap()->GetTileInfo(PrevPoint).Block = nullptr;

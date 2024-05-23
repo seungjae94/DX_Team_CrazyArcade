@@ -111,9 +111,9 @@ void AVillageMap::CreateTrees()
 
 void AVillageMap::CreateVillageBoxs()
 {
-	CreateBox({  0,  3 }, MapImgRes::block_vil_box2);
+	CreateBox({  0,  3 }, MapImgRes::block_vil_box2, EItemType::Fluid);
 	CreateBox({  0,  7 }, MapImgRes::block_vil_box2);
-	CreateBox({  1,  5 }, MapImgRes::block_vil_box2);
+	CreateBox({  1,  5 }, MapImgRes::block_vil_box2, EItemType::Fluid);
 	CreateBox({  1,  8 }, MapImgRes::block_vil_box2);
 	CreateBox({  1, 12 }, MapImgRes::block_vil_box2);
 	CreateBox({  2,  3 }, MapImgRes::block_vil_box2);
@@ -140,9 +140,9 @@ void AVillageMap::CreateVillageBoxs()
 	CreateBox({ 14,  4 }, MapImgRes::block_vil_box2);
 	CreateBox({ 14,  9 }, MapImgRes::block_vil_box2);
 
-	CreateBox({  0,  5 }, MapImgRes::block_vil_box1);
+	CreateBox({  0,  5 }, MapImgRes::block_vil_box1, EItemType::Roller);
 	CreateBox({  0,  8 }, MapImgRes::block_vil_box1);
-	CreateBox({  1,  3 }, MapImgRes::block_vil_box1);
+	CreateBox({  1,  3 }, MapImgRes::block_vil_box1, EItemType::Bubble);
 	CreateBox({  2,  1 }, MapImgRes::block_vil_box1);
 	CreateBox({  2,  5 }, MapImgRes::block_vil_box1);
 	CreateBox({  2,  8 }, MapImgRes::block_vil_box1);

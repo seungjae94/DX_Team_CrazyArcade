@@ -228,13 +228,18 @@ std::shared_ptr<ABombBase> AMapBase::IsBombPosRet(const FVector& _Pos, const FVe
 }
 
 // Bush 위치면 true 반환
-bool AMapBase::IsBushPos(const FVector& _Pos)
+bool AMapBase::IsBushPos(const FVector& _Pos, bool _IsInBush)
 {
 	bool Result = false;
 	FPoint Point = ConvertLocationToPoint(_Pos);
 
 	if (nullptr != TileInfo[Point.Y][Point.X].Bush)
 	{
+		if (_IsInBush == false)
+		{
+			TileInfo[Point.Y][Point.X].Bush->SetShaking();
+		}
+
 		Result = true;
 	}
 
