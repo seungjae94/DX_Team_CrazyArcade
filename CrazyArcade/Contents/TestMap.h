@@ -24,6 +24,7 @@ protected:
 	void LevelEnd(ULevel* _NextLevel) override;
 
 private:
+	void CreateTestMoveBox();
 
 };
 

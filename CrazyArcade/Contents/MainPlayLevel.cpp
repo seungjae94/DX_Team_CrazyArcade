@@ -69,7 +69,7 @@ void AMainPlayLevel::CreateMap()
 	case EMapType::Test:
 		TileMap = GetWorld()->SpawnActor<TestMap>("TestMap");
 		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
-		Player->SetActorLocation({ 300.0f, 400.0f, 0.0f });
+		Player->SetActorLocation(AMapBase::ConvertPointToLocation({ 2, 6 }));
 		break;
 
 	}
