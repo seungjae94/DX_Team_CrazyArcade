@@ -34,7 +34,12 @@ protected:
 	void LevelStart(ULevel* _PrevLevel) override;
 	void LevelEnd(ULevel* _NextLevel) override;
 
+	void CheckGame(float _DeltaTime);
+
 	float BombDestoryTime = 1.0f;
 	float CurBombDestoryTime = 0.0f;
+
+	float WinTime = 2.0f;
+	float CurWinTime = 0.0f;
 };
 

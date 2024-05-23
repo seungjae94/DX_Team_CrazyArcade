@@ -195,8 +195,7 @@ void AMoveBox::SetMoveState(const FVector& _Dir)
 	{
 		APlayer* Player = PlayLevel->GetMap()->AllPlayer[i];
 
-		// 조건 추가 필요
-		if (nullptr == Player)
+		if (nullptr == Player || (true == Player->GetIsDead() && false == Player->GetRenderer()->IsActive()))
 		{
 			continue;
 		}

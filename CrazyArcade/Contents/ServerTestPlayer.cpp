@@ -47,6 +47,10 @@ void ServerTestPlayer::Tick(float _DeltaTime)
 		IsSpawn = true;
 	}
 
+	if (true == IsSpawn) {
+		SpawnBomb();
+	}
+
 	if (0.0f >= CurTime && true == IsNetInit())
 	{
 		std::shared_ptr<UActorUpdatePacket> Packet = std::make_shared<UActorUpdatePacket>();
@@ -56,9 +60,6 @@ void ServerTestPlayer::Tick(float _DeltaTime)
 		Packet->SpawnSelect = static_cast<int>(ECharacterType::Random);
 		Send(Packet);
 		CurTime += FrameTime;
-		if (true == IsSpawn) {
-			SpawnBomb();
-		}
 	}
 
 	if (false == IsDeadPacketSend && true == IsDead)
