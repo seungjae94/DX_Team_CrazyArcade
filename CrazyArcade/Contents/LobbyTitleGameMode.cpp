@@ -1086,6 +1086,7 @@ void ALobbyTitleGameMode::LevelStart(ULevel* _PrevLevel)
 	Space_IsUserIn[Player.SpaceIndex] = true;
 	Usernames_Space[Player.SpaceIndex]->SetText(Player.Name);
 	SettingCharacterSelect(ConnectionInfo::GetInst().GetCharacterType());	// Ramdom 타입으로 Game에 참가하고 나온 경우를 위해
+	ChangeReady(false);
 
 	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
 	{
