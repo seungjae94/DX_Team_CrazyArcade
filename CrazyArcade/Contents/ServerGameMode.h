@@ -39,7 +39,7 @@ protected:
 	float BombDestoryTime = 1.0f;
 	float CurBombDestoryTime = 0.0f;
 
-	float WinTime = 2.0f;
+	float WinTime = 5.0f;
 	float CurWinTime = 0.0f;
 };
 

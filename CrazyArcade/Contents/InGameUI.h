@@ -43,10 +43,8 @@ protected:
 	void GameEnd();
 
 private:
-	void CountDown(float _DeltaTime);
-	void TimerText();
-	void IntToText();
-
+	
+	
 	std::string MinText;
 	std::string SecText;
 
@@ -55,7 +53,7 @@ private:
 
 	UImage* CancelBtn = nullptr;
 	UImage* ResultBackGround = nullptr;
-	UImage* ResultSummary = nullptr;
+	
 
 	UImage* PlayerStateRender = nullptr;
 	UImage* NeedleRender = nullptr; // 원래는 아이템 벡터로 받을려고 했는데 시간상 그냥 아이템 하나 
@@ -78,6 +76,8 @@ private:
 	void DataToRender();
 
 	void PlayerStateCheck();
+
+	void ResultCheck();
 
 
 	//아이템 및 바늘
@@ -102,6 +102,6 @@ private:
 	void FadeIn(float _DeltaTime);
 	void FadeOut(float _DeltaTime);
 
-
+	
 
 };
