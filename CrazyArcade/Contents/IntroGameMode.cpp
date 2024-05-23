@@ -1,16 +1,9 @@
 #include "PreCompile.h"
 #include "IntroGameMode.h"
+#include "IntroFrame.h"
 
 AIntroGameMode::AIntroGameMode()
 {
-
-	//UDefaultSceneComponent* Root = CreateDefaultSubObject<UDefaultSceneComponent>("IntroRenderer");
-	//IntroRenderer = CreateDefaultSubObject<USpriteRenderer>("IntroRenderer");
-	//IntroRenderer->SetupAttachment(Root);
-
-	//SetRoot(Root);
-
-
 }
 
 AIntroGameMode::~AIntroGameMode()
@@ -20,15 +13,11 @@ AIntroGameMode::~AIntroGameMode()
 void AIntroGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	// 인트로 프레임 이미지 첫번째 이름 :
-	// intro_frame_0.png
 
+	UCamera* Camera = GetWorld()->GetMainCamera().get();
+	Camera->SetActorLocation({ 0.0f, 0.0f, -100.0f });
 
-
-
-
-
+	GetWorld()->SpawnActor<AIntroFrame>("IntroFrame");
 }
 
 void AIntroGameMode::Tick(float _DeltaTime)
