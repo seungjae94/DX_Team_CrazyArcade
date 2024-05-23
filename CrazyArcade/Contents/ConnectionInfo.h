@@ -107,10 +107,7 @@ public:
 
 	void SetEmpty(int _Order) 
 	{
-		UserInfos[_Order].SetMyColorType(ECharacterColor::None);
-		UserInfos[_Order].SetMyCharacterType(ECharacterType::None);
-		UserInfos[_Order].MyName = "";
-		UserInfos[_Order].SetIsExist(false);
+		UserInfos.erase(_Order);
 	}
 
 	void SetUserInfos(std::map<int, ConnectUserInfo> _Infos)
