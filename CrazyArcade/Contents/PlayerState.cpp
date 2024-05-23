@@ -177,6 +177,10 @@ void APlayer::StateInit()
 		{
 			IsTrapped = false;
 			NeedleCount--;
+			if (NeedleCount <= 0)
+			{
+				NeedleCount = 0;
+			}
 			CurSpeed = BaseSpeed + Speed;
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Revival");
 			NoHit = false;
