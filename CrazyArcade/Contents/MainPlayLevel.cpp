@@ -40,6 +40,7 @@ void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 	
 	MapType = EMapType::Test;
 	CreateMap();
+	//InGameUI->
 }
 
 void AMainPlayLevel::CreateMap()
@@ -73,7 +74,10 @@ void AMainPlayLevel::CreateMap()
 		break;
 	}
 
-	InGameUI = GetWorld()->SpawnActor<AInGameUI>("InGameUIs");
+	if (nullptr == InGameUI)
+	{
+		InGameUI = GetWorld()->SpawnActor<AInGameUI>("InGameUIs");
+	}
 }
 
 void AMainPlayLevel::LevelEnd(ULevel* _NextLevel)
