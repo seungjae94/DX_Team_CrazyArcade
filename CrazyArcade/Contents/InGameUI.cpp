@@ -70,7 +70,7 @@ void AInGameUI::BeginPlay()
 	NeedleRender->SetSprite("spr_item_needle.png");
 	NeedleRender->SetMulColor({ 1.0f,1.0f,1.0f,2.0f });
 	NeedleRender->SetScale({ 30,30 });
-	NeedleRender->AddWidgetLocation({-140,-282});
+	NeedleRender->AddWidgetLocation({-100,-282});
 	NeedleRender->AddToViewPort(4);
 
 	NeedleRender2 = CreateWidget<UImage>(GetWorld(), "NeedleUI2");
