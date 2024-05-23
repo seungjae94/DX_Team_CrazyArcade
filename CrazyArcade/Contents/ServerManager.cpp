@@ -38,41 +38,14 @@ void UServerManager::ServerOpen()
 			PushUpdate([=]()
 				{
 					{
-						std::map<int, ConnectUserInfo> Infos;
-						for (std::pair<const int, std::string> NamePair : _Packet->NameInfos)
-						{
-							int Key = NamePair.first;
-							Infos[Key].MyName = NamePair.second;
-							Infos[Key].SetMyCharacterType(_Packet->GetMyCharacterType(Key));
-							Infos[Key].SetMyColorType(_Packet->GetMyColorType(Key));
-							Infos[Key].SetIsExist(_Packet->GetExist(Key));
-						}
-
-						ConnectionInfo::GetInst().SetUserInfos(Infos);
+						ConnectionInfo::GetInst().SetUserInfos(_Packet->Infos);
 					}
 
 					{
 						std::shared_ptr<UConnectPacket> Packet = std::make_shared<UConnectPacket>();
 						std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
 
-						std::map<int, std::string> NameInfos;
-						std::map<int, int> CharacterTypeInfos;
-						std::map<int, int> ColorInfos;
-						std::map<int, bool> ExistInfos;
-
-						for (std::pair<const int, ConnectUserInfo> Pair : Infos)
-						{
-							int Key = Pair.first;
-							NameInfos[Key] = Pair.second.MyName;
-							CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
-							ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
-							ExistInfos[Key] = Pair.second.GetIsExist();
-						}
-
-						Packet->NameInfos = NameInfos;
-						Packet->CharacterTypeInfos = CharacterTypeInfos;
-						Packet->ColorInfos = ColorInfos;
-						Packet->ExistInfos = ExistInfos;
+						Packet->Infos = Infos;
 						Send(Packet);
 					}
 				});
@@ -90,24 +63,7 @@ void UServerManager::ServerOpen()
 						std::shared_ptr<UConnectPacket> Packet = std::make_shared<UConnectPacket>();
 						std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
 
-						std::map<int, std::string> NameInfos;
-						std::map<int, int> CharacterTypeInfos;
-						std::map<int, int> ColorInfos;
-						std::map<int, bool> ExistInfos;
-
-						for (std::pair<const int, ConnectUserInfo> Pair : Infos)
-						{
-							int Key = Pair.first;
-							NameInfos[Key] = Pair.second.MyName;
-							CharacterTypeInfos[Key] = static_cast<int>(Pair.second.GetMyCharacterType());
-							ColorInfos[Key] = static_cast<int>(Pair.second.GetMyColorType());
-							ExistInfos[Key] = Pair.second.GetIsExist();
-						}
-
-						Packet->NameInfos = NameInfos;
-						Packet->CharacterTypeInfos = CharacterTypeInfos;
-						Packet->ColorInfos = ColorInfos;
-						Packet->ExistInfos = ExistInfos;
+						Packet->Infos = Infos;
 						Send(Packet);
 					}
 
@@ -141,6 +97,20 @@ void UServerManager::ServerOpen()
 					ConnectionInfo::GetInst().TeamCount();
 					ECharacterColor Win = ConnectionInfo::GetInst().WinCheck();
 					ConnectionInfo::GetInst().SetWins(Win);
+				});
+		});
+
+	Dis.AddHandler<UReadyUpdatePacket>([=](std::shared_ptr<UReadyUpdatePacket> _Packet)
+		{
+			PushUpdate([=]()
+				{
+					ConnectionInfo::GetInst().GetUserInfos()[_Packet->Order].SetIsReady(_Packet->ReadyValue);
+					{
+						std::shared_ptr<UReadyUpdatePacket> Packet = std::make_shared<UReadyUpdatePacket>();
+						Packet->Order = _Packet->Order;
+						Packet->ReadyValue = _Packet->ReadyValue;
+						Send(Packet);
+					}
 				});
 		});
 
@@ -183,17 +153,18 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 		{
 			PushUpdate([=]()
 				{
-					std::map<int, ConnectUserInfo> Infos;
-					for (std::pair<const int, std::string> NamePair : _Packet->NameInfos)
-					{
-						int Key = NamePair.first;
-						Infos[Key].MyName = NamePair.second;
-						Infos[Key].SetMyCharacterType(_Packet->GetMyCharacterType(Key));
-						Infos[Key].SetMyColorType(_Packet->GetMyColorType(Key));
-						Infos[Key].SetIsExist(_Packet->GetExist(Key));
-					}
+					//std::map<int, ConnectUserInfo> Infos;
+					//for (std::pair<const int, std::string> NamePair : _Packet->NameInfos)
+					//{
+					//	int Key = NamePair.first;
+					//	Infos[Key].MyName = NamePair.second;
+					//	Infos[Key].SetMyCharacterType(_Packet->GetMyCharacterType(Key));
+					//	Infos[Key].SetMyColorType(_Packet->GetMyColorType(Key));
+					//	Infos[Key].SetIsExist(_Packet->GetExist(Key));
+					//	Infos[Key].SetIsReady(_Packet->GetReady(Key));
+					//}
 
-					ConnectionInfo::GetInst().SetUserInfos(Infos);
+					ConnectionInfo::GetInst().SetUserInfos(_Packet->Infos);
 				});
 		});
 
@@ -207,10 +178,21 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 
 	Dis.AddHandler<UDeadUpdatePacket>([=](std::shared_ptr<UDeadUpdatePacket> _Packet)
 		{
-			ConnectionInfo::GetInst().GetUserInfos()[_Packet->Order].SetIsDead(_Packet->DeadValue);
-			ConnectionInfo::GetInst().TeamCount();
-			ECharacterColor Win = ConnectionInfo::GetInst().WinCheck();
-			ConnectionInfo::GetInst().SetWins(Win);
+			PushUpdate([=]()
+				{
+					ConnectionInfo::GetInst().GetUserInfos()[_Packet->Order].SetIsDead(_Packet->DeadValue);
+					ConnectionInfo::GetInst().TeamCount();
+					ECharacterColor Win = ConnectionInfo::GetInst().WinCheck();
+					ConnectionInfo::GetInst().SetWins(Win);
+				});
+		});
+
+	Dis.AddHandler<UReadyUpdatePacket>([=](std::shared_ptr<UReadyUpdatePacket> _Packet)
+		{
+			PushUpdate([=]()
+				{
+					ConnectionInfo::GetInst().GetUserInfos()[_Packet->Order].SetIsReady(_Packet->ReadyValue);
+				});
 		});
 
 	Dis.AddHandler<UEndSession>([=](std::shared_ptr<UEndSession> _Packet)
