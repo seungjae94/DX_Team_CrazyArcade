@@ -45,7 +45,7 @@ void AServerGameMode::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
 	if (Player->GetObjectToken() == -1) {
-		Player->SetObjectToken(GetToken);
+		Player->SetObjectToken(UCrazyArcadeCore::Net->GetSessionToken() * 1000);
 	}
 	ConnectionInfo::GetInst().TeamCount();
 }

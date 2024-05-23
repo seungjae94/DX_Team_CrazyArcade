@@ -62,6 +62,7 @@ public:
 	}
 
 	bool CanMovePos(const FVector& _NextPos, const FVector& _Dir);
+	bool CanMovePosInTraped(const FVector& _NextPos, const FVector& _Dir);
 	bool IsBombPos(const FVector& _Pos, const FVector& _Dir);
 	bool IsBushPos(const FVector& _Pos, bool _IsInBush);
 	ECharacterColor IsColOtherPlayer(const FVector& _Pos, APlayer* _Player);

@@ -703,7 +703,18 @@ void APlayer::Lose(float _DeltaTime)
 void APlayer::KeyMove(float _DeltaTime, FVector _Dir, float _Speed)
 {
 	FVector NextPos = GetActorLocation() + FVector(_DeltaTime * _Speed * _Dir.X, _DeltaTime * _Speed * _Dir.Y, 0.0f);
-	bool CanMove = PlayLevel->GetMap()->CanMovePos(NextPos, _Dir);
+	
+	bool CanMove = false;
+
+	if (false == IsTrapped)
+	{
+		CanMove = PlayLevel->GetMap()->CanMovePos(NextPos, _Dir);
+	}
+	else
+	{
+		CanMove = PlayLevel->GetMap()->CanMovePosInTraped(NextPos, _Dir);
+	}
+	
 	bool IsBombPos = false;
 	if (false == IsBombOn)
 	{
