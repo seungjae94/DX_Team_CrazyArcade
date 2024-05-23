@@ -83,12 +83,13 @@ void ALobbyTitleGameMode::BeginPlay()
 			Btn_GameStart->CreateAnimation("Down", "Button_GameStart_Down.png", 0.1f, false, 0, 0);
 			Btn_GameStart->ChangeAnimation("UnHover");
 
-			/*Btn_GameStart_InActive = CreateWidget<UImage>(GetWorld(), "Btn_GameStart_InActive");
+			Btn_GameStart_InActive = CreateWidget<UImage>(GetWorld(), "Btn_GameStart_InActive");
 			Btn_GameStart_InActive->SetSprite("Button_GameStart_InActive.png");
 			Btn_GameStart_InActive->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
 			Btn_GameStart_InActive->AddToViewPort(1);
 			Btn_GameStart_InActive->SetAutoSize(1.0f, true);
-			Btn_GameStart_InActive->SetWidgetLocation({ 231.0f, -222.0f });*/
+			Btn_GameStart_InActive->SetWidgetLocation({ 231.0f, -222.0f });
+			Btn_GameStart_InActive->SetActive(false);
 
 			Btn_GameStart->SetUnHover([=] {
 				Btn_GameStart->ChangeAnimation("UnHover");
@@ -116,8 +117,11 @@ void ALobbyTitleGameMode::BeginPlay()
 				{
 					if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
 					{
-						IsFadeOut = true;
-						Fade->SetActive(true);
+						if (IsReadyDone == true)
+						{
+							IsFadeOut = true;
+							Fade->SetActive(true);
+						}
 					}
 					else
 					{
@@ -1083,10 +1087,10 @@ void ALobbyTitleGameMode::LevelStart(ULevel* _PrevLevel)
 	Usernames_Space[Player.SpaceIndex]->SetText(Player.Name);
 	SettingCharacterSelect(ConnectionInfo::GetInst().GetCharacterType());	// Ramdom 타입으로 Game에 참가하고 나온 경우를 위해
 
-	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())	// MapSelect 버튼은 서버만 누를 수 있음
+	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
 	{
-		//Btn_GameStart_InActive->SetActive(false);
-		Btn_MapSelect_InActive->SetActive(false);
+		Btn_GameStart_InActive->SetActive(true);	// GameStart 버튼은 클라이언트 모두가 Ready 해야 서버가 누를 수 있음
+		Btn_MapSelect_InActive->SetActive(false);	// MapSelect 버튼은 서버만 누를 수 있음
 	}
 
 	// FadeIn
@@ -1122,6 +1126,12 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 
 	// Chat Update
 	ChatUpdate();
+
+	// Ready Update
+	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+	{
+		ReadyUpdate();
+	}
 
 	// Debug
 	{
@@ -1246,6 +1256,32 @@ void ALobbyTitleGameMode::ChatUpdate()
 	}
 }
 
+void ALobbyTitleGameMode::ReadyUpdate()
+{
+	bool Result = true;
+	std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
+	for (std::pair<int, ConnectUserInfo> Iterator : Infos)
+	{
+		if (Iterator.first == 0)
+		{
+			continue;
+		}
+
+		Result = Result && Iterator.second.GetIsReady();
+	}
+
+	IsReadyDone = Result;
+
+	if (IsReadyDone == true)
+	{
+		Btn_GameStart_InActive->SetActive(false);
+	}
+	else
+	{
+		Btn_GameStart_InActive->SetActive(true);
+	}
+}
+
 void ALobbyTitleGameMode::SpaceOn(int _Index)
 {
 	Characters_Space[_Index]->SetActive(true);
@@ -1310,6 +1346,34 @@ void ALobbyTitleGameMode::MapSelectOff()
 	Btn_MapSelectAccept->SetActive(false);
 	Btn_MapSelectCancel->SetActive(false);
 	Fade_MapSelect->SetActive(false);
+}
+
+void ALobbyTitleGameMode::FadeIn(float _DeltaTime)
+{
+	if (FadeAlpha <= 0.0f)
+	{
+		IsFadeIn = false;
+		Fade->SetActive(false);
+		return;
+	}
+
+	FadeAlpha -= _DeltaTime * 3.0f;
+	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
+}
+
+void ALobbyTitleGameMode::FadeOut(float _DeltaTime)
+{
+	if (FadeAlpha >= 1.0f)
+	{
+		IsFadeIn = true;
+		IsFadeOut = false;
+		Fade->SetActive(false);
+		GameStart();
+		return;
+	}
+
+	FadeAlpha += _DeltaTime * 3.0f;
+	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
 }
 
 void ALobbyTitleGameMode::SettingPanel(ECharacterType _CharacterType)
@@ -1611,49 +1675,6 @@ void ALobbyTitleGameMode::ChangeReady(bool _IsReady)
 		Packet->ReadyValue = _IsReady;
 		UCrazyArcadeCore::Net->Send(Packet);
 	}
-
-	//// 레디 확인
-	//{
-	//	bool Result = true;
-	//	std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
-	//	for (std::pair<int, ConnectUserInfo> Iterator : Infos)
-	//	{
-	//		if (Iterator.first == 0)
-	//		{
-	//			continue;
-	//		}
-
-	//		Result = Result && Iterator.second.GetIsReady();
-	//	}
-	//}
-}
-
-void ALobbyTitleGameMode::FadeIn(float _DeltaTime)
-{
-	if (FadeAlpha <= 0.0f)
-	{
-		IsFadeIn = false;
-		Fade->SetActive(false);
-		return;
-	}
-
-	FadeAlpha -= _DeltaTime * 3.0f;
-	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
-}
-
-void ALobbyTitleGameMode::FadeOut(float _DeltaTime)
-{
-	if (FadeAlpha >= 1.0f)
-	{
-		IsFadeIn = true;
-		IsFadeOut = false;
-		Fade->SetActive(false);
-		GameStart();
-		return;
-	}
-
-	FadeAlpha += _DeltaTime * 3.0f;
-	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
 }
 
 void ALobbyTitleGameMode::GameStart()
