@@ -54,6 +54,7 @@ protected:
 
 	void UserInfosUpdate();
 	void ChatUpdate();
+	void ReadyUpdate();
 
 	void SpaceOn(int _Index);
 	void SpaceOff(int _Index);
@@ -83,7 +84,8 @@ private:
 
 	// GameStart
 	UImage* Btn_GameStart = nullptr;
-	//UImage* Btn_GameStart_InActive = nullptr;
+	UImage* Btn_GameStart_InActive = nullptr;
+	bool IsReadyDone = false;
 
 	// MapSelect
 	UImage* Btn_MapSelect = nullptr;
