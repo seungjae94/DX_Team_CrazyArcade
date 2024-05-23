@@ -51,8 +51,8 @@ void APlayer::BeginPlay()
 	PlayerCreateCutting("Dao_B");
 
 	PlayerCreateCutting("luxMarid_R");
-	PlayerCreateCutting("luxMarid_O");
 	PlayerCreateCutting("luxMarid_B");
+	//PlayerCreateCutting("luxMarid_O");
 
 	// 애니메이션 생성
 	//Bazzi
@@ -63,8 +63,8 @@ void APlayer::BeginPlay()
 	PlayerCreateAnimation("Dao_B");
 
 	PlayerCreateAnimation("luxMarid_R");
-	PlayerCreateAnimation("luxMarid_O");
 	PlayerCreateAnimation("luxMarid_B");
+	//PlayerCreateAnimation("luxMarid_O");
 
 	CharacterTypeDataInit();
 
@@ -131,6 +131,9 @@ void APlayer::Tick(float _DeltaTime)
 	CheckBombCount();
 
 	PlayerInfoUpdate();
+
+	// 승패 확인
+
 }
 
 void APlayer::PlayerCreateCuttingBazzi(std::string _Color)
@@ -148,6 +151,7 @@ void APlayer::PlayerCreateCutting(std::string _CharacterType_Color)
 	UEngineSprite::CreateCutting(_CharacterType_Color + "_3.png", 5, 4);
 	UEngineSprite::CreateCutting(_CharacterType_Color + "_4.png", 5, 4);
 	UEngineSprite::CreateCutting(_CharacterType_Color + "_5.png", 5, 6);
+	UEngineSprite::CreateCutting(_CharacterType_Color + "_6.png", 2, 1);
 }
 
 void APlayer::PlayerCreateBazziAnimation(std::string _Color)
@@ -164,7 +168,9 @@ void APlayer::PlayerCreateBazziAnimation(std::string _Color)
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Up", "Bazzi" + _Color + "_1.png", 0.1f, true, 13, 19);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Run_Down", "Bazzi" + _Color + "_1.png", 0.1f, true, 21, 28);
 
-	Renderer->CreateAnimation("Bazzi" + _Color + "_Win", "Bazzi" + _Color + "_1.png", 0.1f, true, 29, 35);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Win", "Bazzi" + _Color + "_1.png", 0.2f, true, 29, 35);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_Lose", "Bazzi" + _Color + "_1.png", 1.0f, true, 20, 20);
+
 	Renderer->CreateAnimation("Bazzi" + _Color + "_TrapStart", "Bazzi" + _Color + "_4.png", 0.07f, false, 6, 10);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_Trapped", "Bazzi" + _Color + "_4.png", 0.2f, true, 11, 22);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_TrapEnd", "Bazzi" + _Color + "_4.png", 0.2f, false, 23, 31);
@@ -202,9 +208,9 @@ void APlayer::PlayerCreateAnimation(std::string _CharacterType_Color)
 	// Idle
 	Renderer->CreateAnimation(_CharacterType_Color + "_Ready", _CharacterType_Color + "_4.png", 0.06f, false, 0, 17);
 	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Right", _CharacterType_Color + "_1.png", 1.0f, false, 0, 0);
-	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Left", _CharacterType_Color + "_1.png", 1.f, false, 6, 6);
-	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Up", _CharacterType_Color + "_1.png", 1.f, false, 12, 12);
-	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Down", _CharacterType_Color + "_1.png", 1.f, false, 18, 18);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Left", _CharacterType_Color + "_1.png", 1.0f, false, 6, 6);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Up", _CharacterType_Color + "_1.png", 1.0f, false, 12, 12);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Idle_Down", _CharacterType_Color + "_1.png", 1.0f, false, 18, 18);
 
 	// Move
 	Renderer->CreateAnimation(_CharacterType_Color + "_Run_Right", _CharacterType_Color + "_1.png", 0.1f, true, 1, 5);
@@ -212,8 +218,9 @@ void APlayer::PlayerCreateAnimation(std::string _CharacterType_Color)
 	Renderer->CreateAnimation(_CharacterType_Color + "_Run_Up", _CharacterType_Color + "_1.png", 0.09f, true, 13, 17);
 	Renderer->CreateAnimation(_CharacterType_Color + "_Run_Down", _CharacterType_Color + "_1.png", 0.09f, true, 19, 23);
 
-	//Renderer->CreateAnimation(_CharacterType_Color + "_Win", _CharacterType_Color + "_1.png", 0.1f, true, 29, 36);
-	Renderer->CreateAnimation(_CharacterType_Color + "_Win", _CharacterType_Color + "_4.png", 0.1f, true, 0, 12);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Win", _CharacterType_Color + "_6.png", 0.2f, true, 0, 1);
+	Renderer->CreateAnimation(_CharacterType_Color + "_Lose", _CharacterType_Color + "_1.png", 1.0f, false, 18, 18);
+
 	Renderer->CreateAnimation(_CharacterType_Color + "_TrapStart", _CharacterType_Color + "_5.png", 0.07f, false, 0, 4);
 	Renderer->CreateAnimation(_CharacterType_Color + "_Trapped", _CharacterType_Color + "_5.png", 0.2f, true, 5, 16);
 	Renderer->CreateAnimation(_CharacterType_Color + "_TrapEnd", _CharacterType_Color + "_5.png", 0.2f, false, 17, 25);
