@@ -81,9 +81,6 @@ void AMainPlayLevel::LevelEnd(ULevel* _NextLevel)
 
 	TileMap->Destroy();
 	TileMap = nullptr;
-
-	Player->Destroy();
-	Player = nullptr;
 }
 
 void AMainPlayLevel::Tick(float _DeltaTime)
