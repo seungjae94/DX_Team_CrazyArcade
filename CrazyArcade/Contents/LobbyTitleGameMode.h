@@ -60,6 +60,9 @@ protected:
 	void PanelOn();
 	void PanelOff();
 
+	void MapSelectOn();
+	void MapSelectOff();
+
 	void FadeIn(float _DeltaTime);
 	void FadeOut(float _DeltaTime);
 
@@ -77,10 +80,16 @@ private:
 	bool IsFadeOut = false;
 	float FadeAlpha = 1.0f;
 
-	// GameStart, MapSelect
+	// GameStart
 	UImage* Btn_GameStart = nullptr;
 	UImage* Btn_GameStart_InActive = nullptr;
+
+	// MapSelect
 	UImage* Btn_MapSelect = nullptr;
+	UImage* Btn_MapSelect_InActive = nullptr;
+	UImage* BackGround_MapSelect = nullptr;
+	UImage* Btn_MapSelectAccept = nullptr;
+	UImage* Btn_MapSelectCancel = nullptr;
 
 	// Space
 	std::vector<bool> Space_IsAvailable;
