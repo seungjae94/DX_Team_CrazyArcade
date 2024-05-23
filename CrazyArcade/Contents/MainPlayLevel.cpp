@@ -13,6 +13,8 @@
 #include "InGameUI.h"
 
 #include "TestMap.h"
+#include "CrazyArcadeCore.h"
+#include "ServerManager.h"
 
 
 AMainPlayLevel::AMainPlayLevel()
@@ -35,6 +37,7 @@ void AMainPlayLevel::BeginPlay()
 void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
+	UCrazyArcadeCore::NetManager.BoxTokenInit();
 	
 	MapType = EMapType::Pirate;
 	CreateMap();

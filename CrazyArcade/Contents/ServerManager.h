@@ -28,6 +28,8 @@ public:
 	void ServerUpdate(float _DeltaTime);
 	void ClientUpdate(float _DeltaTime);
 
+	void BoxTokenInit();
+
 	void ServerInit();
 	bool ServerBool = false;
 	void ClientInit();
@@ -55,7 +57,6 @@ public:
 protected:
 
 	static int CommonObjectValue;
-
 	std::mutex UpdateLock;
 	std::list<std::function<void()>> UpdateTick;
 

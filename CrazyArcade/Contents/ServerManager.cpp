@@ -261,6 +261,11 @@ void UServerManager::ClientUpdate(float _DeltaTime)
 	ClientInit();
 }
 
+void UServerManager::BoxTokenInit()
+{
+	UServerManager::CommonObjectValue = 10000;
+}
+
 
 void UServerManager::ServerInit()  //한 번만 실행되는 함수
 {
