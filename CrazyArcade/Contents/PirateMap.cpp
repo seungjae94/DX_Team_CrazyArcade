@@ -18,6 +18,7 @@ void APirateMap::BeginPlay()
 
 	SetBackGround(MapImgRes::Pirate_background01);
 	SetMapInfoSize(15, 13);
+
 	PushPlayerStartPoint({  1,  7 });
 	PushPlayerStartPoint({  2,  0 });
 	PushPlayerStartPoint({  4,  5 });
