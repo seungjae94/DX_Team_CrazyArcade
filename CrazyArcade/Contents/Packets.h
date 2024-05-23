@@ -301,7 +301,7 @@ public:
 public:
 	UCheatingPacket()
 	{
-		SetType(EContentPacket::DeadUpdatePacket);
+		SetType(EContentPacket::CheatingPacket);
 	}
 
 	void Serialize(UEngineSerializer& _Ser) override

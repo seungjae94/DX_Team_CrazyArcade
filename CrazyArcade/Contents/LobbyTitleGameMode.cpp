@@ -1377,7 +1377,7 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 	// PlayerInfo
 	Player.CharacterType = _CharacterType;
 	ConnectionInfo::GetInst().SetCharacterType(_CharacterType);
-	
+
 	// Button, Outline, Checker
 	SettingCharacterSelect(_CharacterType);
 
@@ -1485,7 +1485,7 @@ void ALobbyTitleGameMode::GameStart()
 			ConnectUserInfo& UserInfo = Iterator.second;
 
 			int random = UEngineRandom::MainRandom.RandomInt(0, 2);
-			
+
 			if (ECharacterType::Random == UserInfo.GetMyCharacterType())
 			{
 				switch (random)
@@ -1529,7 +1529,7 @@ void ALobbyTitleGameMode::GameStart()
 			UCrazyArcadeCore::Net->Send(Packet);
 		}
 
-		if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType()) 
+		if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
 		{
 			std::shared_ptr<UChangeLevelPacket> Packet = std::make_shared<UChangeLevelPacket>();
 			GEngine->ChangeLevel("ServerGameMode");
@@ -1542,27 +1542,40 @@ void ALobbyTitleGameMode::GameStart()
 
 void ALobbyTitleGameMode::HandlerInit()
 {
-	if(ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType()){
-	UEngineDispatcher& Dis = UCrazyArcadeCore::Net->Dispatcher;
-	Dis.AddHandler<UCheatingPacket>([=](std::shared_ptr<UCheatingPacket> _Packet)  //엑터 스폰 테스트용
-		{
-			GetWorld()->PushFunction([=]()
-				{
-					UCrazyArcadeCore::Net->Send(_Packet);
-					
-					UTextWidget* ChatText = CreateWidget<UTextWidget>(GetWorld(), "ChatText");
-					ChatText->AddToViewPort(4);
-					ChatText->SetScale(12.0f);
-					ChatText->SetWidgetLocation({ -370.0f, -195.0f });
-					ChatText->SetFont("굴림");
-					ChatText->SetColor(Color8Bit::White);
-					ChatText->SetFlag(FW1_LEFT);
-					ChatText->SetText(_Packet->Cheating);
-					ChatTexts.push_back(ChatText);
-				});
-		});
+	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType()) {
+		UEngineDispatcher& Dis = UCrazyArcadeCore::Net->Dispatcher;
+		Dis.AddHandler<UCheatingPacket>([=](std::shared_ptr<UCheatingPacket> _Packet)  //엑터 스폰 테스트용
+			{
+				UCrazyArcadeCore::Net->Send(_Packet);
+
+				GetWorld()->PushFunction([=]()
+					{
+						UTextWidget* ChatText = CreateWidget<UTextWidget>(GetWorld(), "ChatText");
+						ChatText->AddToViewPort(4);
+						ChatText->SetScale(12.0f);
+						ChatText->SetWidgetLocation({ -370.0f, -195.0f });
+						ChatText->SetFont("굴림");
+						ChatText->SetColor(Color8Bit::White);
+						ChatText->SetFlag(FW1_LEFT);
+						ChatText->SetText(_Packet->Cheating);
+						ChatTexts.push_back(ChatText);
+
+						Chat_Size += 1;
+
+						for (int i = 0; i < Chat_Size - 1; i++)
+						{
+							FVector PrevLoc = ChatTexts[i]->GetWidgetLocation();
+							ChatTexts[i]->SetWidgetLocation(PrevLoc + float4(0.0f, 13.0f));
+						}
+
+						for (int i = 0; i < Chat_Size - 7; i++)
+						{
+							ChatTexts[i]->SetActive(false);
+						}
+					});
+			});
 	}
-	if (ENetType::Client== UCrazyArcadeCore::NetManager.GetNetType()) {
+	if (ENetType::Client == UCrazyArcadeCore::NetManager.GetNetType()) {
 		UEngineDispatcher& Dis = UCrazyArcadeCore::Net->Dispatcher;
 		Dis.AddHandler<UCheatingPacket>([=](std::shared_ptr<UCheatingPacket> _Packet)  //엑터 스폰 테스트용
 			{
@@ -1577,6 +1590,19 @@ void ALobbyTitleGameMode::HandlerInit()
 						ChatText->SetFlag(FW1_LEFT);
 						ChatText->SetText(_Packet->Cheating);
 						ChatTexts.push_back(ChatText);
+
+						Chat_Size += 1;
+
+						for (int i = 0; i < Chat_Size - 1; i++)
+						{
+							FVector PrevLoc = ChatTexts[i]->GetWidgetLocation();
+							ChatTexts[i]->SetWidgetLocation(PrevLoc + float4(0.0f, 13.0f));
+						}
+
+						for (int i = 0; i < Chat_Size - 7; i++)
+						{
+							ChatTexts[i]->SetActive(false);
+						}
 					});
 			});
 	}
