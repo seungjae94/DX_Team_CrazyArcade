@@ -191,6 +191,12 @@ void AServerGameMode::HandlerInit()
 void AServerGameMode::LevelEnd(ULevel* _NextLevel)
 {
 	Super::LevelEnd(_NextLevel);
+	std::map<int, ConnectUserInfo>& Temp = ConnectionInfo::GetInst().GetUserInfos();
+	for (std::pair<const int, ConnectUserInfo>& Iterator : Temp)
+	{
+		Iterator.second.SetIsDead(false);
+	}
+	ConnectionInfo::GetInst().SetWins(ECharacterColor::None);
 }
 
 void AServerGameMode::CheckGame(float _DeltaTime)
@@ -203,6 +209,9 @@ void AServerGameMode::CheckGame(float _DeltaTime)
 		WinResult = true;
 		break;
 	case ECharacterColor::Blue:
+		WinResult = true;
+		break;
+	case ECharacterColor::Green:
 		WinResult = true;
 		break;
 	case ECharacterColor::None:

@@ -172,7 +172,11 @@ public:
 
 	ECharacterColor WinCheck()
 	{
-		if (RedCount == 0 && BlueCount >= 1)
+		if (RedCount == 0 && BlueCount == 0)
+		{
+			return ECharacterColor::Green;
+		}
+		else if (RedCount == 0 && BlueCount >= 1)
 		{
 			return ECharacterColor::Blue;
 		}

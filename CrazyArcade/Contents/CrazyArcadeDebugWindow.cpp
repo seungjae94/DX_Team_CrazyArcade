@@ -27,6 +27,9 @@ void UCrazyArcadeDebugWindow::OnGui(ULevel* Level, float _Delta)
 	case ECharacterColor::Blue:
 		WinText = "Blue Team Wins";
 		break;
+	case ECharacterColor::Green:
+		WinText = "Draw";
+		break;
 	case ECharacterColor::None:
 		WinText = "No One Wins";
 		break;
