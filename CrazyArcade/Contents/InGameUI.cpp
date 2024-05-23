@@ -182,7 +182,7 @@ void AInGameUI::LevelStart(ULevel* _PrevLevel)
 	InitPlayerInfo();
 	DataToRender();
 	PlayerLevelPtr = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
-	PlayerPtr = PlayerLevelPtr->GetPlayer().get();
+	PlayerPtr = PlayerLevelPtr->GetPlayer();
 	Needles = PlayerPtr->GetNeedleCount();
 }
 

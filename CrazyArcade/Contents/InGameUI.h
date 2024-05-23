@@ -83,7 +83,7 @@ private:
 	//아이템 및 바늘
 	int Needles = 0;
 	AMainPlayLevel* PlayerLevelPtr = nullptr;
-	ServerTestPlayer* PlayerPtr = nullptr;
+	std::shared_ptr<ServerTestPlayer> PlayerPtr = nullptr;
 	bool PlayerDeadAct;
 	
 
