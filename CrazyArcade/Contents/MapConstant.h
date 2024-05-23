@@ -109,6 +109,7 @@ namespace BushState
 {
 	const std::string_view idle					= "Idle";
 	const std::string_view shaking				= "Shaking";
+	const std::string_view player_in			= "Player_In";
 	const std::string_view destroy				= "Destroy";
 }
 

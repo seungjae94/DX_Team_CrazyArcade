@@ -709,13 +709,15 @@ void APlayer::KeyMove(float _DeltaTime, FVector _Dir, float _Speed)
 
 void APlayer::HideInBush()
 {
-	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation()))
+	if (true == PlayLevel->GetMap()->IsBushPos(GetActorLocation(), IsInBush))
 	{
+		IsInBush = true;
 		Renderer->SetActive(false);
 		ShadowRenderer->SetActive(false);
 	}
 	else
 	{
+		IsInBush = false;
 		Renderer->SetActive(true);
 		ShadowRenderer->SetActive(true);
 	}

@@ -109,7 +109,11 @@ void AWave::Tick(float _DeltaTime)
 	{
 	case EWaveType::UnderBlock:
 	{
-		PlayLevel->GetMap()->GetTileInfo(CurPoint).Block->StateChange(BlockState::destroy);
+		if (nullptr != PlayLevel->GetMap()->GetTileInfo(CurPoint).Block)
+		{
+			PlayLevel->GetMap()->GetTileInfo(CurPoint).Block->StateChange(BlockState::destroy);
+		}
+		
 		Destroy();
 	}
 		break;

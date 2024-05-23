@@ -24,6 +24,7 @@ enum EContentPacket
 	CharacterTypePacket,
 	ColorTypePacket,
 	DeadUpdatePacket,
+	CheatingPacket,
 	BlockUpdatePacket = 200,
 };
 
@@ -292,5 +293,30 @@ public:
 public:
 	int Order = 0;
 	bool DeadValue = false;
+};
+
+class UCheatingPacket : public UEngineProtocol {
+public:
+	static const EContentPacket Type = EContentPacket::CheatingPacket;
+public:
+	UCheatingPacket()
+	{
+		SetType(EContentPacket::DeadUpdatePacket);
+	}
+
+	void Serialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::Serialize(_Ser);
+		_Ser << Cheating;
+	}
+
+	void DeSerialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::DeSerialize(_Ser);
+		_Ser >> Cheating;
+	}
+
+public:
+	std::string Cheating;
 };
 
