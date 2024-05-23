@@ -18,11 +18,22 @@ void AForestMap::BeginPlay()
 
 	SetBackGround(MapImgRes::Forest_background);
 	SetMapInfoSize(15, 13);
+
+	PushPlayerStartPoint({  5,  9 });
+	PushPlayerStartPoint({  7,  3 });
+	PushPlayerStartPoint({  8, 12 });
+	PushPlayerStartPoint({ 14,  3 });
 }
 
 void AForestMap::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
+
+	if (true == IsDestroy())
+	{
+		return;
+	}
+
 	CreatePools();
 	Createrocks();
 	CreateForestLeafsAndBushs();

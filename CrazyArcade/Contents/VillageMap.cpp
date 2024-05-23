@@ -16,6 +16,7 @@ void AVillageMap::BeginPlay()
 
 	SetBackGround(MapImgRes::village_background);
 	SetMapInfoSize(15, 13);
+
 	PushPlayerStartPoint({  0, 12 });
 	PushPlayerStartPoint({  1,  1 });
 	PushPlayerStartPoint({  6,  0 });
@@ -38,8 +39,6 @@ void AVillageMap::LevelStart(ULevel* _PrevLevel)
 	CreateVillageBoxs();
 	CreateVillageMoveBoxs();
 	CreateVillageBush();
-
-	CreateItems();
 }
 
 void AVillageMap::LevelEnd(ULevel* _NextLevel)
@@ -229,16 +228,4 @@ void AVillageMap::CreateVillageBush()
 	CreateBush({  9, 12 }, MapImgRes::block_vil_bush);
 	CreateBush({ 11,  6 }, MapImgRes::block_vil_bush);
 	CreateBush({ 13,  6 }, MapImgRes::block_vil_bush);
-}
-
-void AVillageMap::CreateItems()
-{
-	//CreateItem({ 6, 1 }, EItemType::Bubble);
-	CreateItem({ 6, 3 }, EItemType::Owl);
-	CreateItem({ 6, 5 }, EItemType::Superman);
-	//CreateItem({ 6, 7 }, EItemType::Glove);
-	CreateItem({ 8, 1 }, EItemType::RedDevil);
-	//CreateItem({ 8, 3 }, EItemType::Roller);
-	//CreateItem({ 8, 5 }, EItemType::Shoes);
-	//CreateItem({ 8, 7 }, EItemType::Ultra);
 }

@@ -87,7 +87,9 @@ private:
 	// MapSelect
 	UImage* Btn_MapSelect = nullptr;
 	UImage* Btn_MapSelect_InActive = nullptr;
+	bool IsMapSelectOn = false;
 	UImage* BackGround_MapSelect = nullptr;
+	UImage* Fade_MapSelect = nullptr;
 	UImage* Btn_MapSelectAccept = nullptr;
 	UImage* Btn_MapSelectCancel = nullptr;
 

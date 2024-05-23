@@ -25,6 +25,7 @@ enum EContentPacket
 	ColorTypePacket,
 	DeadUpdatePacket,
 	CheatingPacket,
+	ReadyUpdatePacket,
 	BlockUpdatePacket = 200,
 };
 
@@ -112,56 +113,115 @@ public:
 	void Serialize(UEngineSerializer& _Ser) override
 	{
 		UEngineProtocol::Serialize(_Ser);
-		_Ser << NameInfos;
-		_Ser << CharacterTypeInfos;
-		_Ser << ColorInfos;
-		_Ser << ExistInfos;
+
+		_Ser << static_cast<int>(Infos.size());
+
+		for (std::pair<const int, ConnectUserInfo>& Pair : Infos)
+		{
+			int Key = Pair.first;
+			ConnectUserInfo& Info = Pair.second;
+			_Ser << Key;
+			_Ser << Info.MyName;
+			_Ser << static_cast<int>(Info.GetMyCharacterType());
+			_Ser << static_cast<int>(Info.GetMyColorType());
+			_Ser << Info.GetIsDead();
+			_Ser << Info.GetIsExist();
+			_Ser << Info.GetIsReady();
+		}
+		
 	}
 
 	void DeSerialize(UEngineSerializer& _Ser) override
 	{
 		UEngineProtocol::DeSerialize(_Ser);
-		_Ser >> NameInfos;
+
+		Infos.clear();
+
+		int Count;
+		_Ser >> Count;
+
+		for (int i = 0; i < Count; ++i)
+		{
+			int Key;
+			std::string MyName;
+			int MyCharacterType;
+			int MyColorType;
+			bool IsDead;
+			bool IsExist;
+			bool IsReady;
+
+			_Ser >> Key;
+			_Ser >> MyName;
+			_Ser >> MyCharacterType;
+			_Ser >> MyColorType;
+			_Ser >> IsDead;
+			_Ser >> IsExist;
+			_Ser >> IsReady;
+
+			Infos[Key].MyName = MyName;
+			Infos[Key].SetMyCharacterType(static_cast<ECharacterType>(MyCharacterType));
+			Infos[Key].SetMyColorType(static_cast<ECharacterColor>(MyColorType));
+			Infos[Key].SetIsDead(IsDead);
+			Infos[Key].SetIsExist(IsExist);
+			Infos[Key].SetIsReady(IsReady);
+
+			/*_Ser >> Info.MyName;
+			_Ser >> static_cast<int>(Info.GetMyCharacterType());
+			_Ser >> static_cast<int>(Info.GetMyColorType());
+			_Ser >> Info.GetIsDead();
+			_Ser >> Info.GetIsExist();
+			_Ser >> Info.GetIsReady();*/
+		}
+		/*_Ser >> NameInfos;
 		_Ser >> CharacterTypeInfos;
 		_Ser >> ColorInfos;
-		_Ser >> ExistInfos;
+		_Ser >> ExistInfos;*/
 	}
 
 	void SetMyCharacterType(int _Key, ECharacterType _Type)
 	{
-		int MyCharacterType = static_cast<int>(_Type);
-		CharacterTypeInfos[_Key] = MyCharacterType;
+		Infos[_Key].SetMyCharacterType(_Type);
 	}
 	ECharacterType GetMyCharacterType(int _Key)
 	{
-		return static_cast<ECharacterType>(CharacterTypeInfos[_Key]);
+		return Infos[_Key].GetMyCharacterType();
 	}
 
 	void SetMyColorType(int _Key, ECharacterColor _Color)
 	{
-		int MyColor = static_cast<int>(_Color);
-		ColorInfos[_Key] = MyColor;
+		Infos[_Key].SetMyColorType(_Color);
 	}
 	ECharacterColor GetMyColorType(int _Key)
 	{
-		return static_cast<ECharacterColor>(ColorInfos[_Key]);
+		return Infos[_Key].GetMyColorType();
 	}
 
 	void SetExist(int _Key, bool _IsExist)
 	{
-		ExistInfos[_Key] = _IsExist;
+		Infos[_Key].SetIsExist(_IsExist);
 	}
 	bool GetExist(int _Key)
 	{
-		return ExistInfos[_Key];
+		return Infos[_Key].GetIsExist();
 	}
 
+	void SetReady(int _Key, bool _IsReady)
+	{
+		Infos[_Key].SetIsReady(_IsReady);
+	}
+	bool GetReady(int _Key)
+	{
+		return Infos[_Key].GetIsReady();
+	}
+
+
 public:
-	//std::map<int, ConnectUserInfo> Infos;
-	std::map<int, std::string> NameInfos;
-	std::map<int, int> CharacterTypeInfos;
-	std::map<int, int> ColorInfos;
-	std::map<int, bool> ExistInfos;
+	std::map<int, ConnectUserInfo> Infos;
+	//std::map<int, std::string> NameInfos;
+	//std::map<int, int> CharacterTypeInfos;
+	//std::map<int, int> ColorInfos;
+	//std::map<int, bool> ExistInfos;
+	//std::map<int, bool> ReadyInfos;
 };
 
 class UConnectInitPacket : public UEngineProtocol {
@@ -293,6 +353,34 @@ public:
 public:
 	int Order = 0;
 	bool DeadValue = false;
+};
+
+class UReadyUpdatePacket : public UEngineProtocol {
+public:
+	static const EContentPacket Type = EContentPacket::ReadyUpdatePacket;
+public:
+	UReadyUpdatePacket()
+	{
+		SetType(EContentPacket::ReadyUpdatePacket);
+	}
+
+	void Serialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::Serialize(_Ser);
+		_Ser << Order;
+		_Ser << ReadyValue;
+	}
+
+	void DeSerialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::DeSerialize(_Ser);
+		_Ser >> Order;
+		_Ser >> ReadyValue;
+	}
+
+public:
+	int Order = 0;
+	bool ReadyValue = false;
 };
 
 class UCheatingPacket : public UEngineProtocol {
