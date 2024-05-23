@@ -1535,4 +1535,26 @@ void ALobbyTitleGameMode::GameStart()
 
 void ALobbyTitleGameMode::HandlerInit()
 {
+	if(ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType()){
+	UEngineDispatcher& Dis = UCrazyArcadeCore::Net->Dispatcher;
+	Dis.AddHandler<UCheatingPacket>([=](std::shared_ptr<UCheatingPacket> _Packet)  //엑터 스폰 테스트용
+		{
+			GetWorld()->PushFunction([=]()
+				{
+					UCrazyArcadeCore::Net->Send(_Packet);
+					std::string_view a =  _Packet->Cheating;
+				});
+		});
+	}
+	if (ENetType::Client== UCrazyArcadeCore::NetManager.GetNetType()) {
+		UEngineDispatcher& Dis = UCrazyArcadeCore::Net->Dispatcher;
+		Dis.AddHandler<UCheatingPacket>([=](std::shared_ptr<UCheatingPacket> _Packet)  //엑터 스폰 테스트용
+			{
+				GetWorld()->PushFunction([=]()
+					{
+						std::string_view a = _Packet->Cheating;
+					});
+			});
+	}
+
 }
