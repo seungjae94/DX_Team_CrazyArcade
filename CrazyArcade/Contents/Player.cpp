@@ -6,9 +6,6 @@
 #include "CrazyArcadeCore.h"
 #include "ConnectionInfo.h"
 
-std::map<int, bool> FPlayerInfo::IsDeads;
-std::map<int, std::string> FPlayerInfo::Names;
-
 APlayer::APlayer()
 {
 	DefaultComponent = CreateDefaultSubObject<UDefaultSceneComponent>("DefaultComponent");
@@ -132,6 +129,8 @@ void APlayer::Tick(float _DeltaTime)
 
 	PlayerInfoUpdate();
 
+	CheckDead();
+
 	// ½ÂÆÐ È®ÀÎ
 	CheckWinLose();
 
@@ -140,6 +139,16 @@ void APlayer::Tick(float _DeltaTime)
 	{
 		IsNeedleUse = false;
 		State.ChangeState("Revival");
+	}
+}
+
+void APlayer::CheckDead()
+{
+	int MyOrder = ConnectionInfo::GetInst().GetOrder();
+	if (true == ConnectionInfo::GetInst().GetUserInfos()[MyOrder].GetIsDead())
+	{
+		State.ChangeState("Die");
+		return;
 	}
 }
 
@@ -565,10 +574,10 @@ void APlayer::SetPlayerDead()
 	IsDead = true;
 	PlayerInfoUpdate();
 
-	//for (MPlayerItemIter = MPlayerItem.begin(); MPlayerItemIter != MPlayerItem.end(); ++MPlayerItemIter)
-	//{
-	//	PlayLevel->GetMap()->ReSpawnItem(MPlayerItemIter->first, MPlayerItemIter->second);
-	//}
+	for (MPlayerItemIter = MPlayerItem.begin(); MPlayerItemIter != MPlayerItem.end(); ++MPlayerItemIter)
+	{
+		PlayLevel->GetMap()->ReSpawnItem(MPlayerItemIter->first, MPlayerItemIter->second);
+	}
 }
 
 void APlayer::SetCharacterType(ECharacterType _Character)
@@ -630,7 +639,6 @@ void APlayer::PlayerInfoUpdate()
 
 		int ObjectToken = GetObjectToken();
 		int SessionToken = ObjectToken / 1000;
-		FPlayerInfo::IsDeads[SessionToken] = IsDead;
 	}
 	else
 	{
