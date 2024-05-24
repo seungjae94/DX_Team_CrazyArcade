@@ -31,8 +31,6 @@ private:
 
 
 
-	float AnimationTime;
-	
 
 
 };

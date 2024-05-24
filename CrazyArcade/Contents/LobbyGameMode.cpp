@@ -10,6 +10,8 @@
 #include "Packets.h"
 #include "ServerHelper.h"
 #include <EngineBase/EngineRandom.h>
+#include "MouseUI.h"
+
 
 ALobbyGameMode::ALobbyGameMode()
 {
@@ -22,6 +24,8 @@ ALobbyGameMode::~ALobbyGameMode()
 void ALobbyGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+
+	MouseUI = GetWorld()->SpawnActor<AMouse>("MouseUIActor");
 
 	{
 		UEngineSprite::CreateCutting("Button_GameStart_Hover.png", 1, 3);
@@ -1209,8 +1213,6 @@ void ALobbyGameMode::LevelStart(ULevel* _PrevLevel)
 	// Initialize
 	Space_IsUserIn[Player.SpaceIndex] = true;
 	Usernames_Space[Player.SpaceIndex]->SetText(Player.Name);
-	SettingCharacterSelect(ConnectionInfo::GetInst().GetCharacterType());	// Ramdom 타입으로 Game에 참가하고 나온 경우를 위해
-	ChangeReady(false);
 
 	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
 	{
@@ -1222,6 +1224,11 @@ void ALobbyGameMode::LevelStart(ULevel* _PrevLevel)
 	{
 		Btn_GameStart->ChangeAnimation("UnHover_Client");
 	}
+
+	// Game에 참가하고 나온 경우를 위해
+	SettingCharacterSelect(ConnectionInfo::GetInst().GetCharacterType());
+	ChangeMap(ConnectionInfo::GetInst().GetCurMapType());
+	ChangeReady(false);
 
 	// FadeIn
 	IsFadeIn = true;

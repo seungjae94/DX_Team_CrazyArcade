@@ -281,8 +281,7 @@ void APlayer::CharacterTypeDataInit()
 {
 	//Bazzi
 	MCharacterTypeData[ECharacterType::Bazzi].Type = "Bazzi";
-	// 테스트 후 1로 변경 필요
-	MCharacterTypeData[ECharacterType::Bazzi].DataBaseBombCount = 5;
+	MCharacterTypeData[ECharacterType::Bazzi].DataBaseBombCount = 1;
 	MCharacterTypeData[ECharacterType::Bazzi].DataMaxBombCount = 6;
 	MCharacterTypeData[ECharacterType::Bazzi].DataBaseBombPower = 0;
 	MCharacterTypeData[ECharacterType::Bazzi].DataMaxBombPower = 6;
@@ -577,11 +576,6 @@ void APlayer::SetPlayerDead()
 {
 	IsDead = true;
 	PlayerInfoUpdate();
-
-	for (MPlayerItemIter = MPlayerItem.begin(); MPlayerItemIter != MPlayerItem.end(); ++MPlayerItemIter)
-	{
-		PlayLevel->GetMap()->ReSpawnItem(MPlayerItemIter->first, MPlayerItemIter->second);
-	}
 }
 
 void APlayer::SetCharacterType(ECharacterType _Character)

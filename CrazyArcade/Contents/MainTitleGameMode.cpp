@@ -13,10 +13,13 @@
 #include "Packets.h"
 #include "ServerHelper.h"
 
+#include"MouseUI.h"
+
 AMainTitleGameMode* AMainTitleGameMode::Title = nullptr;
 
 AMainTitleGameMode::AMainTitleGameMode()
 {
+	
 	AMainTitleGameMode::Title = this;
 }
 
@@ -26,7 +29,13 @@ AMainTitleGameMode::~AMainTitleGameMode()
 
 void AMainTitleGameMode::BeginPlay()
 {
+
+
 	Super::BeginPlay();
+	//MouseUI = CreateWidget<UImage>(GetWorld(), "MouseRenderUI");
+	MouseUI = GetWorld()->SpawnActor<AMouse>("MouseUIActor");
+
+
 	TitleBackGround = CreateWidget<UImage>(GetWorld(), "TitleBackGround");
 	TitleBackGround->SetSprite("Login.png");
 	TitleBackGround->AddToViewPort(1); //UITest;
@@ -296,6 +305,7 @@ void AMainTitleGameMode::Tick(float _DeltaTime)
 			UEngineDebugMsgWindow::PushMsg(Msg);
 		}
 	}
+	
 }
 
 void AMainTitleGameMode::LevelStart(ULevel* _PrevLevel)
