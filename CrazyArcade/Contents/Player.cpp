@@ -143,9 +143,14 @@ void APlayer::Tick(float _DeltaTime)
 
 void APlayer::CheckDead()
 {
-	int MyOrder = ConnectionInfo::GetInst().GetOrder();
-	if (true == ConnectionInfo::GetInst().GetUserInfos()[MyOrder].GetIsDead())
+	int ObjectToken = GetObjectToken();
+	if (true == ConnectionInfo::GetInst().GetUserInfos()[ObjectToken / 1000].GetIsDead())
 	{
+		if ("Die" == State.GetCurStateName())
+		{
+			return;
+		}
+
 		State.ChangeState("Die");
 		return;
 	}
@@ -276,8 +281,7 @@ void APlayer::CharacterTypeDataInit()
 {
 	//Bazzi
 	MCharacterTypeData[ECharacterType::Bazzi].Type = "Bazzi";
-	// 테스트 후 1로 변경 필요
-	MCharacterTypeData[ECharacterType::Bazzi].DataBaseBombCount = 5;
+	MCharacterTypeData[ECharacterType::Bazzi].DataBaseBombCount = 1;
 	MCharacterTypeData[ECharacterType::Bazzi].DataMaxBombCount = 6;
 	MCharacterTypeData[ECharacterType::Bazzi].DataBaseBombPower = 0;
 	MCharacterTypeData[ECharacterType::Bazzi].DataMaxBombPower = 6;
@@ -322,8 +326,12 @@ void APlayer::PickUpItem()
 		}
 		break;
 	case EItemType::Devil:
-		IsDevil = true;
-		MoveDevil = UEngineRandom::MainRandom.RandomInt(0, 1);
+		DelayCallBack(0.1f, [=]
+			{
+				IsDevil = true;
+				MoveDevil = true;
+			}
+		);
 		break;
 	case EItemType::Fluid:
 		if (BombPower < MaxBombPower)
@@ -562,9 +570,9 @@ void APlayer::CheckBombCount()
 
 void APlayer::SettingPlayer(int _ObjectToken)
 {
-	int MyOrder = ConnectionInfo::GetInst().GetOrder();
-	SetCharacterType(ConnectionInfo::GetInst().GetUserInfos()[MyOrder].GetMyCharacterType());
-	SetPlayerColor(ConnectionInfo::GetInst().GetUserInfos()[MyOrder].GetMyColorType());
+	int SessionToken = _ObjectToken / 1000;
+	SetCharacterType(ConnectionInfo::GetInst().GetUserInfos()[SessionToken].GetMyCharacterType());
+	SetPlayerColor(ConnectionInfo::GetInst().GetUserInfos()[SessionToken].GetMyColorType());
 	Renderer->ChangeAnimation(Type + PlayerColorText + "_Ready");
 }
 
@@ -655,7 +663,7 @@ void APlayer::CheckWinLose()
 		State.ChangeState("Win");
 		return;
 	}
-	else if(PlayerColor != WinTeamColor && IsDead == false)
+	else if (PlayerColor != WinTeamColor && IsDead == false)
 	{
 		State.ChangeState("Lose");
 		return;
