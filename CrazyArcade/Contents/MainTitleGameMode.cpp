@@ -158,7 +158,9 @@ void AMainTitleGameMode::BeginPlay()
 				//return;
 			}
 			Button_1P->ChangeAnimation("UnHover");
-			ServerStart();
+			IsServer = true;
+			IsFadeOut = true;
+			//ServerStart();
 			});
 	}
 
@@ -200,7 +202,9 @@ void AMainTitleGameMode::BeginPlay()
 				//return;
 			}
 			Button_2P->ChangeAnimation("UnHover");
-			ClientStart();
+			IsServer = false;
+			IsFadeOut = true;
+			//ClientStart();
 			});
 	}
 
@@ -285,6 +289,16 @@ void AMainTitleGameMode::BeginPlay()
 		PortNumTitle->SetFlag(FW1_LEFT);
 		PortNumTitle->SetText("Port : ");
 	}
+
+	// Fade
+	{
+		Fade = CreateWidget<UImage>(GetWorld(), "Fade");
+		Fade->SetSprite("FadeBlack.png");
+		Fade->AddToViewPort(10);
+		Fade->SetAutoSize(1.0f, true);
+		Fade->SetWidgetLocation({ 0.0f, 0.0f });
+		Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, 0.0f));
+	}
 }
 
 void AMainTitleGameMode::Tick(float _DeltaTime)
@@ -293,6 +307,19 @@ void AMainTitleGameMode::Tick(float _DeltaTime)
 
 	// PlayerName, IPNum, PortNum on screen
 	StringToText();
+
+	// Fade & ChangeLevel
+	{
+		if (IsFadeIn == true)
+		{
+			FadeIn(_DeltaTime);
+		}
+
+		if (IsFadeOut == true)
+		{
+			FadeOut(_DeltaTime);
+		}
+	}
 
 	// Debug
 	{
@@ -306,7 +333,6 @@ void AMainTitleGameMode::Tick(float _DeltaTime)
 			UEngineDebugMsgWindow::PushMsg(Msg);
 		}
 	}
-	
 }
 
 void AMainTitleGameMode::LevelStart(ULevel* _PrevLevel)
@@ -315,6 +341,10 @@ void AMainTitleGameMode::LevelStart(ULevel* _PrevLevel)
 
 	BgmPlayer = UEngineSound::SoundPlay("TitleBgm.mp3");
 	BgmPlayer.Loop(-1);
+
+	// Fade
+	IsFadeIn = true;
+	FadeAlpha = 1.0f;
 }
 
 void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
@@ -383,4 +413,36 @@ void AMainTitleGameMode::StringToText()
 	TextWidget->SetText(PlayerName);
 	IPNumText->SetText(IPNum);
 	PortNumText->SetText(PortNum);
+}
+
+void AMainTitleGameMode::FadeIn(float _DeltaTime)
+{
+	if (FadeAlpha <= 0.0f)
+	{
+		IsFadeIn = false;
+		return;
+	}
+
+	FadeAlpha -= _DeltaTime * 4.0f;
+	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
+}
+
+void AMainTitleGameMode::FadeOut(float _DeltaTime)
+{
+	if (FadeAlpha >= 1.0f)
+	{
+		IsFadeOut = false;
+		if (IsServer == true)
+		{
+			ServerStart();
+		}
+		else
+		{
+			ClientStart();
+		}
+		return;
+	}
+
+	FadeAlpha += _DeltaTime * 1.0f;
+	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
 }

@@ -53,6 +53,7 @@ private:
 	UImage* StartButton = nullptr;
 	UImage* Button_1P = nullptr;
 	UImage* Button_2P = nullptr;
+	bool IsServer = false;
 
 	UImage* VoidBox = nullptr;
 	UImage* PlayerNameBox = nullptr;
@@ -75,6 +76,14 @@ private:
 	const int PlayerNameMaxLength = 6;
 	const int IPNumMaxLength = 15;
 	const int PortNumMaxLength = 5;
+
+	// Fade
+	UImage* Fade = nullptr;
+	bool IsFadeIn = true;
+	bool IsFadeOut = false;
+	float FadeAlpha = 1.0f;
+	void FadeIn(float _DeltaTime);
+	void FadeOut(float _DeltaTime);
 
 	// »ç¿îµå
 	UEngineSoundPlayer BgmPlayer;
