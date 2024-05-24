@@ -103,20 +103,32 @@ void AServerGameMode::HandlerInit()
 			{
 				GetWorld()->PushFunction([=]()
 					{
+						//UNetObject* Block = UNetObject::GetNetObject<UNetObject>(_Packet->GetObjectToken());
+						//if (nullptr == Block) {
+						//	if (_Packet->IsDestroy == true) {  //나도 null인데, 부수라고하네? 혹시 다른애들 안 부서진거 있나? 다 확인해서 부셔라
+						//		UCrazyArcadeCore::Net->Send(_Packet);
+						//		return;
+						//	}
+						//	MsgBoxLogT("서버 알림", "안터지면 괜찮기는 한데, 시간있으면 고치기 그리고 이 MsgBoxLog도 제출 전 지우기");
+						//	_Packet->IsDestroy = true;
+						//	_Packet->SetSessionToken(UCrazyArcadeCore::Net->GetSessionToken());
+						//	UCrazyArcadeCore::Net->Send(_Packet);  //이미 부서진 상태이므로, PushProtocol 안해도됨
+						//	return;
+						//}
+						//Block->PushProtocol(_Packet);
+						//UCrazyArcadeCore::Net->Send(_Packet);
 						UNetObject* Block = UNetObject::GetNetObject<UNetObject>(_Packet->GetObjectToken());
-						if (nullptr == Block) {
-							if (_Packet->IsDestroy == true) {  //나도 null인데, 부수라고하네? 혹시 다른애들 안 부서진거 있나? 다 확인해서 부셔라
-								UCrazyArcadeCore::Net->Send(_Packet);
-								return;
-							}
+						if (nullptr != Block) {
 							MsgBoxLogT("서버 알림", "안터지면 괜찮기는 한데, 시간있으면 고치기 그리고 이 MsgBoxLog도 제출 전 지우기");
 							_Packet->IsDestroy = true;
 							_Packet->SetSessionToken(UCrazyArcadeCore::Net->GetSessionToken());
 							UCrazyArcadeCore::Net->Send(_Packet);  //이미 부서진 상태이므로, PushProtocol 안해도됨
+							Block->PushProtocol(_Packet);
 							return;
 						}
-						Block->PushProtocol(_Packet);
-						UCrazyArcadeCore::Net->Send(_Packet);
+						else {
+							return;
+						}
 					});
 			});
 	}
@@ -166,18 +178,30 @@ void AServerGameMode::HandlerInit()
 			{
 				GetWorld()->PushFunction([=]()
 					{
+						//UNetObject* Block = UNetObject::GetNetObject<UNetObject>(_Packet->GetObjectToken());
+						//if (nullptr == Block) {
+						//	if (_Packet->IsDestroy == true) { //나도 부서졌는데, 부서지라고 보냈네? 난 클라니까 그냥 무시해야지
+						//		return;
+						//	}
+						//	MsgBoxLogT("서버 알림", "안터지면 괜찮기는 한데, 시간있으면 고치기 그리고 이 MsgBoxLog도 제출 전 지우기");
+						//	_Packet->IsDestroy = true;
+						//	_Packet->SetSessionToken(UCrazyArcadeCore::Net->GetSessionToken());
+						//	UCrazyArcadeCore::Net->Send(_Packet);  //이미 부서진 상태이므로, PushProtocol 안해도됨
+						//	return;
+						//}
+						//Block->PushProtocol(_Packet);
 						UNetObject* Block = UNetObject::GetNetObject<UNetObject>(_Packet->GetObjectToken());
-						if (nullptr == Block) {
-							if (_Packet->IsDestroy == true) { //나도 부서졌는데, 부서지라고 보냈네? 난 클라니까 그냥 무시해야지
-								return;
-							}
+						if (nullptr != Block) {
 							MsgBoxLogT("서버 알림", "안터지면 괜찮기는 한데, 시간있으면 고치기 그리고 이 MsgBoxLog도 제출 전 지우기");
 							_Packet->IsDestroy = true;
 							_Packet->SetSessionToken(UCrazyArcadeCore::Net->GetSessionToken());
 							UCrazyArcadeCore::Net->Send(_Packet);  //이미 부서진 상태이므로, PushProtocol 안해도됨
+							Block->PushProtocol(_Packet);
 							return;
 						}
-						Block->PushProtocol(_Packet);
+						else {
+							return;
+						}
 					});
 			});
 	}
