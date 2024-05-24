@@ -9,6 +9,7 @@ class APlayer;
 //UI
 class ATimerUI;
 class AInGameUI;
+class AMouse;
 
 // 설명 : Map 테스트 레벨
 class AMainPlayLevel : public ANetGameMode
@@ -57,5 +58,10 @@ protected:
 	std::shared_ptr<APlayer> Player = nullptr;
 	std::shared_ptr<ATimerUI> Timer = nullptr;
 	std::shared_ptr<AInGameUI> InGameUI = nullptr;
+
+
+	std::shared_ptr<AMouse> MouseUI = nullptr;
+
+	
 };
 

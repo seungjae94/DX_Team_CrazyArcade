@@ -7,7 +7,7 @@
 #include "BombBase.h"
 #include "ConnectionInfo.h"
 
-void APlayer::StateInit()
+void APlayer::StateInit() 
 {
 	SetCharacterType(ConnectionInfo::GetInst().GetCharacterType());
 	SetPlayerColor(ConnectionInfo::GetInst().GetCharacterColor());

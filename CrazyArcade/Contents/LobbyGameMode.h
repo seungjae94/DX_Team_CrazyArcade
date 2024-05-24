@@ -1,6 +1,7 @@
 #pragma once
 #include <EngineCore/TextWidget.h>
 #include "NetGameMode.h"
+#include"MouseUI.h"
 
 class ALobbyGameMode :public ANetGameMode
 {
@@ -150,6 +151,10 @@ private:
 	std::string ChatInput = "";
 	std::string Chat = "";
 	std::string Chat_Prev = "";
+
+
+	std::shared_ptr<AMouse> MouseUI = nullptr;
+
 
 	void SettingPanel(ECharacterType _CharacterType);
 	void SettingCharacterSelect(ECharacterType _CharacterType);

@@ -5,6 +5,7 @@
 #include "NetGameMode.h"
 #include "CrazyArcadeDebugWindow.h"
 
+class AMouse;
 class AMainTitleGameMode : public ANetGameMode
 {
 	GENERATED_BODY(ANetGameMode)
@@ -43,6 +44,8 @@ protected:
 private:
 	void StringToText();
 	
+	std::shared_ptr<AMouse> MouseUI = nullptr;
+
 	// UI
 	UImage* TitleBackGround = nullptr;
 	UImage* LoginUI = nullptr;

@@ -10,6 +10,8 @@
 #include "Packets.h"
 #include "ServerHelper.h"
 #include <EngineBase/EngineRandom.h>
+#include "MouseUI.h"
+
 
 ALobbyGameMode::ALobbyGameMode()
 {
@@ -22,6 +24,8 @@ ALobbyGameMode::~ALobbyGameMode()
 void ALobbyGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+
+	MouseUI = GetWorld()->SpawnActor<AMouse>("MouseUIActor");
 
 	{
 		UEngineSprite::CreateCutting("Button_GameStart_Hover.png", 1, 3);
