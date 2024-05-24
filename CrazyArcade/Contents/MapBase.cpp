@@ -310,42 +310,6 @@ std::shared_ptr<ABombBase> AMapBase::ServerSpawnBomb(const FVector& _Pos, APlaye
 	return NewBomb;
 }
 
-// 플레이어 사망시 Item 다시 소환
-void AMapBase::ReSpawnItem(EItemType _Type, int _Count)
-{
-	if (EItemType::None == _Type)
-	{
-		return;
-	}
-
-	int Count = _Count;
-
-	while (0 < Count)
-	{
-		int PointX = UEngineRandom::MainRandom.RandomInt(0, SizeX - 1);
-		int PointY = UEngineRandom::MainRandom.RandomInt(0, SizeY - 1);
-		FPoint Point = { PointX, PointY };
-
-		if (nullptr != TileInfo[Point.Y][Point.X].Block)
-		{
-			continue;
-		}
-
-		if (nullptr != TileInfo[Point.Y][Point.X].Item)
-		{
-			continue;
-		}
-
-		if (false == TileInfo[Point.Y][Point.X].AllBomb.empty())
-		{
-			continue;
-		}
-
-		CreateItem(Point, _Type);
-		--Count;
-	}
-}
-
 // 플레이어 종료시 삭제 시키는 함수
 void AMapBase::PlayerDelete(APlayer* _Player)
 {
