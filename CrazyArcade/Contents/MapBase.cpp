@@ -283,7 +283,7 @@ std::shared_ptr<ABombBase> AMapBase::SpawnBomb(const FVector& _Pos, APlayer* _Pl
 		NewBomb->SetCurPoint(CurPoint);
 		NewBomb->SetIdle();
 		TileInfo[CurPoint.Y][CurPoint.X].AllBomb.push_back(NewBomb);
-		UEngineSound::SoundPlay("Bomb.wav");
+		UEngineSound::SoundPlay("Bomb.mp3");
 		return NewBomb;
 	}
 	else
