@@ -253,8 +253,8 @@ void APlayer::PlayerCreateAnimation(std::string _CharacterType_Color)
 	Renderer->CreateAnimation(_CharacterType_Color + "_IdleOwl_Down", _CharacterType_Color + "_3.png", 0.15f, false, 6, 6);
 	Renderer->CreateAnimation(_CharacterType_Color + "_IdleTurtle_Left", _CharacterType_Color + "_3.png", 0.15f, false, 8, 8);
 	Renderer->CreateAnimation(_CharacterType_Color + "_IdleTurtle_Right", _CharacterType_Color + "_3.png", 0.15f, false, 10, 10);
-	Renderer->CreateAnimation(_CharacterType_Color + "_IdleTurtle_Down", _CharacterType_Color + "_3.png", 0.15f, false, 12, 12);
-	Renderer->CreateAnimation(_CharacterType_Color + "_IdleTurtle_Up", _CharacterType_Color + "_3.png", 0.15f, false, 14, 14);
+	Renderer->CreateAnimation(_CharacterType_Color + "_IdleTurtle_Down", _CharacterType_Color + "_3.png", 0.15f, false, 14, 14);
+	Renderer->CreateAnimation(_CharacterType_Color + "_IdleTurtle_Up", _CharacterType_Color + "_3.png", 0.15f, false, 12, 12);
 	Renderer->CreateAnimation(_CharacterType_Color + "_IdleUFO_Left", _CharacterType_Color + "_3.png", 0.09f, false, 16, 16);
 	Renderer->CreateAnimation(_CharacterType_Color + "_IdleUFO_Right", _CharacterType_Color + "_3.png", 0.09f, false, 17, 17);
 	Renderer->CreateAnimation(_CharacterType_Color + "_IdleUFO_Up", _CharacterType_Color + "_3.png", 0.09f, false, 18, 18);
@@ -265,8 +265,8 @@ void APlayer::PlayerCreateAnimation(std::string _CharacterType_Color)
 	Renderer->CreateAnimation(_CharacterType_Color + "_RidingOwl_Down", _CharacterType_Color + "_3.png", 0.15f, true, 6, 7);
 	Renderer->CreateAnimation(_CharacterType_Color + "_RidingTurtle_Left", _CharacterType_Color + "_3.png", 0.2f, true, 8, 9);
 	Renderer->CreateAnimation(_CharacterType_Color + "_RidingTurtle_Right", _CharacterType_Color + "_3.png", 0.2f, true, 10, 11);
-	Renderer->CreateAnimation(_CharacterType_Color + "_RidingTurtle_Up", _CharacterType_Color + "_3.png", 0.2f, true, 14, 15);
-	Renderer->CreateAnimation(_CharacterType_Color + "_RidingTurtle_Down", _CharacterType_Color + "_3.png", 0.2f, true, 12, 13);
+	Renderer->CreateAnimation(_CharacterType_Color + "_RidingTurtle_Up", _CharacterType_Color + "_3.png", 0.2f, true, 12, 13);
+	Renderer->CreateAnimation(_CharacterType_Color + "_RidingTurtle_Down", _CharacterType_Color + "_3.png", 0.2f, true, 14, 15);
 	Renderer->CreateAnimation(_CharacterType_Color + "_RidingUFO_Left", _CharacterType_Color + "_3.png", 0.09f, true, 16, 16);
 	Renderer->CreateAnimation(_CharacterType_Color + "_RidingUFO_Right", _CharacterType_Color + "_3.png", 0.09f, true, 17, 17);
 	Renderer->CreateAnimation(_CharacterType_Color + "_RidingUFO_Up", _CharacterType_Color + "_3.png", 0.09f, true, 18, 18);
