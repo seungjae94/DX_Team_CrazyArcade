@@ -78,10 +78,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="TestMap.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="TimerUI.h">
       <SubType>
       </SubType>
@@ -204,10 +200,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="SpawnItemBlock.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="TestMap.cpp">
       <SubType>
       </SubType>
     </ClCompile>

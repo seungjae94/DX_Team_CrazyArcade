@@ -109,7 +109,7 @@ void APirateMap::CreatePirateBoxs()
 	CreateBox({ 4, 9 }, MapImgRes::block_Pirate_box1);
 
 	CreateBox({ 5, 0 }, MapImgRes::block_Pirate_box1);
-	CreateBox({ 5, 1 }, MapImgRes::block_Pirate_box1, EItemType::Shoes);
+	CreateBox({ 5, 1 }, MapImgRes::block_Pirate_box1);
 	CreateBox({ 5, 4 }, MapImgRes::block_Pirate_box1);
 	CreateBox({ 5, 5 }, MapImgRes::block_Pirate_box1);
 	CreateBox({ 5, 6 }, MapImgRes::block_Pirate_box1);
@@ -197,7 +197,7 @@ void APirateMap::CreatePirateBoxs()
 	CreateBox({ 10, 1 }, MapImgRes::block_Pirate_box2);
 	CreateBox({ 10, 6 }, MapImgRes::block_Pirate_box2, EItemType::Devil);
 	CreateBox({ 10, 9 }, MapImgRes::block_Pirate_box2);
-	CreateBox({ 11, 8 }, MapImgRes::block_Pirate_box2, EItemType::Shoes);
+	CreateBox({ 11, 8 }, MapImgRes::block_Pirate_box2);
 	CreateBox({ 12, 4 }, MapImgRes::block_Pirate_box2);
 
 
