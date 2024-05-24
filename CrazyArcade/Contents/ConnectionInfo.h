@@ -53,24 +53,12 @@ public:
 		return IsReady;
 	}
 
-	void SetIsFadeOut(bool _IsFadeOut)
-	{
-		IsFadeOut = _IsFadeOut;
-	}
-	bool GetIsFadeOut()
-	{
-		return IsFadeOut;
-	}
-
 private:
 	int MyCharacterType = 0;
 	int MyColorType = 0;
 	bool IsDead = false;
 	bool IsExist = false;
 	bool IsReady = false;
-	bool IsFadeOut = false;
-	//ECharacterType MyCharacterType = ECharacterType::None;
-	//ECharacterColor MyColorType = ECharacterColor::None;
 };
 
 
@@ -243,11 +231,23 @@ public:
 		return CurMapType;
 	}
 
+	void SetIsFadeOut(bool _IsFadeOut)
+	{
+		IsFadeOut = _IsFadeOut;
+	}
+	bool GetIsFadeOut()
+	{
+		return IsFadeOut;
+	}
+
+
 protected:
 
 private:
 	ConnectionInfo();
 	~ConnectionInfo();
+
+	bool IsFadeOut = false;
 
 	int MyOrder = 0;
 	int RedCount = 0;

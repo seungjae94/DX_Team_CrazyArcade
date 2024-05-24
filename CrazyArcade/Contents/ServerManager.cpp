@@ -151,18 +151,6 @@ void UServerManager::ServerOpen()
 					ConnectionInfo::GetInst().SetEmpty(_Packet->GetSessionToken());
 				});
 		});
-
-	Dis.AddHandler<UStageUpdatePacket>([=](std::shared_ptr<UStageUpdatePacket> _Packet)
-		{
-			PushUpdate([=]()
-				{
-					ConnectionInfo::GetInst().SetMapType(_Packet->MapType);
-
-					std::shared_ptr<UStageUpdatePacket> Packet = std::make_shared<UStageUpdatePacket>();
-					Packet->MapType = _Packet->MapType;
-					Send(Packet);
-				});
-		});
 }
 
 void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
@@ -270,11 +258,7 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 		{
 			PushUpdate([=]()
 				{
-					std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
-					for (std::pair<const int, ConnectUserInfo>& Iterator : Infos)
-					{
-						Iterator.second.SetIsFadeOut(_Packet->IsFadeOut);
-					}
+					ConnectionInfo::GetInst().SetIsFadeOut(_Packet->IsFadeOut);
 				});
 
 		});

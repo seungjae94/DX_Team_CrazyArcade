@@ -34,8 +34,6 @@ private:
 	void MoveOneBlockCheckRecv();
 	void MoveUpdate(float _DeltaTime);
 
-	void CheckNearDestroy(FPoint _CurPoint);
-
 private:
 	void RecvMoveCheck(const FVector& _Pos, const FVector& _MoveDir);
 
