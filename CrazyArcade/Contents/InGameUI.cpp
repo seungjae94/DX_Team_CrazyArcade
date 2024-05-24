@@ -77,14 +77,8 @@ void AInGameUI::BeginPlay()
 	
 
 	
-	//아이템
-	NeedleRender = CreateWidget<UImage>(GetWorld(), "NeedleUI");
-	NeedleRender->SetSprite("spr_item_needle.png");
-	NeedleRender->SetMulColor({ 1.0f,1.0f,1.0f,2.0f });
-	NeedleRender->SetScale({ 30,30 });
-	NeedleRender->AddWidgetLocation({-100,-282});
-	NeedleRender->AddToViewPort(4);
-
+	
+	//바늘
 	NeedleRender2 = CreateWidget<UImage>(GetWorld(), "NeedleUI2");
 	NeedleRender2->SetSprite("spr_item_needle.png");
 	NeedleRender2->SetMulColor({ 1.0f,1.0f,1.0f,2.0f });
@@ -498,10 +492,7 @@ void AInGameUI::NeedleCheck()
 
 
 	
-	if (Needles == 0)
-	{
-		NeedleRender->SetMulColor({ 1.0f,1.0f,1.0f,0.5f }); //색상 변경해주는 느낌 
-	}
+	
 }
 
 
