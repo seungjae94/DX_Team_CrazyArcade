@@ -96,18 +96,6 @@ void AServerGameMode::HandlerInit()
 						UCrazyArcadeCore::Net->Send(_Packet);
 
 						FEngineTimeStamp curtime = UEngineTime::GetCurTime();
-						int a = 0;
-						//MyBomb->SetObjectToken(_Packet->GetObjectToken());
-
-						//MyBomb->SetActorLocation(_Packet->Pos);
-						
-						//FPoint Point = AMapBase::ConvertLocationToPoint(_Packet->Pos);
-						//MyBomb->SetCurPoint(Point);
-						//GetMap()->SetMapBomb(Point, MyBomb);
-						
-						//FEngineTimeStamp Stamp = UEngineTime::GetCurTime();
-						//float FloatResult = Stamp.TimeToFloat();
-						//MyBomb->ReduceCurExplosionTime(FloatResult - _Packet->SpawnTime);
 					});
 			});
 
@@ -168,22 +156,6 @@ void AServerGameMode::HandlerInit()
 
 						FEngineTimeStamp CurStamp = UEngineTime::GetCurTime();
 						float PacketDiff = CurStamp.TimeToFloat() - _Packet->SpawnTime;
-
-						int a = 0;
-
-						/*ABombBase* MyBomb;
-						ServerHelper::EnumSpawn(GetWorld(), _Packet->SpawnSelect, 0);
-						MyBomb->SetObjectToken(_Packet->GetObjectToken());
-						MyBomb->PushProtocol(_Packet);
-						MyBomb->SetActorLocation(_Packet->Pos);
-
-						FPoint Point = AMapBase::ConvertLocationToPoint(_Packet->Pos);
-						MyBomb->SetCurPoint(Point);
-						GetMap()->SetMapBomb(Point, MyBomb);
-
-						FEngineTimeStamp Stamp = UEngineTime::GetCurTime();
-						float FloatResult = Stamp.TimeToFloat();
-						MyBomb->ReduceCurExplosionTime(FloatResult - _Packet->SpawnTime);*/
 					});
 			});
 		Dis.AddHandler<UBlockUpdatePacket>([=](std::shared_ptr<UBlockUpdatePacket> _Packet)  //엑터 스폰 테스트용
