@@ -79,7 +79,7 @@ void ABombBase::StateInit()
 			}
 
 			CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
-			if (nullptr == PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush)
+			if (true == AMapBase::MapRangeCheckByPoint(CurPoint) && nullptr == PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush)
 			{
 				Body->ChangeAnimation(MapAnim::bomb);
 				Body->SetActive(true);
@@ -100,7 +100,7 @@ void ABombBase::StateInit()
 			Body->ChangeAnimation(MapAnim::bomb_effect_center);
 			Body->SetActive(true);
 
-			if (nullptr != PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush)
+			if (true == AMapBase::MapRangeCheckByPoint(CurPoint) && nullptr != PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush)
 			{
 				PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush->Destroy();
 				PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush = nullptr;
@@ -108,7 +108,11 @@ void ABombBase::StateInit()
 
 			DelayCallBack(0.66f, [=] 
 				{
-					PlayLevel->GetMap()->GetTileInfo(CurPoint).AllBomb.clear();
+					if (true == AMapBase::MapRangeCheckByPoint(CurPoint))
+					{
+						PlayLevel->GetMap()->GetTileInfo(CurPoint).AllBomb.clear();
+					}
+
 					Destroy();
 				}
 			);
