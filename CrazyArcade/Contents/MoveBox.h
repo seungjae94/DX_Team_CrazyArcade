@@ -38,7 +38,6 @@ private:
 
 private:
 	void RecvMoveCheck(const FVector& _Pos, const FVector& _MoveDir);
-	void RecvDestroyCheck();
 
 private:
 	bool CanMoveValue = true;
