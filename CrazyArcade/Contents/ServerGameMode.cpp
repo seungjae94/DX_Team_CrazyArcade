@@ -30,6 +30,7 @@ AServerGameMode::~AServerGameMode()
 void AServerGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+
 }
 
 void AServerGameMode::Tick(float _DeltaTime)

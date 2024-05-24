@@ -73,6 +73,12 @@ void UServerManager::ServerOpen()
 						Send(Packet);
 					}
 
+					{
+						std::shared_ptr<UStageUpdatePacket> Packet = std::make_shared<UStageUpdatePacket>();
+						Packet->MapType = ConnectionInfo::GetInst().GetCurMapType();
+						Send(Packet);
+					}
+
 				});
 		});
 

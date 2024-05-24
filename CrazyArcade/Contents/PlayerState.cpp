@@ -7,7 +7,7 @@
 #include "BombBase.h"
 #include "ConnectionInfo.h"
 
-void APlayer::StateInit()
+void APlayer::StateInit() 
 {
 	SetCharacterType(ConnectionInfo::GetInst().GetCharacterType());
 	SetPlayerColor(ConnectionInfo::GetInst().GetCharacterColor());
@@ -674,8 +674,7 @@ void APlayer::TrapEnd(float _DeltaTime)
 	ECharacterColor ColPlayerColor = PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this);
 	if (ECharacterColor::None != ColPlayerColor	&& PlayerColor != ColPlayerColor)
 	{
-
-		//State.ChangeState("Die");
+		State.ChangeState("Die");
 		return;
 	}
 

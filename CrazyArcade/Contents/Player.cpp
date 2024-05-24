@@ -143,9 +143,14 @@ void APlayer::Tick(float _DeltaTime)
 
 void APlayer::CheckDead()
 {
-	int MyOrder = ConnectionInfo::GetInst().GetOrder();
-	if (true == ConnectionInfo::GetInst().GetUserInfos()[MyOrder].GetIsDead())
+	int ObjectToken = GetObjectToken();
+	if (true == ConnectionInfo::GetInst().GetUserInfos()[ObjectToken / 1000].GetIsDead())
 	{
+		if ("Die" == State.GetCurStateName())
+		{
+			return;
+		}
+
 		State.ChangeState("Die");
 		return;
 	}
@@ -276,8 +281,7 @@ void APlayer::CharacterTypeDataInit()
 {
 	//Bazzi
 	MCharacterTypeData[ECharacterType::Bazzi].Type = "Bazzi";
-	// 테스트 후 1로 변경 필요
-	MCharacterTypeData[ECharacterType::Bazzi].DataBaseBombCount = 5;
+	MCharacterTypeData[ECharacterType::Bazzi].DataBaseBombCount = 1;
 	MCharacterTypeData[ECharacterType::Bazzi].DataMaxBombCount = 6;
 	MCharacterTypeData[ECharacterType::Bazzi].DataBaseBombPower = 0;
 	MCharacterTypeData[ECharacterType::Bazzi].DataMaxBombPower = 6;
@@ -562,9 +566,9 @@ void APlayer::CheckBombCount()
 
 void APlayer::SettingPlayer(int _ObjectToken)
 {
-	int MyOrder = ConnectionInfo::GetInst().GetOrder();
-	SetCharacterType(ConnectionInfo::GetInst().GetUserInfos()[MyOrder].GetMyCharacterType());
-	SetPlayerColor(ConnectionInfo::GetInst().GetUserInfos()[MyOrder].GetMyColorType());
+	int SessionToken = _ObjectToken / 1000;
+	SetCharacterType(ConnectionInfo::GetInst().GetUserInfos()[SessionToken].GetMyCharacterType());
+	SetPlayerColor(ConnectionInfo::GetInst().GetUserInfos()[SessionToken].GetMyColorType());
 	Renderer->ChangeAnimation(Type + PlayerColorText + "_Ready");
 }
 
@@ -572,11 +576,6 @@ void APlayer::SetPlayerDead()
 {
 	IsDead = true;
 	PlayerInfoUpdate();
-
-	for (MPlayerItemIter = MPlayerItem.begin(); MPlayerItemIter != MPlayerItem.end(); ++MPlayerItemIter)
-	{
-		PlayLevel->GetMap()->ReSpawnItem(MPlayerItemIter->first, MPlayerItemIter->second);
-	}
 }
 
 void APlayer::SetCharacterType(ECharacterType _Character)
