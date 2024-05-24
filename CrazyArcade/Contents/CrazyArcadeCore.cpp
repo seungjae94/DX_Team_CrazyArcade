@@ -54,7 +54,8 @@ void UCrazyArcadeCore::Initialize()
 	GEngine->CreateLevel<AServerGameMode>("ServerGameMode");
 	GEngine->CreateLevel<ALobbyGameMode>("LobbyLevel");
 	GEngine->CreateLevel<AIntroGameMode>("IntroLevel");
-	GEngine->ChangeLevel("MainTitleLevel");
+	//GEngine->ChangeLevel("MainTitleLevel");
+	GEngine->ChangeLevel("IntroLevel");
 }
 
 void UCrazyArcadeCore::Tick(float _DeltaTime)
