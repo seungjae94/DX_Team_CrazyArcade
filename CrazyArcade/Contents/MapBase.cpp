@@ -90,8 +90,10 @@ void AMapBase::LevelEnd(ULevel* _NextLevel)
 
 	for (size_t i = 0; i < AllPlayer.size(); i++)
 	{
+		if (AllPlayer[i] != nullptr) {
 		AllPlayer[i]->Destroy();
 		AllPlayer[i] = nullptr;
+		}
 	}
 
 	TileInfo.clear();
