@@ -30,6 +30,7 @@ void AMainPlayLevel::BeginPlay()
 {
 	Super::BeginPlay();
 	MouseUI = GetWorld()->SpawnActor<AMouse>("MouseUIActor");
+	Timer = GetWorld()->SpawnActor<ATimerUI>("TimeUI");
 	//UI
 	
 	
@@ -42,7 +43,7 @@ void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 	
 	MapType = ConnectionInfo::GetInst().GetCurMapType();
 	
-	Timer = GetWorld()->SpawnActor<ATimerUI>("TimeUI");
+	
 	Timer->SetTimer(180.0f);
 	CreateMap();
 
