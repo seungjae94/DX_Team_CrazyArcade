@@ -15,6 +15,9 @@ public:
 	UServerManager& operator=(const UServerManager& _Other) = delete;
 	UServerManager& operator=(UServerManager&& _Other) noexcept = delete;
 
+	int GetServerSize() {
+		return ServerSize;
+	}
 
 	void ServerOpen();
 
@@ -37,6 +40,7 @@ public:
 
 	void SManagerInit();
 	void CManagerInit();
+	void CFailInit();
 
 	ENetType GetNetType() {
 		return ManagerType;
@@ -65,6 +69,7 @@ protected:
 	ENetType ManagerType = ENetType::None;
 private:
 	std::list<std::function<void()>> ReservedHandlers;
+	int ServerSize = 8;
 };
 
 

@@ -64,11 +64,6 @@ void UEngineNet::RecvThreadFunction(USession* _Session, UEngineNet* _Net)
 		UEngineProtocol Protocol;
 		Protocol.UEngineProtocol::DeSerialize(Ser);
 
-		if (Protocol.GetPacketType() == -4) {
-			MsgBoxAssert("현재 서버의 인원이 모두 찼습니다.");
-			return;
-		}
-
 		if (Protocol.GetPacketType() == -2)
 		{
 			_Session->TokenInitOn();

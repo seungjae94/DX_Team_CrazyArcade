@@ -56,6 +56,12 @@ void UServerManager::ServerOpen()
 			PushUpdate([=]()
 				{
 					std::lock_guard<std::mutex> Lock(SessinInitMutex);
+					if (_Packet->GetSessionToken() >= GetServerSize()) {
+						std::shared_ptr<UServerRejectPacket> ServerRejectPacket = std::make_shared<UServerRejectPacket>();
+						ServerRejectPacket->WhichSession = _Packet->GetSessionToken();
+						Send(ServerRejectPacket);
+						return;
+					}
 					ConnectionInfo::GetInst().PushUserInfos(_Packet->GetSessionToken(), _Packet->Name);
 					SessionInitVec[_Packet->Session] = true;
 
@@ -118,7 +124,10 @@ void UServerManager::ServerOpen()
 		{
 			PushUpdate([=]()
 				{
-					int a = _Packet->GetSessionToken();
+					if (_Packet->GetSessionToken() >= GetServerSize()) {
+						return;
+					}
+
 					UCrazyArcadeCore::Net->Send(_Packet);
 					if (true == IsNetObject(_Packet->GetSessionToken() * 1000)) {
 						APlayer* OtherPlayer = dynamic_cast<APlayer*>(AllNetObject[_Packet->GetSessionToken() * 1000]);
@@ -143,29 +152,38 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 	if (nullptr == UCrazyArcadeCore::Net)
 	{
 		UCrazyArcadeCore::Net = std::make_shared<UEngineClient>();
-		UCrazyArcadeCore::NetManager.CManagerInit();
 		UCrazyArcadeCore::Net->Connect(std::string(_Ip), _Port);
 		if (UCrazyArcadeCore::Net->IsNetConnetion() == false) {
 			MsgBoxAssert("정상적인 연결이 되지 않았습니다");
+			UCrazyArcadeCore::Net->End();
+			return;
 		}
+		UCrazyArcadeCore::NetManager.CManagerInit();
 	}
 
 	UEngineDispatcher& Dis = UCrazyArcadeCore::Net->Dispatcher;
+	Dis.AddHandler<UServerRejectPacket>([=](std::shared_ptr<UServerRejectPacket> _Packet)
+		{
+			PushUpdate([=]()
+				{
+					if (_Packet->WhichSession == UCrazyArcadeCore::Net->GetSessionToken()) {
+						
+						std::shared_ptr<UEndSession> EndSessionPacket = std::make_shared<UEndSession>();
+						Send(EndSessionPacket);
+						UCrazyArcadeCore::Net->End();
+						UCrazyArcadeCore::Net = nullptr;
+						UCrazyArcadeCore::NetManager.CFailInit();
+						GEngine->ChangeLevel("TitleTestLevel");
+						MsgBoxLogT("서버 알림", "서버에 남은 자리가 없습니다");
+					}
+				});
+		});
+
+
 	Dis.AddHandler<UConnectPacket>([=](std::shared_ptr<UConnectPacket> _Packet)
 		{
 			PushUpdate([=]()
 				{
-					//std::map<int, ConnectUserInfo> Infos;
-					//for (std::pair<const int, std::string> NamePair : _Packet->NameInfos)
-					//{
-					//	int Key = NamePair.first;
-					//	Infos[Key].MyName = NamePair.second;
-					//	Infos[Key].SetMyCharacterType(_Packet->GetMyCharacterType(Key));
-					//	Infos[Key].SetMyColorType(_Packet->GetMyColorType(Key));
-					//	Infos[Key].SetIsExist(_Packet->GetExist(Key));
-					//	Infos[Key].SetIsReady(_Packet->GetReady(Key));
-					//}
-
 					ConnectionInfo::GetInst().SetUserInfos(_Packet->Infos);
 				});
 		});
@@ -201,6 +219,10 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 		{
 			PushUpdate([=]()
 				{
+					if (_Packet->GetSessionToken() == 0) {
+						MsgBoxLogT("서버 알림", "서버가 종료되었습니다");
+						GEngine->EngineWindow.Off();
+					}
 					if (true == IsNetObject(_Packet->GetSessionToken() * 1000)) {
 						APlayer* OtherPlayer = dynamic_cast<APlayer*>(AllNetObject[_Packet->GetSessionToken() * 1000]);
 						if (OtherPlayer != nullptr) {
@@ -312,6 +334,21 @@ void UServerManager::CManagerInit()
 		UCrazyArcadeCore::NetManager.InitNet(UCrazyArcadeCore::Net);
 		ManagerType = ENetType::Client;
 		SetObjectToken(-1);
+	}
+}
+
+void UServerManager::CFailInit()
+{
+	if (true == UCrazyArcadeCore::NetManager.IsNetInit())
+	{
+		// 네트워크 통신준비가 아직 안된 오브젝트다.
+		UCrazyArcadeCore::NetManager.InitNet(nullptr);
+		ManagerType = ENetType::None;
+		SetObjectToken(-1);
+		ClientBool = false;
+	}
+	else {
+		MsgBoxAssert("이상함");
 	}
 }
 

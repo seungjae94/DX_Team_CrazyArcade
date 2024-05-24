@@ -15,6 +15,7 @@ enum ServerObjectType
 
 enum EContentPacket
 {
+	Reject = -4,
 	EndSession = -3,
 	ActorUpdatePacket = 99,
 	SpawnUpdatePacket,
@@ -292,6 +293,7 @@ public:
 		_Ser << IsMoveValue;
 		_Ser << MoveDir;
 		_Ser << Pos;
+		_Ser << IsDestroy;
 	}
 
 	void DeSerialize(UEngineSerializer& _Ser) override
@@ -300,12 +302,14 @@ public:
 		_Ser >> IsMoveValue;
 		_Ser >> MoveDir;
 		_Ser >> Pos;
+		_Ser >> IsDestroy;
 	}
 
 public:
 	bool IsMoveValue = false;
 	FVector MoveDir = {};
 	FVector Pos = {};
+	bool IsDestroy = false;
 };
 
 class UEndSession : public UEngineProtocol {
@@ -411,3 +415,27 @@ public:
 	std::string Cheating;
 };
 
+class UServerRejectPacket : public UEngineProtocol {
+public:
+	static const EContentPacket Type = EContentPacket::Reject;
+public:
+	UServerRejectPacket()
+	{
+		SetType(EContentPacket::Reject);
+	}
+
+	void Serialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::Serialize(_Ser);
+		_Ser << WhichSession;
+	}
+
+	void DeSerialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::DeSerialize(_Ser);
+		_Ser >> WhichSession;
+	}
+
+public:
+	int WhichSession;
+};
