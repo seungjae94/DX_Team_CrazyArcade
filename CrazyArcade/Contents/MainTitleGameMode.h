@@ -72,4 +72,7 @@ private:
 	const int PlayerNameMaxLength = 6;
 	const int IPNumMaxLength = 15;
 	const int PortNumMaxLength = 5;
+
+	// »ç¿îµå
+	UEngineSoundPlayer BgmPlayer;
 };
