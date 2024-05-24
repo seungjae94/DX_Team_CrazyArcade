@@ -65,7 +65,7 @@ protected:
 	std::list<std::function<void()>> UpdateTick;
 
 	std::mutex SessinInitMutex;
-	std::vector<bool> SessionInitVec = { true, false, false, false, false, false, false, false };
+	//std::vector<bool> SessionInitVec = { true, false, false, false, false, false, false, false };
 	ENetType ManagerType = ENetType::None;
 private:
 	std::list<std::function<void()>> ReservedHandlers;

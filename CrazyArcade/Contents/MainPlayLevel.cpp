@@ -13,7 +13,6 @@
 #include "InGameUI.h"
 #include "MouseUI.h"
 
-#include "TestMap.h"
 #include "CrazyArcadeCore.h"
 #include "ServerManager.h"
 
@@ -42,9 +41,30 @@ void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 	Super::LevelStart(_PrevLevel);
 	UCrazyArcadeCore::NetManager.BoxTokenInit();
 	
+	MapType = ConnectionInfo::GetInst().GetCurMapType();
 	MapType = EMapType::Pirate;
 	MouseUI = GetWorld()->SpawnActor<AMouse>("MouseUIActor");
 	CreateMap();
+
+	// »ç¿îµå
+	switch (MapType)
+	{
+	case EMapType::None:
+		break;
+	case EMapType::Village:
+		BgmPlayer = UEngineSound::SoundPlay("VillageBgm.mp3");
+		break;
+	case EMapType::Forest:
+		BgmPlayer = UEngineSound::SoundPlay("ForestBgm.mp3");
+		break;
+	case EMapType::Pirate:
+	case EMapType::Pirate02:
+		BgmPlayer = UEngineSound::SoundPlay("PirateBgm.mp3");
+		break;
+	default:
+		break;
+	}
+	BgmPlayer.Loop(-1);
 }
 
 void AMainPlayLevel::CreateMap()
@@ -67,10 +87,6 @@ void AMainPlayLevel::CreateMap()
 		TileMap = GetWorld()->SpawnActor<APirateMap02>("PirateMap02");
 		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
 		break;
-	case EMapType::Test:
-		TileMap = GetWorld()->SpawnActor<TestMap>("TestMap");
-		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
-		break;
 	}
 
 	Player->SetActorLocation(TileMap->GetPlayerStartPos(ConnectionInfo::GetInst().GetOrder()));
@@ -87,6 +103,8 @@ void AMainPlayLevel::LevelEnd(ULevel* _NextLevel)
 
 	TileMap->Destroy();
 	TileMap = nullptr;
+
+	BgmPlayer.Off();
 }
 
 void AMainPlayLevel::Tick(float _DeltaTime)

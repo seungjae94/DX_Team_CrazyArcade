@@ -63,5 +63,8 @@ protected:
 	std::shared_ptr<AMouse> MouseUI = nullptr;
 
 	
+
+	// »ç¿îµå
+	UEngineSoundPlayer BgmPlayer;
 };
 

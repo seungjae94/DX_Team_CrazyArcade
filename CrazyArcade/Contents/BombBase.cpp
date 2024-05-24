@@ -112,6 +112,9 @@ void ABombBase::StateInit()
 					Destroy();
 				}
 			);
+
+			UEngineSound::SoundPlay("Boom.mp3");
+			UEngineSound::SoundPlay("Water.mp3").SetVolume(0.5f);
 		}
 	);
 

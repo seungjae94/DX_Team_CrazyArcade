@@ -674,7 +674,8 @@ void APlayer::TrapEnd(float _DeltaTime)
 	ECharacterColor ColPlayerColor = PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this);
 	if (ECharacterColor::None != ColPlayerColor	&& PlayerColor != ColPlayerColor)
 	{
-		State.ChangeState("Die");
+
+		//State.ChangeState("Die");
 		return;
 	}
 
@@ -707,6 +708,7 @@ void APlayer::Revival(float _DeltaTime)
 	if (Renderer->IsCurAnimationEnd())
 	{
 		State.ChangeState("Idle");
+		IsNeedleUse = false;
 		return;
 	}
 }

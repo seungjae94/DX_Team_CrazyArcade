@@ -75,16 +75,11 @@ void AMainTitleGameMode::BeginPlay()
 
 
 	StartButton->SetUnHover([=] {
-
-		StartButton->ChangeAnimation("NoneStartButtonAni");
+			StartButton->ChangeAnimation("NoneStartButtonAni");
 		});
-
-
 	StartButton->SetHover([=]{
 			StartButton->ChangeAnimation("HoverStartButtonAni");
-
 		});
-
 	StartButton->SetDown([=] {
 		// 1P, 2P 버튼이 있으므로 비활성화
 		//GEngine->ChangeLevel("LobbyLevel");
@@ -316,11 +311,16 @@ void AMainTitleGameMode::Tick(float _DeltaTime)
 void AMainTitleGameMode::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
+
+	BgmPlayer = UEngineSound::SoundPlay("TitleBgm.mp3");
+	BgmPlayer.Loop(-1);
 }
 
 void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
 {
 	Super::LevelEnd(_NextLevel);
+
+	BgmPlayer.Off();
 
 	ALobbyGameMode* Lobby = dynamic_cast<ALobbyGameMode*>(_NextLevel->GetGameMode().get());
 	if (nullptr == Lobby)
