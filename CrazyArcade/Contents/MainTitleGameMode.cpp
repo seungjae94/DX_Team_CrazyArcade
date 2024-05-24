@@ -66,16 +66,11 @@ void AMainTitleGameMode::BeginPlay()
 
 
 	StartButton->SetUnHover([=] {
-
-		StartButton->ChangeAnimation("NoneStartButtonAni");
+			StartButton->ChangeAnimation("NoneStartButtonAni");
 		});
-
-
 	StartButton->SetHover([=]{
 			StartButton->ChangeAnimation("HoverStartButtonAni");
-
 		});
-
 	StartButton->SetDown([=] {
 		// 1P, 2P 버튼이 있으므로 비활성화
 		//GEngine->ChangeLevel("LobbyLevel");

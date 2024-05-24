@@ -38,8 +38,28 @@ void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 	Super::LevelStart(_PrevLevel);
 	UCrazyArcadeCore::NetManager.BoxTokenInit();
 	
-	MapType = EMapType::Pirate;
+	MapType = ConnectionInfo::GetInst().GetCurMapType();
 	CreateMap();
+
+	// »ç¿îµå
+	switch (MapType)
+	{
+	case EMapType::None:
+		break;
+	case EMapType::Village:
+		BgmPlayer = UEngineSound::SoundPlay("VillageBgm.mp3");
+		break;
+	case EMapType::Forest:
+		BgmPlayer = UEngineSound::SoundPlay("ForestBgm.mp3");
+		break;
+	case EMapType::Pirate:
+	case EMapType::Pirate02:
+		BgmPlayer = UEngineSound::SoundPlay("PirateBgm.mp3");
+		break;
+	default:
+		break;
+	}
+	BgmPlayer.Loop(-1);
 }
 
 void AMainPlayLevel::CreateMap()
@@ -78,6 +98,8 @@ void AMainPlayLevel::LevelEnd(ULevel* _NextLevel)
 
 	TileMap->Destroy();
 	TileMap = nullptr;
+
+	BgmPlayer.Off();
 }
 
 void AMainPlayLevel::Tick(float _DeltaTime)

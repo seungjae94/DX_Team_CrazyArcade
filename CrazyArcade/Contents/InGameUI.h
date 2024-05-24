@@ -17,7 +17,6 @@ private:
 		bool IsChange = false; //Tick을 계속돌면서 changeAni를 막기위한것
 		int Needle;
 
-
 		//지윤이랑 인터페이스 동일하게 진행 
 	};
 
@@ -43,8 +42,6 @@ protected:
 	void GameEnd();
 
 private:
-	
-	
 	std::string MinText;
 	std::string SecText;
 
@@ -52,6 +49,7 @@ private:
 
 
 	UImage* CancelBtn = nullptr;
+	UImage* CancelBtn_InActive = nullptr;
 	UImage* ResultBackGround = nullptr;
 	
 
@@ -109,7 +107,4 @@ private:
 	float FadeAlpha = 1.0f;
 	void FadeIn(float _DeltaTime);
 	void FadeOut(float _DeltaTime);
-
-	
-
 };
