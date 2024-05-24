@@ -113,11 +113,11 @@ void AForestMap::CreateForestLeafsAndBushs()
 	CreateBox({ 4,  3 }, MapImgRes::block_forest_leef1);
 	CreateBox({ 4, 11 }, MapImgRes::block_forest_leef1, EItemType::Needle);
 	CreateBox({ 5,  0 }, MapImgRes::block_forest_leef1);
-	CreateBox({ 5, 12 }, MapImgRes::block_forest_leef1);
+	CreateBox({ 5, 12 }, MapImgRes::block_forest_leef1, EItemType::Roller);
 	CreateBox({ 7,  0 }, MapImgRes::block_forest_leef1, EItemType::Bubble);
 	CreateBox({ 9,  6 }, MapImgRes::block_forest_leef1);
 	CreateBox({ 9,  8 }, MapImgRes::block_forest_leef1, EItemType::Fluid);
-	CreateBox({ 10,  5 }, MapImgRes::block_forest_leef1);
+	CreateBox({ 10,  5 }, MapImgRes::block_forest_leef1, EItemType::Ultra);
 	CreateBox({ 10,  9 }, MapImgRes::block_forest_leef1);
 	CreateBox({ 11,  0 }, MapImgRes::block_forest_leef1, EItemType::Bubble);
 	CreateBox({ 11,  6 }, MapImgRes::block_forest_leef1, EItemType::Fluid);
@@ -125,7 +125,6 @@ void AForestMap::CreateForestLeafsAndBushs()
 	CreateBox({ 12,  11 }, MapImgRes::block_forest_leef1);
 	CreateBox({ 13,  0 }, MapImgRes::block_forest_leef1, EItemType::RedDevil);
 	CreateBox({ 13,  6 }, MapImgRes::block_forest_leef1);
-	CreateBox({ 13,  11 }, MapImgRes::block_forest_leef1, EItemType::Fluid);
 	CreateBox({ 13,  12 }, MapImgRes::block_forest_leef1);
 	CreateBox({ 14,   5 }, MapImgRes::block_forest_leef1, EItemType::Owl);
 	CreateBox({ 14,   7 }, MapImgRes::block_forest_leef1);
@@ -139,12 +138,12 @@ void AForestMap::CreateForestLeafsAndBushs()
 	CreateBox({ 1,  9 }, MapImgRes::block_forest_leef2);
 	CreateBox({ 2,  2 }, MapImgRes::block_forest_leef2, EItemType::Bubble);
 	CreateBox({ 2,  4 }, MapImgRes::block_forest_leef2);
-	CreateBox({ 2,  6 }, MapImgRes::block_forest_leef2);
+	CreateBox({ 2,  6 }, MapImgRes::block_forest_leef2, EItemType::Roller);
 	CreateBox({ 2,  12 }, MapImgRes::block_forest_leef2, EItemType::Bubble);
-	CreateBox({ 3,  3 }, MapImgRes::block_forest_leef2);
+	CreateBox({ 3,  3 }, MapImgRes::block_forest_leef2, EItemType::Fluid);
 	CreateBox({ 3,  9 }, MapImgRes::block_forest_leef2, EItemType::Bubble);
 	CreateBox({ 4,  0 }, MapImgRes::block_forest_leef2);
-	CreateBox({ 4,  10 }, MapImgRes::block_forest_leef2);
+	CreateBox({ 4,  10 }, MapImgRes::block_forest_leef2, EItemType::Roller);
 	CreateBox({ 4,  12 }, MapImgRes::block_forest_leef2, EItemType::Bubble);
 	CreateBox({ 6,  0 }, MapImgRes::block_forest_leef2);
 	CreateBox({ 6,  12 }, MapImgRes::block_forest_leef2, EItemType::Fluid);
@@ -152,18 +151,18 @@ void AForestMap::CreateForestLeafsAndBushs()
 	CreateBox({ 8,  0 }, MapImgRes::block_forest_leef2, EItemType::Fluid);
 	CreateBox({ 8,  6 }, MapImgRes::block_forest_leef2, EItemType::Bubble);
 	CreateBox({ 9,  7 }, MapImgRes::block_forest_leef2);
-	CreateBox({ 10,  0 }, MapImgRes::block_forest_leef2);
+	CreateBox({ 10,  0 }, MapImgRes::block_forest_leef2, EItemType::Superman);
 	CreateBox({ 10,  6 }, MapImgRes::block_forest_leef2, EItemType::Roller);
 	CreateBox({ 10,  12 }, MapImgRes::block_forest_leef2, EItemType::RedDevil);
 	CreateBox({ 11,  1 }, MapImgRes::block_forest_leef2);
-	CreateBox({ 11,  9 }, MapImgRes::block_forest_leef2);
+	CreateBox({ 11,  9 }, MapImgRes::block_forest_leef2, EItemType::Bubble);
 	CreateBox({ 12,  0 }, MapImgRes::block_forest_leef2, EItemType::Ultra);
 	CreateBox({ 12,  6 }, MapImgRes::block_forest_leef2);
 	CreateBox({ 12,  10 }, MapImgRes::block_forest_leef2);
-	CreateBox({ 12,  12 }, MapImgRes::block_forest_leef2);
+	CreateBox({ 12,  12 }, MapImgRes::block_forest_leef2, EItemType::Roller);
 	CreateBox({ 13,  7 }, MapImgRes::block_forest_leef2, EItemType::Fluid);
 	CreateBox({ 14,  0 }, MapImgRes::block_forest_leef2, EItemType::Fluid);
-	CreateBox({ 14,  10 }, MapImgRes::block_forest_leef2);
+	CreateBox({ 14,  10 }, MapImgRes::block_forest_leef2, EItemType::Bubble);
 
 	//bush1
 	CreateBox({ 0 , 12 }, MapImgRes::block_forest_bush1, EItemType::Bubble);

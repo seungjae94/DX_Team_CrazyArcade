@@ -110,4 +110,5 @@ private:
 	float FadeAlpha = 1.0f;
 	void FadeIn(float _DeltaTime);
 	void FadeOut(float _DeltaTime);
+	void ChangeFadeOut(bool _IsFadeOut);
 };

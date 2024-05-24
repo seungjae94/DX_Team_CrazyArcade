@@ -203,8 +203,8 @@ void APlayer::PlayerCreateBazziAnimation(std::string _Color)
 	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleOwl_Down", "Bazzi" + _Color + "_3.png", 0.15f, false, 6, 6);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleTurtle_Left", "Bazzi" + _Color + "_3.png", 0.15f, false, 8, 8);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleTurtle_Right", "Bazzi" + _Color + "_3.png", 0.15f, false, 10, 10);
-	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleTurtle_Down", "Bazzi" + _Color + "_3.png", 0.15f, false, 12, 12);
-	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleTurtle_Up", "Bazzi" + _Color + "_3.png", 0.15f, false, 14, 14);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleTurtle_Down", "Bazzi" + _Color + "_3.png", 0.15f, false, 14, 14);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleTurtle_Up", "Bazzi" + _Color + "_3.png", 0.15f, false, 12, 12);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleUFO_Left", "Bazzi" + _Color + "_3.png", 0.09f, false, 16, 16);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleUFO_Right", "Bazzi" + _Color + "_3.png", 0.09f, false, 17, 17);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_IdleUFO_Up", "Bazzi" + _Color + "_3.png", 0.09f, false, 18, 18);
@@ -215,8 +215,8 @@ void APlayer::PlayerCreateBazziAnimation(std::string _Color)
 	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingOwl_Down", "Bazzi" + _Color + "_3.png", 0.15f, true, 6, 7);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingTurtle_Left", "Bazzi" + _Color + "_3.png", 0.2f, true, 8, 9);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingTurtle_Right", "Bazzi" + _Color + "_3.png", 0.2f, true, 10, 11);
-	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingTurtle_Up", "Bazzi" + _Color + "_3.png", 0.2f, true, 14, 15);
-	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingTurtle_Down", "Bazzi" + _Color + "_3.png", 0.2f, true, 12, 13);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingTurtle_Up", "Bazzi" + _Color + "_3.png", 0.2f, true, 12, 13);
+	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingTurtle_Down", "Bazzi" + _Color + "_3.png", 0.2f, true, 14, 15);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingUFO_Left", "Bazzi" + _Color + "_3.png", 0.09f, true, 16, 16);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingUFO_Right", "Bazzi" + _Color + "_3.png", 0.09f, true, 17, 17);
 	Renderer->CreateAnimation("Bazzi" + _Color + "_RidingUFO_Up", "Bazzi" + _Color + "_3.png", 0.09f, true, 18, 18);

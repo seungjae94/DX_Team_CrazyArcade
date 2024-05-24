@@ -153,8 +153,7 @@ void ALobbyGameMode::BeginPlay()
 					{
 						if (IsGameStartable == true)
 						{
-							IsFadeOut = true;
-							Fade->SetActive(true);
+							ChangeFadeOut(true);
 						}
 						Btn_GameStart->ChangeAnimation("UnHover_Server");
 					}
@@ -1230,10 +1229,9 @@ void ALobbyGameMode::LevelStart(ULevel* _PrevLevel)
 	ChangeMap(ConnectionInfo::GetInst().GetCurMapType());
 	ChangeReady(false);
 
-	// FadeIn
+	// Fade
 	IsFadeIn = true;
 	FadeAlpha = 1.0f;
-	Fade->SetActive(true);
 
 	// Bgm 재생
 	BgmPlayer = UEngineSound::SoundPlay("LobbyBgm.mp3");
@@ -1253,6 +1251,11 @@ void ALobbyGameMode::Tick(float _DeltaTime)
 
 	// Fade & ChangeLevel
 	{
+		if (ENetType::Server != UCrazyArcadeCore::NetManager.GetNetType())
+		{
+			IsFadeOut = ConnectionInfo::GetInst().GetIsFadeOut();
+		}
+
 		if (IsFadeIn == true)
 		{
 			FadeIn(_DeltaTime);
@@ -1538,7 +1541,6 @@ void ALobbyGameMode::FadeIn(float _DeltaTime)
 	if (FadeAlpha <= 0.0f)
 	{
 		IsFadeIn = false;
-		Fade->SetActive(false);
 		return;
 	}
 
@@ -1550,10 +1552,11 @@ void ALobbyGameMode::FadeOut(float _DeltaTime)
 {
 	if (FadeAlpha >= 1.0f)
 	{
-		IsFadeIn = true;
-		IsFadeOut = false;
-		Fade->SetActive(false);
-		GameStart();
+		if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+		{
+			ChangeFadeOut(false);
+			GameStart();
+		}
 		return;
 	}
 
@@ -1951,6 +1954,20 @@ void ALobbyGameMode::ChangeMap(EMapType _MapType)
 	{
 		std::shared_ptr<UStageUpdatePacket> Packet = std::make_shared<UStageUpdatePacket>();
 		Packet->MapType = ConnectionInfo::GetInst().GetCurMapType();
+		UCrazyArcadeCore::NetManager.Send(Packet);
+	}
+}
+
+void ALobbyGameMode::ChangeFadeOut(bool _IsFadeOut)
+{
+	// PlayerInfo
+	IsFadeOut = _IsFadeOut;
+	ConnectionInfo::GetInst().SetIsFadeOut(_IsFadeOut);
+
+	// 패킷 보내기
+	{
+		std::shared_ptr<UFadeOutUpdatePacket> Packet = std::make_shared<UFadeOutUpdatePacket>();
+		Packet->IsFadeOut = _IsFadeOut;
 		UCrazyArcadeCore::NetManager.Send(Packet);
 	}
 }

@@ -100,19 +100,19 @@ void APirateMap02::CreatePirateBoxs()
 
 	CreateBox({ 6, 6 }, MapImgRes::block_Pirate_box1);
 	CreateBox({ 7, 6 }, MapImgRes::block_Pirate_box1, EItemType::Bubble);
-	CreateBox({ 8, 6 }, MapImgRes::block_Pirate_box1);
+	CreateBox({ 8, 6 }, MapImgRes::block_Pirate_box1, EItemType::Fluid);
 
 	CreateBox({ 0, 7 }, MapImgRes::block_Pirate_box1);
 	CreateBox({ 7, 7 }, MapImgRes::block_Pirate_box1, EItemType::Roller);
 	CreateBox({ 8, 7 }, MapImgRes::block_Pirate_box1);
-	CreateBox({ 14, 7 }, MapImgRes::block_Pirate_box1);
+	CreateBox({ 14, 7 }, MapImgRes::block_Pirate_box1, EItemType::Bubble);
 
 	CreateBox({ 1, 8 }, MapImgRes::block_Pirate_box1, EItemType::Turtle);
 	CreateBox({ 13, 8 }, MapImgRes::block_Pirate_box1);
 
 	CreateBox({ 0, 9 }, MapImgRes::block_Pirate_box1, EItemType::RedDevil);
 	CreateBox({ 7, 9 }, MapImgRes::block_Pirate_box1);
-	CreateBox({ 14, 9 }, MapImgRes::block_Pirate_box1);
+	CreateBox({ 14, 9 }, MapImgRes::block_Pirate_box1, EItemType::Bubble);
 
 	CreateBox({ 6, 10 }, MapImgRes::block_Pirate_box1, EItemType::Roller);
 	CreateBox({ 8, 10 }, MapImgRes::block_Pirate_box1);
@@ -158,7 +158,7 @@ void APirateMap02::CreatePirateBoxs()
 	CreateBox({ 14, 8 }, MapImgRes::block_Pirate_box2, EItemType::Turtle);
 
 	CreateBox({ 6, 9 }, MapImgRes::block_Pirate_box2, EItemType::Roller);
-	CreateBox({ 8, 9 }, MapImgRes::block_Pirate_box2);
+	CreateBox({ 8, 9 }, MapImgRes::block_Pirate_box2, EItemType::Fluid);
 
 	CreateBox({ 0, 10 }, MapImgRes::block_Pirate_box2, EItemType::Fluid);
 	CreateBox({ 4, 10 }, MapImgRes::block_Pirate_box2);
@@ -182,7 +182,7 @@ void APirateMap02::CreatePirateBoxs()
 void APirateMap02::CreatePirateMoveBoxs()
 {
 	CreateMoveBox({ 2, 1 }, MapImgRes::block_Pirate_box0, EItemType::Bubble);
-	CreateMoveBox({ 3, 1 }, MapImgRes::block_Pirate_box0);
+	CreateMoveBox({ 3, 1 }, MapImgRes::block_Pirate_box0, EItemType::Turtle);
 	CreateMoveBox({ 5, 1 }, MapImgRes::block_Pirate_box0);
 	CreateMoveBox({ 9, 1 }, MapImgRes::block_Pirate_box0, EItemType::Fluid);
 	CreateMoveBox({ 11, 1 }, MapImgRes::block_Pirate_box0);
@@ -223,7 +223,7 @@ void APirateMap02::CreatePirateMoveBoxs()
 
 	CreateMoveBox({ 3, 8 }, MapImgRes::block_Pirate_box0, EItemType::Fluid);
 	CreateMoveBox({ 5, 8 }, MapImgRes::block_Pirate_box0);
-	CreateMoveBox({ 7, 8 }, MapImgRes::block_Pirate_box0);
+	CreateMoveBox({ 7, 8 }, MapImgRes::block_Pirate_box0, EItemType::Turtle);
 	CreateMoveBox({ 9, 8 }, MapImgRes::block_Pirate_box0, EItemType::Bubble);
 	CreateMoveBox({ 11, 8 }, MapImgRes::block_Pirate_box0);
 
