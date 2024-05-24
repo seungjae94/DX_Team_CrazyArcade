@@ -138,7 +138,6 @@ void APlayer::Tick(float _DeltaTime)
 	// 바늘 사용 체크
 	if (true == IsNeedleUse)
 	{
-		IsNeedleUse = false;
 		State.ChangeState("Revival");
 	}
 }
