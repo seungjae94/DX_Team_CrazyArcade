@@ -35,10 +35,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="EngineTestGameMode.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="InGameUI.h" />
     <ClInclude Include="IntroFrame.h">
       <SubType>
@@ -48,7 +44,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="LobbyTitleGameMode.h">
+    <ClInclude Include="LobbyGameMode.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -107,10 +103,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="CrazyArcadeEnum.h" />
-    <ClInclude Include="InitTestGameMode.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="MainTitleGameMode.h">
       <SubType>
       </SubType>
@@ -172,10 +164,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="EngineTestGameMode.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="InGameUI.cpp" />
     <ClCompile Include="IntroFrame.cpp">
       <SubType>
@@ -185,7 +173,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="LobbyTitleGameMode.cpp">
+    <ClCompile Include="LobbyGameMode.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -240,10 +228,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="CrazyArcadeDebugWindow.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="InitTestGameMode.cpp">
       <SubType>
       </SubType>
     </ClCompile>

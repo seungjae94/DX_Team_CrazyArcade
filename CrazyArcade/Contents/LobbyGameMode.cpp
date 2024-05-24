@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "LobbyTitleGameMode.h"
+#include "LobbyGameMode.h"
 
 #include <format>
 
@@ -11,15 +11,15 @@
 #include "ServerHelper.h"
 #include <EngineBase/EngineRandom.h>
 
-ALobbyTitleGameMode::ALobbyTitleGameMode()
+ALobbyGameMode::ALobbyGameMode()
 {
 }
 
-ALobbyTitleGameMode::~ALobbyTitleGameMode()
+ALobbyGameMode::~ALobbyGameMode()
 {
 }
 
-void ALobbyTitleGameMode::BeginPlay()
+void ALobbyGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -391,7 +391,7 @@ void ALobbyTitleGameMode::BeginPlay()
 						}
 					}
 					});
-				Btns_Space[i]->SetHover([=] {
+				/*Btns_Space[i]->SetHover([=] {
 					if (
 						IsMapSelectOn == false &&
 						Space_IsUserIn[i] == false
@@ -444,7 +444,7 @@ void ALobbyTitleGameMode::BeginPlay()
 							SpaceOff(i);
 						}
 					}
-					});
+					});*/
 
 				SpaceOff(i);
 			}
@@ -1109,7 +1109,7 @@ void ALobbyTitleGameMode::BeginPlay()
 	}
 }
 
-void ALobbyTitleGameMode::LevelStart(ULevel* _PrevLevel)
+void ALobbyGameMode::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
 
@@ -1136,12 +1136,12 @@ void ALobbyTitleGameMode::LevelStart(ULevel* _PrevLevel)
 	Fade->SetActive(true);
 }
 
-void ALobbyTitleGameMode::LevelEnd(ULevel* _NextLevel)
+void ALobbyGameMode::LevelEnd(ULevel* _NextLevel)
 {
 	Super::LevelEnd(_NextLevel);
 }
 
-void ALobbyTitleGameMode::Tick(float _DeltaTime)
+void ALobbyGameMode::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
@@ -1184,7 +1184,7 @@ void ALobbyTitleGameMode::Tick(float _DeltaTime)
 	}
 }
 
-void ALobbyTitleGameMode::UserInfosUpdate()
+void ALobbyGameMode::UserInfosUpdate()
 {
 	// PlayerInfo Update
 	{
@@ -1220,7 +1220,7 @@ void ALobbyTitleGameMode::UserInfosUpdate()
 	}
 }
 
-void ALobbyTitleGameMode::ChatUpdate()
+void ALobbyGameMode::ChatUpdate()
 {
 	if (Chat_IsActive == false)
 	{
@@ -1293,7 +1293,7 @@ void ALobbyTitleGameMode::ChatUpdate()
 	}
 }
 
-void ALobbyTitleGameMode::ReadyUpdate()
+void ALobbyGameMode::ReadyUpdate()
 {
 	// Ready Check
 	bool IsReadyDone = true;
@@ -1337,7 +1337,7 @@ void ALobbyTitleGameMode::ReadyUpdate()
 	}
 }
 
-void ALobbyTitleGameMode::SpaceOn(int _Index)
+void ALobbyGameMode::SpaceOn(int _Index)
 {
 	Characters_Space[_Index]->SetActive(true);
 	Flags_Space[_Index]->SetActive(true);
@@ -1345,15 +1345,16 @@ void ALobbyTitleGameMode::SpaceOn(int _Index)
 	Usernames_Space[_Index]->SetActive(true);
 }
 
-void ALobbyTitleGameMode::SpaceOff(int _Index)
+void ALobbyGameMode::SpaceOff(int _Index)
 {
 	Characters_Space[_Index]->SetActive(false);
 	Flags_Space[_Index]->SetActive(false);
 	Shadows_Space[_Index]->SetActive(false);
 	Usernames_Space[_Index]->SetActive(false);
+	Readys_Space[_Index]->SetActive(false);
 }
 
-void ALobbyTitleGameMode::PanelOn()
+void ALobbyGameMode::PanelOn()
 {
 	UpperPanel_CharacterSelect->SetActive(true);
 	Panel_CharacterSelect->SetActive(true);
@@ -1372,7 +1373,7 @@ void ALobbyTitleGameMode::PanelOn()
 	}
 }
 
-void ALobbyTitleGameMode::PanelOff()
+void ALobbyGameMode::PanelOff()
 {
 	UpperPanel_CharacterSelect->SetActive(false);
 	Panel_CharacterSelect->SetActive(false);
@@ -1385,7 +1386,7 @@ void ALobbyTitleGameMode::PanelOff()
 	}
 }
 
-void ALobbyTitleGameMode::MapSelectOn()
+void ALobbyGameMode::MapSelectOn()
 {
 	IsMapSelectOn = true;
 	BackGround_MapSelect->SetActive(true);
@@ -1394,7 +1395,7 @@ void ALobbyTitleGameMode::MapSelectOn()
 	Fade_MapSelect->SetActive(true);
 }
 
-void ALobbyTitleGameMode::MapSelectOff()
+void ALobbyGameMode::MapSelectOff()
 {
 	IsMapSelectOn = false;
 	BackGround_MapSelect->SetActive(false);
@@ -1403,7 +1404,7 @@ void ALobbyTitleGameMode::MapSelectOff()
 	Fade_MapSelect->SetActive(false);
 }
 
-void ALobbyTitleGameMode::FadeIn(float _DeltaTime)
+void ALobbyGameMode::FadeIn(float _DeltaTime)
 {
 	if (FadeAlpha <= 0.0f)
 	{
@@ -1416,7 +1417,7 @@ void ALobbyTitleGameMode::FadeIn(float _DeltaTime)
 	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
 }
 
-void ALobbyTitleGameMode::FadeOut(float _DeltaTime)
+void ALobbyGameMode::FadeOut(float _DeltaTime)
 {
 	if (FadeAlpha >= 1.0f)
 	{
@@ -1431,7 +1432,7 @@ void ALobbyTitleGameMode::FadeOut(float _DeltaTime)
 	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
 }
 
-void ALobbyTitleGameMode::SettingPanel(ECharacterType _CharacterType)
+void ALobbyGameMode::SettingPanel(ECharacterType _CharacterType)
 {
 	// Sprite
 	switch (_CharacterType)
@@ -1530,7 +1531,7 @@ void ALobbyTitleGameMode::SettingPanel(ECharacterType _CharacterType)
 	}
 }
 
-void ALobbyTitleGameMode::SettingCharacterSelect(ECharacterType _CharacterType)
+void ALobbyGameMode::SettingCharacterSelect(ECharacterType _CharacterType)
 {
 	int Index_CharacterType = int(_CharacterType);
 
@@ -1578,7 +1579,7 @@ void ALobbyTitleGameMode::SettingCharacterSelect(ECharacterType _CharacterType)
 	Checker_CharacterSelect->SetWidgetLocation({ 150.0f + (72.0f * (Index_CharacterType % 4)), 202.0f - (55.0f * (Index_CharacterType / 4)) });
 }
 
-void ALobbyTitleGameMode::SettingColorSelect(ECharacterColor _CharacterColor)
+void ALobbyGameMode::SettingColorSelect(ECharacterColor _CharacterColor)
 {
 	int Index_CharacterColor = int(_CharacterColor) - 3000;
 
@@ -1599,19 +1600,19 @@ void ALobbyTitleGameMode::SettingColorSelect(ECharacterColor _CharacterColor)
 	Checker_ColorSelect->SetWidgetLocation({ 117.0f + (36.0f * Index_CharacterColor), 17.0f });
 }
 
-void ALobbyTitleGameMode::SettingName(int _SpaceIndex)
+void ALobbyGameMode::SettingName(int _SpaceIndex)
 {
 	Usernames_Space[_SpaceIndex]->SetText(UserInfos[_SpaceIndex].Name);
 }
 
-void ALobbyTitleGameMode::SettingReady(int _SpaceIndex)
+void ALobbyGameMode::SettingReady(int _SpaceIndex)
 {
 	bool Ready = UserInfos[_SpaceIndex].IsReady;
 
 	Readys_Space[_SpaceIndex]->SetActive(Ready);
 }
 
-void ALobbyTitleGameMode::SettingCharacterImage(int _SpaceIndex)
+void ALobbyGameMode::SettingCharacterImage(int _SpaceIndex)
 {
 	ECharacterType Type = UserInfos[_SpaceIndex].CharacterType;
 	ECharacterColor Color = UserInfos[_SpaceIndex].CharacterColor;
@@ -1665,7 +1666,7 @@ void ALobbyTitleGameMode::SettingCharacterImage(int _SpaceIndex)
 	Characters_Space[_SpaceIndex]->SetSprite(SpriteName);
 }
 
-void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
+void ALobbyGameMode::ChangeCharacter(ECharacterType _CharacterType)
 {
 	if (
 		_CharacterType == ECharacterType::Dizni ||
@@ -1698,7 +1699,7 @@ void ALobbyTitleGameMode::ChangeCharacter(ECharacterType _CharacterType)
 	}
 }
 
-void ALobbyTitleGameMode::ChangeColor(ECharacterColor _CharacterColor)
+void ALobbyGameMode::ChangeColor(ECharacterColor _CharacterColor)
 {
 	// PlayerInfo
 	Player.CharacterColor = _CharacterColor;
@@ -1717,7 +1718,7 @@ void ALobbyTitleGameMode::ChangeColor(ECharacterColor _CharacterColor)
 	}
 }
 
-void ALobbyTitleGameMode::ChangeReady(bool _IsReady)
+void ALobbyGameMode::ChangeReady(bool _IsReady)
 {
 	// PlayerInfo
 	Player.IsReady = _IsReady;
@@ -1732,7 +1733,7 @@ void ALobbyTitleGameMode::ChangeReady(bool _IsReady)
 	}
 }
 
-void ALobbyTitleGameMode::GameStart()
+void ALobbyGameMode::GameStart()
 {
 	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
 	{
@@ -1793,7 +1794,7 @@ void ALobbyTitleGameMode::GameStart()
 	}
 }
 
-void ALobbyTitleGameMode::HandlerInit()
+void ALobbyGameMode::HandlerInit()
 {
 	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType()) {
 		UEngineDispatcher& Dis = UCrazyArcadeCore::Net->Dispatcher;

@@ -2,19 +2,19 @@
 #include <EngineCore/TextWidget.h>
 #include "NetGameMode.h"
 
-class ALobbyTitleGameMode :public ANetGameMode
+class ALobbyGameMode :public ANetGameMode
 {
 	GENERATED_BODY(ANetGameMode)
 public:
 	// constructor destructor
-	ALobbyTitleGameMode();
-	~ALobbyTitleGameMode();
+	ALobbyGameMode();
+	~ALobbyGameMode();
 
 	// delete Function
-	ALobbyTitleGameMode(const ALobbyTitleGameMode& _Other) = delete;
-	ALobbyTitleGameMode(ALobbyTitleGameMode&& _Other) noexcept = delete;
-	ALobbyTitleGameMode& operator=(const ALobbyTitleGameMode& _Other) = delete;
-	ALobbyTitleGameMode& operator=(ALobbyTitleGameMode&& _Other) = delete;
+	ALobbyGameMode(const ALobbyGameMode& _Other) = delete;
+	ALobbyGameMode(ALobbyGameMode&& _Other) noexcept = delete;
+	ALobbyGameMode& operator=(const ALobbyGameMode& _Other) = delete;
+	ALobbyGameMode& operator=(ALobbyGameMode&& _Other) = delete;
 
 private:
 	// UserInfos

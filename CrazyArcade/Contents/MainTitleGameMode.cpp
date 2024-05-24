@@ -2,7 +2,7 @@
 #include "MainTitleGameMode.h"
 #include <vector>
 
-#include "LobbyTitleGameMode.h"
+#include "LobbyGameMode.h"
 #include"ConnectionInfo.h"
 #include "ServerGameMode.h"
 
@@ -78,7 +78,7 @@ void AMainTitleGameMode::BeginPlay()
 
 	StartButton->SetDown([=] {
 		// 1P, 2P 버튼이 있으므로 비활성화
-		//GEngine->ChangeLevel("LobbyTitleTestLevel");
+		//GEngine->ChangeLevel("LobbyLevel");
 		});
 
 	VoidBox->SetDown([=] {
@@ -312,7 +312,7 @@ void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
 {
 	Super::LevelEnd(_NextLevel);
 
-	ALobbyTitleGameMode* Lobby = dynamic_cast<ALobbyTitleGameMode*>(_NextLevel->GetGameMode().get());
+	ALobbyGameMode* Lobby = dynamic_cast<ALobbyGameMode*>(_NextLevel->GetGameMode().get());
 	if (nullptr == Lobby)
 	{
 		return;
@@ -324,7 +324,7 @@ void AMainTitleGameMode::ServerStart()
 	if (UCrazyArcadeCore::Net == nullptr)
 	{
 		UCrazyArcadeCore::NetManager.ServerOpen();
-		GEngine->ChangeLevel("LobbyTitleTestLevel");
+		GEngine->ChangeLevel("LobbyLevel");
 
 		if (true == PlayerName._Equal(""))
 		{
@@ -345,7 +345,7 @@ void AMainTitleGameMode::ClientStart()
 			PlayerName = "Anonymous";
 		}
 		ConnectionInfo::GetInst().SetTempName(PlayerName);
-		GEngine->ChangeLevel("LobbyTitleTestLevel");
+		GEngine->ChangeLevel("LobbyLevel");
 	}
 }
 
