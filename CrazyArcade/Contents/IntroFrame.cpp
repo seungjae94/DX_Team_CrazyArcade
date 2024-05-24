@@ -21,14 +21,32 @@ void AIntroFrame::BeginPlay()
 	IntroRenderer->SetAutoSize(1.0f, true);
 	IntroRenderer->CreateAnimation("IntroStart", "IntroStart", 1 / 30.0f, false);
 	IntroRenderer->CreateAnimation("IntroLoop", "IntroLoop", 1 / 30.0f, true);
-	IntroRenderer->SetLastFrameCallback("IntroStart", [=]() {
-		IntroRenderer->ChangeAnimation("IntroLoop");
-
-
-		});
 
 	IntroRenderer->ChangeAnimation("IntroStart");
 
+	IntroRenderer->SetLastFrameCallback("IntroStart", [=] {
+		IntroRenderer->ChangeAnimation("IntroLoop");
+
+		});
+
+}
+
+void AIntroFrame::Tick(float _DeltaTime)
+{
+	Super::Tick(_DeltaTime);
+	if (IntroRenderer->IsCurAnimationEnd() == false)
+	{
+		if (true == UEngineInput::IsDown('P'))
+		{
+			GEngine->ChangeLevel("MainTitleLevel");
+		}
+		//int a = 0;
+
+	}
+	//if (true == UEngineInput::IsDown('P'))
+	//{
+	//	GEngine->ChangeLevel("MainTitleLevel");
+	//}
 }
 
 void AIntroFrame::LevelStart(ULevel* _PrevLevel)
