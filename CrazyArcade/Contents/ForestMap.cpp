@@ -125,7 +125,6 @@ void AForestMap::CreateForestLeafsAndBushs()
 	CreateBox({ 12,  11 }, MapImgRes::block_forest_leef1);
 	CreateBox({ 13,  0 }, MapImgRes::block_forest_leef1, EItemType::RedDevil);
 	CreateBox({ 13,  6 }, MapImgRes::block_forest_leef1);
-	CreateBox({ 13,  11 }, MapImgRes::block_forest_leef1, EItemType::Fluid);
 	CreateBox({ 13,  12 }, MapImgRes::block_forest_leef1);
 	CreateBox({ 14,   5 }, MapImgRes::block_forest_leef1, EItemType::Owl);
 	CreateBox({ 14,   7 }, MapImgRes::block_forest_leef1);
