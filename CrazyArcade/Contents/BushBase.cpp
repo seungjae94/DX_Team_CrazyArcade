@@ -37,12 +37,6 @@ void ABushBase::Tick(float _DeltaTime)
 	Super::Tick(_DeltaTime);
 
 	State.Update(_DeltaTime);
-
-	if (UEngineInput::IsDown('B'))
-	{
-		State.ChangeState(BushState::shaking);
-		return;
-	}
 }
 
 void ABushBase::StateInit()

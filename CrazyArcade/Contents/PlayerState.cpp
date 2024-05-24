@@ -7,7 +7,7 @@
 #include "BombBase.h"
 #include "ConnectionInfo.h"
 
-void APlayer::StateInit() 
+void APlayer::StateInit()
 {
 	SetCharacterType(ConnectionInfo::GetInst().GetCharacterType());
 	SetPlayerColor(ConnectionInfo::GetInst().GetCharacterColor());
@@ -575,7 +575,7 @@ void APlayer::TrapStart(float _DeltaTime)
 	{
 		PlayerDirVector = FVector::Down;
 		KeyMove(_DeltaTime, PlayerDirVector, CurSpeed);
-	}	
+	}
 
 	// 부쉬 Hide
 	HideInBush();
@@ -623,7 +623,7 @@ void APlayer::Trapped(float _DeltaTime)
 		State.ChangeState("Die");
 		return;
 	}
-	
+
 	if (ECharacterColor::None != ColPlayerColor && PlayerColor == ColPlayerColor)
 	{
 		UEngineSound::SoundPlay("Revive.mp3");
@@ -680,10 +680,9 @@ void APlayer::TrapEnd(float _DeltaTime)
 	HideInBush();
 
 	ECharacterColor ColPlayerColor = PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this);
-	if (ECharacterColor::None != ColPlayerColor	&& PlayerColor != ColPlayerColor)
+	if (ECharacterColor::None != ColPlayerColor && PlayerColor != ColPlayerColor)
 	{
-		// 사운드
-		//State.ChangeState("Die");
+		State.ChangeState("Die");
 		return;
 	}
 
@@ -719,6 +718,12 @@ void APlayer::Revival(float _DeltaTime)
 		IsNeedleUse = false;
 		return;
 	}
+	if (PlayerColor == ConnectionInfo::GetInst().GetWins())
+	{
+		State.ChangeState("Win");
+		IsNeedleUse = false;
+		return;
+	}
 }
 
 void APlayer::Win(float _DeltaTime)
@@ -732,7 +737,7 @@ void APlayer::Lose(float _DeltaTime)
 void APlayer::KeyMove(float _DeltaTime, FVector _Dir, float _Speed)
 {
 	FVector NextPos = GetActorLocation() + FVector(_DeltaTime * _Speed * _Dir.X, _DeltaTime * _Speed * _Dir.Y, 0.0f);
-	
+
 	bool CanMove = false;
 
 	if (false == IsTrapped)
@@ -743,7 +748,7 @@ void APlayer::KeyMove(float _DeltaTime, FVector _Dir, float _Speed)
 	{
 		CanMove = PlayLevel->GetMap()->CanMovePosInTraped(NextPos, _Dir);
 	}
-	
+
 	bool IsBombPos = false;
 	if (false == IsBombOn)
 	{
