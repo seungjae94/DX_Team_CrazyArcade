@@ -707,6 +707,7 @@ void APlayer::Revival(float _DeltaTime)
 	if (Renderer->IsCurAnimationEnd())
 	{
 		State.ChangeState("Idle");
+		IsNeedleUse = false;
 		return;
 	}
 }

@@ -53,6 +53,7 @@ public:
 		_Ser << Pos;
 		_Ser << SpriteName;
 		_Ser << SpawnSelect;
+		_Ser << IsNeedleUse;
 	}
 
 	void DeSerialize(UEngineSerializer& _Ser) override
@@ -61,12 +62,14 @@ public:
 		_Ser >> Pos;
 		_Ser >> SpriteName;
 		_Ser >> SpawnSelect;
+		_Ser >> IsNeedleUse;
 	}
 
 public:
 	float4 Pos = float4::Zero;
 	std::string SpriteName; // ?? ·£´ý
 	int SpawnSelect = 0;
+	bool IsNeedleUse = false;
 };
 
 class USpawnUpdatePacket : public UEngineProtocol {
