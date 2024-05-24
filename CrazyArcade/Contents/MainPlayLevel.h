@@ -70,5 +70,6 @@ protected:
 
 	// »ç¿îµå
 	UEngineSoundPlayer BgmPlayer;
+	UEngineSoundPlayer StartSound;
 };
 

@@ -97,6 +97,9 @@ private:
 	static std::string TypeToName(ECharacterType _Type);
 	static std::string ColorToName(ECharacterColor _Color);
 
+	UEngineSoundPlayer WinSound;
+	UEngineSoundPlayer Losesound;
+
 
 
 
