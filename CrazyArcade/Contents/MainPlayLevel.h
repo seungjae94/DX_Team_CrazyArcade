@@ -57,5 +57,8 @@ protected:
 	std::shared_ptr<APlayer> Player = nullptr;
 	std::shared_ptr<ATimerUI> Timer = nullptr;
 	std::shared_ptr<AInGameUI> InGameUI = nullptr;
+
+	// »ç¿îµå
+	UEngineSoundPlayer BgmPlayer;
 };
 
