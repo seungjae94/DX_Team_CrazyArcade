@@ -160,4 +160,7 @@ private:
 	void ChangeCharacter(ECharacterType _CharacterType);
 	void ChangeColor(ECharacterColor _CharacterColor);
 	void ChangeReady(bool _IsReady);
+
+	// »ç¿îµå
+	UEngineSoundPlayer BgmPlayer;
 };
