@@ -307,7 +307,7 @@ void AMainTitleGameMode::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
 
-	BgmPlayer = UEngineSound::SoundPlay("TitleMusic.mp3");
+	BgmPlayer = UEngineSound::SoundPlay("TitleBgm.mp3");
 	BgmPlayer.Loop(-1);
 }
 

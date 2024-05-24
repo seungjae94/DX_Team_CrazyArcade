@@ -246,5 +246,5 @@ private:
 	std::string TempName;
 	ECharacterColor Wins = ECharacterColor::None;
 	std::map<int, ConnectUserInfo> UserInfos;
-	EMapType CurMapType = EMapType::None;
+	EMapType CurMapType = EMapType::Village;
 };

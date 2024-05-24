@@ -55,6 +55,7 @@ protected:
 	void UserInfosUpdate();
 	void ChatUpdate();
 	void ReadyUpdate();
+	void MapImageUpdate();
 
 	void SpaceOn(int _Index);
 	void SpaceOff(int _Index);
@@ -90,11 +91,17 @@ private:
 	// MapSelect
 	UImage* Btn_MapSelect = nullptr;
 	UImage* Btn_MapSelect_InActive = nullptr;
+	UImage* Image_MapSelect = nullptr;
 	bool IsMapSelectOn = false;
 	UImage* BackGround_MapSelect = nullptr;
 	UImage* Fade_MapSelect = nullptr;
 	UImage* Btn_MapSelectAccept = nullptr;
 	UImage* Btn_MapSelectCancel = nullptr;
+	UImage* Instruction_MapSelect = nullptr;
+	std::vector<UImage*> Btns_MapType;
+	std::vector<bool> MapSelect_Pick;
+	EMapType MapType = EMapType::Village;
+	EMapType MapType_Picked = EMapType::None;
 
 	// Space
 	std::vector<bool> Space_IsAvailable;
@@ -157,7 +164,13 @@ private:
 	void SettingName(int _SpaceIndex);
 	void SettingReady(int _SpaceIndex);
 	void SettingCharacterImage(int _SpaceIndex);
+	void SettingMapSelect(EMapType _MapType);
+	void SettingMapImage(EMapType _MapType);
 	void ChangeCharacter(ECharacterType _CharacterType);
 	void ChangeColor(ECharacterColor _CharacterColor);
 	void ChangeReady(bool _IsReady);
+	void ChangeMap(EMapType _MapType);
+
+	// »ç¿îµå
+	UEngineSoundPlayer BgmPlayer;
 };

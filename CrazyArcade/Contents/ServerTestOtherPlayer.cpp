@@ -24,9 +24,11 @@ void ServerTestOtherPlayer::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);
 
-	ProtocolTick([=](std::shared_ptr<UEngineProtocol> _Packet) {
-		std::shared_ptr<UActorUpdatePacket> UpdatePacket = std::dynamic_pointer_cast<UActorUpdatePacket>(_Packet);
-		SetActorLocation(UpdatePacket->Pos);
-		Renderer->ChangeAnimation(UpdatePacket->SpriteName);
+	ProtocolTick([=](std::shared_ptr<UEngineProtocol> _Packet)
+		{
+			std::shared_ptr<UActorUpdatePacket> UpdatePacket = std::dynamic_pointer_cast<UActorUpdatePacket>(_Packet);
+			SetActorLocation(UpdatePacket->Pos);
+			Renderer->ChangeAnimation(UpdatePacket->SpriteName);
+			IsNeedleUse = UpdatePacket->IsNeedleUse;
 		});
 }
