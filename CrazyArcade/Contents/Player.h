@@ -20,13 +20,6 @@ enum class ERiding
 	UFO,
 };
 
-struct FPlayerInfo
-{
-	// 키: 세션 토큰
-	static std::map<int, bool> IsDeads; // IsDeads[3]: 3번 플레이어가 죽었는지
-	static std::map<int, std::string> Names; // Names[3]: 3번 플레이어의 이름
-};
-
 struct FCharacterTypeData
 {
 	std::string Type;
@@ -116,6 +109,8 @@ public:
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
+
+	void CheckDead();
 
 	UStateManager State;
 
