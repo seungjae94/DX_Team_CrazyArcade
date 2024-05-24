@@ -391,7 +391,7 @@ void ALobbyTitleGameMode::BeginPlay()
 						}
 					}
 					});
-				Btns_Space[i]->SetHover([=] {
+				/*Btns_Space[i]->SetHover([=] {
 					if (
 						IsMapSelectOn == false &&
 						Space_IsUserIn[i] == false
@@ -444,7 +444,7 @@ void ALobbyTitleGameMode::BeginPlay()
 							SpaceOff(i);
 						}
 					}
-					});
+					});*/
 
 				SpaceOff(i);
 			}
