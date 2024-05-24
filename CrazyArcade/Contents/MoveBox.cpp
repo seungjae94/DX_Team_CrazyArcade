@@ -349,29 +349,42 @@ void AMoveBox::RecvMoveCheck(const FVector& _Pos, const FVector& _MoveDir)
 
 	if (BlockState::move == State.GetCurStateName())
 	{
-		FPoint NextPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
-		if (0.0f < MoveDir.X)
-		{
-			NextPoint.X += 1;
-		}
-		else if (0.0f > MoveDir.X)
-		{
-			NextPoint.X -= 1;
-		}
-		else if (0.0f < MoveDir.Y)
-		{
-			NextPoint.Y += 1;
-		}
-		else if (0.0f > MoveDir.Y)
-		{
-			NextPoint.Y -= 1;
-		}
+		//FPoint NextPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
+		//if (0.0f < MoveDir.X)
+		//{
+		//	NextPoint.X += 1;
+		//}
+		//else if (0.0f > MoveDir.X)
+		//{
+		//	NextPoint.X -= 1;
+		//}
+		//else if (0.0f < MoveDir.Y)
+		//{
+		//	NextPoint.Y += 1;
+		//}
+		//else if (0.0f > MoveDir.Y)
+		//{
+		//	NextPoint.Y -= 1;
+		//}
 
-		if (true == AMapBase::MapRangeCheckByPoint(NextPoint)
-			&& this == PlayLevel->GetMap()->GetTileInfo(NextPoint).Block)
+		//if (true == AMapBase::MapRangeCheckByPoint(NextPoint)
+		//	&& this == PlayLevel->GetMap()->GetTileInfo(NextPoint).Block)
+		//{
+		//	PlayLevel->GetMap()->GetTileInfo(NextPoint).Block = nullptr;
+		//}
+
+		// 방어 코드
+		for (size_t Y = 0; Y < PlayLevel->GetMap()->TileInfo.size(); Y++)
 		{
-			PlayLevel->GetMap()->GetTileInfo(NextPoint).Block = nullptr;
+			for (size_t X = 0; X < PlayLevel->GetMap()->TileInfo[Y].size(); X++)
+			{
+				if (PlayLevel->GetMap()->TileInfo[Y][X].Block == this)
+				{
+					PlayLevel->GetMap()->TileInfo[Y][X].Block = nullptr;
+				}
+			}
 		}
+		
 	}
 
 	MoveDir = _MoveDir;

@@ -70,7 +70,7 @@ void UCrazyArcadeDebugWindow::OnGui(ULevel* Level, float _Delta)
 
 	if (true == ImGui::Button("Lobby Title Level"))
 	{
-		GEngine->ChangeLevel("LobbyTitleTestLevel");
+		GEngine->ChangeLevel("LobbyLevel");
 	}
 
 	if (true == ImGui::Button("MainPlayLevel"))
@@ -85,7 +85,7 @@ void UCrazyArcadeDebugWindow::OnGui(ULevel* Level, float _Delta)
 
 	if (true == ImGui::Button("MainTitleGameMode"))
 	{
-		GEngine->ChangeLevel("TitleTestLevel");
+		GEngine->ChangeLevel("MainTitleLevel");
 	}
 
 	if (true == ImGui::Button("Engine Test Level"))

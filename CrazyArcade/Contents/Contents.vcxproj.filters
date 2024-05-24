@@ -10,9 +10,6 @@
     <Filter Include="Level">
       <UniqueIdentifier>{24e2245e-495c-41b4-a001-48e18f1120f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level\InitTestLevel">
-      <UniqueIdentifier>{f7916000-2eac-4253-86cd-7c36bce5db3e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Level\MainTitle">
       <UniqueIdentifier>{f5521efc-1ed7-4ba4-b76f-92ad6428fd07}</UniqueIdentifier>
     </Filter>
@@ -61,9 +58,6 @@
     <Filter Include="Map\Helper">
       <UniqueIdentifier>{ffb710fc-a9c5-4508-af0f-aa58f41067ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level\EngineTestGameMode">
-      <UniqueIdentifier>{49136a5e-a11c-46ee-9714-f7634d7c6728}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Map\Block\Component">
       <UniqueIdentifier>{c6af0bb4-1cbf-4b36-9fe5-70e90afead69}</UniqueIdentifier>
     </Filter>
@@ -80,9 +74,6 @@
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
       <Filter>PreCompile</Filter>
-    </ClInclude>
-    <ClInclude Include="InitTestGameMode.h">
-      <Filter>Level\InitTestLevel</Filter>
     </ClInclude>
     <ClInclude Include="CrazyArcadeCore.h">
       <Filter>Core</Filter>
@@ -117,7 +108,7 @@
     <ClInclude Include="CrazyArcadeDebugWindow.h">
       <Filter>Debug</Filter>
     </ClInclude>
-    <ClInclude Include="LobbyTitleGameMode.h">
+    <ClInclude Include="LobbyGameMode.h">
       <Filter>Level\MainTitle</Filter>
     </ClInclude>
     <ClInclude Include="TimerUI.h">
@@ -137,9 +128,6 @@
     </ClInclude>
     <ClInclude Include="BombBase.h">
       <Filter>Map\Bomb</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineTestGameMode.h">
-      <Filter>Level\EngineTestGameMode</Filter>
     </ClInclude>
     <ClInclude Include="InGameUI.h">
       <Filter>UI</Filter>
@@ -200,9 +188,6 @@
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompile</Filter>
     </ClCompile>
-    <ClCompile Include="InitTestGameMode.cpp">
-      <Filter>Level\InitTestLevel</Filter>
-    </ClCompile>
     <ClCompile Include="CrazyArcadeCore.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -230,16 +215,10 @@
     <ClCompile Include="ServerTestPlayer.cpp">
       <Filter>Level\ServerLevel\ServerActor</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerState.cpp">
-      <Filter>Level\PlayLevel\Actor\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Level\PlayLevel\Actor\Player</Filter>
-    </ClCompile>
     <ClCompile Include="CrazyArcadeDebugWindow.cpp">
       <Filter>Debug</Filter>
     </ClCompile>
-    <ClCompile Include="LobbyTitleGameMode.cpp">
+    <ClCompile Include="LobbyGameMode.cpp">
       <Filter>Level\MainTitle</Filter>
     </ClCompile>
     <ClCompile Include="TimerUI.cpp">
@@ -256,9 +235,6 @@
     </ClCompile>
     <ClCompile Include="BombBase.cpp">
       <Filter>Map\Bomb</Filter>
-    </ClCompile>
-    <ClCompile Include="EngineTestGameMode.cpp">
-      <Filter>Level\EngineTestGameMode</Filter>
     </ClCompile>
     <ClCompile Include="ItemBase.cpp">
       <Filter>Map\Item</Filter>
@@ -323,5 +299,7 @@
     <ClCompile Include="PlayerState.cpp">
       <Filter>Player</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerState.cpp" />
   </ItemGroup>
 </Project>

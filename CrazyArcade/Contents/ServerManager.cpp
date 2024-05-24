@@ -173,7 +173,7 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 						UCrazyArcadeCore::Net->End();
 						UCrazyArcadeCore::Net = nullptr;
 						UCrazyArcadeCore::NetManager.CFailInit();
-						GEngine->ChangeLevel("TitleTestLevel");
+						GEngine->ChangeLevel("MainTitleLevel");
 						MsgBoxLogT("서버 알림", "서버에 남은 자리가 없습니다");
 					}
 				});
