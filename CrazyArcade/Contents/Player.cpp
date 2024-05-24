@@ -326,8 +326,12 @@ void APlayer::PickUpItem()
 		}
 		break;
 	case EItemType::Devil:
-		IsDevil = true;
-		MoveDevil = UEngineRandom::MainRandom.RandomInt(0, 1);
+		DelayCallBack(0.1f, [=]
+			{
+				IsDevil = true;
+				MoveDevil = true;
+			}
+		);
 		break;
 	case EItemType::Fluid:
 		if (BombPower < MaxBombPower)
@@ -659,7 +663,7 @@ void APlayer::CheckWinLose()
 		State.ChangeState("Win");
 		return;
 	}
-	else if(PlayerColor != WinTeamColor && IsDead == false)
+	else if (PlayerColor != WinTeamColor && IsDead == false)
 	{
 		State.ChangeState("Lose");
 		return;
