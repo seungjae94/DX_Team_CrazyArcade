@@ -310,11 +310,6 @@ void AMainTitleGameMode::Tick(float _DeltaTime)
 
 	// Fade & ChangeLevel
 	{
-		if (IsFadeIn == true)
-		{
-			FadeIn(_DeltaTime);
-		}
-
 		if (IsFadeOut == true)
 		{
 			FadeOut(_DeltaTime);
@@ -343,8 +338,7 @@ void AMainTitleGameMode::LevelStart(ULevel* _PrevLevel)
 	BgmPlayer.Loop(-1);
 
 	// Fade
-	IsFadeIn = true;
-	FadeAlpha = 1.0f;
+	FadeAlpha = 0.0f;
 }
 
 void AMainTitleGameMode::LevelEnd(ULevel* _NextLevel)
@@ -415,23 +409,12 @@ void AMainTitleGameMode::StringToText()
 	PortNumText->SetText(PortNum);
 }
 
-void AMainTitleGameMode::FadeIn(float _DeltaTime)
-{
-	if (FadeAlpha <= 0.0f)
-	{
-		IsFadeIn = false;
-		return;
-	}
-
-	FadeAlpha -= _DeltaTime * 4.0f;
-	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
-}
-
 void AMainTitleGameMode::FadeOut(float _DeltaTime)
 {
 	if (FadeAlpha >= 1.0f)
 	{
 		IsFadeOut = false;
+		FadeAlpha = 0.0f;
 		if (IsServer == true)
 		{
 			ServerStart();
@@ -443,6 +426,6 @@ void AMainTitleGameMode::FadeOut(float _DeltaTime)
 		return;
 	}
 
-	FadeAlpha += _DeltaTime * 1.0f;
+	FadeAlpha += _DeltaTime * 3.0f;
 	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
 }
