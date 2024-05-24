@@ -261,7 +261,7 @@ EItemType AMapBase::IsItemTile(const FVector& _Pos)
 		EItemType ItemType = TileInfo[CurPoint.Y][CurPoint.X].Item->GetItemType();
 		TileInfo[CurPoint.Y][CurPoint.X].Item->Destroy();
 		TileInfo[CurPoint.Y][CurPoint.X].Item = nullptr;
-		UEngineSound::SoundPlay("GetItem.wav").SetVolume(0.5f);
+		UEngineSound::SoundPlay("GetItem.mp3").SetVolume(0.5f);
 		return ItemType;
 	}
 }
