@@ -674,8 +674,7 @@ void APlayer::TrapEnd(float _DeltaTime)
 	ECharacterColor ColPlayerColor = PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this);
 	if (ECharacterColor::None != ColPlayerColor	&& PlayerColor != ColPlayerColor)
 	{
-
-		//State.ChangeState("Die");
+		State.ChangeState("Die");
 		return;
 	}
 
