@@ -12,7 +12,6 @@
 #include "TimerUI.h"
 #include "InGameUI.h"
 
-#include "TestMap.h"
 #include "CrazyArcadeCore.h"
 #include "ServerManager.h"
 
@@ -61,10 +60,6 @@ void AMainPlayLevel::CreateMap()
 		break;
 	case EMapType::Pirate02:
 		TileMap = GetWorld()->SpawnActor<APirateMap02>("PirateMap02");
-		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
-		break;
-	case EMapType::Test:
-		TileMap = GetWorld()->SpawnActor<TestMap>("TestMap");
 		Player = GetWorld()->SpawnActor<ServerTestPlayer>("Player");
 		break;
 	}

@@ -12,8 +12,7 @@ enum class EMapType
 	Village,
 	Forest,
 	Pirate,
-	Pirate02,
-	Test
+	Pirate02
 };
 
 enum class EWaveType

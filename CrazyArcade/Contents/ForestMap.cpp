@@ -130,7 +130,7 @@ void AForestMap::CreateForestLeafsAndBushs()
 	CreateBox({ 13,  12 }, MapImgRes::block_forest_leef1);
 	CreateBox({ 14,   5 }, MapImgRes::block_forest_leef1, EItemType::Owl);
 	CreateBox({ 14,   7 }, MapImgRes::block_forest_leef1);
-	CreateBox({ 14,  11 }, MapImgRes::block_forest_leef1, EItemType::Shoes);
+	CreateBox({ 14,  11 }, MapImgRes::block_forest_leef1);
 	//leaf2
 
 	CreateBox({ 0,   4 }, MapImgRes::block_forest_leef2, EItemType::Bubble);

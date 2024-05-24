@@ -185,7 +185,7 @@ void AVillageMap::CreateVillageMoveBoxs()
 	CreateMoveBox({  6,  9 }, MapImgRes::block_vil_box0);
 	CreateMoveBox({  6, 11 }, MapImgRes::block_vil_box0);
 	CreateMoveBox({  7,  1 }, MapImgRes::block_vil_box0, EItemType::RedDevil);
-	CreateMoveBox({  7,  4 }, MapImgRes::block_vil_box0, EItemType::Shoes);
+	CreateMoveBox({  7,  4 }, MapImgRes::block_vil_box0);
 	CreateMoveBox({  7,  7 }, MapImgRes::block_vil_box0, EItemType::Fluid);
 	CreateMoveBox({  6,  7 }, MapImgRes::block_vil_box0, EItemType::Fluid);
 	CreateMoveBox({  8,  7 }, MapImgRes::block_vil_box0, EItemType::Fluid);
