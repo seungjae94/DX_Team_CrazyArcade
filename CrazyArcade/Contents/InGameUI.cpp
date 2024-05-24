@@ -506,7 +506,7 @@ void AInGameUI::ResultCheck()
 			}
 			else
 			{
-				//ResultBackGround->SetSprite("Lose.png");
+				ResultBackGround->SetSprite("Lose.png");
 				ResultBackGround->SetActive(true);
 				
 			}

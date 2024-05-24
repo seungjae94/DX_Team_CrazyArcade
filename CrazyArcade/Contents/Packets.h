@@ -27,6 +27,7 @@ enum EContentPacket
 	DeadUpdatePacket,
 	CheatingPacket,
 	ReadyUpdatePacket,
+	StageUpdatePacket,
 	BlockUpdatePacket = 200,
 };
 
@@ -52,6 +53,7 @@ public:
 		_Ser << Pos;
 		_Ser << SpriteName;
 		_Ser << SpawnSelect;
+		_Ser << IsNeedleUse;
 	}
 
 	void DeSerialize(UEngineSerializer& _Ser) override
@@ -60,12 +62,14 @@ public:
 		_Ser >> Pos;
 		_Ser >> SpriteName;
 		_Ser >> SpawnSelect;
+		_Ser >> IsNeedleUse;
 	}
 
 public:
 	float4 Pos = float4::Zero;
 	std::string SpriteName; // ?? ·£´ý
 	int SpawnSelect = 0;
+	bool IsNeedleUse = false;
 };
 
 class USpawnUpdatePacket : public UEngineProtocol {
@@ -165,18 +169,7 @@ public:
 			Infos[Key].SetIsDead(IsDead);
 			Infos[Key].SetIsExist(IsExist);
 			Infos[Key].SetIsReady(IsReady);
-
-			/*_Ser >> Info.MyName;
-			_Ser >> static_cast<int>(Info.GetMyCharacterType());
-			_Ser >> static_cast<int>(Info.GetMyColorType());
-			_Ser >> Info.GetIsDead();
-			_Ser >> Info.GetIsExist();
-			_Ser >> Info.GetIsReady();*/
 		}
-		/*_Ser >> NameInfos;
-		_Ser >> CharacterTypeInfos;
-		_Ser >> ColorInfos;
-		_Ser >> ExistInfos;*/
 	}
 
 	void SetMyCharacterType(int _Key, ECharacterType _Type)
@@ -215,14 +208,8 @@ public:
 		return Infos[_Key].GetIsReady();
 	}
 
-
 public:
 	std::map<int, ConnectUserInfo> Infos;
-	//std::map<int, std::string> NameInfos;
-	//std::map<int, int> CharacterTypeInfos;
-	//std::map<int, int> ColorInfos;
-	//std::map<int, bool> ExistInfos;
-	//std::map<int, bool> ReadyInfos;
 };
 
 class UConnectInitPacket : public UEngineProtocol {
@@ -438,4 +425,31 @@ public:
 
 public:
 	int WhichSession;
+};
+
+class UStageUpdatePacket : public UEngineProtocol {
+public:
+	static const EContentPacket Type = EContentPacket::StageUpdatePacket;
+public:
+	UStageUpdatePacket()
+	{
+		SetType(EContentPacket::StageUpdatePacket);
+	}
+
+	void Serialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::Serialize(_Ser);
+		_Ser << static_cast<int>(MapType);
+	}
+
+	void DeSerialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::DeSerialize(_Ser);
+		int Temp;
+		_Ser >> Temp;
+		MapType = static_cast<EMapType>(Temp);
+	}
+
+public:
+	EMapType MapType;
 };

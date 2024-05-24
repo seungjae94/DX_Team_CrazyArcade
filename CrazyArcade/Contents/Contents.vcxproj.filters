@@ -177,9 +177,6 @@
     <ClInclude Include="PirateMap02.h">
       <Filter>Map\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="TestMap.h">
-      <Filter>Map\Stage</Filter>
-    </ClInclude>
     <ClInclude Include="IntroFrame.h">
       <Filter>Level\IntroLevel\Object</Filter>
     </ClInclude>
@@ -285,9 +282,6 @@
       <Filter>Level\IntroLevel</Filter>
     </ClCompile>
     <ClCompile Include="PirateMap02.cpp">
-      <Filter>Map\Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="TestMap.cpp">
       <Filter>Map\Stage</Filter>
     </ClCompile>
     <ClCompile Include="IntroFrame.cpp">

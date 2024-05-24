@@ -170,4 +170,7 @@ private:
 	void ChangeColor(ECharacterColor _CharacterColor);
 	void ChangeReady(bool _IsReady);
 	void ChangeMap(EMapType _MapType);
+
+	// »ç¿îµå
+	UEngineSoundPlayer BgmPlayer;
 };

@@ -1228,11 +1228,17 @@ void ALobbyGameMode::LevelStart(ULevel* _PrevLevel)
 	IsFadeIn = true;
 	FadeAlpha = 1.0f;
 	Fade->SetActive(true);
+
+	// Bgm 재생
+	BgmPlayer = UEngineSound::SoundPlay("LobbyBgm.mp3");
+	BgmPlayer.Loop(-1);
 }
 
 void ALobbyGameMode::LevelEnd(ULevel* _NextLevel)
 {
 	Super::LevelEnd(_NextLevel);
+
+	BgmPlayer.Off();
 }
 
 void ALobbyGameMode::Tick(float _DeltaTime)
@@ -1971,7 +1977,8 @@ void ALobbyGameMode::GameStart()
 			std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
 
 			Packet->Infos = Infos;
-			UCrazyArcadeCore::Net->Send(Packet);
+			UCrazyArcadeCore::NetManager.Send(Packet);
+			//UCrazyArcadeCore::Net->Send(Packet);
 		}
 
 		if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
@@ -1982,6 +1989,18 @@ void ALobbyGameMode::GameStart()
 			UCrazyArcadeCore::NetManager.Send(Packet);
 			return;
 		}
+
+		// 맵 선택시 보내야할 패킷
+		// 맵 타입 설정
+		//ConnectionInfo::GetInst().SetMapType(StageType);
+		// 패킷 보내기
+		//if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+		//{
+		//	std::shared_ptr<UStageUpdatePacket> Packet = std::make_shared<UStageUpdatePacket>();
+		//	Packet->MapType = ConnectionInfo::GetInst().GetCurMapType();
+		//	UCrazyArcadeCore::NetManager.Send(Packet);
+		//}
+
 	}
 }
 
