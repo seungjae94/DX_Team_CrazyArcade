@@ -244,15 +244,6 @@ void AInGameUI::Tick(float _DeltaTIme)
 		}
 	}
 
-	for (std::pair<const int, bool>& Pair : FPlayerInfo::IsDeads)
-	{
-		//if (Pair.first == true)
-		//{
-		//	// 죽은 플레이어가 해야할 코드
-		//	//PlayerUI[Pair.first]->ChangeAnimation();
-		//	
-		//}
-	}
 	//죽었는지 살았는지 확인하는 예제 코드(승재형)
 
 	if (this->IsActive() == true)
@@ -310,7 +301,6 @@ void AInGameUI::InitPlayerInfo()
 {
 	//
 	std::map<int, ConnectUserInfo> UserInfos = ConnectionInfo::GetInst().GetUserInfos();
-	std::map<int, bool>UserDeadCheck = FPlayerInfo::IsDeads;
 
 	//오더랑 이름 가져오기
 	for (std::pair<int, ConnectUserInfo> Iterator : UserInfos)
@@ -325,12 +315,6 @@ void AInGameUI::InitPlayerInfo()
 		
 
 	}
-
-	for (std::pair<int, bool> Iterattor : UserDeadCheck)
-	{
-		PlayerInfo[Iterattor.first].IsDead = Iterattor.second;
-	}
-
 }
 
 
