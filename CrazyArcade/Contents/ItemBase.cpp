@@ -47,7 +47,7 @@ void AItemBase::StateInit()
 		{
 			int Order = AMapBase::GetRenderOrder(GetActorLocation());
 			Body->SetOrder(Order);
-			UEngineSound::SoundPlay("ItemSpawn.wav");
+			UEngineSound::SoundPlay("ItemSpawn.mp3");
 		}
 	);
 
