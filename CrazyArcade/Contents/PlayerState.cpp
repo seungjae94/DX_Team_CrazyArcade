@@ -176,6 +176,7 @@ void APlayer::StateInit()
 	State.SetUpdateFunction("Revival", std::bind(&APlayer::Revival, this, std::placeholders::_1));
 	State.SetStartFunction("Revival", [=]()
 		{
+			UseNeedle = false;
 			IsTrapped = false;
 			CurSpeed = BaseSpeed + Speed;
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Revival");
@@ -628,6 +629,7 @@ void APlayer::Trapped(float _DeltaTime)
 	// 바늘 사용하면
 	if (true == IsDown(VK_CONTROL) && NeedleCount > 0)
 	{
+		UseNeedle = true;
 		NeedleCount--;
 		if (NeedleCount <= 0)
 		{
@@ -687,6 +689,7 @@ void APlayer::TrapEnd(float _DeltaTime)
 	// 바늘 사용하면
 	if (true == IsDown(VK_CONTROL) && NeedleCount > 0)
 	{
+		UseNeedle = true;
 		NeedleCount--;
 		if (NeedleCount <= 0)
 		{

@@ -159,6 +159,7 @@ protected:
 	bool IsSuperman = false;
 
 	int NeedleCount = 1;
+	bool UseNeedle = false;
 
 	std::map<EItemType, int> MPlayerItem;
 	std::map<EItemType, int>::iterator MPlayerItemIter;
