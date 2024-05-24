@@ -8,12 +8,12 @@ enum class ERenderOrder
 
 enum class EMapType
 {
-	None,
 	Village,
 	Forest,
 	Pirate,
 	Pirate02,
-	Test
+	Test,
+	None
 };
 
 enum class EWaveType
