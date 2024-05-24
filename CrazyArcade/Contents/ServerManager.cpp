@@ -265,6 +265,19 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 					ConnectionInfo::GetInst().SetMapType(_Packet->MapType);
 				});
 		});
+
+	Dis.AddHandler<UFadeOutUpdatePacket>([=](std::shared_ptr<UFadeOutUpdatePacket> _Packet)
+		{
+			PushUpdate([=]()
+				{
+					std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
+					for (std::pair<const int, ConnectUserInfo>& Iterator : Infos)
+					{
+						Iterator.second.SetIsFadeOut(_Packet->IsFadeOut);
+					}
+				});
+
+		});
 }
 
 void UServerManager::AddHandlerFunction()

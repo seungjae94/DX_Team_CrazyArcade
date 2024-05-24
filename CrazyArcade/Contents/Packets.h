@@ -28,6 +28,7 @@ enum EContentPacket
 	CheatingPacket,
 	ReadyUpdatePacket,
 	StageUpdatePacket,
+	FadeOutUpdatePacket,
 	BlockUpdatePacket = 200,
 };
 
@@ -452,4 +453,29 @@ public:
 
 public:
 	EMapType MapType;
+};
+
+class UFadeOutUpdatePacket : public UEngineProtocol {
+public:
+	static const EContentPacket Type = EContentPacket::FadeOutUpdatePacket;
+public:
+	UFadeOutUpdatePacket()
+	{
+		SetType(EContentPacket::StageUpdatePacket);
+	}
+
+	void Serialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::Serialize(_Ser);
+		_Ser << IsFadeOut;
+	}
+
+	void DeSerialize(UEngineSerializer& _Ser) override
+	{
+		UEngineProtocol::DeSerialize(_Ser);
+		_Ser >> IsFadeOut;
+	}
+
+public:
+	bool IsFadeOut = false;
 };
