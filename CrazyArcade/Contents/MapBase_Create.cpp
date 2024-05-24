@@ -97,7 +97,7 @@ void AMapBase::CreateHollowWall(FPoint _Point)
 
 void AMapBase::CreateItem(FPoint _Point, EItemType _ItemType)
 {
-	if (EItemType::None == _ItemType)
+	if (false == MapRangeCheckByPoint(_Point) || EItemType::None == _ItemType)
 	{
 		return;
 	}

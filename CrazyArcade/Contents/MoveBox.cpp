@@ -97,7 +97,7 @@ void AMoveBox::StateInit()
 			MoveUpdate(_DeltaTime);
 
 			FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
-			if (nullptr == PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush)
+			if (true == AMapBase::MapRangeCheckByPoint(CurPoint) && nullptr == PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush)
 			{
 				GetBody()->SetActive(true);
 			}
