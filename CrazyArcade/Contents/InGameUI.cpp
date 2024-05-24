@@ -18,6 +18,11 @@ AInGameUI::~AInGameUI()
 
 void AInGameUI::BeginPlay()
 {
+	WinSound = UEngineSound::SoundPlay("Win_KCW.mp3");
+	WinSound.Off();
+	Losesound = UEngineSound::SoundPlay("Lose_Effect.wav");
+	Losesound.Off();
+
 	// 이미지 커팅
 	{
 		UEngineSprite::CreateCutting("Play_ExitButtonHover.png", 1, 2);
@@ -486,7 +491,8 @@ void AInGameUI::ResultCheck()
 	{
 		if (WinResult == ECharacterColor::Green)
 		{
-			ResultBackGround->SetSprite("Lose.png");
+			//ResultBackGround->SetSprite("Lose.png");
+			//Losesound.On();
 			ResultBackGround->SetActive(true);
 		}
 		else
@@ -494,12 +500,15 @@ void AInGameUI::ResultCheck()
 			if (WinResult == MyColor)
 			{
 				ResultBackGround->SetSprite("Win.png");
+				WinSound.On();
 				ResultBackGround->SetActive(true);
 				
 			}
 			else
 			{
+			
 				ResultBackGround->SetSprite("Lose.png");
+				Losesound.On();
 				ResultBackGround->SetActive(true);
 				
 			}

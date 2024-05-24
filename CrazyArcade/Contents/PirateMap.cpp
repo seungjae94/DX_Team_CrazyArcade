@@ -241,8 +241,3 @@ void APirateMap::CreatePirateMoveBoxs()
 	CreateMoveBox({ 9 , 3 }, MapImgRes::block_Pirate_box0);
 	CreateMoveBox({ 10 , 4 }, MapImgRes::block_Pirate_box0);
 }
-
-void APirateMap::CreateItems()
-{
-
-}

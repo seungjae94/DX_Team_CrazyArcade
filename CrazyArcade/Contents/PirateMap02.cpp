@@ -179,7 +179,6 @@ void APirateMap02::CreatePirateBoxs()
 
 }
 
-
 void APirateMap02::CreatePirateMoveBoxs()
 {
 	CreateMoveBox({ 2, 1 }, MapImgRes::block_Pirate_box0, EItemType::Bubble);
@@ -245,10 +244,5 @@ void APirateMap02::CreatePirateMoveBoxs()
 	CreateMoveBox({ 9, 11 }, MapImgRes::block_Pirate_box0, EItemType::Bubble);
 	CreateMoveBox({ 11, 11 }, MapImgRes::block_Pirate_box0);
 	CreateMoveBox({ 12, 11 }, MapImgRes::block_Pirate_box0, EItemType::Bubble);
-
-}
-
-void APirateMap02::CreateItems()
-{
 
 }

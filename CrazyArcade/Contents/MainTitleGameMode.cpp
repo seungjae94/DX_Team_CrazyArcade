@@ -30,6 +30,7 @@ AMainTitleGameMode::~AMainTitleGameMode()
 void AMainTitleGameMode::BeginPlay()
 {
 
+	
 
 	Super::BeginPlay();
 	//MouseUI = CreateWidget<UImage>(GetWorld(), "MouseRenderUI");

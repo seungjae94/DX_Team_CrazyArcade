@@ -43,6 +43,8 @@ void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 	
 	MapType = ConnectionInfo::GetInst().GetCurMapType();
 	
+	//게임 시작 사운드
+	StartSound = UEngineSound::SoundPlay("GameStart.wav");
 	
 	Timer->SetTimer(180.0f);
 	CreateMap();
@@ -66,6 +68,7 @@ void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 		break;
 	}
 	BgmPlayer.Loop(-1);
+
 }
 
 void AMainPlayLevel::CreateMap()
