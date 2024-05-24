@@ -258,11 +258,7 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 		{
 			PushUpdate([=]()
 				{
-					std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
-					for (std::pair<const int, ConnectUserInfo>& Iterator : Infos)
-					{
-						Iterator.second.SetIsFadeOut(_Packet->IsFadeOut);
-					}
+					ConnectionInfo::GetInst().SetIsFadeOut(_Packet->IsFadeOut);
 				});
 
 		});
