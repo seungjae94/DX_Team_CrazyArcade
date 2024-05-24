@@ -43,10 +43,11 @@ void AItemBase::StateInit()
 	State.CreateState(ItemState::idle);
 
 	// State Start
-	State.SetStartFunction(ItemState::idle, [=] 
+	State.SetStartFunction(ItemState::idle, [=]
 		{
 			int Order = AMapBase::GetRenderOrder(GetActorLocation());
 			Body->SetOrder(Order);
+			UEngineSound::SoundPlay("ItemSpawn.mp3");
 		}
 	);
 

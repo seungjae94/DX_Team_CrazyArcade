@@ -90,8 +90,10 @@ void AMapBase::LevelEnd(ULevel* _NextLevel)
 
 	for (size_t i = 0; i < AllPlayer.size(); i++)
 	{
+		if (AllPlayer[i] != nullptr) {
 		AllPlayer[i]->Destroy();
 		AllPlayer[i] = nullptr;
+		}
 	}
 
 	TileInfo.clear();
@@ -259,6 +261,7 @@ EItemType AMapBase::IsItemTile(const FVector& _Pos)
 		EItemType ItemType = TileInfo[CurPoint.Y][CurPoint.X].Item->GetItemType();
 		TileInfo[CurPoint.Y][CurPoint.X].Item->Destroy();
 		TileInfo[CurPoint.Y][CurPoint.X].Item = nullptr;
+		UEngineSound::SoundPlay("GetItem.mp3").SetVolume(0.5f);
 		return ItemType;
 	}
 }
@@ -283,7 +286,7 @@ std::shared_ptr<ABombBase> AMapBase::SpawnBomb(const FVector& _Pos, APlayer* _Pl
 		NewBomb->SetCurPoint(CurPoint);
 		NewBomb->SetIdle();
 		TileInfo[CurPoint.Y][CurPoint.X].AllBomb.push_back(NewBomb);
-		UEngineSound::SoundPlay("Bomb.wav");
+		UEngineSound::SoundPlay("BombSpawn.mp3");
 		return NewBomb;
 	}
 	else
