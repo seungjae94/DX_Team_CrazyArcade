@@ -177,9 +177,12 @@ void APlayer::StateInit()
 	State.SetStartFunction("Revival", [=]()
 		{
 			IsTrapped = false;
-			CurSpeed = BaseSpeed + Speed;
-			Renderer->ChangeAnimation(Type + PlayerColorText + "_Revival");
 			NoHit = false;
+			CurSpeed = BaseSpeed + Speed;
+			TrapStartTime = 0.28f;
+			TrappedTime = 4.0f;
+			TrapEndTime = 1.6f;
+			Renderer->ChangeAnimation(Type + PlayerColorText + "_Revival");
 		});
 
 	State.SetUpdateFunction("Win", std::bind(&APlayer::Win, this, std::placeholders::_1));
@@ -541,7 +544,6 @@ void APlayer::TrapStart(float _DeltaTime)
 	if (TrapStartTime <= 0.0f)
 	{
 		State.ChangeState("Trapped");
-		TrapStartTime = 0.28f;
 		return;
 	}
 
@@ -585,7 +587,6 @@ void APlayer::Trapped(float _DeltaTime)
 	if (TrappedTime <= 0.0f)
 	{
 		State.ChangeState("TrapEnd");
-		TrappedTime = 4.0f;
 		return;
 	}
 	if (true == IsPress(VK_LEFT))
@@ -626,14 +627,14 @@ void APlayer::Trapped(float _DeltaTime)
 	}
 
 	// 바늘 사용하면
-	if (true == IsDown(VK_CONTROL) && NeedleCount > 0)
+	if (true == IsDown(VK_CONTROL) && NeedleCount > 0 && false == IsNeedleUse)
 	{
+		IsNeedleUse = true;
 		NeedleCount--;
 		if (NeedleCount <= 0)
 		{
 			NeedleCount = 0;
 		}
-		State.ChangeState("Revival");
 		return;
 	}
 }
@@ -644,7 +645,6 @@ void APlayer::TrapEnd(float _DeltaTime)
 	if (TrapEndTime <= 0.0f)
 	{
 		State.ChangeState("Die");
-		TrapEndTime = 1.6f;
 		return;
 	}
 	if (true == IsPress(VK_LEFT))
@@ -685,9 +685,14 @@ void APlayer::TrapEnd(float _DeltaTime)
 	}
 
 	// 바늘 사용하면
-	if (true == IsDown(VK_CONTROL) && NeedleCount > 0)
+	if (true == IsDown(VK_CONTROL) && NeedleCount > 0 && false == IsNeedleUse)
 	{
-		State.ChangeState("Revival");
+		IsNeedleUse = true;
+		NeedleCount--;
+		if (NeedleCount <= 0)
+		{
+			NeedleCount = 0;
+		}
 		return;
 	}
 }

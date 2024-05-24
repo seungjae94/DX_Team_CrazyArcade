@@ -134,6 +134,13 @@ void APlayer::Tick(float _DeltaTime)
 
 	// ½ÂÆÐ È®ÀÎ
 	CheckWinLose();
+
+	// ¹Ù´Ã »ç¿ë Ã¼Å©
+	if (true == IsNeedleUse)
+	{
+		IsNeedleUse = false;
+		State.ChangeState("Revival");
+	}
 }
 
 void APlayer::PlayerCreateCuttingBazzi(std::string _Color)
@@ -362,6 +369,10 @@ void APlayer::PickUpItem()
 		break;
 	case EItemType::Needle:
 		NeedleCount++;
+		if (4 <= NeedleCount)
+		{
+			NeedleCount = 3;
+		}
 		break;
 	default:
 		break;
