@@ -1351,6 +1351,7 @@ void ALobbyTitleGameMode::SpaceOff(int _Index)
 	Flags_Space[_Index]->SetActive(false);
 	Shadows_Space[_Index]->SetActive(false);
 	Usernames_Space[_Index]->SetActive(false);
+	Readys_Space[_Index]->SetActive(false);
 }
 
 void ALobbyTitleGameMode::PanelOn()
