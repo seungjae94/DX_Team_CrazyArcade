@@ -23,9 +23,26 @@ void AIntroFrame::BeginPlay()
 	IntroRenderer->CreateAnimation("IntroLoop", "IntroLoop", 1 / 30.0f, true);
 	IntroRenderer->SetLastFrameCallback("IntroStart", [=]() {
 		IntroRenderer->ChangeAnimation("IntroLoop");
+
+
 		});
 
 	IntroRenderer->ChangeAnimation("IntroStart");
+
+}
+
+void AIntroFrame::LevelStart(ULevel* _PrevLevel)
+{
+	Super::LevelStart(_PrevLevel);
+
+	UEngineSound::SoundPlay("logo.mp3");
+
+}
+
+void AIntroFrame::LevelEnd(ULevel* _NextLevel)
+{
+	Super::LevelEnd(_NextLevel);
+
 
 }
 

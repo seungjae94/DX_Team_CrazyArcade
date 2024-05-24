@@ -162,7 +162,6 @@ private:
 
 	std::shared_ptr<AMouse> MouseUI = nullptr;
 
-
 	void SettingPanel(ECharacterType _CharacterType);
 	void SettingCharacterSelect(ECharacterType _CharacterType);
 	void SettingColorSelect(ECharacterColor _CharacterColor);
@@ -175,6 +174,7 @@ private:
 	void ChangeColor(ECharacterColor _CharacterColor);
 	void ChangeReady(bool _IsReady);
 	void ChangeMap(EMapType _MapType);
+	void ChangeFadeOut(bool _IsFadeOut);
 
 	// »ç¿îµå
 	UEngineSoundPlayer BgmPlayer;

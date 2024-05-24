@@ -127,8 +127,7 @@ void AInGameUI::BeginPlay()
 	CancelBtn->SetUp([=] {
 		if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
 		{
-			IsFadeOut = true;
-			Fade->SetActive(true);
+			ChangeFadeOut(true);
 		}
 		});
 
@@ -218,6 +217,10 @@ void AInGameUI::LevelStart(ULevel* _PrevLevel)
 	{
 		CancelBtn_InActive->SetActive(false);
 	}
+
+	// Fade
+	IsFadeIn = true;
+	FadeAlpha = 1.0f;
 }
 
 void AInGameUI::LevelEnd(ULevel* _NextLevel)
@@ -232,6 +235,11 @@ void AInGameUI::Tick(float _DeltaTIme)
 
 	// Fade & ChangeLevel
 	{
+		if (ENetType::Server != UCrazyArcadeCore::NetManager.GetNetType())
+		{
+			IsFadeOut = ConnectionInfo::GetInst().GetIsFadeOut();
+		}
+
 		if (IsFadeIn == true)
 		{
 			FadeIn(_DeltaTIme);
@@ -426,7 +434,6 @@ void AInGameUI::FadeIn(float _DeltaTime)
 	if (FadeAlpha <= 0.0f)
 	{
 		IsFadeIn = false;
-		Fade->SetActive(false);
 		return;
 	}
 
@@ -438,14 +445,30 @@ void AInGameUI::FadeOut(float _DeltaTime)
 {
 	if (FadeAlpha >= 1.0f)
 	{
-		IsFadeIn = true;
-		IsFadeOut = false;
-		GameEnd();
+		if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+		{
+			ChangeFadeOut(false);
+			GameEnd();
+		}
 		return;
 	}
 
 	FadeAlpha += _DeltaTime * 3.0f;
 	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
+}
+
+void AInGameUI::ChangeFadeOut(bool _IsFadeOut)
+{
+	// PlayerInfo
+	IsFadeOut = _IsFadeOut;
+	ConnectionInfo::GetInst().SetIsFadeOut(_IsFadeOut);
+
+	// 패킷 보내기
+	{
+		std::shared_ptr<UFadeOutUpdatePacket> Packet = std::make_shared<UFadeOutUpdatePacket>();
+		Packet->IsFadeOut = _IsFadeOut;
+		UCrazyArcadeCore::NetManager.Send(Packet);
+	}
 }
 
 void AInGameUI::GameEnd()

@@ -62,7 +62,11 @@ protected:
 
 	std::shared_ptr<AMouse> MouseUI = nullptr;
 
-	
+	// Fade
+	UImage* Fade = nullptr;
+	bool IsFadeIn = true;
+	bool IsFadeOut = false;
+	float FadeAlpha = 1.0f;
 
 	// »ç¿îµå
 	UEngineSoundPlayer BgmPlayer;

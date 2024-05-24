@@ -114,21 +114,21 @@ void AVillageMap::CreateVillageBoxs()
 	CreateBox({  1,  8 }, MapImgRes::block_vil_box2, EItemType::Bubble);
 	CreateBox({  1, 12 }, MapImgRes::block_vil_box2, EItemType::Bubble);
 	CreateBox({  2,  3 }, MapImgRes::block_vil_box2);
-	CreateBox({  2,  7 }, MapImgRes::block_vil_box2);
-	CreateBox({  2, 10 }, MapImgRes::block_vil_box2);
+	CreateBox({  2,  7 }, MapImgRes::block_vil_box2, EItemType::Roller);
+	CreateBox({  2, 10 }, MapImgRes::block_vil_box2, EItemType::Roller);
 	CreateBox({  3,  1 }, MapImgRes::block_vil_box2, EItemType::Fluid);
 	CreateBox({  3,  5 }, MapImgRes::block_vil_box2);
 	CreateBox({  3,  8 }, MapImgRes::block_vil_box2);
 	CreateBox({  3, 12 }, MapImgRes::block_vil_box2, EItemType::Fluid);
-	CreateBox({  4,  3 }, MapImgRes::block_vil_box2);
+	CreateBox({  4,  3 }, MapImgRes::block_vil_box2, EItemType::Bubble);
 	CreateBox({  4,  7 }, MapImgRes::block_vil_box2, EItemType::RedDevil);
 	CreateBox({  4, 10 }, MapImgRes::block_vil_box2);
-	CreateBox({ 10,  0 }, MapImgRes::block_vil_box2);
+	CreateBox({ 10,  0 }, MapImgRes::block_vil_box2, EItemType::Ultra);
 	CreateBox({ 10,  4 }, MapImgRes::block_vil_box2, EItemType::Fluid);
-	CreateBox({ 10,  9 }, MapImgRes::block_vil_box2);
+	CreateBox({ 10,  9 }, MapImgRes::block_vil_box2, EItemType::Bubble);
 	CreateBox({ 11,  2 }, MapImgRes::block_vil_box2);
-	CreateBox({ 11,  7 }, MapImgRes::block_vil_box2);
-	CreateBox({ 11, 11 }, MapImgRes::block_vil_box2);
+	CreateBox({ 11,  7 }, MapImgRes::block_vil_box2, EItemType::Roller);
+	CreateBox({ 11, 11 }, MapImgRes::block_vil_box2, EItemType::Roller);
 	CreateBox({ 12,  0 }, MapImgRes::block_vil_box2);
 	CreateBox({ 12,  4 }, MapImgRes::block_vil_box2, EItemType::Fluid);
 	CreateBox({ 12,  9 }, MapImgRes::block_vil_box2, EItemType::Bubble);
@@ -137,33 +137,33 @@ void AVillageMap::CreateVillageBoxs()
 	CreateBox({ 14,  4 }, MapImgRes::block_vil_box2, EItemType::Bubble);
 	CreateBox({ 14,  9 }, MapImgRes::block_vil_box2);
 
-	CreateBox({  0,  5 }, MapImgRes::block_vil_box1);
+	CreateBox({  0,  5 }, MapImgRes::block_vil_box1, EItemType::Roller);
 	CreateBox({  0,  8 }, MapImgRes::block_vil_box1);
 	CreateBox({  1,  3 }, MapImgRes::block_vil_box1);
-	CreateBox({  2,  1 }, MapImgRes::block_vil_box1);
-	CreateBox({  2,  5 }, MapImgRes::block_vil_box1);
-	CreateBox({  2,  8 }, MapImgRes::block_vil_box1);
-	CreateBox({  2, 12 }, MapImgRes::block_vil_box1);
+	CreateBox({  2,  1 }, MapImgRes::block_vil_box1, EItemType::Roller);
+	CreateBox({  2,  5 }, MapImgRes::block_vil_box1, EItemType::Roller);
+	CreateBox({  2,  8 }, MapImgRes::block_vil_box1, EItemType::Ultra);
+	CreateBox({  2, 12 }, MapImgRes::block_vil_box1, EItemType::Bubble);
 	CreateBox({  3,  0 }, MapImgRes::block_vil_box1, EItemType::RedDevil);
 	CreateBox({  3,  3 }, MapImgRes::block_vil_box1);
-	CreateBox({  3, 10 }, MapImgRes::block_vil_box1);
-	CreateBox({  4,  1 }, MapImgRes::block_vil_box1);
-	CreateBox({  4,  5 }, MapImgRes::block_vil_box1);
+	CreateBox({  3, 10 }, MapImgRes::block_vil_box1, EItemType::Fluid);
+	CreateBox({  4,  1 }, MapImgRes::block_vil_box1, EItemType::Bubble);
+	CreateBox({  4,  5 }, MapImgRes::block_vil_box1, EItemType::Roller);
 	CreateBox({  4,  8 }, MapImgRes::block_vil_box1);
 	CreateBox({  4, 12 }, MapImgRes::block_vil_box1);
 	CreateBox({ 10,  2 }, MapImgRes::block_vil_box1, EItemType::Bubble);
 	CreateBox({ 10,  5 }, MapImgRes::block_vil_box1);
 	CreateBox({ 10,  7 }, MapImgRes::block_vil_box1, EItemType::Fluid);
 	CreateBox({ 10, 11 }, MapImgRes::block_vil_box1);
-	CreateBox({ 11,  0 }, MapImgRes::block_vil_box1);
+	CreateBox({ 11,  0 }, MapImgRes::block_vil_box1, EItemType::Bubble);
 	CreateBox({ 11,  4 }, MapImgRes::block_vil_box1);
 	CreateBox({ 11,  9 }, MapImgRes::block_vil_box1);
 	CreateBox({ 11, 12 }, MapImgRes::block_vil_box1, EItemType::Bubble);
-	CreateBox({ 12,  2 }, MapImgRes::block_vil_box1);
+	CreateBox({ 12,  2 }, MapImgRes::block_vil_box1, EItemType::Fluid);
 	CreateBox({ 12,  5 }, MapImgRes::block_vil_box1);
-	CreateBox({ 12,  7 }, MapImgRes::block_vil_box1);
-	CreateBox({ 13,  4 }, MapImgRes::block_vil_box1);
-	CreateBox({ 13,  9 }, MapImgRes::block_vil_box1);
+	CreateBox({ 12,  7 }, MapImgRes::block_vil_box1, EItemType::Fluid);
+	CreateBox({ 13,  4 }, MapImgRes::block_vil_box1, EItemType::Roller);
+	CreateBox({ 13,  9 }, MapImgRes::block_vil_box1, EItemType::Roller);
 	CreateBox({ 14,  5 }, MapImgRes::block_vil_box1);
 	CreateBox({ 14,  7 }, MapImgRes::block_vil_box1, EItemType::Bubble);
 }
@@ -171,22 +171,22 @@ void AVillageMap::CreateVillageBoxs()
 void AVillageMap::CreateVillageMoveBoxs()
 {
 	CreateMoveBox({  0,  9 }, MapImgRes::block_vil_box0, EItemType::Bubble);
-	CreateMoveBox({  1,  4 }, MapImgRes::block_vil_box0);
+	CreateMoveBox({  1,  4 }, MapImgRes::block_vil_box0, EItemType::Bubble);
 	CreateMoveBox({  2,  9 }, MapImgRes::block_vil_box0);
-	CreateMoveBox({  2, 11 }, MapImgRes::block_vil_box0);
+	CreateMoveBox({  2, 11 }, MapImgRes::block_vil_box0, EItemType::Roller);
 	CreateMoveBox({  3,  2 }, MapImgRes::block_vil_box0);
 	CreateMoveBox({  3,  4 }, MapImgRes::block_vil_box0, EItemType::Fluid);
 	CreateMoveBox({  4,  9 }, MapImgRes::block_vil_box0);
-	CreateMoveBox({  4, 11 }, MapImgRes::block_vil_box0);
-	CreateMoveBox({  6,  1 }, MapImgRes::block_vil_box0);
+	CreateMoveBox({  4, 11 }, MapImgRes::block_vil_box0, EItemType::Bubble);
+	CreateMoveBox({  6,  1 }, MapImgRes::block_vil_box0, EItemType::Roller);
 	CreateMoveBox({  6,  3 }, MapImgRes::block_vil_box0);
-	CreateMoveBox({  6,  5 }, MapImgRes::block_vil_box0);
+	CreateMoveBox({  6,  5 }, MapImgRes::block_vil_box0, EItemType::Superman);
 	CreateMoveBox({  6,  7 }, MapImgRes::block_vil_box0),
 	CreateMoveBox({  6,  9 }, MapImgRes::block_vil_box0),
-	CreateMoveBox({  6, 11 }, MapImgRes::block_vil_box0),
-	CreateMoveBox({  7,  1 }, MapImgRes::block_vil_box0);
+	CreateMoveBox({  6, 11 }, MapImgRes::block_vil_box0, EItemType::Bubble),
+	CreateMoveBox({  7,  1 }, MapImgRes::block_vil_box0, EItemType::Ultra);
 	CreateMoveBox({  7,  4 }, MapImgRes::block_vil_box0, EItemType::Bubble);
-	CreateMoveBox({  7,  7 }, MapImgRes::block_vil_box0);
+	CreateMoveBox({  7,  7 }, MapImgRes::block_vil_box0, EItemType::Roller);
 	CreateMoveBox({  8,  7 }, MapImgRes::block_vil_box0);
 	CreateMoveBox({  7, 10 }, MapImgRes::block_vil_box0, EItemType::Fluid);
 	CreateMoveBox({  8,  0 }, MapImgRes::block_vil_box0);
@@ -200,11 +200,11 @@ void AVillageMap::CreateVillageMoveBoxs()
 	CreateMoveBox({ 10,  3 }, MapImgRes::block_vil_box0);
 	CreateMoveBox({ 11,  8 }, MapImgRes::block_vil_box0);
 	CreateMoveBox({ 11, 10 }, MapImgRes::block_vil_box0, EItemType::Fluid);
-	CreateMoveBox({ 12,  1 }, MapImgRes::block_vil_box0);
+	CreateMoveBox({ 12,  1 }, MapImgRes::block_vil_box0, EItemType::Roller);
 	CreateMoveBox({ 12,  3 }, MapImgRes::block_vil_box0);
 	CreateMoveBox({ 13,  8 }, MapImgRes::block_vil_box0, EItemType::Bubble);
 	CreateMoveBox({ 13, 10 }, MapImgRes::block_vil_box0);
-	CreateMoveBox({ 14,  3 }, MapImgRes::block_vil_box0);
+	CreateMoveBox({ 14,  3 }, MapImgRes::block_vil_box0, EItemType::Roller);
 }
 
 void AVillageMap::CreateVillageBush()

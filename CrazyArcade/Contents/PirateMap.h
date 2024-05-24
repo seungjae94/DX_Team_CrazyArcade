@@ -28,7 +28,6 @@ private:
 	void CreateWalls();
 	void CreatePirateBoxs();
 	void CreatePirateMoveBoxs();
-	void CreateItems();
 
 };
 

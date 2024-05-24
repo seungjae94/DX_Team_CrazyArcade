@@ -461,7 +461,7 @@ public:
 public:
 	UFadeOutUpdatePacket()
 	{
-		SetType(EContentPacket::StageUpdatePacket);
+		SetType(EContentPacket::FadeOutUpdatePacket);
 	}
 
 	void Serialize(UEngineSerializer& _Ser) override

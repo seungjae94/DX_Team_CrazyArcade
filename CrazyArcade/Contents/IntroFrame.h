@@ -17,11 +17,18 @@ public:
 
 protected:
 
+
+
+
 private:
 	UImage* IntroImage;
 	USpriteRenderer* IntroRenderer;
-	//UDefaultSceneComponent* DefaultComponent;
+
 
 	void BeginPlay() override;
+
+	void LevelStart(ULevel* _PrevLevel) override;
+	void LevelEnd(ULevel* _NextLevel) override;
+
 };
 
