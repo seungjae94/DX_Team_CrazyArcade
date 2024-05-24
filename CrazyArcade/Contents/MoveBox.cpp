@@ -68,7 +68,10 @@ void AMoveBox::StateInit()
 				NextPoint.Y -= 1;
 			}
 
-			PlayLevel->GetMap()->GetTileInfo(NextPoint).Block = this;
+			if (true == AMapBase::MapRangeCheckByPoint(NextPoint))
+			{
+				PlayLevel->GetMap()->GetTileInfo(NextPoint).Block = this;
+			}
 		}
 	);
 
@@ -97,7 +100,7 @@ void AMoveBox::StateInit()
 			MoveUpdate(_DeltaTime);
 
 			FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
-			if (nullptr == PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush)
+			if (true == AMapBase::MapRangeCheckByPoint(CurPoint) && nullptr == PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush)
 			{
 				GetBody()->SetActive(true);
 			}
@@ -141,18 +144,21 @@ void AMoveBox::StateInit()
 				PrevPoint.Y += 1;
 			}
 
-			if (nullptr != PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush)
+			if (true == AMapBase::MapRangeCheckByPoint(CurPoint))
 			{
-				GetBody()->SetActive(false);
-			}
+				if (nullptr != PlayLevel->GetMap()->GetTileInfo(CurPoint).Bush)
+				{
+					GetBody()->SetActive(false);
+				}
 
-			if (nullptr != PlayLevel->GetMap()->GetTileInfo(CurPoint).Item)
-			{
-				PlayLevel->GetMap()->GetTileInfo(CurPoint).Item->Destroy();
-				PlayLevel->GetMap()->GetTileInfo(CurPoint).Item = nullptr;
-			}
+				if (nullptr != PlayLevel->GetMap()->GetTileInfo(CurPoint).Item)
+				{
+					PlayLevel->GetMap()->GetTileInfo(CurPoint).Item->Destroy();
+					PlayLevel->GetMap()->GetTileInfo(CurPoint).Item = nullptr;
+				}
 
-			PlayLevel->GetMap()->GetTileInfo(PrevPoint).Block = nullptr;
+				PlayLevel->GetMap()->GetTileInfo(PrevPoint).Block = nullptr;
+			}
 
 			DelayCallBack(0.25f, [=] { CanMoveValue = true; });
 		}
@@ -323,37 +329,6 @@ void AMoveBox::MoveUpdate(float _DeltaTime)
 	}
 }
 
-void AMoveBox::CheckNearDestroy(FPoint _CurPoint)
-{
-	FPoint UpPoint = { _CurPoint.X, _CurPoint.Y + 1 };
-	if (true == AMapBase::MapRangeCheckByPoint(UpPoint)
-	&&	this == PlayLevel->GetMap()->GetTileInfo(UpPoint).Block)
-	{
-		PlayLevel->GetMap()->GetTileInfo(UpPoint).Block = nullptr;
-	}
-
-	FPoint DownPoint = { _CurPoint.X, _CurPoint.Y - 1 };
-	if (true == AMapBase::MapRangeCheckByPoint(DownPoint)
-	&&	this == PlayLevel->GetMap()->GetTileInfo(DownPoint).Block)
-	{
-		PlayLevel->GetMap()->GetTileInfo(DownPoint).Block = nullptr;
-	}
-
-	FPoint LeftPoint = { _CurPoint.X - 1, _CurPoint.Y };
-	if (true == AMapBase::MapRangeCheckByPoint(LeftPoint)
-	&&	this == PlayLevel->GetMap()->GetTileInfo(LeftPoint).Block)
-	{
-		PlayLevel->GetMap()->GetTileInfo(LeftPoint).Block = nullptr;
-	}
-
-	FPoint RightPoint = { _CurPoint.X + 1, _CurPoint.Y };
-	if (true == AMapBase::MapRangeCheckByPoint(RightPoint)
-	&&	this == PlayLevel->GetMap()->GetTileInfo(RightPoint).Block)
-	{
-		PlayLevel->GetMap()->GetTileInfo(RightPoint).Block = nullptr;
-	}
-}
-
 // 패킷 관련
 void AMoveBox::RecvMoveCheck(const FVector& _Pos, const FVector& _MoveDir)
 {
@@ -361,31 +336,6 @@ void AMoveBox::RecvMoveCheck(const FVector& _Pos, const FVector& _MoveDir)
 
 	if (BlockState::move == State.GetCurStateName())
 	{
-		//FPoint NextPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
-		//if (0.0f < MoveDir.X)
-		//{
-		//	NextPoint.X += 1;
-		//}
-		//else if (0.0f > MoveDir.X)
-		//{
-		//	NextPoint.X -= 1;
-		//}
-		//else if (0.0f < MoveDir.Y)
-		//{
-		//	NextPoint.Y += 1;
-		//}
-		//else if (0.0f > MoveDir.Y)
-		//{
-		//	NextPoint.Y -= 1;
-		//}
-
-		//if (true == AMapBase::MapRangeCheckByPoint(NextPoint)
-		//	&& this == PlayLevel->GetMap()->GetTileInfo(NextPoint).Block)
-		//{
-		//	PlayLevel->GetMap()->GetTileInfo(NextPoint).Block = nullptr;
-		//}
-
-		// 방어 코드
 		for (size_t Y = 0; Y < PlayLevel->GetMap()->TileInfo.size(); Y++)
 		{
 			for (size_t X = 0; X < PlayLevel->GetMap()->TileInfo[Y].size(); X++)
@@ -396,7 +346,6 @@ void AMoveBox::RecvMoveCheck(const FVector& _Pos, const FVector& _MoveDir)
 				}
 			}
 		}
-		
 	}
 
 	MoveDir = _MoveDir;

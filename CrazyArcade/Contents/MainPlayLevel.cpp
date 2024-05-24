@@ -29,10 +29,10 @@ AMainPlayLevel::~AMainPlayLevel()
 void AMainPlayLevel::BeginPlay()
 {
 	Super::BeginPlay();
-
-	//UI
+	MouseUI = GetWorld()->SpawnActor<AMouse>("MouseUIActor");
 	Timer = GetWorld()->SpawnActor<ATimerUI>("TimeUI");
-	Timer->SetTimer(180.0f);
+	//UI
+	
 	
 }
 
@@ -42,7 +42,9 @@ void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 	UCrazyArcadeCore::NetManager.BoxTokenInit();
 	
 	MapType = ConnectionInfo::GetInst().GetCurMapType();
-	MouseUI = GetWorld()->SpawnActor<AMouse>("MouseUIActor");
+	
+	
+	Timer->SetTimer(180.0f);
 	CreateMap();
 
 	// »ç¿îµå

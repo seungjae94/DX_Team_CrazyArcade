@@ -67,6 +67,11 @@ public:
 
 	void ProcessPacket(std::shared_ptr<UEngineProtocol> _Packet)
 	{
+		if (nullptr == _Packet)
+		{
+			return;
+		}
+
 		if (false == ConvertPacketHandlers.contains(_Packet->GetPacketType()))
 		{
 			MsgBoxAssert("처리방법이 지정되지 않은 패킷입니다.");
