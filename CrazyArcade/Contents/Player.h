@@ -170,7 +170,7 @@ protected:
 	void AddItemCount(EItemType _ItemType);
 
 	float DevilRenderChangeTime = 0.0f;
-	float DevilTime = 15.0f;
+	float DevilTime = 10.0f;
 	void Devil(float _DeltaTime);
 	float SupermanRenderChangeTime = 0.0f;
 	float SupermanTime = 10.0f;

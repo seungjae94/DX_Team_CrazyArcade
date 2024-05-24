@@ -47,8 +47,9 @@ void UCrazyArcadeCore::Initialize()
 	UEngineFont::Load("±¼¸²");
 	ResLoad();
 
+#ifdef _DEBUG
 	UEngineEditorGUI::CreateEditorWindow<UCrazyArcadeDebugWindow>("CrazyArcadeDebugWindow");
-
+#endif
 
 	//std::shared_ptr<UEngineNetWindow> NetManager = UEngineEditorGUI::CreateEditorWindow<UEngineNetWindow>("NetManager");
 	//UCrazyArcadeCore::Net = NetManager;

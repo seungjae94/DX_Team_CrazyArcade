@@ -261,6 +261,7 @@ void APlayer::CharacterTypeDataInit()
 {
 	//Bazzi
 	MCharacterTypeData[ECharacterType::Bazzi].Type = "Bazzi";
+	// 테스트 후 1로 변경 필요
 	MCharacterTypeData[ECharacterType::Bazzi].DataBaseBombCount = 5;
 	MCharacterTypeData[ECharacterType::Bazzi].DataMaxBombCount = 6;
 	MCharacterTypeData[ECharacterType::Bazzi].DataBaseBombPower = 0;

@@ -15,6 +15,12 @@ namespace UEngineDebug
 	std::string ErrorText = std::string(Value); \
 	MessageBoxA(nullptr, ErrorText.c_str(), "치명적 에러", MB_OK);
 
+	#define MsgBoxLogT(Title, Value) \
+	std::string TitleText = std::string(Title); \
+	std::string ErrorText = std::string(Value); \
+	MessageBoxA(nullptr, ErrorText.c_str(), TitleText.c_str(), MB_OK);
+
+
 	void /*EngineDebug::*/OutPutDebugText(std::string_view _DebugText);
 }
 
