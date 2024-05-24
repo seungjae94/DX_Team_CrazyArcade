@@ -29,7 +29,6 @@ private:
 	void Createrocks();
 	void CreateForestLeafsAndBushs();
 	void CreateForestMoveBoxs();
-	void CreateItems();
 
 };
 

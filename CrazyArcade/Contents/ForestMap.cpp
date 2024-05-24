@@ -200,17 +200,3 @@ void AForestMap::CreateForestMoveBoxs()
 	CreateMoveBox({ 13 , 10 }, MapImgRes::block_forest_basket, EItemType::Bubble);
 	CreateMoveBox({ 14 ,  9 }, MapImgRes::block_forest_basket);
 }
-
-void AForestMap::CreateItems()
-{
-	CreateItem({ 8, 12 }, EItemType::Fluid);	
-	CreateItem({ 8, 10 }, EItemType::Bubble);
-	CreateItem({ 6, 9 }, EItemType::Roller);
-	CreateItem({ 5, 8 }, EItemType::RedDevil);
-	CreateItem({ 5, 6 }, EItemType::Ultra);
-	CreateItem({ 12, 3 }, EItemType::Superman);
-	CreateItem({ 7, 6 }, EItemType::Owl);
-	CreateItem({ 7, 3 }, EItemType::Turtle);
-	CreateItem({ 9, 3 }, EItemType::Needle);
-	CreateItem({ 14, 3 }, EItemType::Devil);
-}
