@@ -174,7 +174,7 @@ void ALobbyGameMode::BeginPlay()
 		{
 			{
 				Btn_MapSelect = CreateWidget<UImage>(GetWorld(), "Button_MapSelect");
-				Btn_MapSelect->AddToViewPort(1);
+				Btn_MapSelect->AddToViewPort(2);
 				Btn_MapSelect->SetAutoSize(1.0f, true);
 				Btn_MapSelect->SetWidgetLocation({ 307.0f, -151.0f });
 				Btn_MapSelect->CreateAnimation("UnHover", "Button_MapSelect_UnHover.png", 0.1f, false, 0, 0);
@@ -185,7 +185,7 @@ void ALobbyGameMode::BeginPlay()
 				Btn_MapSelect_InActive = CreateWidget<UImage>(GetWorld(), "Btn_MapSelect_InActive");
 				Btn_MapSelect_InActive->SetSprite("Button_MapSelect_InActive.png");
 				Btn_MapSelect_InActive->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
-				Btn_MapSelect_InActive->AddToViewPort(1);
+				Btn_MapSelect_InActive->AddToViewPort(2);
 				Btn_MapSelect_InActive->SetAutoSize(1.0f, true);
 				Btn_MapSelect_InActive->SetWidgetLocation({ 307.0f, -151.0f });
 
@@ -223,6 +223,14 @@ void ALobbyGameMode::BeginPlay()
 						Btn_MapSelect->ChangeAnimation("UnHover");
 					}
 					});
+			}
+			{
+				Image_MapSelect = CreateWidget<UImage>(GetWorld(), "Image_MapSelect");
+				Image_MapSelect->SetSprite("Image_MapSelect_Village.png");
+				Image_MapSelect->AddToViewPort(3);
+				Image_MapSelect->SetAutoSize(1.0f, true);
+				Image_MapSelect->SetWidgetLocation({ 0.0f, 0.0f });
+				Image_MapSelect->SetActive(false);
 			}
 			{
 				BackGround_MapSelect = CreateWidget<UImage>(GetWorld(), "BackGround_MapSelect");
@@ -267,6 +275,7 @@ void ALobbyGameMode::BeginPlay()
 
 					});
 				Btn_MapSelectAccept->SetUp([=] {
+					ChangeMap(MapType_Picked);
 					MapSelectOff();
 					});
 			}
@@ -276,7 +285,6 @@ void ALobbyGameMode::BeginPlay()
 				Btn_MapSelectCancel->SetAutoSize(1.0f, true);
 				Btn_MapSelectCancel->SetWidgetLocation({ 59.0f, -216.0f });
 				Btn_MapSelectCancel->SetActive(false);
-
 				Btn_MapSelectCancel->CreateAnimation("UnHover", "Button_MapSelectCancel_UnHover.png", 0.1f, false, 0, 0);
 				Btn_MapSelectCancel->CreateAnimation("Hover", "Button_MapSelectCancel_Hover.png", 0.1f, true, 0, 1);
 				Btn_MapSelectCancel->CreateAnimation("Down", "Button_MapSelectCancel_Down.png", 0.1f, false, 0, 0);
@@ -301,6 +309,92 @@ void ALobbyGameMode::BeginPlay()
 					Btn_MapSelectCancel->ChangeAnimation("Hover");
 					MapSelectOff();
 					});
+			}
+			{
+				Instruction_MapSelect = CreateWidget<UImage>(GetWorld(), "Instruction_MapSelect");
+				Instruction_MapSelect->SetSprite("Instruction_MapSelect_Village.png");
+				Instruction_MapSelect->AddToViewPort(6);
+				Instruction_MapSelect->SetAutoSize(1.0f, true);
+				Instruction_MapSelect->SetWidgetLocation({ -169.0f, -2.0f });
+				Instruction_MapSelect->SetActive(false);
+			}
+			{
+				for (int i = 0; i < 4; i++)
+				{
+					UImage* Btn_MapType = CreateWidget<UImage>(GetWorld(), "Btn_MapType");
+					Btn_MapType->AddToViewPort(6);
+					Btn_MapType->SetAutoSize(1.0f, true);
+					Btn_MapType->SetWidgetLocation({ 76.0f, 145.0f - 14.0f * i });
+					Btn_MapType->SetActive(false);
+
+					switch (i)
+					{
+					case 0:
+					{
+						Btn_MapType->CreateAnimation("UnHover", "Button_MapSelect_Village_Hover.png", 0.1f, false, 0, 0);
+						Btn_MapType->CreateAnimation("Hover", "Button_MapSelect_Village_Hover.png", 0.1f, false, 0, 0);
+						Btn_MapType->CreateAnimation("Pick", "Button_MapSelect_Village_Pick.png", 0.1f, false, 0, 0);
+						break;
+					}
+					case 1:
+					{
+						Btn_MapType->CreateAnimation("UnHover", "Button_MapSelect_Forest_Hover.png", 0.1f, false, 0, 0);
+						Btn_MapType->CreateAnimation("Hover", "Button_MapSelect_Forest_Hover.png", 0.1f, false, 0, 0);
+						Btn_MapType->CreateAnimation("Pick", "Button_MapSelect_Forest_Pick.png", 0.1f, false, 0, 0);
+						break;
+					}
+					case 2:
+					{
+						Btn_MapType->CreateAnimation("UnHover", "Button_MapSelect_Pirate_Hover.png", 0.1f, false, 0, 0);
+						Btn_MapType->CreateAnimation("Hover", "Button_MapSelect_Pirate_Hover.png", 0.1f, false, 0, 0);
+						Btn_MapType->CreateAnimation("Pick", "Button_MapSelect_Pirate_Pick.png", 0.1f, false, 0, 0);
+						break;
+					}
+					case 3:
+					{
+						Btn_MapType->CreateAnimation("UnHover", "Button_MapSelect_Pirate02_Hover.png", 0.1f, false, 0, 0);
+						Btn_MapType->CreateAnimation("Hover", "Button_MapSelect_Pirate02_Hover.png", 0.1f, false, 0, 0);
+						Btn_MapType->CreateAnimation("Pick", "Button_MapSelect_Pirate02_Pick.png", 0.1f, false, 0, 0);
+						break;
+					}
+					default:
+						break;
+					}
+					Btn_MapType->ChangeAnimation("UnHover");
+
+					Btn_MapType->SetUnHover([=] {
+						if (MapSelect_Pick[i] == false)
+						{
+							Btn_MapType->ChangeAnimation("UnHover");
+						}
+						else
+						{
+							Btn_MapType->ChangeAnimation("Pick");
+						}
+						});
+					Btn_MapType->SetHover([=] {
+						if (MapSelect_Pick[i] == false)
+						{
+							Btn_MapType->ChangeAnimation("Hover");
+						}
+						else
+						{
+							Btn_MapType->ChangeAnimation("Pick");
+						}
+						});
+					Btn_MapType->SetDown([=] {
+
+						});
+					Btn_MapType->SetPress([=] {
+
+						});
+					Btn_MapType->SetUp([=] {
+						SettingMapSelect(EMapType(i));
+						});
+
+					Btns_MapType.push_back(Btn_MapType);
+					MapSelect_Pick.push_back(false);
+				}
 			}
 		}
 
@@ -1134,11 +1228,17 @@ void ALobbyGameMode::LevelStart(ULevel* _PrevLevel)
 	IsFadeIn = true;
 	FadeAlpha = 1.0f;
 	Fade->SetActive(true);
+
+	// Bgm 재생
+	BgmPlayer = UEngineSound::SoundPlay("LobbyBgm.mp3");
+	BgmPlayer.Loop(-1);
 }
 
 void ALobbyGameMode::LevelEnd(ULevel* _NextLevel)
 {
 	Super::LevelEnd(_NextLevel);
+
+	BgmPlayer.Off();
 }
 
 void ALobbyGameMode::Tick(float _DeltaTime)
@@ -1169,6 +1269,9 @@ void ALobbyGameMode::Tick(float _DeltaTime)
 	{
 		ReadyUpdate();
 	}
+
+	// MapImage Update
+	MapImageUpdate();
 
 	// Debug
 	{
@@ -1222,6 +1325,7 @@ void ALobbyGameMode::UserInfosUpdate()
 
 void ALobbyGameMode::ChatUpdate()
 {
+	// PlayerChat Update
 	if (Chat_IsActive == false)
 	{
 		if (
@@ -1337,6 +1441,13 @@ void ALobbyGameMode::ReadyUpdate()
 	}
 }
 
+void ALobbyGameMode::MapImageUpdate()
+{
+	//MapType = ConnectionInfo::GetInst().GetMap어쩌구();
+	
+	SettingMapImage(MapType);
+}
+
 void ALobbyGameMode::SpaceOn(int _Index)
 {
 	Characters_Space[_Index]->SetActive(true);
@@ -1393,6 +1504,12 @@ void ALobbyGameMode::MapSelectOn()
 	Btn_MapSelectAccept->SetActive(true);
 	Btn_MapSelectCancel->SetActive(true);
 	Fade_MapSelect->SetActive(true);
+	Instruction_MapSelect->SetActive(true);
+
+	for (int i = 0; i < 4; i++)
+	{
+		Btns_MapType[i]->SetActive(true);
+	}
 }
 
 void ALobbyGameMode::MapSelectOff()
@@ -1402,6 +1519,12 @@ void ALobbyGameMode::MapSelectOff()
 	Btn_MapSelectAccept->SetActive(false);
 	Btn_MapSelectCancel->SetActive(false);
 	Fade_MapSelect->SetActive(false);
+	Instruction_MapSelect->SetActive(false);
+
+	for (int i = 0; i < 4; i++)
+	{
+		Btns_MapType[i]->SetActive(false);
+	}
 }
 
 void ALobbyGameMode::FadeIn(float _DeltaTime)
@@ -1666,6 +1789,81 @@ void ALobbyGameMode::SettingCharacterImage(int _SpaceIndex)
 	Characters_Space[_SpaceIndex]->SetSprite(SpriteName);
 }
 
+void ALobbyGameMode::SettingMapSelect(EMapType _MapType)
+{
+	MapType_Picked = _MapType;
+	int Index_MapType = int(_MapType);
+
+	// Button
+	MapSelect_Pick[Index_MapType] = true;
+	Btns_MapType[Index_MapType]->ChangeAnimation("Pick");
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (i != Index_MapType)
+		{
+			MapSelect_Pick[i] = false;
+			Btns_MapType[i]->ChangeAnimation("UnHover");
+		}
+	}
+
+	// Instruction
+	switch (_MapType)
+	{
+	case EMapType::Village:
+	{
+		Instruction_MapSelect->SetSprite("Instruction_MapSelect_Village.png");
+		break;
+	}
+	case EMapType::Forest:
+	{
+		Instruction_MapSelect->SetSprite("Instruction_MapSelect_Forest.png");
+		break;
+	}
+	case EMapType::Pirate:
+	{
+		Instruction_MapSelect->SetSprite("Instruction_MapSelect_Pirate.png");
+		break;
+	}
+	case EMapType::Pirate02:
+	{
+		Instruction_MapSelect->SetSprite("Instruction_MapSelect_Pirate02.png");
+		break;
+	}
+	default:
+		break;
+	}
+}
+
+void ALobbyGameMode::SettingMapImage(EMapType _MapType)
+{
+	switch (_MapType)
+	{
+	case EMapType::Village:
+	{
+		Image_MapSelect->SetSprite("Image_MapSelect_Village.png");
+		break;
+	}
+	case EMapType::Forest:
+	{
+		Image_MapSelect->SetSprite("Image_MapSelect_Forest.png");
+		break;
+	}
+	case EMapType::Pirate:
+	{
+		Image_MapSelect->SetSprite("Image_MapSelect_Pirate.png");
+		break;
+	}
+	case EMapType::Pirate02:
+	{
+		Image_MapSelect->SetSprite("Image_MapSelect_Pirate02.png");
+		break;
+	}
+	default:
+		break;
+	}
+}
+
 void ALobbyGameMode::ChangeCharacter(ECharacterType _CharacterType)
 {
 	if (
@@ -1731,6 +1929,18 @@ void ALobbyGameMode::ChangeReady(bool _IsReady)
 		Packet->ReadyValue = _IsReady;
 		UCrazyArcadeCore::Net->Send(Packet);
 	}
+}
+
+void ALobbyGameMode::ChangeMap(EMapType _MapType)
+{
+	// PlayerInfo
+	MapType = _MapType;
+
+	// MapImage
+	SettingMapImage(_MapType);
+
+	// 패킷 보내기
+
 }
 
 void ALobbyGameMode::GameStart()

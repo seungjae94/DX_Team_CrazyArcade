@@ -64,29 +64,13 @@ void UCrazyArcadeCore::Tick(float _DeltaTime)
 
 void UCrazyArcadeCore::ResLoad()
 {
-	// UI 리소스 로드
+	std::list<std::string> ImageFolderNames = {"UI", "Map", "Player", "Bomb", "Item", "Intro"};
+
+	for (std::string_view ImageFolderName : ImageFolderNames)
 	{
 		UEngineDirectory Dir;
 		Dir.MoveToSearchChild("ContentsResources");
-		Dir.Move("UI");
-
-		std::vector<UEngineFile> AllFiles = Dir.GetAllFile({ ".png" }, true);
-		for (UEngineFile& File : AllFiles)
-		{
-			UEngineSprite::Load(File.GetFullPath());
-		}
-
-		std::vector<UEngineDirectory> AllDirectorys = Dir.GetAllDirectory();
-		for (size_t i = 0; i < AllDirectorys.size(); i++)
-		{
-			UEngineSprite::LoadFolder(AllDirectorys[i].GetFullPath());
-		}
-	}
-	// Map 리소스 로드
-	{
-		UEngineDirectory Dir;
-		Dir.MoveToSearchChild("ContentsResources");
-		Dir.Move("Map");
+		Dir.Move(ImageFolderName);
 
 		std::vector<UEngineFile> AllFiles = Dir.GetAllFile({ ".png" }, true);
 		for (UEngineFile& File : AllFiles)
@@ -101,77 +85,13 @@ void UCrazyArcadeCore::ResLoad()
 		}
 	}
 
-	// Player 리소스 로드
+	UEngineDirectory Dir;
+	Dir.MoveToSearchChild("ContentsResources");
+	Dir.Move("Sound");
+
+	std::vector<UEngineFile> AllFiles = Dir.GetAllFile({ ".wav", ".mp3" }, true);
+	for (UEngineFile& File : AllFiles)
 	{
-		UEngineDirectory Dir;
-		Dir.MoveToSearchChild("ContentsResources");
-		Dir.Move("Player");
-
-		std::vector<UEngineFile> AllFiles = Dir.GetAllFile({ ".png" }, true);
-		for (UEngineFile& File : AllFiles)
-		{
-			UEngineSprite::Load(File.GetFullPath());
-		}
-
-		std::vector<UEngineDirectory> AllDirectorys = Dir.GetAllDirectory();
-		for (size_t i = 0; i < AllDirectorys.size(); i++)
-		{
-			UEngineSprite::LoadFolder(AllDirectorys[i].GetFullPath());
-		}
+		UEngineSound::Load(File.GetFullPath());
 	}
-
-	{
-		UEngineDirectory Dir;
-		Dir.MoveToSearchChild("ContentsResources");
-		Dir.Move("Bomb");
-
-		std::vector<UEngineFile> AllFiles = Dir.GetAllFile({ ".png" }, true);
-		for (UEngineFile& File : AllFiles)
-		{
-			UEngineSprite::Load(File.GetFullPath());
-		}
-
-		std::vector<UEngineDirectory> AllDirectorys = Dir.GetAllDirectory();
-		for (size_t i = 0; i < AllDirectorys.size(); i++)
-		{
-			UEngineSprite::LoadFolder(AllDirectorys[i].GetFullPath());
-		}
-	}
-
-	{
-		UEngineDirectory Dir;
-		Dir.MoveToSearchChild("ContentsResources");
-		Dir.Move("Item");
-
-		std::vector<UEngineFile> AllFiles = Dir.GetAllFile({ ".png" }, true);
-		for (UEngineFile& File : AllFiles)
-		{
-			UEngineSprite::Load(File.GetFullPath());
-		}
-
-		std::vector<UEngineDirectory> AllDirectorys = Dir.GetAllDirectory();
-		for (size_t i = 0; i < AllDirectorys.size(); i++)
-		{
-			UEngineSprite::LoadFolder(AllDirectorys[i].GetFullPath());
-		}
-	}
-
-	{
-		UEngineDirectory Dir;
-		Dir.MoveToSearchChild("ContentsResources");
-		Dir.Move("Intro");
-
-		std::vector<UEngineFile> AllFiles = Dir.GetAllFile({ ".png" }, true);
-		for (UEngineFile& File : AllFiles)
-		{
-			UEngineSprite::Load(File.GetFullPath());
-		}
-
-		std::vector<UEngineDirectory> AllDirectorys = Dir.GetAllDirectory();
-		for (size_t i = 0; i < AllDirectorys.size(); i++)
-		{
-			UEngineSprite::LoadFolder(AllDirectorys[i].GetFullPath());
-		}
-	}
-
 }
