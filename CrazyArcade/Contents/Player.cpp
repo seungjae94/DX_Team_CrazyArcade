@@ -143,9 +143,14 @@ void APlayer::Tick(float _DeltaTime)
 
 void APlayer::CheckDead()
 {
-	int MyOrder = ConnectionInfo::GetInst().GetOrder();
-	if (true == ConnectionInfo::GetInst().GetUserInfos()[MyOrder].GetIsDead())
+	int ObjectToken = GetObjectToken();
+	if (true == ConnectionInfo::GetInst().GetUserInfos()[ObjectToken / 1000].GetIsDead())
 	{
+		if ("Die" == State.GetCurStateName())
+		{
+			return;
+		}
+
 		State.ChangeState("Die");
 		return;
 	}
@@ -562,9 +567,9 @@ void APlayer::CheckBombCount()
 
 void APlayer::SettingPlayer(int _ObjectToken)
 {
-	int MyOrder = ConnectionInfo::GetInst().GetOrder();
-	SetCharacterType(ConnectionInfo::GetInst().GetUserInfos()[MyOrder].GetMyCharacterType());
-	SetPlayerColor(ConnectionInfo::GetInst().GetUserInfos()[MyOrder].GetMyColorType());
+	int SessionToken = _ObjectToken / 1000;
+	SetCharacterType(ConnectionInfo::GetInst().GetUserInfos()[SessionToken].GetMyCharacterType());
+	SetPlayerColor(ConnectionInfo::GetInst().GetUserInfos()[SessionToken].GetMyColorType());
 	Renderer->ChangeAnimation(Type + PlayerColorText + "_Ready");
 }
 
