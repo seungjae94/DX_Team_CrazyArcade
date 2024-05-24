@@ -687,6 +687,11 @@ void APlayer::TrapEnd(float _DeltaTime)
 	// 바늘 사용하면
 	if (true == IsDown(VK_CONTROL) && NeedleCount > 0)
 	{
+		NeedleCount--;
+		if (NeedleCount <= 0)
+		{
+			NeedleCount = 0;
+		}
 		State.ChangeState("Revival");
 		return;
 	}
