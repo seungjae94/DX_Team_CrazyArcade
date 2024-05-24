@@ -42,7 +42,6 @@ void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 	UCrazyArcadeCore::NetManager.BoxTokenInit();
 	
 	MapType = ConnectionInfo::GetInst().GetCurMapType();
-	MapType = EMapType::Pirate;
 	MouseUI = GetWorld()->SpawnActor<AMouse>("MouseUIActor");
 	CreateMap();
 
