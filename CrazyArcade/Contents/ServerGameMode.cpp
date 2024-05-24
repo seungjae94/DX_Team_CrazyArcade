@@ -240,9 +240,9 @@ void AServerGameMode::CheckGame(float _DeltaTime)
 	{
 		CurWinTime = 0.0f;
 		std::shared_ptr<UChangeLevelPacket> Packet = std::make_shared<UChangeLevelPacket>();
-		Packet->LevelName = "LobbyTitleTestLevel";
+		Packet->LevelName = "LobbyLevel";
 		UCrazyArcadeCore::NetManager.Send(Packet);
-		GEngine->ChangeLevel("LobbyTitleTestLevel");
+		GEngine->ChangeLevel("LobbyLevel");
 		return;
 	}
 }

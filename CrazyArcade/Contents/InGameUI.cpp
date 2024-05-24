@@ -461,10 +461,10 @@ void AInGameUI::GameEnd()
 	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
 	{
 		std::shared_ptr<UChangeLevelPacket> LevelChangePacket = std::make_shared<UChangeLevelPacket>();
-		LevelChangePacket->LevelName = "LobbyTitleTestLevel";
+		LevelChangePacket->LevelName = "LobbyLevel";
 		UCrazyArcadeCore::Net->Send(LevelChangePacket);
 
-		GEngine->ChangeLevel("LobbyTitleTestLevel");
+		GEngine->ChangeLevel("LobbyLevel");
 	}
 }
 
