@@ -180,6 +180,9 @@
     <ClInclude Include="IntroFrame.h">
       <Filter>Level\IntroLevel\Object</Filter>
     </ClInclude>
+    <ClInclude Include="MouseUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -294,6 +297,9 @@
     </ClCompile>
     <ClCompile Include="PlayerState.cpp">
       <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseUI.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
