@@ -74,7 +74,19 @@ void AMoveBox::StateInit()
 
 	State.SetStartFunction(BlockState::destroy, [=] 
 		{
-			CheckNearDestroy(AMapBase::ConvertLocationToPoint(GetActorLocation()));
+			FPoint CurPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
+			for (size_t Y = 0; Y < PlayLevel->GetMap()->TileInfo.size(); Y++)
+			{
+				for (size_t X = 0; X < PlayLevel->GetMap()->TileInfo[Y].size(); X++)
+				{
+					FPoint Point = { static_cast<int>(X), static_cast<int>(Y) };
+					if (Point != CurPoint && PlayLevel->GetMap()->TileInfo[Y][X].Block == this)
+					{
+						PlayLevel->GetMap()->TileInfo[Y][X].Block = nullptr;
+					}
+				}
+			}
+
 			GetBody()->ChangeAnimation(MapAnim::block_destroy);
 		}
 	);
