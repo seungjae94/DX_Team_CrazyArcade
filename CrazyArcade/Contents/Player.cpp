@@ -362,6 +362,10 @@ void APlayer::PickUpItem()
 		break;
 	case EItemType::Needle:
 		NeedleCount++;
+		if (4 <= NeedleCount)
+		{
+			NeedleCount = 3;
+		}
 		break;
 	default:
 		break;

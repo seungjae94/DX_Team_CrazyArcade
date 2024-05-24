@@ -1351,6 +1351,7 @@ void ALobbyGameMode::SpaceOff(int _Index)
 	Flags_Space[_Index]->SetActive(false);
 	Shadows_Space[_Index]->SetActive(false);
 	Usernames_Space[_Index]->SetActive(false);
+	Readys_Space[_Index]->SetActive(false);
 }
 
 void ALobbyGameMode::PanelOn()
@@ -1766,7 +1767,8 @@ void ALobbyGameMode::GameStart()
 			std::map<int, ConnectUserInfo>& Infos = ConnectionInfo::GetInst().GetUserInfos();
 
 			Packet->Infos = Infos;
-			UCrazyArcadeCore::Net->Send(Packet);
+			UCrazyArcadeCore::NetManager.Send(Packet);
+			//UCrazyArcadeCore::Net->Send(Packet);
 		}
 
 		if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
@@ -1777,6 +1779,18 @@ void ALobbyGameMode::GameStart()
 			UCrazyArcadeCore::NetManager.Send(Packet);
 			return;
 		}
+
+		// 맵 선택시 보내야할 패킷
+		// 맵 타입 설정
+		//ConnectionInfo::GetInst().SetMapType(StageType);
+		// 패킷 보내기
+		//if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+		//{
+		//	std::shared_ptr<UStageUpdatePacket> Packet = std::make_shared<UStageUpdatePacket>();
+		//	Packet->MapType = ConnectionInfo::GetInst().GetCurMapType();
+		//	UCrazyArcadeCore::NetManager.Send(Packet);
+		//}
+
 	}
 }
 

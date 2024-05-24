@@ -224,6 +224,15 @@ public:
 		return TempName;
 	}
 
+	void SetMapType(EMapType _MapType)
+	{
+		CurMapType = _MapType;
+	}
+	EMapType GetCurMapType()
+	{
+		return CurMapType;
+	}
+
 protected:
 
 private:
@@ -231,14 +240,11 @@ private:
 	~ConnectionInfo();
 
 	int MyOrder = 0;
-
 	int RedCount = 0;
 	int BlueCount = 0;
 
 	std::string TempName;
-
 	ECharacterColor Wins = ECharacterColor::None;
-
 	std::map<int, ConnectUserInfo> UserInfos;
-
+	EMapType CurMapType = EMapType::None;
 };
