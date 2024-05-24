@@ -1442,7 +1442,7 @@ void ALobbyGameMode::ReadyUpdate()
 
 void ALobbyGameMode::MapImageUpdate()
 {
-	//MapType = ConnectionInfo::GetInst().GetMap어쩌구();
+	MapType = ConnectionInfo::GetInst().GetCurMapType();
 	
 	SettingMapImage(MapType);
 }
@@ -1934,12 +1934,18 @@ void ALobbyGameMode::ChangeMap(EMapType _MapType)
 {
 	// PlayerInfo
 	MapType = _MapType;
+	ConnectionInfo::GetInst().SetMapType(_MapType);
 
 	// MapImage
 	SettingMapImage(_MapType);
 
 	// 패킷 보내기
-
+	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+	{
+		std::shared_ptr<UStageUpdatePacket> Packet = std::make_shared<UStageUpdatePacket>();
+		Packet->MapType = ConnectionInfo::GetInst().GetCurMapType();
+		UCrazyArcadeCore::NetManager.Send(Packet);
+	}
 }
 
 void ALobbyGameMode::GameStart()
@@ -1988,18 +1994,6 @@ void ALobbyGameMode::GameStart()
 			UCrazyArcadeCore::NetManager.Send(Packet);
 			return;
 		}
-
-		// 맵 선택시 보내야할 패킷
-		// 맵 타입 설정
-		//ConnectionInfo::GetInst().SetMapType(StageType);
-		// 패킷 보내기
-		//if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
-		//{
-		//	std::shared_ptr<UStageUpdatePacket> Packet = std::make_shared<UStageUpdatePacket>();
-		//	Packet->MapType = ConnectionInfo::GetInst().GetCurMapType();
-		//	UCrazyArcadeCore::NetManager.Send(Packet);
-		//}
-
 	}
 }
 
