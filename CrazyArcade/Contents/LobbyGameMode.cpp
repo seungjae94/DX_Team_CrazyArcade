@@ -1134,11 +1134,17 @@ void ALobbyGameMode::LevelStart(ULevel* _PrevLevel)
 	IsFadeIn = true;
 	FadeAlpha = 1.0f;
 	Fade->SetActive(true);
+
+	// Bgm Àç»ý
+	BgmPlayer = UEngineSound::SoundPlay("LobbyBgm.mp3");
+	BgmPlayer.Loop(-1);
 }
 
 void ALobbyGameMode::LevelEnd(ULevel* _NextLevel)
 {
 	Super::LevelEnd(_NextLevel);
+
+	BgmPlayer.Off();
 }
 
 void ALobbyGameMode::Tick(float _DeltaTime)

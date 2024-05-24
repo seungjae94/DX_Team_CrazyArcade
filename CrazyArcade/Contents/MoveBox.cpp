@@ -174,7 +174,7 @@ void AMoveBox::Tick(float _DeltaTime)
 			}
 
 			bool IsDestroy = UpdatePacket->IsDestroy;
-			if (true == IsDestroy)
+			if (true == IsDestroy && BlockState::destroy != State.GetCurStateName())
 			{
 				State.ChangeState(BlockState::destroy);
 				return;
