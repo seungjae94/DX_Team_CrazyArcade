@@ -227,10 +227,9 @@ void ALobbyGameMode::BeginPlay()
 			{
 				Image_MapSelect = CreateWidget<UImage>(GetWorld(), "Image_MapSelect");
 				Image_MapSelect->SetSprite("Image_MapSelect_Village.png");
-				Image_MapSelect->AddToViewPort(3);
+				Image_MapSelect->AddToViewPort(1);
 				Image_MapSelect->SetAutoSize(1.0f, true);
-				Image_MapSelect->SetWidgetLocation({ 0.0f, 0.0f });
-				Image_MapSelect->SetActive(false);
+				Image_MapSelect->SetWidgetLocation({ 230.0f, -113.0f });
 			}
 			{
 				BackGround_MapSelect = CreateWidget<UImage>(GetWorld(), "BackGround_MapSelect");
