@@ -63,7 +63,7 @@ void UServerManager::ServerOpen()
 						return;
 					}
 					ConnectionInfo::GetInst().PushUserInfos(_Packet->GetSessionToken(), _Packet->Name);
-					SessionInitVec[_Packet->Session] = true;
+					//SessionInitVec[_Packet->Session] = true;
 
 					{
 						std::shared_ptr<UConnectPacket> Packet = std::make_shared<UConnectPacket>();
