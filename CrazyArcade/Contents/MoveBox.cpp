@@ -158,37 +158,14 @@ void AMoveBox::Tick(float _DeltaTime)
 			bool IsMove = UpdatePacket->IsMoveValue;
 			if (true == IsMove)
 			{
-				SetActorLocation(UpdatePacket->Pos);
+				RecvMoveCheck(UpdatePacket->Pos, UpdatePacket->MoveDir);
+			}
 
-				if (BlockState::move == State.GetCurStateName())
-				{
-					FPoint NextPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
-					if (0.0f < MoveDir.X)
-					{
-						NextPoint.X += 1;
-					}
-					else if (0.0f > MoveDir.X)
-					{
-						NextPoint.X -= 1;
-					}
-					else if (0.0f < MoveDir.Y)
-					{
-						NextPoint.Y += 1;
-					}
-					else if (0.0f > MoveDir.Y)
-					{
-						NextPoint.Y -= 1;
-					}
-
-					if (true == AMapBase::MapRangeCheckByPoint(NextPoint)
-					&&  this == PlayLevel->GetMap()->GetTileInfo(NextPoint).Block)
-					{
-						PlayLevel->GetMap()->GetTileInfo(NextPoint).Block = nullptr;
-					}
-				}
-				
-				MoveDir = UpdatePacket->MoveDir;
-				MoveOneBlockCheckRecv();
+			bool IsDestroy = UpdatePacket->IsDestroy;
+			if (true == IsDestroy)
+			{
+				State.ChangeState(BlockState::destroy);
+				return;
 			}
 		}
 	);
@@ -363,4 +340,40 @@ void AMoveBox::CheckNearDestroy(FPoint _CurPoint)
 	{
 		PlayLevel->GetMap()->GetTileInfo(RightPoint).Block = nullptr;
 	}
+}
+
+// 패킷 관련
+void AMoveBox::RecvMoveCheck(const FVector& _Pos, const FVector& _MoveDir)
+{
+	SetActorLocation(_Pos);
+
+	if (BlockState::move == State.GetCurStateName())
+	{
+		FPoint NextPoint = AMapBase::ConvertLocationToPoint(GetActorLocation());
+		if (0.0f < MoveDir.X)
+		{
+			NextPoint.X += 1;
+		}
+		else if (0.0f > MoveDir.X)
+		{
+			NextPoint.X -= 1;
+		}
+		else if (0.0f < MoveDir.Y)
+		{
+			NextPoint.Y += 1;
+		}
+		else if (0.0f > MoveDir.Y)
+		{
+			NextPoint.Y -= 1;
+		}
+
+		if (true == AMapBase::MapRangeCheckByPoint(NextPoint)
+			&& this == PlayLevel->GetMap()->GetTileInfo(NextPoint).Block)
+		{
+			PlayLevel->GetMap()->GetTileInfo(NextPoint).Block = nullptr;
+		}
+	}
+
+	MoveDir = _MoveDir;
+	MoveOneBlockCheckRecv();
 }

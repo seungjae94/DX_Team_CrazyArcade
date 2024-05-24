@@ -35,6 +35,13 @@ void AWave::BeginPlay()
 	PlayLevel = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
 }
 
+void AWave::LevelEnd(ULevel* _NextLevel)
+{
+	Super::LevelEnd(_NextLevel);
+
+	Destroy();
+}
+
 void AWave::SetImgCutting()
 {
 	UEngineSprite::CreateCutting(MapImgRes::bomb_effect_left, 11, 1);
@@ -154,3 +161,4 @@ void AWave::Tick(float _DeltaTime)
 		break;
 	}
 }
+

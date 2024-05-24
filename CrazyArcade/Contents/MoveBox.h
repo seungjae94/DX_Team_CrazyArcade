@@ -37,6 +37,10 @@ private:
 	void CheckNearDestroy(FPoint _CurPoint);
 
 private:
+	void RecvMoveCheck(const FVector& _Pos, const FVector& _MoveDir);
+	void RecvDestroyCheck();
+
+private:
 	bool CanMoveValue = true;
 	bool IsMoveValue = false;
 	float MoveTimeCount = 0.0f;

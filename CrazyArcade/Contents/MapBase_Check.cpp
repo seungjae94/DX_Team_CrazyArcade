@@ -30,7 +30,7 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 		Result = true;
 
 		// 보조 위치1 체크
-		if (nullptr != TileInfo[NextPoint1.Y][NextPoint1.X].Block)
+		if (true == MapRangeCheckByPoint(NextPoint1) && nullptr != TileInfo[NextPoint1.Y][NextPoint1.X].Block)
 		{
 			EBlockType BlockType1 = TileInfo[NextPoint1.Y][NextPoint1.X].Block->GetBlockType();
 			if (EBlockType::Wall == BlockType1 || EBlockType::Box == BlockType1)
@@ -43,7 +43,7 @@ bool AMapBase::CanMovePos(const FVector& _NextPos, const FVector& _Dir)
 		}
 
 		// 보조 위치2 체크
-		if (nullptr != TileInfo[NextPoint2.Y][NextPoint2.X].Block)
+		if (true == MapRangeCheckByPoint(NextPoint2) && nullptr != TileInfo[NextPoint2.Y][NextPoint2.X].Block)
 		{
 			EBlockType BlockType2 = TileInfo[NextPoint2.Y][NextPoint2.X].Block->GetBlockType();
 			if (EBlockType::Wall == BlockType2 || EBlockType::Box == BlockType2)
@@ -190,7 +190,7 @@ bool AMapBase::CanMovePosInTraped(const FVector& _NextPos, const FVector& _Dir)
 		Result = true;
 
 		// 보조 위치1 체크
-		if (nullptr != TileInfo[NextPoint1.Y][NextPoint1.X].Block)
+		if (true == MapRangeCheckByPoint(NextPoint1) && nullptr != TileInfo[NextPoint1.Y][NextPoint1.X].Block)
 		{
 			EBlockType BlockType1 = TileInfo[NextPoint1.Y][NextPoint1.X].Block->GetBlockType();
 			if (EBlockType::Wall == BlockType1 || EBlockType::Box == BlockType1)
@@ -203,7 +203,7 @@ bool AMapBase::CanMovePosInTraped(const FVector& _NextPos, const FVector& _Dir)
 		}
 
 		// 보조 위치2 체크
-		if (nullptr != TileInfo[NextPoint2.Y][NextPoint2.X].Block)
+		if (true == MapRangeCheckByPoint(NextPoint2) && nullptr != TileInfo[NextPoint2.Y][NextPoint2.X].Block)
 		{
 			EBlockType BlockType2 = TileInfo[NextPoint2.Y][NextPoint2.X].Block->GetBlockType();
 			if (EBlockType::Wall == BlockType2 || EBlockType::Box == BlockType2)
