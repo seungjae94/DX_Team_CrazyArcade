@@ -18,31 +18,31 @@ AInGameUI::~AInGameUI()
 
 void AInGameUI::BeginPlay()
 {
+	// 이미지 커팅
+	{
+		UEngineSprite::CreateCutting("Play_ExitButtonHover.png", 1, 2);
 
+		//베찌
+		UEngineSprite::CreateCutting("Play_Portrait_Bazzi_Lose_R.png", 1, 4);
+		UEngineSprite::CreateCutting("Play_Portrait_Bazzi_Normal_R.png", 1, 2);
+		UEngineSprite::CreateCutting("Play_Portrait_Bazzi_Lose_B.png", 1, 4);
+		UEngineSprite::CreateCutting("Play_Portrait_Bazzi_Normal_B.png", 1, 2);
 
-	UEngineSprite::CreateCutting("Play_ExitButtonHover.png", 1, 2);
+		//다오
+		UEngineSprite::CreateCutting("Play_Portrait_Dao_Normal_R.png", 1, 2);
+		UEngineSprite::CreateCutting("Play_Portrait_Dao_Lose_R.png", 1, 4);
+		UEngineSprite::CreateCutting("Play_Portrait_Dao_Lose_B.png", 1, 4);
+		UEngineSprite::CreateCutting("Play_Portrait_Dao_Normal_B.png", 1, 2);
 
-
-	//베찌
-	UEngineSprite::CreateCutting("Play_Portrait_Bazzi_Lose_R.png", 1, 4);
-	UEngineSprite::CreateCutting("Play_Portrait_Bazzi_Normal_R.png", 1, 2);
-	UEngineSprite::CreateCutting("Play_Portrait_Bazzi_Lose_B.png", 1, 4);
-	UEngineSprite::CreateCutting("Play_Portrait_Bazzi_Normal_B.png", 1, 2);
-
-	//다오
-	UEngineSprite::CreateCutting("Play_Portrait_Dao_Normal_R.png", 1, 2);
-	UEngineSprite::CreateCutting("Play_Portrait_Dao_Lose_R.png", 1, 4);
-	UEngineSprite::CreateCutting("Play_Portrait_Dao_Lose_B.png", 1, 4);
-	UEngineSprite::CreateCutting("Play_Portrait_Dao_Normal_B.png", 1, 2);
-
-	//마리드
-	UEngineSprite::CreateCutting("Play_Portrait_Marid_Lose_B.png", 1, 4);
-	UEngineSprite::CreateCutting("Play_Portrait_Marid_Lose_R.png", 1, 4);
-	UEngineSprite::CreateCutting("Play_Portrait_Marid_Normal_B.png", 1, 2);
-	UEngineSprite::CreateCutting("Play_Portrait_Marid_Normal_R.png", 1, 2);
-
+		//마리드
+		UEngineSprite::CreateCutting("Play_Portrait_Marid_Lose_B.png", 1, 4);
+		UEngineSprite::CreateCutting("Play_Portrait_Marid_Lose_R.png", 1, 4);
+		UEngineSprite::CreateCutting("Play_Portrait_Marid_Normal_B.png", 1, 2);
+		UEngineSprite::CreateCutting("Play_Portrait_Marid_Normal_R.png", 1, 2);
+	}
 	
 	Super::BeginPlay();
+
 	//버튼 
 	CancelBtn = CreateWidget<UImage>(GetWorld(), "CancelButton");
 	CancelBtn->CreateAnimation("CancelButtonUnHoverAni", "Play_ExitButtonUnHover.png", 0.1f, false, 0, 0);
@@ -53,6 +53,13 @@ void AInGameUI::BeginPlay()
 	CancelBtn->ChangeAnimation("CancelButtonUnHoverAni");
 	CancelBtn->SetWidgetLocation({ 316.0f, -276.0f });
 	CancelBtn->AddToViewPort(3);
+
+	CancelBtn_InActive = CreateWidget<UImage>(GetWorld(), "CancelBtn_InActive");
+	CancelBtn_InActive->SetSprite("Play_ExitButton_InActive.png");
+	CancelBtn_InActive->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+	CancelBtn_InActive->AddToViewPort(3);
+	CancelBtn_InActive->SetAutoSize(1.0f, true);
+	CancelBtn_InActive->SetWidgetLocation({ 316.0f, -276.0f });
 	
 
 	//결과창
@@ -100,25 +107,20 @@ void AInGameUI::BeginPlay()
 	NeedleX->AddToViewPort(4);
 
 
-
-	// Fade
-	{
-		Fade = CreateWidget<UImage>(GetWorld(), "Fade");
-		Fade->SetSprite("FadeBlack.png");
-		Fade->AddToViewPort(10);
-		Fade->SetAutoSize(1.0f, true);
-		Fade->SetWidgetLocation({ 0.0f, 0.0f });
-		Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, 0.0f));
-	}
-
 	CancelBtn->SetUnHover([=] {
 		CancelBtn->ChangeAnimation("CancelButtonUnHoverAni");
 		});
 	CancelBtn->SetHover([=] {
-		CancelBtn->ChangeAnimation("CancelButtonHoverAni");
+		if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+		{
+			CancelBtn->ChangeAnimation("CancelButtonHoverAni");
+		}
 		});
 	CancelBtn->SetDown([=] {
-		CancelBtn->ChangeAnimation("CancelButtonIsDownAni");
+		if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+		{
+			CancelBtn->ChangeAnimation("CancelButtonIsDownAni");
+		}
 		});
 	CancelBtn->SetPress([=] {
 
@@ -131,13 +133,22 @@ void AInGameUI::BeginPlay()
 		}
 		});
 
-	//게임 실행 하면 유저 정보 가져와서 표시해주기 
+	// Fade
+	{
+		Fade = CreateWidget<UImage>(GetWorld(), "Fade");
+		Fade->SetSprite("FadeBlack.png");
+		Fade->AddToViewPort(10);
+		Fade->SetAutoSize(1.0f, true);
+		Fade->SetWidgetLocation({ 0.0f, 0.0f });
+		Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, 0.0f));
+	}
 
+	//게임 실행 하면 유저 정보 가져와서 표시해주기 
 	for (int i = 0; i < 8; i++)
 	{
 
 		UImage* Render = CreateWidget<UImage>(GetWorld(), "PlayerRender" + i);
-		//Render->SetSprite();
+
 		Render->CreateAnimation("BazziRedNormal", "Play_Portrait_Bazzi_Normal_R.png", 0.8f, true, 0, 1);
 		Render->CreateAnimation("BazziRedDead", "Play_Portrait_Bazzi_Lose_R.png", 0.4f, true, 0, 3);
 		Render->CreateAnimation("BazziBlueNormal", "Play_Portrait_Bazzi_Normal_B.png", 0.8f, true, 0, 1);
@@ -153,12 +164,7 @@ void AInGameUI::BeginPlay()
 		Render->CreateAnimation("MaridBlueNormal", "Play_Portrait_Marid_Normal_B.png", 0.8f, true, 0, 1);
 		Render->CreateAnimation("MaridBlueDead", "Play_Portrait_Marid_Lose_B.png", 0.4f, true, 0, 3);
 
-
-
-
 		Render->SetAutoSize(1.0f, true);
-		//Render->ChangeAnimation("BazziRedAniNormal");
-		// 랜더러 추가로 CreatAnimation만들고 추가하기 
 		Render->AddToViewPort(3);
 		PlayerUI.push_back(Render);
 
@@ -189,15 +195,12 @@ void AInGameUI::BeginPlay()
 	std::vector<UImage*> PlayerUI; //플레이어
 	std::vector<UTextWidget*> PlayerNameUI;
 	std::vector<PlayerState> PlayerInfo;
-
-	
-
-	
 }
 
 void AInGameUI::LevelStart(ULevel* _PrevLevel)
 {
 	Super::LevelStart(_PrevLevel);
+
 	InitPlayerInfo();
 	DataToRender();
 	PlayerLevelPtr = dynamic_cast<AMainPlayLevel*>(GetWorld()->GetGameMode().get());
@@ -209,6 +212,12 @@ void AInGameUI::LevelStart(ULevel* _PrevLevel)
 		PlayerInfo[i].IsChange = false;
 		std::string AnimName = StateToAnimName(PlayerInfo[i].PlayerType, PlayerInfo[i].PlayerColor, false);
 		PlayerUI[i]->ChangeAnimation(AnimName);
+	}
+
+	// CancelBtn은 서버만 누를 수 있음
+	if (ENetType::Server == UCrazyArcadeCore::NetManager.GetNetType())
+	{
+		CancelBtn_InActive->SetActive(false);
 	}
 }
 
