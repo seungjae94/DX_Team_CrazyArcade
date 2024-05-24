@@ -90,8 +90,10 @@ void AMapBase::LevelEnd(ULevel* _NextLevel)
 
 	for (size_t i = 0; i < AllPlayer.size(); i++)
 	{
+		if (AllPlayer[i] != nullptr) {
 		AllPlayer[i]->Destroy();
 		AllPlayer[i] = nullptr;
+		}
 	}
 
 	TileInfo.clear();
@@ -259,6 +261,7 @@ EItemType AMapBase::IsItemTile(const FVector& _Pos)
 		EItemType ItemType = TileInfo[CurPoint.Y][CurPoint.X].Item->GetItemType();
 		TileInfo[CurPoint.Y][CurPoint.X].Item->Destroy();
 		TileInfo[CurPoint.Y][CurPoint.X].Item = nullptr;
+		UEngineSound::SoundPlay("GetItem.mp3").SetVolume(0.5f);
 		return ItemType;
 	}
 }
@@ -283,7 +286,7 @@ std::shared_ptr<ABombBase> AMapBase::SpawnBomb(const FVector& _Pos, APlayer* _Pl
 		NewBomb->SetCurPoint(CurPoint);
 		NewBomb->SetIdle();
 		TileInfo[CurPoint.Y][CurPoint.X].AllBomb.push_back(NewBomb);
-		UEngineSound::SoundPlay("Bomb.wav");
+		UEngineSound::SoundPlay("BombSpawn.mp3");
 		return NewBomb;
 	}
 	else
@@ -305,42 +308,6 @@ std::shared_ptr<ABombBase> AMapBase::ServerSpawnBomb(const FVector& _Pos, APlaye
 	NewBomb->SetIdle();
 	TileInfo[CurPoint.Y][CurPoint.X].AllBomb.push_back(NewBomb);
 	return NewBomb;
-}
-
-// 플레이어 사망시 Item 다시 소환
-void AMapBase::ReSpawnItem(EItemType _Type, int _Count)
-{
-	if (EItemType::None == _Type)
-	{
-		return;
-	}
-
-	int Count = _Count;
-
-	while (0 < Count)
-	{
-		int PointX = UEngineRandom::MainRandom.RandomInt(0, SizeX - 1);
-		int PointY = UEngineRandom::MainRandom.RandomInt(0, SizeY - 1);
-		FPoint Point = { PointX, PointY };
-
-		if (nullptr != TileInfo[Point.Y][Point.X].Block)
-		{
-			continue;
-		}
-
-		if (nullptr != TileInfo[Point.Y][Point.X].Item)
-		{
-			continue;
-		}
-
-		if (false == TileInfo[Point.Y][Point.X].AllBomb.empty())
-		{
-			continue;
-		}
-
-		CreateItem(Point, _Type);
-		--Count;
-	}
 }
 
 // 플레이어 종료시 삭제 시키는 함수

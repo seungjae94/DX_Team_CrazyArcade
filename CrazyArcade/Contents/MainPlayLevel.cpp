@@ -11,9 +11,11 @@
 //UI
 #include "TimerUI.h"
 #include "InGameUI.h"
+#include "MouseUI.h"
 
 #include "CrazyArcadeCore.h"
 #include "ServerManager.h"
+
 
 
 AMainPlayLevel::AMainPlayLevel()
@@ -31,6 +33,7 @@ void AMainPlayLevel::BeginPlay()
 	//UI
 	Timer = GetWorld()->SpawnActor<ATimerUI>("TimeUI");
 	Timer->SetTimer(180.0f);
+	
 }
 
 void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
@@ -39,6 +42,7 @@ void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 	UCrazyArcadeCore::NetManager.BoxTokenInit();
 	
 	MapType = ConnectionInfo::GetInst().GetCurMapType();
+	MouseUI = GetWorld()->SpawnActor<AMouse>("MouseUIActor");
 	CreateMap();
 
 	// »ç¿îµå

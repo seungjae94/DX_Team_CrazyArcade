@@ -41,5 +41,7 @@ protected:
 
 	float WinTime = 5.0f;
 	float CurWinTime = 0.0f;
+
+
 };
 
