@@ -579,6 +579,9 @@ void APlayer::TrapStart(float _DeltaTime)
 
 	// 부쉬 Hide
 	HideInBush();
+
+	// 사운드
+	UEngineSound::SoundPlay("TrapIn.mp3");
 }
 
 void APlayer::Trapped(float _DeltaTime)
@@ -616,12 +619,14 @@ void APlayer::Trapped(float _DeltaTime)
 	ECharacterColor ColPlayerColor = PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this);
 	if (ECharacterColor::None != ColPlayerColor && PlayerColor != ColPlayerColor)
 	{
+		UEngineSound::SoundPlay("TrapPop.mp3");
 		State.ChangeState("Die");
 		return;
 	}
 	
 	if (ECharacterColor::None != ColPlayerColor && PlayerColor == ColPlayerColor)
 	{
+		UEngineSound::SoundPlay("Revive.mp3");
 		State.ChangeState("Revival");
 		return;
 	}
@@ -629,6 +634,8 @@ void APlayer::Trapped(float _DeltaTime)
 	// 바늘 사용하면
 	if (true == IsDown(VK_CONTROL) && NeedleCount > 0 && false == IsNeedleUse)
 	{
+		UEngineSound::SoundPlay("Revive.mp3");
+
 		IsNeedleUse = true;
 		NeedleCount--;
 		if (NeedleCount <= 0)
@@ -644,6 +651,7 @@ void APlayer::TrapEnd(float _DeltaTime)
 	TrapEndTime -= _DeltaTime;
 	if (TrapEndTime <= 0.0f)
 	{
+		UEngineSound::SoundPlay("TrapPop.mp3");
 		State.ChangeState("Die");
 		return;
 	}
@@ -674,7 +682,7 @@ void APlayer::TrapEnd(float _DeltaTime)
 	ECharacterColor ColPlayerColor = PlayLevel->GetMap()->IsColOtherPlayer(GetActorLocation(), this);
 	if (ECharacterColor::None != ColPlayerColor	&& PlayerColor != ColPlayerColor)
 	{
-
+		// 사운드
 		//State.ChangeState("Die");
 		return;
 	}
