@@ -38,7 +38,7 @@ void AMainPlayLevel::LevelStart(ULevel* _PrevLevel)
 	Super::LevelStart(_PrevLevel);
 	UCrazyArcadeCore::NetManager.BoxTokenInit();
 	
-	MapType = EMapType::Pirate;
+	MapType = ConnectionInfo::GetInst().GetCurMapType();
 	CreateMap();
 }
 
