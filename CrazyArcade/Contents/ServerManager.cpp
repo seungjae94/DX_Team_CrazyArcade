@@ -171,9 +171,10 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 						std::shared_ptr<UEndSession> EndSessionPacket = std::make_shared<UEndSession>();
 						Send(EndSessionPacket);
 						UCrazyArcadeCore::Net->End();
+						UCrazyArcadeCore::Net = nullptr;
 						UCrazyArcadeCore::NetManager.CFailInit();
 						GEngine->ChangeLevel("TitleTestLevel");
-						MsgBoxLog("서버에 남은 자리가 없습니다");
+						MsgBoxLogT("서버 알림", "서버에 남은 자리가 없습니다");
 					}
 				});
 		});
@@ -219,7 +220,7 @@ void UServerManager::ClientOpen(std::string_view _Ip, int _Port)
 			PushUpdate([=]()
 				{
 					if (_Packet->GetSessionToken() == 0) {
-						MsgBoxLog("서버가 종료되었습니다");
+						MsgBoxLogT("서버 알림", "서버가 종료되었습니다");
 						GEngine->EngineWindow.Off();
 					}
 					if (true == IsNetObject(_Packet->GetSessionToken() * 1000)) {

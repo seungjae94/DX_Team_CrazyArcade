@@ -117,7 +117,7 @@ void AServerGameMode::HandlerInit()
 					{
 						UNetObject* Block = UNetObject::GetNetObject<UNetObject>(_Packet->GetObjectToken());
 						if (nullptr == Block) {
-							MsgBoxLog("안터지면 괜찮기는 한데, 시간있으면 고치기 그리고 이 MsgBoxLog도 제출 전 지우기");
+							MsgBoxLogT("서버 알림", "안터지면 괜찮기는 한데, 시간있으면 고치기 그리고 이 MsgBoxLog도 제출 전 지우기");
 							_Packet->IsDestroy = true;
 							_Packet->SetSessionToken(UCrazyArcadeCore::Net->GetSessionToken());
 							UCrazyArcadeCore::Net->Send(_Packet);
@@ -192,7 +192,7 @@ void AServerGameMode::HandlerInit()
 					{
 						UNetObject* Block = UNetObject::GetNetObject<UNetObject>(_Packet->GetObjectToken());
 						if (nullptr == Block) {
-							MsgBoxLog("안터지면 괜찮기는 한데, 시간있으면 고치기 그리고 이 MsgBoxLog도 제출 전 지우기");
+							MsgBoxLogT("서버 알림", "안터지면 괜찮기는 한데, 시간있으면 고치기 그리고 이 MsgBoxLog도 제출 전 지우기");
 							_Packet->IsDestroy = true;
 							return;
 						}
