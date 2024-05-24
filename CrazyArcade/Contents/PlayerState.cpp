@@ -188,7 +188,10 @@ void APlayer::StateInit()
 			TrapEndTime = 1.6f;
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Revival");
 
-			UEngineSound::SoundPlay("Revive.mp3");
+			if ("Revival" != State.GetCurStateName())
+			{
+				UEngineSound::SoundPlay("Revive.mp3");
+			}
 		});
 
 	State.SetUpdateFunction("Win", std::bind(&APlayer::Win, this, std::placeholders::_1));
