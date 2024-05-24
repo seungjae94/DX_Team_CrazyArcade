@@ -31,6 +31,7 @@ void APlayer::StateInit()
 	State.SetUpdateFunction("Ready", std::bind(&APlayer::Ready, this, std::placeholders::_1));
 	State.SetStartFunction("Ready", [=]
 		{
+			NoHit = true;
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Ready");
 		}
 	);
@@ -184,12 +185,14 @@ void APlayer::StateInit()
 	State.SetUpdateFunction("Win", std::bind(&APlayer::Win, this, std::placeholders::_1));
 	State.SetStartFunction("Win", [=]()
 		{
+			NoHit = true;
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Win");
 		});
 
 	State.SetUpdateFunction("Lose", std::bind(&APlayer::Lose, this, std::placeholders::_1));
 	State.SetStartFunction("Lose", [=]()
 		{
+			NoHit = true;
 			Renderer->ChangeAnimation(Type + PlayerColorText + "_Lose");
 		});
 
@@ -201,6 +204,7 @@ void APlayer::Ready(float _DeltaTime)
 {
 	if (Renderer->IsCurAnimationEnd())
 	{
+		NoHit = false;
 		State.ChangeState("Idle");
 		return;
 	}
@@ -622,7 +626,7 @@ void APlayer::Trapped(float _DeltaTime)
 	}
 
 	// 바늘 사용하면
-	if (true == IsDown('2') && NeedleCount > 0)
+	if (true == IsDown(VK_CONTROL) && NeedleCount > 0)
 	{
 		NeedleCount--;
 		if (NeedleCount <= 0)
@@ -681,7 +685,7 @@ void APlayer::TrapEnd(float _DeltaTime)
 	}
 
 	// 바늘 사용하면
-	if (true == IsDown('2') && NeedleCount > 0)
+	if (true == IsDown(VK_CONTROL) && NeedleCount > 0)
 	{
 		State.ChangeState("Revival");
 		return;
