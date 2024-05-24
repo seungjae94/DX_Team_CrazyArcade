@@ -79,10 +79,8 @@ private:
 
 	// Fade
 	UImage* Fade = nullptr;
-	bool IsFadeIn = true;
 	bool IsFadeOut = false;
-	float FadeAlpha = 1.0f;
-	void FadeIn(float _DeltaTime);
+	float FadeAlpha = 0.0f;
 	void FadeOut(float _DeltaTime);
 
 	// »ç¿îµå

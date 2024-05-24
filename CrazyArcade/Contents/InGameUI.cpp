@@ -276,7 +276,6 @@ void AInGameUI::Tick(float _DeltaTIme)
 	
 	
 	ResultCheck();
-
 }
 
 

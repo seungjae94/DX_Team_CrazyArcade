@@ -100,9 +100,6 @@ private:
 	UEngineSoundPlayer WinSound;
 	UEngineSoundPlayer Losesound;
 
-
-
-
 	// Fade
 	UImage* Fade = nullptr;
 	bool IsFadeIn = true;

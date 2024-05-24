@@ -62,11 +62,17 @@ protected:
 
 	std::shared_ptr<AMouse> MouseUI = nullptr;
 
-	// Fade
-	UImage* Fade = nullptr;
-	bool IsFadeIn = true;
-	bool IsFadeOut = false;
-	float FadeAlpha = 1.0f;
+	//// Chat
+	//UImage* VoidBox = nullptr;
+	//UImage* ChatBox = nullptr;
+	//UTextWidget* ChatInputText = nullptr;
+	//std::vector<UTextWidget*> ChatTexts;
+	//bool Chat_IsActive = false;
+	//int Chat_Size = 0;
+	//std::string ChatInput = "";
+	//std::string Chat = "";
+	//std::string Chat_Prev = "";
+	//void ChatUpdate();
 
 	// »ç¿îµå
 	UEngineSoundPlayer BgmPlayer;
