@@ -423,7 +423,7 @@ void AMainTitleGameMode::FadeIn(float _DeltaTime)
 		return;
 	}
 
-	FadeAlpha -= _DeltaTime * 4.0f;
+	FadeAlpha -= _DeltaTime * 2.0f;
 	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
 }
 
@@ -443,6 +443,6 @@ void AMainTitleGameMode::FadeOut(float _DeltaTime)
 		return;
 	}
 
-	FadeAlpha += _DeltaTime * 1.0f;
+	FadeAlpha += _DeltaTime * 3.0f;
 	Fade->SetMulColor(float4(1.0f, 1.0f, 1.0f, FadeAlpha));
 }

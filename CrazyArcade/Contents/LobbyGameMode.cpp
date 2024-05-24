@@ -201,7 +201,10 @@ void ALobbyGameMode::BeginPlay()
 						IsMapSelectOn == false
 						)
 					{
-						Btn_MapSelect->ChangeAnimation("Hover");
+						if (Btn_MapSelect->IsCurAnimationEnd() == true)
+						{
+							Btn_MapSelect->ChangeAnimation("Hover");
+						}
 					}
 					});
 				Btn_MapSelect->SetDown([=] {
@@ -333,28 +336,28 @@ void ALobbyGameMode::BeginPlay()
 					{
 					case 0:
 					{
-						Btn_MapType->CreateAnimation("UnHover", "Button_MapSelect_Village_Hover.png", 0.1f, false, 0, 0);
+						Btn_MapType->CreateAnimation("UnHover", "Button_MapSelect_Village_UnHover.png", 0.1f, false, 0, 0);
 						Btn_MapType->CreateAnimation("Hover", "Button_MapSelect_Village_Hover.png", 0.1f, false, 0, 0);
 						Btn_MapType->CreateAnimation("Pick", "Button_MapSelect_Village_Pick.png", 0.1f, false, 0, 0);
 						break;
 					}
 					case 1:
 					{
-						Btn_MapType->CreateAnimation("UnHover", "Button_MapSelect_Forest_Hover.png", 0.1f, false, 0, 0);
+						Btn_MapType->CreateAnimation("UnHover", "Button_MapSelect_Forest_UnHover.png", 0.1f, false, 0, 0);
 						Btn_MapType->CreateAnimation("Hover", "Button_MapSelect_Forest_Hover.png", 0.1f, false, 0, 0);
 						Btn_MapType->CreateAnimation("Pick", "Button_MapSelect_Forest_Pick.png", 0.1f, false, 0, 0);
 						break;
 					}
 					case 2:
 					{
-						Btn_MapType->CreateAnimation("UnHover", "Button_MapSelect_Pirate_Hover.png", 0.1f, false, 0, 0);
+						Btn_MapType->CreateAnimation("UnHover", "Button_MapSelect_Pirate_UnHover.png", 0.1f, false, 0, 0);
 						Btn_MapType->CreateAnimation("Hover", "Button_MapSelect_Pirate_Hover.png", 0.1f, false, 0, 0);
 						Btn_MapType->CreateAnimation("Pick", "Button_MapSelect_Pirate_Pick.png", 0.1f, false, 0, 0);
 						break;
 					}
 					case 3:
 					{
-						Btn_MapType->CreateAnimation("UnHover", "Button_MapSelect_Pirate02_Hover.png", 0.1f, false, 0, 0);
+						Btn_MapType->CreateAnimation("UnHover", "Button_MapSelect_Pirate02_UnHover.png", 0.1f, false, 0, 0);
 						Btn_MapType->CreateAnimation("Hover", "Button_MapSelect_Pirate02_Hover.png", 0.1f, false, 0, 0);
 						Btn_MapType->CreateAnimation("Pick", "Button_MapSelect_Pirate02_Pick.png", 0.1f, false, 0, 0);
 						break;
@@ -1226,6 +1229,7 @@ void ALobbyGameMode::LevelStart(ULevel* _PrevLevel)
 
 	// Game에 참가하고 나온 경우를 위해
 	SettingCharacterSelect(ConnectionInfo::GetInst().GetCharacterType());
+	SettingMapSelect(ConnectionInfo::GetInst().GetCurMapType());
 	ChangeMap(ConnectionInfo::GetInst().GetCurMapType());
 	ChangeReady(false);
 
