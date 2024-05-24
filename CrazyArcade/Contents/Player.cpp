@@ -572,11 +572,6 @@ void APlayer::SetPlayerDead()
 {
 	IsDead = true;
 	PlayerInfoUpdate();
-
-	for (MPlayerItemIter = MPlayerItem.begin(); MPlayerItemIter != MPlayerItem.end(); ++MPlayerItemIter)
-	{
-		PlayLevel->GetMap()->ReSpawnItem(MPlayerItemIter->first, MPlayerItemIter->second);
-	}
 }
 
 void APlayer::SetCharacterType(ECharacterType _Character)
