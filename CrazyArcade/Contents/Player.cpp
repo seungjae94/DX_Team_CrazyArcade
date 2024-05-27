@@ -138,6 +138,7 @@ void APlayer::Tick(float _DeltaTime)
 	if (true == IsNeedleUse)
 	{
 		State.ChangeState("Revival");
+		IsNeedleUse = false;
 	}
 }
 

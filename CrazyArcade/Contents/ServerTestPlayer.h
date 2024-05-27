@@ -32,6 +32,8 @@ public:
 		return Renderer;
 	}
 
+	void NeedleUpdate() override;
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

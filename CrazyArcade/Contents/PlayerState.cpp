@@ -646,6 +646,7 @@ void APlayer::Trapped(float _DeltaTime)
 		//UEngineSound::SoundPlay("Revive.mp3");
 
 		IsNeedleUse = true;
+		NeedleUpdate();
 		NeedleCount--;
 		if (NeedleCount <= 0)
 		{

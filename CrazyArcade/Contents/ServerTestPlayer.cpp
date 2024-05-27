@@ -20,6 +20,13 @@ ServerTestPlayer::~ServerTestPlayer()
 {
 }
 
+void ServerTestPlayer::NeedleUpdate()
+{
+	std::shared_ptr<UActorUpdatePacket> Packet = std::make_shared<UActorUpdatePacket>();
+	Packet->IsNeedleUse = true;
+	Send(Packet);
+}
+
 void ServerTestPlayer::BeginPlay()
 {
 	Super::BeginPlay();
