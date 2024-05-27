@@ -45,6 +45,13 @@ void ABombBase::LevelStart(ULevel* _PrevLevel)
 	State.CreateState(BombState::idle);
 }
 
+void ABombBase::LevelEnd(ULevel* _NextLevel)
+{
+	Super::LevelEnd(_NextLevel);
+
+	Destroy();
+}
+
 void ABombBase::SetImgCutting()
 {
 	UEngineSprite::CreateCutting(MapImgRes::bomb, 3, 1);
