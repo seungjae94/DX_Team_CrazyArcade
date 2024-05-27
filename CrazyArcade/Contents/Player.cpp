@@ -49,7 +49,6 @@ void APlayer::BeginPlay()
 
 	PlayerCreateCutting("luxMarid_R");
 	PlayerCreateCutting("luxMarid_B");
-	//PlayerCreateCutting("luxMarid_O");
 
 	// 局聪皋捞记 积己
 	//Bazzi
@@ -61,7 +60,6 @@ void APlayer::BeginPlay()
 
 	PlayerCreateAnimation("luxMarid_R");
 	PlayerCreateAnimation("luxMarid_B");
-	//PlayerCreateAnimation("luxMarid_O");
 
 	CharacterTypeDataInit();
 
