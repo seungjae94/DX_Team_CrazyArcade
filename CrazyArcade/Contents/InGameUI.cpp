@@ -185,7 +185,7 @@ void AInGameUI::BeginPlay()
 		PlayerInfo.push_back(State);
 	}
 
-	InitPlayerInfo();
+	//InitPlayerInfo();
 	//DataToRender();
 
 	ResultBackGround->SetActive(false);
@@ -288,11 +288,19 @@ void AInGameUI::PlayerUpdate()
 	{
 		if (false == UserInfos.contains(i))
 		{
+			// 유저가 접속이 되어있는지 안되어 있는지 확인
 			PlayerUI[i]->SetActive(false);
 			PlayerNameUI[i]->SetActive(false);
 			continue;
 		}
+		else
+		{
+			PlayerUI[i]->SetActive(true);
+			PlayerNameUI[i]->SetActive(true);
+		}
 	}
+
+
 
 
 	
