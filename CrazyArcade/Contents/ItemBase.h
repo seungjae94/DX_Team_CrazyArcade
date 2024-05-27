@@ -28,6 +28,8 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	void LevelEnd(ULevel* _NextLevel) override;
+
 private:
 	void MoveUpDown(float _DeltaTime);
 
