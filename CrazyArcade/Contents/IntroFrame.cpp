@@ -36,7 +36,7 @@ void AIntroFrame::Tick(float _DeltaTime)
 	Super::Tick(_DeltaTime);
 	if (IntroRenderer->IsCurAnimationEnd() == false)
 	{
-		if (true == UEngineInput::IsDown('P'))
+		if (true == UEngineInput::IsAnykeyDown())
 		{
 			GEngine->ChangeLevel("MainTitleLevel");
 		}
