@@ -121,6 +121,7 @@ void AServerGameMode::HandlerInit()
 					});
 			});
 	}
+
 	if (ENetType::Client == UCrazyArcadeCore::NetManager.GetNetType()) {
 		Dis.AddHandler<UActorUpdatePacket>([=](std::shared_ptr<UActorUpdatePacket> _Packet)
 			{

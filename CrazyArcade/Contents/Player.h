@@ -106,6 +106,8 @@ public:
 		return PlayerColor;
 	}
 
+	virtual void NeedleUpdate() {}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
