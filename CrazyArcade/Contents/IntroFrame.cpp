@@ -36,6 +36,7 @@ void AIntroFrame::Tick(float _DeltaTime)
 	Super::Tick(_DeltaTime);
 	if (IntroRenderer->IsCurAnimationEnd() == false)
 	{
+		// anykey로 사실상 인트로 스킵 가능
 		if (true == UEngineInput::IsAnykeyDown())
 		{
 			GEngine->ChangeLevel("MainTitleLevel");
