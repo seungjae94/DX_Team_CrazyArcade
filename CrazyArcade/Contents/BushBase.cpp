@@ -32,6 +32,13 @@ void ABushBase::BeginPlay()
 	State.ChangeState(BushState::idle);
 }
 
+void ABushBase::LevelEnd(ULevel* _NextLevel)
+{
+	Super::LevelEnd(_NextLevel);
+
+	Destroy();
+}
+
 void ABushBase::Tick(float _DeltaTime)
 {
 	Super::Tick(_DeltaTime);

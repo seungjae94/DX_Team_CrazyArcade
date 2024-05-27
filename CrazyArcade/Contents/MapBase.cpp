@@ -63,26 +63,22 @@ void AMapBase::LevelEnd(ULevel* _NextLevel)
 		{
 			if (nullptr != TileInfo[Y][X].Block)
 			{
-				TileInfo[Y][X].Block->Destroy();
 				TileInfo[Y][X].Block = nullptr;
 			}
 
 			std::list<std::shared_ptr<ABombBase>>::iterator Iter; 
 			for (Iter = TileInfo[Y][X].AllBomb.begin(); Iter != TileInfo[Y][X].AllBomb.end(); ++Iter)
 			{
-				(*Iter)->Destroy();
 				(*Iter) = nullptr;
 			}
 
 			if (nullptr != TileInfo[Y][X].Item)
 			{
-				TileInfo[Y][X].Item->Destroy();
 				TileInfo[Y][X].Item = nullptr;
 			}
 
 			if (nullptr != TileInfo[Y][X].Bush)
 			{
-				TileInfo[Y][X].Bush->Destroy();
 				TileInfo[Y][X].Bush = nullptr;
 			}
 		}
@@ -90,9 +86,10 @@ void AMapBase::LevelEnd(ULevel* _NextLevel)
 
 	for (size_t i = 0; i < AllPlayer.size(); i++)
 	{
-		if (AllPlayer[i] != nullptr) {
-		AllPlayer[i]->Destroy();
-		AllPlayer[i] = nullptr;
+		if (AllPlayer[i] != nullptr) 
+		{
+			AllPlayer[i]->Destroy();
+			AllPlayer[i] = nullptr;
 		}
 	}
 

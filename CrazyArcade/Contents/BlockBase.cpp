@@ -29,6 +29,13 @@ void ABlockBase::BeginPlay()
 	State.ChangeState(BlockState::idle);
 }
 
+void ABlockBase::LevelEnd(ULevel* _NextLevel)
+{
+	Super::LevelEnd(_NextLevel);
+
+	Destroy();
+}
+
 void ABlockBase::StateInit()
 {
 	// State Create

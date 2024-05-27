@@ -37,6 +37,13 @@ void AItemBase::BeginPlay()
 	StateInit();
 }
 
+void AItemBase::LevelEnd(ULevel* _NextLevel)
+{
+	Super::LevelEnd(_NextLevel);
+
+	Destroy();
+}
+
 void AItemBase::StateInit()
 {
 	// State Create
